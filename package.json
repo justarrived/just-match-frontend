@@ -1,6 +1,6 @@
 {
-  "name": "just-arrived",
-  "description": "Just Arrived",
+  "name": "just-match-frontend",
+  "description": "JustMatch API Frontend",
   "version": "0.0.0",
   "devDependencies": {
     "grunt": "~0.4.5",
