@@ -27,7 +27,7 @@ You now have a NodeJS webserver accepting requests at [http://localhost:9000](ht
 
 ## Deploy
 
-:warning: The deploy isn't finalized yet, but it will most definitely be something along the lines of push a few static files to AWS S3.
+:warning: The deploy isn't finalized yet, but it will most definitely be something along the lines of pushing a few static files to AWS S3.
 
 Build release
 
