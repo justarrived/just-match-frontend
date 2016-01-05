@@ -1,10 +1,11 @@
 {
-  "name": "just-arrived",
+  "name": "just-match-frontend",
   "authors": [
-    "Fredrik Stockman"
+    "Fredrik Stockman",
+    "Jacob Burenstam"
   ],
-  "license": "Commercial",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -16,10 +17,10 @@
   "dependencies": {
     "jquery": "1.11.0",
     "jquery-resize": "v1.1",
-    "angular": "~1.2.3",
-    "angular-route": "~1.2.3",
-    "angular-resource": "~1.2.3",
-    "angular-sanitize": "~1.2.3",
+    "angular": "~1.4.8",
+    "angular-route": "~1.4.8",
+    "angular-resource": "~1.4.8",
+    "angular-sanitize": "~1.4.8",
     "respond": "~1.4.0",
     "modernizr": "~2.7.1",
     "normalize-less": "*"

@@ -2,6 +2,17 @@
   "name": "just-match-frontend",
   "description": "JustMatch API Frontend",
   "version": "0.0.0",
+  "license": "MIT",
+  "url" : "https://github.com/justarrived/just-match-frontend/issues",
+  "private": false,
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/justarrived/just-match-frontend"
+  },
+  "contributors": [
+    "Fredrik Stockman",
+    "Jacob Burenstam"
+  ],
   "devDependencies": {
     "grunt": "~0.4.5",
 		"grunt-html2js": "~0.3.5",
