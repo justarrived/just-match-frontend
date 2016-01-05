@@ -1,0 +1,27 @@
+{
+  "name": "just-arrived",
+  "authors": [
+    "Fredrik Stockman"
+  ],
+  "license": "Commercial",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.11.0",
+    "jquery-resize": "v1.1",
+    "angular": "~1.2.3",
+    "angular-route": "~1.2.3",
+    "angular-resource": "~1.2.3",
+    "angular-sanitize": "~1.2.3",
+    "respond": "~1.4.0",
+    "modernizr": "~2.7.1",
+    "normalize-less": "*"
+  }
+}
