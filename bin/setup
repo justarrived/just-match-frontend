@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+echo '== Installing project dependencies =='
+npm install
+
+echo '== Installing bower =='
+sudo npm install -g bower
+echo '== Installing grunt-cli =='
+sudo npm install -g grunt-cli
+
+echo '== Running grunt build =='
+grunt build
+
+echo '== Setup finished =='
+echo 'Run `grunt watch` to continuously watch for file changes.'

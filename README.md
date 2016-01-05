@@ -1,10 +1,23 @@
-# Just Arrived
+# JustMatch API Frontend
 
-## Setting up a development environment
+Welcome to the, official, frontend for the Just Arrived matching service.
 
-1. Install npm modules with `npm install`
-2. Install bower and grunt with `sudo npm install -g bower && sudo npm install -g grunt-cli`
-3. Install bower dependencies with `bower install`
-4. Start a development server with `grunt watch`
+* [Built with](#built-with)
+* [Getting started](#getting-started)
+
+## Built with
+
+* NodeJS 5
+* Angular 1.4
+
+## Getting Started
+
+```
+$ git clone git@github.com:justarrived/just-match-frontend.git
+$ cd just-match-frontend
+$ bin/setup
+$ bin/server
+# You can now open http://localhost:9000
+```
 
 You now have a NodeJS webserver accepting requests at [http://localhost:9000](http://localhost:9000) and a server on /api proxying to api.example.com.
