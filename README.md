@@ -1,4 +1,4 @@
-# JustMatch API Frontend
+# JustMatch API Frontend [![Code Climate](https://codeclimate.com/repos/568b9c653e8d2f3e5c0005cd/badges/3f87038cad7a3c82ba49/gpa.svg)](https://codeclimate.com/repos/568b9c653e8d2f3e5c0005cd/feed)
 
 Welcome to the, official, frontend for the Just Arrived matching service.
 
