@@ -1,0 +1,34 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+cd "$(dirname "$0")/.."
+
+echo -e '\n== Bootstrapping dependencies =='
+
+which npm 2>&1 >/dev/null || {
+    echo -e '\n== Please install npm and then run the script again =='
+    exit 1
+}
+
+which bower 2>&1 >/dev/null || {
+    echo -e '\n== Installing bower =='
+    sudo npm install -g bower
+}
+
+which grunt 2>&1 >/dev/null || {
+  echo -e '\n== Installing grunt-cli =='
+  sudo npm install -g grunt-cli
+}
+
+echo -e '\n== Installing project dependencies =='
+echo -e '\n== Installing npm dependencies =='
+npm install
+echo -e '\n== Installing bower dependencies =='
+bower install
+
+echo -e '\n== Running grunt build =='
+grunt build
+
+echo -e '\n== Setup finished =='
+echo 'Run `grunt watch` to continuously watch for file changes.'

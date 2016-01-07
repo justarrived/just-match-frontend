@@ -2,20 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-echo '== Installing bower =='
-sudo npm install -g bower
-echo '== Installing grunt-cli =='
-sudo npm install -g grunt-cli
+cd "$(dirname "$0")/.."
 
-
-echo '== Installing project dependencies =='
-echo '== Installing npm dependencies =='
-npm install
-echo '== Installing bower dependencies =='
-bower install
-
-echo '== Running grunt build =='
-grunt build
-
-echo '== Setup finished =='
-echo 'Run `grunt watch` to continuously watch for file changes.'
+echo -e '\n == Setting up project =='
+script/bootstrap

@@ -5,6 +5,7 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 * [Built with](#built-with)
 * [Getting started](#getting-started)
 * [Deploy](#deploy)
+* [Commands](#commands)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -34,6 +35,14 @@ Build release
 ```
 $ grunt build
 ```
+
+## Commands
+
+There are a few connivence commands
+
+* `script/bootstrap` - installs/updates all dependencies
+* `script/setup` - sets up a project to be used for the first time
+* `script/server` - starts app
 
 ## Contributing
 

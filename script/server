@@ -2,5 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-echo '== Starting server =='
+cd "$(dirname "$0")/.."
+
+echo -e '\n== Starting server =='
 grunt watch
