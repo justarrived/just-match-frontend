@@ -1,0 +1,10 @@
+header {
+	background:$darkBlue;
+	height:70px;
+}
+
+.top-logo {
+	width:100%;
+	text-align:center;
+	@include vertical-align;
+}
