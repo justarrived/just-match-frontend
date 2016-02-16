@@ -15,7 +15,7 @@ module.exports = {
 
     atpl: ['src/app/**/*.html'],
 
-    less: 'src/less/themes/default/master.less'
+    sass: 'src/scss/screen.scss'
   },
 
   test_files: {

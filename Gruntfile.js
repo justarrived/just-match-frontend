@@ -14,7 +14,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -193,9 +193,9 @@ module.exports = function (grunt) {
       build_css: {
         src: [
           '<%= vendor_files.css %>',
-          '<%= less.build.dest %>'
+          '<%= sass.build.dest %>'
         ],
-        dest: '<%= less.build.dest %>'
+        dest: '<%= sass.build.dest %>'
       },
       /**
       * The `compile_js` target is the concatenation of our application source
@@ -336,18 +336,19 @@ module.exports = function (grunt) {
 
 
     /**
-    * `less` handles our LESS compilation and uglification automatically.
-    * Only our `main.less` file is included in compilation; all other files
+    * `sass` handles our SASS compilation and uglification automatically.
+    * Only our `screen.scss` file is included in compilation; all other files
     * must be imported from this file.
     */
-    less: {
+    sass: {
       build: {
-        src: [ '<%= app_files.less %>' ],
-        dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+        files: {
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.sass %>'
+        }
       },
       compile: {
-        src: [ '<%= less.build.dest %>' ],
-        dest: '<%= less.build.dest %>',
+        src: [ '<%= sass.build.dest %>' ],
+        dest: '<%= sass.build.dest %>',
         options: {
           cleancss: true
         }
@@ -373,7 +374,7 @@ module.exports = function (grunt) {
           '<%= build_dir %>/src/**/*.js',
           '<%= html2js.app.dest %>',
           '<%= vendor_files.css %>',
-          '<%= less.build.dest %>'
+          '<%= build_dir %>/assets/*.css'
         ]
       },
 
@@ -387,7 +388,7 @@ module.exports = function (grunt) {
         src: [
           '<%= concat.compile_js.dest %>',
           '<%= vendor_files.css %>',
-          '<%= less.compile.dest %>'
+          '<%= build_dir %>/assets/*.css'
         ]
       }
     },
@@ -470,9 +471,9 @@ module.exports = function (grunt) {
       /**
       * When the CSS files change, we need to compile and minify them.
       */
-      less: {
-        files: [ 'src/**/*.less' ],
-        tasks: [ 'less:build' ]
+      sass: {
+        files: [ 'src/**/*.scss' ],
+        tasks: [ 'sass:build' ]
       },
 
       /**
@@ -545,8 +546,8 @@ module.exports = function (grunt) {
   */
 
   grunt.registerTask('build', [
-    'clean', 'jshint', 'less:build', 'html2js', 'ngconstant',
-    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+    'clean', 'jshint', 'sass:build', 'html2js', 'ngconstant',
+    'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorcss', 'copy:build_vendorjs', 'index:build'
   ]);
 
@@ -555,7 +556,7 @@ module.exports = function (grunt) {
   * minifying your code.
   */
   grunt.registerTask('compile', [
-    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
+    'sass:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
 
@@ -592,18 +593,9 @@ module.exports = function (grunt) {
       return file.replace(dirRE, '');
     });
 
-    //      appjs = jsFiles.indexOf('src/app/app.js');
-    //      if (appjs > -1) {
-    //          jsFiles.splice(appjs, 1);
-    //      }
-    //
-    //      jsFiles.push('src/app/app.js');
-
-
     cssFiles = filterForCSS(this.filesSrc).map(function (file) {
       return file.replace(dirRE, '');
     });
-
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
       process: function (contents) {
