@@ -23,6 +23,9 @@
     "angular-sanitize": "~1.4.8",
     "respond": "~1.4.0",
     "modernizr": "~2.7.1",
-    "normalize-less": "*"
+    "normalize-less": "*",
+    "angular-translate": "^2.9.1",
+    "angular-translate-loader-static-files": "^2.9.1",
+    "angular-dynamic-locale": "^0.1.30"
   }
 }
