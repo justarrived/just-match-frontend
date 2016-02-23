@@ -147,6 +147,18 @@ module.exports = function (grunt) {
           }
         ]
       },
+      // copies all application translation files to build folder
+      build_translationsjson: {
+        files: [
+          {
+            src: ['<%= translations_files.json %>'],
+            dest: '<%= build_dir %>/translations',
+            cwd: '.',
+            expand: true,
+            flatten: true
+          }
+        ]
+      },
       // copies all vendor js files to build folder
       build_vendorjs: {
         files: [
@@ -263,14 +275,10 @@ module.exports = function (grunt) {
       server: {
         proxies: [
           {
-            context: '/web-api',
-            host: 'api.example.com',
-            port: 443,
-            https: true,
-            changeOrigin: true,
-            rewrite: {
-              '^/api' : '/api'
-            }
+            context: '/api',
+            host: 'localhost',
+            port: 3000,
+            changeOrigin: true
           }
           // And more servers here
         ],
@@ -489,7 +497,7 @@ module.exports = function (grunt) {
       */
       translations: {
         files: [ 'config/translations/*.json' ],
-        tasks: [ 'ngconstant', 'copy:build_appjs' ]
+        tasks: [ 'copy:build_translationsjson' ]
       }
 
     },
@@ -548,7 +556,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean', 'jshint', 'sass:build', 'html2js', 'ngconstant',
     'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorcss', 'copy:build_vendorjs', 'index:build'
+    'copy:build_appjs', 'copy:build_translationsjson', 'copy:build_vendorcss', 'copy:build_vendorjs', 'index:build'
   ]);
 
   /**
