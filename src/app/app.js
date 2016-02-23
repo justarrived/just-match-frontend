@@ -8,8 +8,8 @@ angular.module('just', [
     'just.service',
     'pascalprecht.translate',
     'tmh.dynamicLocale'
-])
-    .config(function ($routeProvider, $locationProvider, settings) {
+  ])
+  .config(function ($routeProvider, $locationProvider, settings) {
     $routeProvider
       .when('/', {
         templateUrl: 'common/templates/start.html',
@@ -23,16 +23,16 @@ angular.module('just', [
     /*    $locationProvider.html5Mode(true);
      $locationProvider.hashPrefix('!'); */
   })
-    .config(function(tmhDynamicLocaleProvider) {
-        tmhDynamicLocaleProvider.localeLocationPattern('https://code.angularjs.org/1.5.0/i18n/angular-locale_{{locale}}.js');
-    })
-    .config(['$translateProvider', function ($translateProvider) {
-        //$translateProvider.useSanitizeValueStrategy('sanitize');
-        $translateProvider.useStaticFilesLoader({
-            prefix: '/translations/',
-            suffix: '.json'
-        });
-        $translateProvider.preferredLanguage('sv');
-        $translateProvider.fallbackLanguage('sv');
-    }]);
+  .config(function(tmhDynamicLocaleProvider) {
+    tmhDynamicLocaleProvider.localeLocationPattern('https://code.angularjs.org/1.5.0/i18n/angular-locale_{{locale}}.js');
+  })
+  .config(['$translateProvider', function ($translateProvider) {
+    //$translateProvider.useSanitizeValueStrategy('sanitize');
+    $translateProvider.useStaticFilesLoader({
+      prefix: '/translations/',
+      suffix: '.json'
+    });
+    $translateProvider.preferredLanguage('sv');
+    $translateProvider.fallbackLanguage('sv');
+  }]);
 
