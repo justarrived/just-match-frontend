@@ -14,6 +14,10 @@ angular.module('just', [
       .when('/', {
         templateUrl: 'common/templates/start.html',
         controller: 'StartCtrl'
+      })
+      .when('/register', {
+        templateUrl: 'common/templates/register.html',
+        controller: 'RegisterCtrl'
       });
 
     /*    $locationProvider.html5Mode(true);
