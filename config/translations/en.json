@@ -1,3 +1,6 @@
 {
-  "applications.title": "Just Arrived"
+  "applications.title": "Just Arrived",
+  "start.title": "Get help from friends you don't know",
+  "account.email": "Email",
+  "account.language" : "Language"
 }

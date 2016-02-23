@@ -1,1 +1,14 @@
-{}
+{
+  "translated_languages": [
+    {
+      "code": "sv",
+      "name": "Swedish",
+      "nativeName": "svenska"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "nativeName": "English"
+    }
+  ]
+}

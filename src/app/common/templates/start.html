@@ -6,8 +6,13 @@
 <section class="hero">
   <div class="hero__slider">
     <h2 class="section-title section-title--white">
-      Ta hjälp av vänner du inte känner
+      {{'start.title' | translate}}
     </h2>
+
+    <select name="language" ng-change="ctrl.selectLanguage()" ng-model="ctrl.language">
+      <option ng-repeat="option in ctrl.languages" value="{{option.code}}">{{option.nativeName}}</option>
+    </select>
+
   </div>
   <div class="hero__col hero__col--left">
     <div class="hero__col__content">

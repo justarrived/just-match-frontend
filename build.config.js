@@ -17,6 +17,9 @@ module.exports = {
 
     sass: 'src/scss/screen.scss'
   },
+  translations_files: {
+      json: ['config/translations/**.json']
+  },
 
   test_files: {
     js: [
@@ -35,7 +38,10 @@ module.exports = {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-promise-tracker/promise-tracker.js',
       'bower_components/angular-animate/angular-animate.js',
-      'bower_components/angular-sanitize/angular-sanitize.js'
+      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/angular-translate/angular-translate.js',
+      'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js'
     ],
     css: [
 
