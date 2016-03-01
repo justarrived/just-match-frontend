@@ -1,3 +1,25 @@
 <section class="section-instructions">
-  <h2 class="section-title">Registrera dig här</h2>
+  <h2 class="section-title">register.title</h2>
+    <form ng-submit="ctrl.process()">
+      <select name="language" ng-model="ctrl.data.language_id">
+        <option ng-repeat="option in ctrl.languages" value="{{option.id}}">{{option.attributes.lang_code}}</option>
+      </select>
+
+      <input type="text" ng-model="ctrl.data.first_name" placeholder="{{'register.form.first_name'  | translate}}" />
+      <input type="text" ng-model="ctrl.data.last_name" placeholder="{{'register.form.last_name'  | translate}}" />
+      <textarea ng-model="ctrl.data.description" placeholder="{{'register.form.description'  | translate}}"></textarea>
+      <input ng-model="ctrl.data.email" type="email" placeholder="{{'register.form.email'  | translate}}" />
+      <input ng-model="ctrl.data.password" type="password" placeholder="{{'register.form.password'  | translate}}" />
+      <input ng-model="ctrl.data.phone" type="text" placeholder="{{'register.form.phone'  | translate}}" />
+      <input ng-model="ctrl.data.street" type="text" placeholder="{{'register.form.stret'  | translate}}" />
+      <input ng-model="ctrl.data.zip" type="text" placeholder="{{'register.form.zip'  | translate}}" />
+
+      <input type="submit"/>
+    </form>
+    <p>
+      {{ctrl.data}}
+    </p>
+    <p>
+      <i>{{ctrl.message}}</i>
+    </p>
 </section>

@@ -1,6 +1,15 @@
 {
   "applications.title": "Just Arrived",
   "start.title": "Ta hjälp av vänner du inte känner",
-  "account.email": "E-Post"
+  "account.email": "E-Post",
+
+  "assignment.new.title" : "Skapa Nytt Uppdrag",
+  "assignment.new.form.title" : "Titel",
+  "assignment.new.form.description" : "Beskrivning av uppdraget",
+  "assignment.new.form.address" : "Adress",
+  "assignment.new.form.from_date" : "Från",
+  "assignment.new.form.to_date" : "Till",
+  "assignment.new.form.hours" : "Antal timmar",
+  "assignment.new.form.pay_level" : "Lönenivå"
 
 }

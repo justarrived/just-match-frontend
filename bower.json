@@ -26,6 +26,7 @@
     "normalize-less": "*",
     "angular-translate": "^2.9.1",
     "angular-translate-loader-static-files": "^2.9.1",
-    "angular-dynamic-locale": "^0.1.30"
+    "angular-dynamic-locale": "^0.1.30",
+    "angular-local-storage": "^0.2.5"
   }
 }
