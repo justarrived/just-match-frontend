@@ -1,0 +1,15 @@
+{
+  "just_match_api": "https://just-match-api.herokuapp.com",
+  "translated_languages": [
+    {
+      "code": "sv",
+      "name": "Swedish",
+      "nativeName": "Svenska"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "nativeName": "English"
+    }
+  ]
+}
