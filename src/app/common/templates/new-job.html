@@ -1,0 +1,23 @@
+<section class="section-instructions">
+  <h2 class="section-title">{{'job.new.title' | translate}}</h2>
+  <form ng-submit="ctrl.process()">
+    <input type="text" ng-model="ctrl.data.name" placeholder="{{'job.new.form.name'  | translate}}" />
+    <textarea ng-model="ctrl.data.description" placeholder="{{'job.new.form.description'  | translate}}"></textarea>
+    <select name="language" ng-model="ctrl.data.language_id">
+      <option ng-repeat="option in ctrl.languages" value="{{option.id}}">{{option.attributes.lang_code}}</option>
+    </select>
+    <input ng-model="ctrl.data.street" type="text" placeholder="{{'job.new.form.street'  | translate}}" />
+    <input ng-model="ctrl.data.zip" type="text" placeholder="{{'job.new.form.zip'  | translate}}" />
+    <input ng-model="ctrl.data.job_date" type="text" placeholder="{{'job.new.form.job_date'  | translate}}" />
+    <input ng-model="ctrl.data.hours" type="text" placeholder="{{'job.new.form.hours'  | translate}}" />
+    <input ng-model="ctrl.data.max_rate" type="text" placeholder="{{'job.new.form.max_rate'  | translate}}" />
+    <input type="submit"/>
+  </form>
+  <p>
+    {{ctrl.data}}
+  </p>
+  <p>
+    <i>{{ctrl.message}}</i>
+  </p>
+
+</section>

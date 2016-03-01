@@ -41,7 +41,8 @@ module.exports = {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-      'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js'
+      'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
+      'bower_components/angular-local-storage/dist/angular-local-storage.js'
     ],
     css: [
 
