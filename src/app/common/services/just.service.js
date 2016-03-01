@@ -21,8 +21,9 @@ angular.module('just.service', [])
         var deferd = $q.defer();
         $http.post(settings.just_match_api + "/api/v1/user_sessions", data)
           .then(function(resp) {
-            storage.set("auth_token", 'Token token=' + resp.data.data.attributes.auth_token);
-            $http.defaults.headers.common.Authorization = 'Token token=' + resp.data.data.attributes.auth_token;
+            var token = 'Token token=' + resp.data.data.attributes.auth_token;
+            storage.set("auth_token", token);
+            $http.defaults.headers.common.Authorization = token;
             deferd.resolve();
           }, function (err) {
             deferd.reject(err);
@@ -36,12 +37,10 @@ angular.module('just.service', [])
       };
 
       this.createAccountPromise = function (body) {
-        //console.log("Create Account " + JSON.stringify(body));
         // Verify body..
         return $http.post(settings.just_match_api + "/api/v1/users", body);
       };
       this.createJobPromise = function (body) {
-        //console.log("Create Account " + JSON.stringify(body));
         // Verify body..
         return $http.post(settings.just_match_api + "/api/v1/jobs", body);
       };
@@ -55,19 +54,19 @@ angular.module('just.service', [])
   .service('justFlowService', ['justMatchApi','$location', '$route', function (api, $location, $route) {
     var that = this;
     this.stack = [];
-    that.models = {};
-    that.reset = function (name) {
+    this.models = {};
+    this.reset = function (name) {
       that.get(name).data = {};
       that.get(name).message = {};
     };
-    that.get = function (name) {
+    this.get = function (name) {
       var model = that.models[name];
       if (typeof model === 'undefined') {
         throw "No process for " + name + " is found";
       }
       return model;
     };
-    that.init = function (name) {
+    this.init = function (name) {
       var model = {
         data: {},
         message: {}
@@ -87,6 +86,7 @@ angular.module('just.service', [])
     this.process = function (name, arg) {
       that.get(name).process(arg);
     };
+
     this.init('signin').process = function (attributes) {
       api.login({data : {attributes: attributes}})
         .then(function (ok) {
