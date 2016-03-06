@@ -10,6 +10,6 @@
   "assignment.new.form.from_date" : "Från",
   "assignment.new.form.to_date" : "Till",
   "assignment.new.form.hours" : "Antal timmar",
-  "assignment.new.form.pay_level" : "Lönenivå"
-
+  "assignment.new.form.pay_level" : "Lönenivå",
+  "assignment.new.form.next": "Nästa steg"
 }
