@@ -45,7 +45,7 @@ module.exports = {
       'bower_components/angular-local-storage/dist/angular-local-storage.js'
     ],
     css: [
-
+      'bower_components/bootstrap/dist/css/bootstrap.min.css',
     ],
     assets: [
 

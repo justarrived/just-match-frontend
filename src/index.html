@@ -1,19 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-
-      ng-app="just"
-      ng-cloak
-      class="ng-cloak">
-
+<!DOCTYPE html>
+<html lang="en" ng-app="just" ng-cloak class="ng-cloak">
   <head>
     <title>Just Arrived</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="Content-Language" content="sv"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="sv">
 
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/apple-touch-icon-144x144-precomposed.png">
@@ -22,8 +15,8 @@
     <link rel="apple-touch-icon-precomposed" href="images/icons/apple-touch-icon-57x57-precomposed.png">
     <link rel="shortcut icon" href="images/icons/apple-touch-icon.png">
 
-    <meta name="msapplication-TileImage" content="images/icons/apple-touch-icon-144x144-precomposed.png"/>
-    <meta name="msapplication-TileColor" content="#36b4c4"/>
+    <meta name="msapplication-TileImage" content="images/icons/apple-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#36b4c4">
 
     <!-- compiled CSS --><% styles.forEach(function (file) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
@@ -34,9 +27,13 @@
 
   <body ng-controller="MainCtrl">
 
-    <div ng-view>
-    </div>
+    <header>
+      <div class="top-logo">
+        <img src="assets/images/ui/logo.png" alt="logo"/>
+      </div>
+    </header>
+
+    <div class="container-fluid" ng-view></div>
 
   </body>
-
 </html>
