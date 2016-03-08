@@ -46,6 +46,7 @@ module.exports = {
     ],
     css: [
       'bower_components/bootstrap/dist/css/bootstrap.min.css',
+      'bower_components/bootstrap/dist/fonts/**/*',
     ],
     assets: [
 

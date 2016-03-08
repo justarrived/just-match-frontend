@@ -1,0 +1,37 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'protractor' ]
+2 info using npm@2.7.3
+3 info using node@v0.12.1
+4 verbose node symlink /usr/local/bin/node
+5 verbose run-script [ 'preprotractor', 'protractor', 'postprotractor' ]
+6 info preprotractor just-match-frontend@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info protractor just-match-frontend@0.0.0
+9 verbose unsafe-perm in lifecycle true
+10 info just-match-frontend@0.0.0 Failed to exec protractor script
+11 verbose stack Error: just-match-frontend@0.0.0 protractor: `protractor test/protractor-conf.js`
+11 verbose stack Exit status 1
+11 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+11 verbose stack     at EventEmitter.emit (events.js:110:17)
+11 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+11 verbose stack     at ChildProcess.emit (events.js:110:17)
+11 verbose stack     at maybeClose (child_process.js:1008:16)
+11 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1080:5)
+12 verbose pkgid just-match-frontend@0.0.0
+13 verbose cwd /Users/mikael/www/just-arrived/just-match-frontend
+14 error Darwin 15.3.0
+15 error argv "node" "/usr/local/bin/npm" "run" "protractor"
+16 error node v0.12.1
+17 error npm  v2.7.3
+18 error code ELIFECYCLE
+19 error just-match-frontend@0.0.0 protractor: `protractor test/protractor-conf.js`
+19 error Exit status 1
+20 error Failed at the just-match-frontend@0.0.0 protractor script 'protractor test/protractor-conf.js'.
+20 error This is most likely a problem with the just-match-frontend package,
+20 error not with npm itself.
+20 error Tell the author that this fails on your system:
+20 error     protractor test/protractor-conf.js
+20 error You can get their info via:
+20 error     npm owner ls just-match-frontend
+20 error There is likely additional logging output above.
+21 verbose exit [ 1, true ]

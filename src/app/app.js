@@ -11,6 +11,11 @@ angular.module('just', [
     'LocalStorageModule'
   ])
   .config(function ($routeProvider, $locationProvider, settings) {
+    // $locationProvider.html5Mode({
+    //   enabled: true,
+    //   requireBase: true
+    // });
+
     $routeProvider
       .when('/', {
         templateUrl: 'common/templates/start.html',
@@ -30,10 +35,11 @@ angular.module('just', [
       .when('/new-job', {
         templateUrl: 'common/templates/new-job.html',
         controller: 'JobCtrl as ctrl'
+      })
+      .when('/faq', {
+        templateUrl: 'common/templates/faq.html',
+        controller: 'FAQCtrl as ctrl'
       });
-
-    /*    $locationProvider.html5Mode(true);
-     $locationProvider.hashPrefix('!'); */
   })
   .config(function(tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('https://code.angularjs.org/1.5.0/i18n/angular-locale_{{locale}}.js');
