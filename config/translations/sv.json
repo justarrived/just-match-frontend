@@ -3,6 +3,17 @@
   "start.title": "Ta hjälp av vänner du inte känner",
   "account.email": "E-Post",
 
+
+  "register.title": "Skapa konto",
+  "register.form.first_name": "Förnamn",
+  "register.form.last_name": "Efternamn",
+  "register.form.email": "Email",
+  "register.form.description": "Beskrivning",
+  "register.form.phone": "Telefon",
+  "register.form.street": "Gata",
+  "register.form.zip": "Postnummer",
+  "register.form.password": "Lösenord",
+
   "assignment.new.title" : "Skapa Nytt Uppdrag",
   "assignment.new.form.title" : "Titel",
   "assignment.new.form.description" : "Beskrivning av uppdraget",
