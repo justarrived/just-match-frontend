@@ -30,6 +30,10 @@ angular.module('just', [
       .when('/new-job', {
         templateUrl: 'common/templates/new-job.html',
         controller: 'JobCtrl as ctrl'
+      })
+      .when('/contact', {
+        templateUrl: 'common/templates/contact.html',
+        controller: 'ContactCtrl as ctrl'
       });
 
     /*    $locationProvider.html5Mode(true);
@@ -52,4 +56,3 @@ angular.module('just', [
       .setPrefix('just-arrived')
       .setStorageType('sessionStorage');
   }]);
-
