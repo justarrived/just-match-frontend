@@ -22,5 +22,13 @@
   "assignment.new.form.to_date" : "Till",
   "assignment.new.form.hours" : "Antal timmar",
   "assignment.new.form.pay_level" : "Lönenivå",
-  "assignment.new.form.next": "Nästa steg"
+  "assignment.new.form.next": "Nästa steg",
+
+  "contact.title" : "Kontakt",
+  "contact.instructions" : "Frågot och funderingar? Vi besvarar dem gärna! Fyll i dina uppgifter nedan.",
+  "contact.form.name" : "Namn",
+  "contact.form.email" : "Email",
+  "contact.form.message" : "Meddelande",
+  "contact.form.submit" : "Skicka"
+
 }

@@ -31,6 +31,20 @@ angular.module('just.service', [])
         return deferd.promise;
       };
 
+      this.contact = function(data) {
+        window.console.log(data);
+        var deferd = $q.defer();
+        $http.post(settings.just_match_api + "/api/v1/contact", data)
+          .then(function(resp) {
+            window.console.log(resp);
+            deferd.resolve();
+          }, function (err) {
+            window.console.log(err);
+            deferd.reject(err);
+          });
+        return deferd.promise;
+      };
+
       this.logout = function () {
         storage.remove('auth_token');
         delete $http.defaults.headers.common.Authorization;
@@ -38,11 +52,18 @@ angular.module('just.service', [])
 
       this.createAccountPromise = function (body) {
         // Verify body..
+        window.console.log(body);
         return $http.post(settings.just_match_api + "/api/v1/users", body);
       };
+
       this.createJobPromise = function (body) {
         // Verify body..
         return $http.post(settings.just_match_api + "/api/v1/jobs", body);
+      };
+
+      this.createContactPromise = function(body) {
+        // Verify body..
+        return $http.post(settings.just_match_api + "/api/v1/contact", body);
       };
 
       this.languages = function () {
@@ -101,6 +122,19 @@ angular.module('just.service', [])
         });
     };
 
+    this.init('contact').process = function (attributes) {
+      api.createContactPromise({data : {attributes: attributes}})
+        .then(
+          function (ok) {
+            $location.path("/contact-done");
+          }, function (error) {
+            //TODO
+            that.get('contact').message = error;
+            window.console.log(error);
+          }
+        );
+    };
+
     this.init('account').process = function (attributes) {
       api.createAccountPromise({data: {attributes: attributes}})
         .then(
@@ -111,6 +145,7 @@ angular.module('just.service', [])
             }
             $location.path("/todo");
           }, function (error) {
+            window.console.log(error);
             that.get('account').message = error;
             $route.reload();
           });
