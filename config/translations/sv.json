@@ -22,5 +22,14 @@
   "assignment.new.form.to_date" : "Till",
   "assignment.new.form.hours" : "Antal timmar",
   "assignment.new.form.pay_level" : "Lönenivå",
-  "assignment.new.form.next": "Nästa steg"
+  "assignment.new.form.next": "Nästa steg",
+
+  "menu.assignment.find": "Hitta uppdrag",
+  "menu.assignment.list": "Mina uppdrag",
+  "menu.assignment.create":  "Skapa uppdrag",
+  "menu.faq": "Frågor och Svar",
+  "menu.contact": "Kontakt",
+  "menu.signin": "Logga in",
+  "menu.signout": "Logga ut"
+
 }
