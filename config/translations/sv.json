@@ -29,6 +29,14 @@
   "contact.form.name" : "Namn",
   "contact.form.email" : "Email",
   "contact.form.message" : "Meddelande",
-  "contact.form.submit" : "Skicka"
+  "contact.form.submit" : "Skicka",
+
+  "menu.assignment.find": "Hitta uppdrag",
+  "menu.assignment.list": "Mina uppdrag",
+  "menu.assignment.create":  "Skapa uppdrag",
+  "menu.faq": "Frågor och Svar",
+  "menu.contact": "Kontakt",
+  "menu.signin": "Logga in",
+  "menu.signout": "Logga ut"
 
 }

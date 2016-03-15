@@ -28,5 +28,13 @@
   "contact.form.name" : "Name",
   "contact.form.email" : "Email",
   "contact.form.message" : "Message",
-  "contact.form.submit" : "Send"
+  "contact.form.submit" : "Send",
+
+  "menu.assignment.find": "Find assignment",
+  "menu.assignment.list": "My assignment",
+  "menu.assignment.create":  "Create assignment",
+  "menu.faq": "FAQ",
+  "menu.contact": "Contact",
+  "menu.signin": "Sign in",
+  "menu.signout": "Sign out"
 }

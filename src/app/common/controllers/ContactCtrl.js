@@ -1,10 +1,10 @@
 angular
   .module('just.common')
-  .controller('ContactCtrl', ['justFlowService', function (justFlowService) {
+  .controller('ContactCtrl', ['contactService', function (contactService) {
     var that = this;
-    this.data = justFlowService.model('contact');
-    this.message = justFlowService.message('contact');
+    this.data = contactService.model;
+    this.message = contactService.message;
     this.process = function() {
-      justFlowService.process('contact', that.data);
+      contactService.process(that.data);
     };
 }]);

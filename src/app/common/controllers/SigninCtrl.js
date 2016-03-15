@@ -1,10 +1,10 @@
 angular.module('just.common')
-  .controller('SigninCtrl', ['justFlowService', function (justFlowService) {
+  .controller('SigninCtrl', ['userService', function (userService) {
       var that = this;
-      this.data = justFlowService.model('signin');
-      this.message = justFlowService.message('signin');
+      this.data = userService.signinModel;
+      this.message = userService.signinMessage;
       this.process = function() {
-        justFlowService.process('signin', that.data);
+        userService.signin(that.data);
       };
     }]
   );

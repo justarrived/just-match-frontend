@@ -1,14 +1,24 @@
 angular.module('just.service', [])
-  .service('i18nService', ['$translate','tmhDynamicLocale','settings', function($translate, tmhDynamicLocale, settings) {
+  .service('i18nService', ['$translate','tmhDynamicLocale','settings', 'localStorageService', 'justFlowService', 'justRoutes', function($translate, tmhDynamicLocale, settings, storage, flow, routes) {
+    var that = this;
     this.useLanguage = function(code) {
+      that.updateLanguage(code);
+      flow.completed(routes.global.start.url);
+    };
+
+    this.updateLanguage = function (code) {
       $translate.use(code);
       tmhDynamicLocale.set(code);
+      storage.set("language", code);
+      that.language = code;
     };
+
+    this.updateLanguage(storage.get("language") || 'sv');
     this.supportedLanguages = function() {
       return settings.translated_languages;
     };
   }])
-  .service('justMatchApi', ['$http', '$q','settings','localStorageService', function ($http, $q, settings, storage) {
+  .service('AuthService', ['$http', '$q', 'settings', 'localStorageService', function ($http, $q, settings, storage) {
       var current_auth_token = storage.get('auth_token');
       if (current_auth_token) {
         $http.defaults.headers.common.Authorization = current_auth_token;
@@ -16,13 +26,17 @@ angular.module('just.service', [])
       this.isAuthenticated = function() {
         return typeof $http.defaults.headers.common.Authorization === 'string';
       };
-
+      this.userId = function () {
+        return storage.get("user_id");
+      };
       this.login = function (data) {
         var deferd = $q.defer();
         $http.post(settings.just_match_api + "/api/v1/user_sessions", data)
           .then(function(resp) {
             var token = 'Token token=' + resp.data.data.attributes.auth_token;
             storage.set("auth_token", token);
+            storage.set("user_id", resp.data.data.attributes.user_id);
+
             $http.defaults.headers.common.Authorization = token;
             deferd.resolve();
           }, function (err) {
@@ -49,125 +63,125 @@ angular.module('just.service', [])
         storage.remove('auth_token');
         delete $http.defaults.headers.common.Authorization;
       };
-
-      this.createAccountPromise = function (body) {
-        // Verify body..
-        window.console.log(body);
-        return $http.post(settings.just_match_api + "/api/v1/users", body);
-      };
-
-      this.createJobPromise = function (body) {
-        // Verify body..
-        return $http.post(settings.just_match_api + "/api/v1/jobs", body);
-      };
-
-      this.createContactPromise = function(body) {
-        // Verify body..
-        return $http.post(settings.just_match_api + "/api/v1/contact", body);
-      };
-
-      this.languages = function () {
-        // Verify body..
-        return $http.get(settings.just_match_api + "/api/v1/languages");
-      };
     }]
   )
-  .service('justFlowService', ['justMatchApi','$location', '$route', function (api, $location, $route) {
+  .service('justFlowService', ['$location', '$route', function ($location, $route) {
     var that = this;
     this.stack = [];
-    this.models = {};
-    this.reset = function (name) {
-      that.get(name).data = {};
-      that.get(name).message = {};
+
+    this.reload = function (path) {
+      $location.path(path);
+      $route.reload();
     };
-    this.get = function (name) {
-      var model = that.models[name];
-      if (typeof model === 'undefined') {
-        throw "No process for " + name + " is found";
+
+    this.redirect = function(path, onComplete) {
+      if (angular.isFunction(onComplete)) {
+        that.stack.push(onComplete);
       }
-      return model;
-    };
-    this.init = function (name) {
-      var model = {
-        data: {},
-        message: {}
-      };
-      that.models[name] = model;
-      return model;
+      $location.path(path);
     };
 
-    this.model = function (name) {
-      return that.get(name).data || {};
+    this.push = function(fn) {
+      if (angular.isFunction(fn)) {
+        that.stack.push(fn);
+      }
     };
 
-    this.message = function (name) {
-      return that.get(name).message || {};
+    this.next = function(path, data) {
+      that.next_data = data;
+      $location.path(path);
     };
 
-    this.process = function (name, arg) {
-      that.get(name).process(arg);
+    this.completed = function(path, data) {
+      if (that.stack.length > 0) {
+        that.stack.pop()();
+        return;
+      }
+      that.completed_data = data;
+      $location.path(path);
+    };
+  }])
+  .service('jobService', ['justFlowService', 'AuthService', 'Resources', 'justRoutes', function (flow, authService, Resources, routes) {
+    var that = this;
+
+    this.jobModel = {data: {
+      attributes: {}
+    }};
+    this.jobMessage = {};
+    this.getJob = function (id) {
+      return Resources.job.get({id: id});
+    };
+    this.getJobs = function () {
+      return Resources.jobs.get();
     };
 
-    this.init('signin').process = function (attributes) {
-      api.login({data : {attributes: attributes}})
-        .then(function (ok) {
-          if (that.stack.length > 0) {
-            that.stack.pop()();
-            return;
-          }
-          $location.path("/todo");
+    this.create = function (job) {
+      that.jobModel = job;
+      if (authService.isAuthenticated()) {
+          Resources.jobs.create(job, function (data) {
+          flow.next(routes.job.approve.resolve(data), data);
         }, function (error) {
-          that.get('signin').message = error;
-          $route.reload();
+          that.jobMessage = error;
+          flow.reload(routes.job.create.url);
         });
-    };
-
-    this.init('contact').process = function (attributes) {
-      api.createContactPromise({data : {attributes: attributes}})
-        .then(
-          function (ok) {
-            $location.path("/contact-done");
-          }, function (error) {
-            //TODO
-            that.get('contact').message = error;
-            window.console.log(error);
-          }
-        );
-    };
-
-    this.init('account').process = function (attributes) {
-      api.createAccountPromise({data: {attributes: attributes}})
-        .then(
-          function (ok) {
-            if (that.stack.length > 0) {
-              that.stack.pop()();
-              return;
-            }
-            $location.path("/todo");
-          }, function (error) {
-            window.console.log(error);
-            that.get('account').message = error;
-            $route.reload();
-          });
-    };
-
-    this.init('job').process = function (attributes) {
-      that.get('job').data = attributes;
-      if (api.isAuthenticated()) {
-        api.createJobPromise({data: {attributes: attributes}})
-          .then(function (ok) {
-            that.reset('job');
-            $location.path("/job-added");
-          }, function (error) {
-            that.get('job').message = error;
-            $location.path('/new-job');
-            $route.reload();
-          });
       } else {
-        that.stack.push(function () {
-          that.process('job', attributes);
+        flow.redirect(routes.user.select.url, function () {
+          that.create(job);
         });
-        $location.path("/select-login");
       }
+    };
+  }])
+  .service('userService', ['justFlowService', 'AuthService', 'justRoutes', 'Resources',  function (flow, authService, routes, Resources) {
+    var that = this;
+
+    this.signinModel = {};
+    this.signinMessage = {};
+
+    this.signin = function (attributes) {
+      authService.login({data : {attributes: attributes}})
+        .then(function (ok) {
+          flow.completed(routes.user.signed_in.url, ok);
+        }, function (error) {
+          that.signinMessage = error;
+          flow.reload(routes.user.signin.url);
+        });
+    };
+
+    this.registerModel = {};
+    this.registerMessage = {};
+
+    this.register = function (attributes) {
+      that.registerModel = attributes;
+      var user = Resources.user.create({data: {attributes: attributes}}, function () {
+        flow.push(function () {
+          flow.completed(routes.user.created.url, user);
+        });
+        that.signin(attributes);
+
+      }, function (error) {
+        that.registerMessage = error;
+        flow.reload(routes.user.register.url);
+      });
+    };
+
+    this.userModel = function() {
+      if (angular.isUndefined(that.user)) {
+        that.user = Resources.user.get({id: authService.userId()});
+      }
+      return that.user;
+    };
+  }])
+  .service('contactService', ['justFlowService', 'justRoutes', 'Resources',function(flow, routes, resources) {
+    var that = this;
+    this.process = function (attributes) {
+      resources.contact.create({data : {attributes: attributes}},
+        function (ok) {
+          flow.completed(routes.contact.completed.url);
+        }, function (error) {
+          //TODO
+          that.message = error;
+          window.console.log(error);
+        }
+      );
     };
   }]);

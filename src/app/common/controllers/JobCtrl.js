@@ -1,21 +1,41 @@
 angular
   .module('just.common')
-  .controller('JobCtrl', ['justFlowService','justMatchApi', function (justFlowService, justMatchApi) {
+  .controller('JobCtrl', ['jobService', function (jobService) {
     var that = this;
 
-    this.data = justFlowService.model('job');
-    this.data.hours = 1;
-    this.message = justFlowService.message('job');
+    this.model = jobService.jobModel;
+    this.message = jobService.jobMessage;
+    this.model.data.attributes.hours = 1;
 
-    // justMatchApi.languages().then(function (data) {
-    //   that.languages = data.data.data;
-    // });
-
-    this.process = function () {
-      justFlowService.process('job', that.data);
+    this.create = function () {
+      jobService.create(that.model);
     };
 
     this.addHour = function () {
-      that.data.hours += 1;
+      that.model.data.attributes.hours += 1;
     };
+  }])
+  .controller('ApproveJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
+    var that = this;
+
+    this.model = jobService.getJob($routeParams.id);
+
+    this.approve = function () {
+      jobService.approve(that.model);
+    };
+
+  }])
+  .controller('ListJobCtrl', ['jobService',  function (jobService) {
+    var that = this;
+
+    this.model = jobService.getJobs();
+
+  }])
+  .controller('ViewJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
+    var that = this;
+
+    this.model = jobService.getJob($routeParams.id);
+
   }]);
+
+

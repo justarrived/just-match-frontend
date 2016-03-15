@@ -1,24 +1,14 @@
-<header>
-  <div class="top-logo">
-    <img src="assets/images/ui/logo.png" alt="logo"/>
-  </div>
-</header>
 <section class="hero">
   <div class="hero__slider">
     <h2 class="section-title section-title--white">
       {{'start.title' | translate}}
     </h2>
-
-    <select name="language" ng-change="ctrl.selectLanguage()" ng-model="ctrl.language">
-      <option ng-repeat="option in ctrl.languages" value="{{option.code}}">{{option.nativeName}}</option>
-    </select>
-
   </div>
   <div class="hero__col hero__col--left">
     <div class="hero__col__content">
       <h3> Vad behöver du hjälp med? </h3>
       <h4>
-        <a href="#/new-job">Lägg upp ditt uppdrag här!</a>
+        <a href="#{{routes.job.create.url}}">Lägg upp ditt uppdrag här!</a>
       </h4>
     </div>
   </div>
@@ -26,7 +16,7 @@
     <div class="hero__col__content">
       <h3> Söker du extra jobb? </h3>
       <h4>
-        <a href="#/register">Registrera dig här!</a>
+        <a href="#{{routes.user.register.url}}">Registrera dig här!</a>
       </h4>
     </div>
   </div>

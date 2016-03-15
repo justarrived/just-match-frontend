@@ -25,12 +25,18 @@
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
   </head>
 
-  <body ng-controller="MainCtrl">
+  <body ng-controller="MainCtrl as ctrl">
 
     <header>
       <div class="top-logo">
         <img src="assets/images/ui/logo.png" alt="logo"/>
+        <div class="menu">
+          <button ng-click="ctrl.selectLanguage()" type="button" >{{ctrl.language}}</button>
+          <button ng-click="ctrl.menu()" type="button">menu</button>
+        </div>
       </div>
+
+
     </header>
 
     <div class="container-fluid" ng-view></div>

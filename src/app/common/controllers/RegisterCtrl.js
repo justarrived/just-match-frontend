@@ -1,13 +1,12 @@
 angular.module('just.common')
-  .controller('RegisterCtrl', ['justFlowService', 'justMatchApi', function (justFlowService, justMatchApi) {
+  .controller('RegisterCtrl', ['userService', 'Resources', function (userService, Resources) {
     var that = this;
-    this.data = justFlowService.model('account');
-    this.message = justFlowService.message('account');
-    justMatchApi.languages().then(function (data) {
-      that.languages = data.data.data;
-    });
+    this.data = userService.registerModel;
+    this.message = userService.registerMessage;
+    this.languages = Resources.languages.get();
+
     this.process = function() {
-      justFlowService.process('account', that.data);
+      userService.register(that.data);
     };
   }]
 );

@@ -4,26 +4,26 @@
 
     <h2 class="text-center">{{ 'assignment.new.title' | translate }}</h2>
 
-    <form ng-submit="ctrl.process()">
+    <form ng-submit="ctrl.create()">
       <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.title' | translate }}" ng-model="ctrl.data.name">
+        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.title' | translate }}" ng-model="ctrl.model.data.attributes.name">
       </div>
       <div class="form-group">
-        <textarea class="form-control" placeholder="{{ 'assignment.new.form.description' | translate }}" ng-model="ctrl.data.description"></textarea>
+        <textarea class="form-control" placeholder="{{ 'assignment.new.form.description' | translate }}" ng-model="ctrl.model.data.attributes.description"></textarea>
       </div>
       <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.address' | translate }}" ng-model="ctrl.data.address">
+        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.address' | translate }}" ng-model="ctrl.model.data.attributes.address">
       </div>
 
       <div class="form-group">
         <div class="row">
           <div class="col-xs-6">
             <label class="control-label" for="">{{ 'assignment.new.form.from_date' | translate }}</label>
-            <input class="form-control" type="text" placeholder="YYYY-MM-DD">
+            <input class="form-control" type="text" placeholder="YYYY-MM-DD" ng-model="ctrl.model.data.attributes.from_date">
           </div>
           <div class="col-xs-6">
             <label class="control-label" for="">{{ 'assignment.new.form.to_date' | translate }}</label>
-            <input class="form-control" type="text" placeholder="YYYY-MM-DD">
+            <input class="form-control" type="text" placeholder="YYYY-MM-DD" ng-model="ctrl.model.data.attributes.to_date">
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
         <label class="control-label">Antal timmar</label>
         <div class="row">
            <div class="col-xs-3">
-            <input class="form-control" type="text" ng-model="ctrl.data.hours">
+            <input class="form-control" type="text" ng-model="ctrl.model.data.attributes.hours">
           </div>
           <div class="col-xs-2">
             <button type="button" ng-click="ctrl.addHour()">+</button>
@@ -47,7 +47,7 @@
       <button class="form-control" type="submit">{{ 'assignment.new.form.next' | translate }}</button>
     </form>
 
-    <p>{{ ctrl.data | json }}</p>
-    <p><i>{{ ctrl.message }}</i></p>
+    <p>{{ ctrl.model | json }}</p>
+    <p><i>{{ ctrl.message | json}}</i></p>
   </div>
 </section>
