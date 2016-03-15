@@ -47,7 +47,9 @@ angular.module('just.common')
         jobUser: crud("/api/v1/jobs/:job_id/users/:id"),
 
         jobs: crud("/api/v1/jobs"),
-        job: crud("/api/v1/jobs/:id")
+        job: crud("/api/v1/jobs/:id"),
+
+        contact: crud("/api/v1/contacts")
 
       };
     }

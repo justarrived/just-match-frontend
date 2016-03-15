@@ -45,6 +45,20 @@ angular.module('just.service', [])
         return deferd.promise;
       };
 
+      this.contact = function(data) {
+        window.console.log(data);
+        var deferd = $q.defer();
+        $http.post(settings.just_match_api + "/api/v1/contact", data)
+          .then(function(resp) {
+            window.console.log(resp);
+            deferd.resolve();
+          }, function (err) {
+            window.console.log(err);
+            deferd.reject(err);
+          });
+        return deferd.promise;
+      };
+
       this.logout = function () {
         storage.remove('auth_token');
         delete $http.defaults.headers.common.Authorization;
@@ -155,5 +169,19 @@ angular.module('just.service', [])
         that.user = Resources.user.get({id: authService.userId()});
       }
       return that.user;
+    };
+  }])
+  .service('contactService', ['justFlowService', 'justRoutes', 'Resources',function(flow, routes, resources) {
+    var that = this;
+    this.process = function (attributes) {
+      resources.contact.create({data : {attributes: attributes}},
+        function (ok) {
+          flow.next(routes.contact.completed.url);
+        }, function (error) {
+          //TODO
+          that.message = error;
+          window.console.log(error);
+        }
+      );
     };
   }]);

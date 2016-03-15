@@ -12,6 +12,13 @@ angular.module('just', [
   ])
   .constant('justRoutes', {
     global: {
+      contact: {
+        url: '/contact',
+        handler: {
+          templateUrl: 'common/templates/contact.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      },
       start: {
         url: '/',
         handler: {
@@ -103,6 +110,22 @@ angular.module('just', [
           controller: 'ListJobCtrl as ctrl'
         }
       }
+    },
+    contact: {
+      form: {
+        url: '/contact/new',
+        handler: {
+          templateUrl: 'common/templates/contact.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      },
+      completed: {
+        url: '/contact/completed',
+        handler: {
+          templateUrl: 'common/templates/contact-completed.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      }
     }
   })
   .run(['$rootScope', 'justRoutes', function ($rootScope, routes) {
@@ -135,4 +158,3 @@ angular.module('just', [
       .setPrefix('just-arrived')
       .setStorageType('sessionStorage');
   }]);
-

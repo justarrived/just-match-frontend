@@ -23,6 +23,16 @@
   "assignment.new.form.hours" : "Number of hours",
   "assignment.new.form.pay_level" : "Pay level",
 
+  "contact.title" : "Contact",
+  "contact.instructions" : "Any questions? We are happy to answer them! Fill in and submit the form bellow.",
+  "contact.form.name" : "Name",
+  "contact.form.email" : "Email",
+  "contact.form.message" : "Message",
+  "contact.form.submit" : "Send",
+  "contact.title.completed" : "Thank you for the message!",
+  "contact.title.success" : "Thank you for the message!",
+  "contact.success.message" : "We will get back to you as soon as possible.",
+
   "menu.assignment.find": "Find assignment",
   "menu.assignment.list": "My assignment",
   "menu.assignment.create":  "Create assignment",
