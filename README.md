@@ -19,8 +19,8 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 ```
 $ git clone git@github.com:justarrived/just-match-frontend.git
 $ cd just-match-frontend
-$ bin/setup
-$ bin/server
+$ script/setup
+$ script/server
 # You can now open http://localhost:9000
 ```
 
