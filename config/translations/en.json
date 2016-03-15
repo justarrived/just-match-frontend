@@ -29,6 +29,9 @@
   "contact.form.email" : "Email",
   "contact.form.message" : "Message",
   "contact.form.submit" : "Send",
+  "contact.title.completed" : "Thank you for the message!",
+  "contact.title.success" : "Thank you for the message!",
+  "contact.success.message" : "We will get back to you as soon as possible.",
 
   "menu.assignment.find": "Find assignment",
   "menu.assignment.list": "My assignment",

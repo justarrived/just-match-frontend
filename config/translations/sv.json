@@ -30,6 +30,8 @@
   "contact.form.email" : "Email",
   "contact.form.message" : "Meddelande",
   "contact.form.submit" : "Skicka",
+  "contact.title.success" : "Tack för att ditt meddelande!",
+  "contact.success.message" : "Vi besvarar det så fort vi kan.",
 
   "menu.assignment.find": "Hitta uppdrag",
   "menu.assignment.list": "Mina uppdrag",

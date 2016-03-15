@@ -49,7 +49,7 @@ angular.module('just.common')
         jobs: crud("/api/v1/jobs"),
         job: crud("/api/v1/jobs/:id"),
 
-        contact: crud("/api/contact")
+        contact: crud("/api/v1/contacts")
 
       };
     }

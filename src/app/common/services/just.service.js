@@ -176,7 +176,7 @@ angular.module('just.service', [])
     this.process = function (attributes) {
       resources.contact.create({data : {attributes: attributes}},
         function (ok) {
-          flow.completed(routes.contact.completed.url);
+          flow.next(routes.contact.completed.url);
         }, function (error) {
           //TODO
           that.message = error;
