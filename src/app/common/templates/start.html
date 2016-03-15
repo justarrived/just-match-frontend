@@ -27,7 +27,7 @@
     <h3> Nya uppdrag </h3>
     <ul ng-repeat="job in ctrl.jobs.data | limitTo: 5">
       <li>
-        <a href="#/jobs/{{ job.id }}">
+        <a href="#{{ routes.job.get.resolve(job) }}">
           {{ job.attributes.description | limitTo: 80 }} {{ job.attributes.description.length < 80 ? '' : '...' }}
           <br>
           <b>{{ job.attributes.max_rate | currency }}</b>
