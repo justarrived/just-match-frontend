@@ -25,6 +25,15 @@
   <div class="section-jobs__content">
     <img class="section-icon" src="/assets/images/ui/calender.png" alt="calender" />
     <h3> Nya uppdrag </h3>
+    <ul ng-repeat="job in ctrl.jobs.data | limitTo: 5">
+      <li>
+        <a href="#/jobs/{{ job.id }}">
+          {{ job.attributes.description | limitTo: 80 }} {{ job.attributes.description.length < 80 ? '' : '...' }}
+          <br>
+          <b>{{ job.attributes.max_rate | currency }}</b>
+        </a>
+      </li>
+    </ul>
     <div class="section-jobs__content-right">
       <a href=""> Visa alla </a>
       <img src="assets/images/ui/arrow-right.png" alt="arrow-right" />
