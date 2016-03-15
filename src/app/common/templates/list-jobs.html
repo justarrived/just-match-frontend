@@ -1,0 +1,14 @@
+<section class="row">
+
+  <div class="col-xs-10 col-xs-offset-1">
+
+    <h2 class="text-center">{{ 'assignment.list.title' | translate }}</h2>
+    <ul>
+      <li data-ng-repeat="job in ctrl.model.data">
+        <a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a>
+      </li>
+    </ul>
+    <p>{{ ctrl.model | json }}</p>
+    <p><i>{{ ctrl.message | json}}</i></p>
+  </div>
+</section>

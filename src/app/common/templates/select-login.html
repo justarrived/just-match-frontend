@@ -1,5 +1,7 @@
 <section class="section-instructions">
-  <h2 class="section-title">{{'select-login.title' | translate}}</h2>
-  <li><a href="#/register">{{'select-login.register-email' | translate}}</a></li>
-  <li><a href="#/signin">{{'select-login.signin' | translate}}</a></li>
+  <h2 class="section-title">{{'login.select.title' | translate}}</h2>
+  <ul>
+    <li><a href="#{{routes.user.register.url}}">{{'login.select.register-email' | translate}}</a></li>
+    <li><a href="#{{routes.user.signin.url}}">{{'login.select.signin' | translate}}</a></li>
+  </ul>
 </section>
