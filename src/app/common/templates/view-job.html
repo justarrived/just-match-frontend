@@ -1,9 +1,11 @@
 <section class="row">
 
-  <div class="col-xs-10 col-xs-offset-1">
+  <job-header></job-header>
 
-    <h2 class="text-center">{{ 'assignment.job.title' | translate }}</h2>
+  <div class="col-xs-10 col-xs-offset-1">
+    <job-body></job-body>
+
     <p>{{ ctrl.model | json }}</p>
-    <p><i>{{ ctrl.message | json}}</i></p>
+    <p><i>{{ ctrl.message | json }}</i></p>
   </div>
 </section>
