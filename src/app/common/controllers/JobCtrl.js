@@ -34,8 +34,11 @@ angular
   .controller('ViewJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
     var that = this;
 
-    this.model = jobService.getJob($routeParams.id);
+    jobService.getJob($routeParams.id)
+      .$promise.then(function(job) {
+        var jobAttributes = job.data.attributes;
 
+        that.totalRate = jobAttributes.hours * jobAttributes.max_rate;
+        that.model = jobAttributes;
+      });
   }]);
-
-
