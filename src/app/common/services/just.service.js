@@ -1,27 +1,53 @@
 angular.module('just.service', [])
-  .service('i18nService', ['$translate','tmhDynamicLocale','settings', 'localStorageService', 'justFlowService', 'justRoutes', function($translate, tmhDynamicLocale, settings, storage, flow, routes) {
-    var that = this;
-    this.useLanguage = function(code) {
-      that.updateLanguage(code);
-      flow.completed(routes.global.start.url);
-    };
+  .service('i18nService', [
+    '$translate', 'tmhDynamicLocale','settings',
+    'localStorageService', 'justFlowService',
+    'justRoutes', 'Resources', '$q', function($translate, tmhDynamicLocale, settings, storage, flow, routes, Resources, $q) {
+      var that = this;
 
-    this.updateLanguage = function (code) {
-      $translate.use(code);
-      tmhDynamicLocale.set(code);
-      storage.set("language", code);
-      that.language = code;
-    };
+      this.getDefaultLang = function (langs) {
+        var defLang = langs.filter(function (lang) {
+          return lang.attributes.lang_code === 'sv';
+        });
 
-    this.updateLanguage(storage.get("language") || 'sv');
-    this.supportedLanguages = function() {
-      return settings.translated_languages;
-    };
+        if (defLang.length === 0) {
+          return langs[0];
+        }
+        return defLang[0];
+      };
+      this.langResolve = $q(function (resolve, reject) {
+        that.allLanguages = Resources.languages.get(function (langs) {
+          var lang = that.getDefaultLang(langs.data);
+          that.updateLanguage(lang);
+          window.console.log("Resovle lang:" + lang.attributes.lang_code);
+          resolve(lang);
+        });
+      });
 
-    this.getLanguage = function() {
-      return that.language;
-    };
-  }])
+      this.getLanguage = function () {
+        var language = storage.get("language");
+        if (angular.isDefined(language)) {
+          return language;
+        }
+        return that.langResolve;
+      };
+
+      this.useLanguage = function(lang) {
+        that.updateLanguage(lang);
+        flow.completed(routes.global.start.url);
+      };
+
+      this.updateLanguage = function (lang) {
+        $translate.use(lang.attributes.lang_code);
+        tmhDynamicLocale.set(lang.attributes.lang_code);
+        storage.set("language", lang);
+      };
+
+
+      this.supportedLanguages = function () {
+        return that.allLanguages;
+      };
+    }])
   .service('AuthService', ['$http', '$q', 'settings', 'localStorageService', function ($http, $q, settings, storage) {
       var current_auth_token = storage.get('auth_token');
       if (current_auth_token) {
@@ -35,7 +61,7 @@ angular.module('just.service', [])
       };
       this.login = function (data) {
         var deferd = $q.defer();
-        $http.post(settings.just_match_api + "/api/v1/user_sessions", data)
+        $http.post(settings.just_match_api + "/api/v1/users/sessions", data)
           .then(function(resp) {
             var token = 'Token token=' + resp.data.data.attributes.auth_token;
             storage.set("auth_token", token);
@@ -44,20 +70,6 @@ angular.module('just.service', [])
             $http.defaults.headers.common.Authorization = token;
             deferd.resolve();
           }, function (err) {
-            deferd.reject(err);
-          });
-        return deferd.promise;
-      };
-
-      this.contact = function(data) {
-        window.console.log(data);
-        var deferd = $q.defer();
-        $http.post(settings.just_match_api + "/api/v1/contact", data)
-          .then(function(resp) {
-            window.console.log(resp);
-            deferd.resolve();
-          }, function (err) {
-            window.console.log(err);
             deferd.reject(err);
           });
         return deferd.promise;
@@ -105,37 +117,51 @@ angular.module('just.service', [])
       $location.path(path);
     };
   }])
-  .service('jobService', ['justFlowService', 'AuthService', 'Resources', 'justRoutes', function (flow, authService, Resources, routes) {
-    var that = this;
-
-    this.jobModel = {data: {
-      attributes: {}
-    }};
-    this.jobMessage = {};
-    this.getJob = function (id) {
-      return Resources.job.get({id: id});
-    };
-    this.getJobs = function () {
-      return Resources.jobs.get();
-    };
-
-    this.create = function (job) {
-      that.jobModel = job;
-      if (authService.isAuthenticated()) {
-          Resources.jobs.create(job, function (data) {
-          flow.next(routes.job.approve.resolve(data), data);
+  .service('jobService', ['$q', 'justFlowService', 'AuthService',
+    'Resources', 'justRoutes','i18nService', '$timeout', function ($q, flow, authService, Resources, routes, i18nService, $timeout) {
+      var that = this;
+      this.rates = function () {
+        var rates = [
+          {value: 80, name: 'assignment.new.rate.low'},
+          {value: 100, name: 'assignment.new.rate.medium'},
+          {value: 120, name: 'assignment.new.rate.high'},
+        ];
+        return rates;
+      };
+      this.jobModel = {data: {
+        attributes: {"language_id": i18nService.getLanguage().id, "max_rate": "80"}
+      }};
+      this.jobMessage = {};
+      this.getJob = function (id) {
+        return Resources.job.get({id: id});
+      };
+      this.getJobs = function () {
+        return Resources.jobs.get();
+      };
+      this.approve = function (job) {
+        Resources.jobs.create(job, function (data) {
+          flow.next(routes.job.approved.url, data);
         }, function (error) {
           that.jobMessage = error;
           flow.reload(routes.job.create.url);
         });
-      } else {
-        flow.redirect(routes.user.select.url, function () {
-          that.create(job);
-        });
-      }
-    };
-  }])
-  .service('userService', ['justFlowService', 'i18nService', 'AuthService', 'justRoutes', 'Resources',  function (flow, i18nService, authService, routes, Resources) {
+      };
+      this.edit = function (job) {
+        flow.next(routes.job.create.url, job);
+      };
+
+      this.create = function (job) {
+        that.jobModel = job;
+        if (authService.isAuthenticated()) {
+            flow.next(routes.job.approve.url);
+        } else {
+          flow.redirect(routes.user.select.url, function () {
+            that.create(job);
+          });
+        }
+      };
+    }])
+  .service('userService', ['justFlowService', 'AuthService', 'i18nService', 'justRoutes', 'Resources',  function (flow, authService, i18nService, routes, Resources) {
     var that = this;
 
     this.signinModel = {};

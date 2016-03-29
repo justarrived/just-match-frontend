@@ -1,4 +1,4 @@
 <section class="row">
   <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
-  <button data-ng-repeat="lang in ctrl.languages" ng-click="ctrl.useLanguage(lang)" type="button">{{lang.code}}</button>
+  <button data-ng-repeat="lang in ctrl.languages.data" ng-click="ctrl.useLanguage(lang)" type="button">{{lang.attributes.lang_code}}</button>
 </section>

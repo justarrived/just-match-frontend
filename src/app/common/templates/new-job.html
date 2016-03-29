@@ -2,9 +2,9 @@
 
   <div class="col-xs-10 col-xs-offset-1">
 
-    <h2 class="text-center">{{ 'assignment.new.title' | translate }}</h2>
+    <h2 class="text-center">{{ ctrl.text.title | translate }}</h2>
 
-    <form ng-submit="ctrl.create()">
+    <form ng-submit="ctrl.save()">
       <div class="form-group">
         <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.title' | translate }}" ng-model="ctrl.model.data.attributes.name">
       </div>
@@ -12,41 +12,48 @@
         <textarea class="form-control" placeholder="{{ 'assignment.new.form.description' | translate }}" ng-model="ctrl.model.data.attributes.description"></textarea>
       </div>
       <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.address' | translate }}" ng-model="ctrl.model.data.attributes.address">
+        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.street' | translate }}" ng-model="ctrl.model.data.attributes.street">
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="{{ 'assignment.new.form.zip' | translate }}" ng-model="ctrl.model.data.attributes.zip">
       </div>
 
       <div class="form-group">
+        <label class="control-label">{{ 'assignment.new.form.date' | translate }}</label>
         <div class="row">
-          <div class="col-xs-6">
-            <label class="control-label" for="">{{ 'assignment.new.form.from_date' | translate }}</label>
-            <input class="form-control" type="text" placeholder="YYYY-MM-DD" ng-model="ctrl.model.data.attributes.from_date">
-          </div>
-          <div class="col-xs-6">
-            <label class="control-label" for="">{{ 'assignment.new.form.to_date' | translate }}</label>
-            <input class="form-control" type="text" placeholder="YYYY-MM-DD" ng-model="ctrl.model.data.attributes.to_date">
-          </div>
+          <input class="form-control" type="text" placeholder="YYYY-MM-DD" ng-model="ctrl.model.data.attributes.job_date">
         </div>
       </div>
 
+
       <div class="form-group">
-        <label class="control-label">Antal timmar</label>
+        <label class="control-label">{{ 'assignment.new.form.hours' | translate }}</label>
         <div class="row">
-           <div class="col-xs-3">
+          <div class="col-xs-3">
             <input class="form-control" type="text" ng-model="ctrl.model.data.attributes.hours">
           </div>
-          <div class="col-xs-2">
-            <button type="button" ng-click="ctrl.addHour()">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">{{ 'assignment.new.form.rate' | translate }}</label>
+        <div class="row">
+          <div class="col-xs-3">
+            <select ng-model="ctrl.model.data.attributes.max_rate">
+              <option ng-repeat="rate in ctrl.rates" value="{{rate.value}}">{{ rate.name | translate }}</option>
+            </select>
           </div>
         </div>
       </div>
+
 
       <div class="form-group">
 
       </div>
 
-      <button class="form-control" type="submit">{{ 'assignment.new.form.next' | translate }}</button>
+      <button class="form-control" type="submit">{{ ctrl.text.submit | translate }}</button>
     </form>
 
+    <p>{{ ctrl.rates | json }}</p>
     <p>{{ ctrl.model | json }}</p>
     <p><i>{{ ctrl.message | json}}</i></p>
   </div>

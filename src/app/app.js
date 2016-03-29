@@ -79,17 +79,30 @@ angular.module('just', [
         url: '/job/create',
         handler: {
           templateUrl: 'common/templates/new-job.html',
-          controller: 'JobCtrl as ctrl'
+          controller: 'CreateJobCtrl as ctrl'
         }
       },
       approve: {
-        url: '/jobs/:id/approve',
-        resolve: function (obj) {
-          return '/jobs/' + obj.id + '/approve';
-        },
+        url: '/job/approve',
         handler: {
           templateUrl: 'common/templates/approve-job.html',
           controller: 'ApproveJobCtrl as ctrl'
+        }
+      },
+      approved: {
+        url: '/job/approved',
+        handler: {
+          templateUrl: 'common/templates/approved-job.html'
+        }
+      },
+      update: {
+        url: '/jobs/:id',
+        resolve: function (obj) {
+          return '/jobs/' + obj.id;
+        },
+        handler: {
+          templateUrl: 'common/templates/create-job.html',
+          controller: 'EditJobCtrl as ctrl'
         }
       },
       get: {
@@ -128,8 +141,11 @@ angular.module('just', [
       }
     }
   })
-  .run(['$rootScope', 'justRoutes', function ($rootScope, routes) {
+  .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
     $rootScope.routes = routes;
+    $rootScope.next = function (url) {
+        flow.next(url);
+    };
   }])
   .config(function ($routeProvider, $locationProvider, justRoutes) {
     angular.forEach(justRoutes, function(comp) {

@@ -26,9 +26,10 @@ angular.module('just.common')
         flow.reload(path);
       });
     };
-    this.language = i18nService.language;
-    $scope.$on('language-change', function () {
-      that.language = i18nService.language;
-    });
+
+    that.language = i18nService.getLanguage();
+      $scope.$on('language-change', function () {
+        that.language = i18nService.getLanguage();
+      });
   }]
 );
