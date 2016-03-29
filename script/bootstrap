@@ -21,6 +21,11 @@ which grunt 2>&1 >/dev/null || {
   sudo npm install -g grunt-cli
 }
 
+which sass 2>&1 >/dev/null || {
+    echo -e '\n== Installing sass =='
+    gem install sass
+}
+
 echo -e '\n== Installing project dependencies =='
 echo -e '\n== Installing npm dependencies =='
 npm install
