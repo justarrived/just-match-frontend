@@ -7,8 +7,11 @@
     <form ng-submit="ctrl.process()">
       <div class="form-group">
         <select class="form-control" name="language" ng-model="ctrl.data.language_id">
-          <option value="{{ option.id }}" ng-repeat="option in ctrl.languages"> {{option.attributes.lang_code}}</option>
+          <option value="{{ option.id }}" ng-repeat="option in ctrl.languages.data"> {{option.attributes.local_name}}</option>
         </select>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="{{ 'register.form.ssn' | translate }}" ng-model="ctrl.data.ssn" size="10">
       </div>
       <div class="form-group">
         <input class="form-control" type="text" placeholder="{{ 'register.form.first_name' | translate }}" ng-model="ctrl.data.first_name">

@@ -6,6 +6,7 @@
 
   "register.title": "Skapa konto",
   "register.form.first_name": "Förnamn",
+  "register.form.ssn": "Personnummer",
   "register.form.last_name": "Efternamn",
   "register.form.email": "Email",
   "register.form.description": "Beskrivning",
