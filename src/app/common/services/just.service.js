@@ -57,7 +57,7 @@ angular.module('just.service', [])
       };
       this.login = function (data) {
         var deferd = $q.defer();
-        $http.post(settings.just_match_api + "/api/v1/user_sessions", data)
+        $http.post(settings.just_match_api + "/api/v1/users/sessions", data)
           .then(function(resp) {
             var token = 'Token token=' + resp.data.data.attributes.auth_token;
             storage.set("auth_token", token);
@@ -66,20 +66,6 @@ angular.module('just.service', [])
             $http.defaults.headers.common.Authorization = token;
             deferd.resolve();
           }, function (err) {
-            deferd.reject(err);
-          });
-        return deferd.promise;
-      };
-
-      this.contact = function(data) {
-        window.console.log(data);
-        var deferd = $q.defer();
-        $http.post(settings.just_match_api + "/api/v1/contact", data)
-          .then(function(resp) {
-            window.console.log(resp);
-            deferd.resolve();
-          }, function (err) {
-            window.console.log(err);
             deferd.reject(err);
           });
         return deferd.promise;
