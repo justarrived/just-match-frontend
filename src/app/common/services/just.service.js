@@ -17,6 +17,10 @@ angular.module('just.service', [])
     this.supportedLanguages = function() {
       return settings.translated_languages;
     };
+
+    this.getLanguage = function() {
+      return that.language;
+    };
   }])
   .service('AuthService', ['$http', '$q', 'settings', 'localStorageService', function ($http, $q, settings, storage) {
       var current_auth_token = storage.get('auth_token');
@@ -131,7 +135,7 @@ angular.module('just.service', [])
       }
     };
   }])
-  .service('userService', ['justFlowService', 'AuthService', 'justRoutes', 'Resources',  function (flow, authService, routes, Resources) {
+  .service('userService', ['justFlowService', 'i18nService', 'AuthService', 'justRoutes', 'Resources',  function (flow, i18nService, authService, routes, Resources) {
     var that = this;
 
     this.signinModel = {};
@@ -147,7 +151,7 @@ angular.module('just.service', [])
         });
     };
 
-    this.registerModel = {};
+    this.registerModel = {language_id: i18nService.getLanguage().id};
     this.registerMessage = {};
 
     this.register = function (attributes) {
