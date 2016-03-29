@@ -9,6 +9,10 @@ angular.module('just.service', [])
         var defLang = langs.filter(function (lang) {
           return lang.attributes.lang_code === 'sv';
         });
+
+        if (defLang.length === 0) {
+          return langs[0];
+        }
         return defLang[0];
       };
       this.langResolve = $q(function (resolve, reject) {
@@ -157,7 +161,7 @@ angular.module('just.service', [])
         }
       };
     }])
-  .service('userService', ['justFlowService', 'AuthService', 'justRoutes', 'Resources',  function (flow, authService, routes, Resources) {
+  .service('userService', ['justFlowService', 'AuthService', 'i18nService', 'justRoutes', 'Resources',  function (flow, authService, i18nService, routes, Resources) {
     var that = this;
 
     this.signinModel = {};
@@ -173,7 +177,7 @@ angular.module('just.service', [])
         });
     };
 
-    this.registerModel = {};
+    this.registerModel = {language_id: i18nService.getLanguage().id};
     this.registerMessage = {};
 
     this.register = function (attributes) {
