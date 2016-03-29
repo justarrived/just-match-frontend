@@ -2,8 +2,11 @@
 
   <div class="col-xs-10 col-xs-offset-1">
 
-    <h2 class="text-center">{{ 'assignment.approve.title' | translate }}</h2>
-
+    <h2 class="text-center">{{ 'assignment.preview.title' | translate }}</h2>
+    <job-header model="ctrl.model"></job-header>
+    <button ng-click="ctrl.approve()" type="button">{{ 'assignment.preview.button.approve' | translate}}</button>
+    <button ng-click="ctrl.edit()" type="button">{{ 'assignment.preview.button.edit' | translate}}</button>
+    <job-body model="ctrl.model"></job-body>
     <p>{{ ctrl.model | json }}</p>
     <p><i>{{ ctrl.message | json}}</i></p>
   </div>
