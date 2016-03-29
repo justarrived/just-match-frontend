@@ -1,0 +1,53 @@
+.Job {}
+
+.Job-header {
+  padding: $spacing 0;
+
+  background: $darkGrey;
+  color: $white;
+}
+
+.Job-header-logo {
+  background: $white;
+
+  text-align: center;
+  line-height: 100px;
+
+  @include circle(100px);
+
+  > img {
+    max-width: 80%;
+  }
+}
+
+.Job-header-info {
+  margin-top: $spacing * 2;
+
+  list-style: none;
+
+  text-align: center;
+}
+
+.Job-body-heading {
+  text-align: center;
+}
+
+.Job-body-heading-total {
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  color: $pink;
+}
+
+.Job-body-description {
+  h3 {
+    width: 100%;
+    border-bottom: 1px $lightGrey solid;
+
+    text-transform: uppercase;
+  }
+}
+
+.Job-body-description-inner {
+  padding-left: $spacing * 2;
+}

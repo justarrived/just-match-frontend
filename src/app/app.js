@@ -10,36 +10,159 @@ angular.module('just', [
     'tmh.dynamicLocale',
     'LocalStorageModule'
   ])
-  .config(function ($routeProvider, $locationProvider, settings) {
-    // $locationProvider.html5Mode({
-    //   enabled: true,
-    //   requireBase: true
-    // });
+  .constant('justRoutes', {
+    global: {
+      contact: {
+        url: '/contact',
+        handler: {
+          templateUrl: 'common/templates/contact.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      },
+      start: {
+        url: '/',
+        handler: {
+          templateUrl: 'common/templates/start.html',
+          controller: 'StartCtrl as ctrl'
+        }
+      },
+      faq: {
+        url: '/faq',
+        handler: {
+          templateUrl: 'common/templates/faq.html',
+          controller: 'FAQCtrl as ctrl'
+        }
+      },
+      select_language: {
+        url: '/select-language',
+        handler: {
+          templateUrl: 'common/templates/select-language.html',
+          controller: 'LanguageCtrl as ctrl'
+        }
+      },
+      menu: {
+        url: '/menu',
+        handler: {
+          templateUrl: 'common/templates/menu.html'
+        }
+      }
+    },
+    user: {
+      select: {
+        url: '/user/select',
+        handler: {
+          templateUrl: 'common/templates/select-login.html'
+        }
+      },
+      register: {
+        url: "/user/register",
+        handler: {
+          templateUrl: 'common/templates/register.html',
+          controller: 'RegisterCtrl as ctrl'
+        }
+      },
+      signin: {
+        url: '/user/signin',
+        handler: {
+          templateUrl: 'common/templates/signin.html',
+          controller: 'SigninCtrl as ctrl'
+        }
+      },
+      signed_in: {
+        url: '/user/welcome',
+        handler: {
+        }
+      },
+      user: {
+        url: '/user',
+        handler: {
+          templateUrl: 'common/templates/user.html',
+          controller: 'UserCtrl as ctrl'
+        }
+      }
+    },
+    job: {
+      create: {
+        url: '/job/create',
+        handler: {
+          templateUrl: 'common/templates/new-job.html',
+          controller: 'CreateJobCtrl as ctrl'
+        }
+      },
+      approve: {
+        url: '/job/approve',
+        handler: {
+          templateUrl: 'common/templates/approve-job.html',
+          controller: 'ApproveJobCtrl as ctrl'
+        }
+      },
+      approved: {
+        url: '/job/approved',
+        handler: {
+          templateUrl: 'common/templates/approved-job.html'
+        }
+      },
+      update: {
+        url: '/jobs/:id',
+        resolve: function (obj) {
+          return '/jobs/' + obj.id;
+        },
+        handler: {
+          templateUrl: 'common/templates/create-job.html',
+          controller: 'EditJobCtrl as ctrl'
+        }
+      },
+      get: {
+        url: '/jobs/:id',
+        resolve: function (obj) {
+          return '/jobs/' + obj.id;
+        },
+        handler: {
+          templateUrl: 'common/templates/view-job.html',
+          controller: 'ViewJobCtrl as ctrl'
+        }
 
-    $routeProvider
-      .when('/', {
-        templateUrl: 'common/templates/start.html',
-        controller: 'StartCtrl as ctrl'
-      })
-      .when('/register', {
-        templateUrl: 'common/templates/register.html',
-        controller: 'RegisterCtrl as ctrl'
-      })
-      .when('/select-login', {
-        templateUrl: 'common/templates/select-login.html',
-      })
-      .when('/signin', {
-        templateUrl: 'common/templates/signin.html',
-        controller: 'SigninCtrl as ctrl'
-      })
-      .when('/new-job', {
-        templateUrl: 'common/templates/new-job.html',
-        controller: 'JobCtrl as ctrl'
-      })
-      .when('/faq', {
-        templateUrl: 'common/templates/faq.html',
-        controller: 'FAQCtrl as ctrl'
+      },
+      list: {
+        url: '/jobs',
+        handler: {
+          templateUrl: 'common/templates/list-jobs.html',
+          controller: 'ListJobCtrl as ctrl'
+        }
+      }
+    },
+    contact: {
+      form: {
+        url: '/contact/new',
+        handler: {
+          templateUrl: 'common/templates/contact.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      },
+      completed: {
+        url: '/contact/completed',
+        handler: {
+          templateUrl: 'common/templates/contact-completed.html',
+          controller: 'ContactCtrl as ctrl'
+        }
+      }
+    }
+  })
+  .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
+    $rootScope.routes = routes;
+    $rootScope.next = function (url) {
+        flow.next(url);
+    };
+  }])
+  .config(function ($routeProvider, $locationProvider, justRoutes) {
+    angular.forEach(justRoutes, function(comp) {
+      angular.forEach(comp, function(route) {
+        $routeProvider.when(route.url, route.handler);
       });
+    });
+
+    /*    $locationProvider.html5Mode(true);
+     $locationProvider.hashPrefix('!'); */
   })
   .config(function(tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('https://code.angularjs.org/1.5.0/i18n/angular-locale_{{locale}}.js');
@@ -58,4 +181,3 @@ angular.module('just', [
       .setPrefix('just-arrived')
       .setStorageType('sessionStorage');
   }]);
-

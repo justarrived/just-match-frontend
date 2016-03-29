@@ -1,0 +1,21 @@
+<section class="row">
+  <div class="col-xs-10 col-xs-offset-1">
+    <h2 class="text-center">{{ 'contact.title' | translate }}</h2>
+      <p>{{ 'contact.instructions' | translate }}</p>
+      <form ng-submit="ctrl.process()">
+        <div class="form-group">
+          <input class="form-control" type="text" ng-model="ctrl.data.name" placeholder="{{'contact.form.name' | translate}}" />
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="email" ng-model="ctrl.data.email" placeholder="{{'contact.form.email' | translate}}" />
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" ng-model="ctrl.data.body" placeholder="{{'contact.form.message' | translate}}"></textarea>
+        </div>
+        <input type="submit" value="{{ 'contact.form.submit' | translate }}"/>
+      </form>
+    </div>
+</section>
+<p>
+  <i>{{ctrl.data}}</i>
+</p>

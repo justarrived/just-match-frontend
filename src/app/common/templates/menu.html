@@ -1,0 +1,23 @@
+<section class="row">
+  <h2 class="section-title">{{'menu.title' | translate}}</h2>
+
+  <div ng-hide="ctrl.signedIn()">
+    <ul>
+      <li><a href="#{{routes.job.list.url}}">{{'menu.assignment.find' | translate}}</a></li>
+      <li><a href="#{{routes.job.create.url}}">{{'menu.assignment.create' | translate}}</a></li>
+      <li><a href="#{{routes.global.faq.url}}">{{'menu.faq' | translate}}</a></li>
+      <li><a href="#{{routes.contact.form.url}}">{{'menu.contact' | translate}}</a></li>
+      <li><a href="" ng-click="ctrl.signin()">{{'menu.signin' | translate}}</a></li>
+    </ul>
+  </div>
+
+  <div ng-show="ctrl.signedIn()">
+    <ul>
+      <li><a href="#{{routes.job.list.url}}">{{'menu.assignment.list' | translate}}</a></li>
+      <li><a href="#{{routes.job.create.url}}">{{'menu.assignment.create' | translate}}</a></li>
+      <li><a href="#{{routes.global.faq.url}}">{{'menu.faq' | translate}}</a></li>
+      <li><a href="#{{routes.contact.form.url}}">{{'menu.contact' | translate}}</a></li>
+      <li><a href="" ng-click="ctrl.signout()">{{'menu.signout' | translate}}</a></li>
+    </ul>
+  </div>
+</section>

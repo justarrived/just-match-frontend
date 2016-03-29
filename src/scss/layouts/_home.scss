@@ -2,9 +2,9 @@
 	@include clearfix;
 }
 .hero__slider {
-	background: 
+	background:
 	linear-gradient(
-      rgba(34, 37, 49, 0.5), 
+      rgba(34, 37, 49, 0.5),
       rgba(34, 37, 49, 0.5)
     ),
 
@@ -51,7 +51,7 @@
 
 .section-jobs {
 	background:$lightGrey;
-	height:270px;
+
 	h3 {
 		display: inline-block;
 		vertical-align: middle;
@@ -61,7 +61,6 @@
 .section-jobs__content {
 	width:80%;
 	margin:0 auto;
-	outline: 2px solid green;
 
 	a {
 		color:#383F4E;
@@ -71,7 +70,12 @@
 		display: inline-block;
 		vertical-align: middle
 	}
+}
 
+.section-jobs__content__placeholder {
+	display: block;
+	width: 120px;
+	height: 120px;
 }
 
 .section-jobs__content-right {
@@ -138,7 +142,7 @@
 	}
 
 	div {
-		
+
 		&:last-child {
 			padding-bottom:0;
 		}
