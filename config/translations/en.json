@@ -5,6 +5,7 @@
   "account.language" : "Language",
 
   "register.title": "Create account",
+  "register.form.ssn": "Person number",
   "register.form.first_name": "First name",
   "register.form.last_name": "Last name",
   "register.form.email": "Email",
