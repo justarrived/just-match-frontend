@@ -1,44 +1,50 @@
-angular
-  .module('just.common')
-  .controller('JobCtrl', ['jobService', function (jobService) {
-    var that = this;
+(function(window, angular, _, undefined) {
+  'use strict';
 
-    this.model = jobService.jobModel;
-    this.message = jobService.jobMessage;
-    this.model.data.attributes.hours = 1;
+  angular.module('just.common').controller('JobCtrl', ['jobService',
+    function (jobService) {
+      var that = this;
 
-    this.create = function () {
-      jobService.create(that.model);
-    };
+      this.model = jobService.jobModel;
+      this.message = jobService.jobMessage;
+      this.model.data.attributes.hours = 1;
 
-    this.addHour = function () {
-      that.model.data.attributes.hours += 1;
-    };
-  }])
-  .controller('ApproveJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
-    var that = this;
+      this.create = function () {
+        jobService.create(that.model);
+      };
 
-    this.model = jobService.getJob($routeParams.id);
+      this.addHour = function () {
+        that.model.data.attributes.hours += 1;
+      };
+    }])
+  .controller('ApproveJobCtrl', ['jobService', '$routeParams',
+    function (jobService, $routeParams) {
+      var that = this;
 
-    this.approve = function () {
-      jobService.approve(that.model);
-    };
+      this.model = jobService.getJob($routeParams.id);
 
-  }])
-  .controller('ListJobCtrl', ['jobService',  function (jobService) {
-    var that = this;
+      this.approve = function () {
+        jobService.approve(that.model);
+      };
 
-    this.model = jobService.getJobs();
+    }])
+  .controller('ListJobCtrl', ['jobService',
+    function (jobService) {
+      var that = this;
 
-  }])
-  .controller('ViewJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
-    var that = this;
+      this.model = jobService.getJobs();
 
-    jobService.getJob($routeParams.id)
-      .$promise.then(function(job) {
-        var jobAttributes = job.data.attributes;
+    }])
+  .controller('ViewJobCtrl', ['datastoreService', '$scope','$routeParams',
+    function (datastoreService, $scope, $routeParams) {
 
-        that.totalRate = jobAttributes.hours * jobAttributes.max_rate;
-        that.model = jobAttributes;
-      });
-  }]);
+      datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company')
+        .then(function (data) {
+          var job = data.store.find('jobs', $routeParams.id);
+          job.totalRate = job.hours * job.max_rate;
+
+          $scope.job = job;
+        });
+    }]);
+
+}(window, window.angular, _));
