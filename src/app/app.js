@@ -8,7 +8,8 @@ angular.module('just', [
     'just.service',
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'beauby.jsonApiDataStore'
   ])
   .constant('justRoutes', {
     global: {

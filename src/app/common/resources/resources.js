@@ -50,7 +50,6 @@ angular.module('just.common')
         job: crud("/api/v1/jobs/:id"),
 
         contact: crud("/api/v1/contacts")
-
       };
     }
   ]);

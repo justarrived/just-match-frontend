@@ -1,5 +1,5 @@
 {
-  "just_match_api": "",
+  "just_match_api": "https://just-match-api-staging.herokuapp.com",
   "translated_languages": [
     {
       "code": "sv",

@@ -1,65 +1,70 @@
-angular
-  .module('just.common')
-  .controller('CreateJobCtrl', ['jobService', 'i18nService', function (jobService) {
-    var that = this;
-    this.text = {
-      title: 'assignment.new.title',
-      submit: 'assignment.new.form.next'
-    };
+(function(window, angular, _, undefined) {
+  'use strict';
 
-    this.model = jobService.jobModel;
-    this.message = jobService.jobMessage;
-    this.model.data.attributes.hours = 1;
-    this.rates = jobService.rates();
-    this.save = function () {
-      jobService.create(that.model);
-    };
-  }])
-  .controller('EditJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
-    var that = this;
-    this.text = {
-      title: 'assignment.update.title',
-      submit: 'assignment.update.form.next'
-    };
+  angular
+    .module('just.common')
+    .controller('CreateJobCtrl', ['jobService', 'i18nService', function (jobService) {
+      var that = this;
+      this.text = {
+        title: 'assignment.new.title',
+        submit: 'assignment.new.form.next'
+      };
 
-    this.model = jobService.getJob($routeParams.id);
+      this.model = jobService.jobModel;
+      this.message = jobService.jobMessage;
+      this.model.data.attributes.hours = 1;
+      this.rates = jobService.rates();
+      this.save = function () {
+        jobService.create(that.model);
+      };
+    }])
+    .controller('EditJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
+      var that = this;
+      this.text = {
+        title: 'assignment.update.title',
+        submit: 'assignment.update.form.next'
+      };
 
-    this.rates = jobService.rates();
+      this.model = jobService.getJob($routeParams.id);
 
-    this.save = function () {
-      jobService.update(that.model);
-    };
+      this.rates = jobService.rates();
 
-    this.cancel = function () {
+      this.save = function () {
+        jobService.update(that.model);
+      };
 
-    };
-  }])
-  .controller('ApproveJobCtrl', ['jobService', function (jobService) {
-    var that = this;
+      this.cancel = function () {
 
-    this.model = jobService.jobModel;
+      };
+    }])
+    .controller('ApproveJobCtrl', ['jobService', function (jobService) {
+      var that = this;
 
-    this.approve = function () {
-      jobService.approve(that.model);
-    };
-    this.edit = function () {
-      jobService.edit(that.model);
-    };
-  }])
-  .controller('ListJobCtrl', ['jobService',  function (jobService) {
-    var that = this;
+      this.model = jobService.jobModel;
 
-    this.model = jobService.getJobs();
+      this.approve = function () {
+        jobService.approve(that.model);
+      };
+      this.edit = function () {
+        jobService.edit(that.model);
+      };
+    }])
+    .controller('ListJobCtrl', ['jobService',  function (jobService) {
+      var that = this;
 
-  }])
-  .controller('ViewJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
-    var that = this;
+      this.model = jobService.getJobs();
 
-    jobService.getJob($routeParams.id)
-      .$promise.then(function(job) {
-        var jobAttributes = job.data.attributes;
+    }])
+    .controller('ViewJobCtrl', ['datastoreService', '$scope','$routeParams',
+      function (datastoreService, $scope, $routeParams) {
 
-        that.totalRate = jobAttributes.hours * jobAttributes.max_rate;
-        that.model = jobAttributes;
-      });
-  }]);
+        datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company')
+          .then(function (data) {
+            var job = data.store.find('jobs', $routeParams.id);
+            job.totalRate = job.hours * job.max_rate;
+
+            $scope.job = job;
+          });
+      }]);
+
+}(window, window.angular, _));

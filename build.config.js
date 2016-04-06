@@ -29,6 +29,7 @@ module.exports = {
 
   vendor_files: {
     js: [
+      'bower_components/underscore/underscore.js',
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
       'bower_components/showdown/compressed/showdown.js',
@@ -42,7 +43,8 @@ module.exports = {
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
-      'bower_components/angular-local-storage/dist/angular-local-storage.js'
+      'bower_components/angular-local-storage/dist/angular-local-storage.js',
+      'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js'
     ],
     css: [
       'bower_components/bootstrap/dist/css/bootstrap.min.css',
