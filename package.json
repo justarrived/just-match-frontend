@@ -40,7 +40,7 @@
     "protractor": "^2.1.0"
   },
   "scripts": {
-    "start": "grut watch",
+    "start": "grunt watch",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
