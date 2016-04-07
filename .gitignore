@@ -17,3 +17,6 @@ test-reports
 src/lib
 
 atlassian-ide-plugin.xml
+
+coverage/
+docs/

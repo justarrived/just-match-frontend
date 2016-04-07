@@ -25,6 +25,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-ng-constant');
   grunt.loadNpmTasks('grunt-hub');
   grunt.loadNpmTasks('grunt-run-grunt');
+  grunt.loadNpmTasks('grunt-ngdocs');
 
   buildConfig = require('./build.config.js');
 
@@ -103,7 +104,9 @@ module.exports = function (grunt) {
     */
     clean: [
       '<%= build_dir %>',
-      '<%= compile_dir %>'
+      '<%= compile_dir %>',
+      '<%= doc_dir %>',
+      '<%= coverage_dir %>'
     ],
 
     /**
@@ -525,7 +528,19 @@ module.exports = function (grunt) {
         tasks: ['watch']
       }
     },
-
+    ngdocs: {
+      options: {
+        dest: '<%= doc_dir %>',
+        scripts: ['angular.js'],
+        html5Mode: false,
+        startPage: '/index.html',
+        title: "Just Arrived Frontend Docs",
+        image: "src/assets/images/ui/logo.png",
+        inlinePartials: true,
+        bestMatch: true
+      },
+      all: ['src/**/*.js']
+    }
   };
 
   grunt.initConfig(grunt.util._.extend(taskConfig, buildConfig));
@@ -556,7 +571,9 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean', 'jshint', 'sass:build', 'html2js', 'ngconstant',
     'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_translationsjson', 'copy:build_vendorcss', 'copy:build_vendorjs', 'index:build'
+    'copy:build_appjs', 'copy:build_translationsjson', 'copy:build_vendorcss', 'copy:build_vendorjs', 'index:build',
+    'ngdocs'
+
   ]);
 
   /**

@@ -1,3 +1,25 @@
+/**
+ * @ngdoc service
+ * @name just.common.resources:Resources
+ * @description
+ * # Resources
+ * Handles interaction with backend resources.
+ * On a resources the following methods are supported:
+ * * get
+ * * list
+ * * create
+ * * update
+ * * remove
+ * * query
+ *
+ * # Supported Resources
+ *   * {@link https://just-match-api-staging.herokuapp.com/api_docs/1.0/users.html users}
+ *   * {@link https://just-match-api-staging.herokuapp.com/api_docs/1.0/chats.html chats}
+ *   * {@link https://just-match-api-staging.herokuapp.com/api_docs/1.0/languages.html languages}
+ *   * ...
+ *
+ * {@link https://just-match-api-staging.herokuapp.com/api_docs/1.0 Backend Api}
+ */
 angular.module('just.common')
   .factory('Resources', ['$resource', 'settings',
     function($resource, settings) {
