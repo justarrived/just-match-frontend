@@ -4,7 +4,9 @@ module.exports = {
   build_dir: 'build',
   compile_dir: 'dist',
   config_dir: './config/',
-
+  doc_dir: 'docs',
+  coverage_dir: 'coverage',
+  
   config_files: {
     json: ['config/*.json']
   },
@@ -47,7 +49,7 @@ module.exports = {
       'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js'
     ],
     css: [
-      'bower_components/bootstrap/dist/css/bootstrap.min.css',
+      'bower_components/bootstrap/dist/css/bootstrap.min.css'
     ],
     assets: [
 

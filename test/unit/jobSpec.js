@@ -4,16 +4,16 @@ describe('JobCtrl', function () {
 
   beforeEach(module('just'));
 
-  describe('JobCtrl:new', function () {
+  describe('CreateJobCtrl:new', function () {
 
     var scope, ctrl;
 
     beforeEach(inject(function ($rootScope, $controller) {
-      ctrl = $controller('JobCtrl');
+      ctrl = $controller('CreateJobCtrl');
     }));
 
     it('should default hours to 1', function () {
-      expect(ctrl.hours).toBe(1);
+      expect(ctrl.model.data.attributes.hours).toBe(1);
     });
 
   });
