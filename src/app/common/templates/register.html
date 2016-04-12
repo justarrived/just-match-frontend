@@ -26,7 +26,7 @@
       </validation>
 
       <validation form="form" field="email" errormsg="register.form.email.validation_error">
-        <input name="email" class="form-control" type="email" required
+        <input name="email" class="form-control" type="email" required pattern="[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,10}"
                placeholder="{{ 'register.form.email' | translate }}" ng-model="ctrl.data.email">
       </validation>
 
