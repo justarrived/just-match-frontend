@@ -4,36 +4,54 @@
 
     <h2 class="text-center">{{ 'register.title' | translate }}</h2>
 
-    <form ng-submit="ctrl.process()">
+    <form name="form" novalidate ng-submit="ctrl.process()">
+      <validation form="form" field="ssn" errormsg="register.form.ssn.validation_error">
+        <input name="ssn" class="form-control" type="number" required ng-minlength="10" ng-maxlength="10"
+               placeholder="{{ 'register.form.ssn' | translate }}" ng-model="ctrl.data.ssn"/>
+      </validation>
+
+      <validation form="form" field="first_name" errormsg="register.form.first_name.validation_error">
+        <input name="first_name" class="form-control" type="text" required
+               placeholder="{{ 'register.form.first_name' | translate }}" ng-model="ctrl.data.first_name">
+      </validation>
+
+      <validation form="form" field="last_name" errormsg="register.form.last_name.validation_error">
+        <input name="last_name" class="form-control" type="text" required
+               placeholder="{{'register.form.last_name'  | translate }}" ng-model="ctrl.data.last_name">
+      </validation>
+
+      <validation form="form" field="description" errormsg="register.form.description.validation_error">
+        <textarea name="description" class="form-control" required ng-minlength="5"
+                  placeholder="{{ 'register.form.description' | translate }}" ng-model="ctrl.data.description"></textarea>
+      </validation>
+
+      <validation form="form" field="email" errormsg="register.form.email.validation_error">
+        <input name="email" class="form-control" type="email" required
+               placeholder="{{ 'register.form.email' | translate }}" ng-model="ctrl.data.email">
+      </validation>
+
+      <validation form="form" field="password" errormsg="register.form.password.validation_error">
+        <input name="password" class="form-control" type="password" required ng-minlength="8"
+               placeholder="{{ 'register.form.password' | translate }}" ng-model="ctrl.data.password">
+      </validation>
+
+      <validation form="form" field="phone" errormsg="register.form.phone.validation_error">
+        <input name="phone" class="form-control" type="text" required ng-minlength="6"
+               placeholder="{{ 'register.form.phone' | translate }}" ng-model="ctrl.data.phone">
+      </validation>
+
+      <validation form="form" field="street" errormsg="register.form.street.validation_error">
+        <input name="street" class="form-control" type="text" required ng-minlength="5"
+               placeholder="{{ 'register.form.street' | translate }}" ng-model="ctrl.data.street">
+      </validation>
+
+      <validation form="form" field="zip" errormsg="register.form.zip.validation_error">
+        <input name="zip" class="form-control" type="text" required ng-minlength="5"
+               placeholder="{{ 'register.form.zip' | translate }}" ng-model="ctrl.data.zip">
+      </validation>
+
       <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'register.form.ssn' | translate }}" ng-model="ctrl.data.ssn" maxlength="10" size="10">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'register.form.first_name' | translate }}" ng-model="ctrl.data.first_name">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{'register.form.last_name'  | translate }}" ng-model="ctrl.data.last_name">
-      </div>
-      <div class="form-group">
-        <textarea class="form-control" placeholder="{{ 'register.form.description' | translate }}" ng-model="ctrl.data.description"></textarea>
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="email" placeholder="{{ 'register.form.email' | translate }}" ng-model="ctrl.data.email">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="password" placeholder="{{ 'register.form.password' | translate }}" ng-model="ctrl.data.password">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'register.form.phone' | translate }}" ng-model="ctrl.data.phone">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'register.form.street' | translate }}" ng-model="ctrl.data.street">
-      </div>
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="{{ 'register.form.zip' | translate }}" ng-model="ctrl.data.zip">
-      </div>
-      <div class="form-group">
-        <button class="form-control" type="submit">Fortsätt</button>
+        <button class="form-control" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
       </div>
     </form>
   </div>
