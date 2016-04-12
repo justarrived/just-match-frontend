@@ -86,6 +86,7 @@
     "angular": false,
     "$":       false,
     "moment":  false,
-    "module": true
+    "module": true,
+    "_": false
   }        // additional predefined global variables
 }

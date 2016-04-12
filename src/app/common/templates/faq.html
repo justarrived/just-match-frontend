@@ -5,7 +5,7 @@
 
     <div class="well well-lg" ng-repeat="n in ctrl.faqs track by $index" ng-click="ctrl.toggle($index)">
       <div>{{ n.question }}</div>
-      <div ng-show="n.visible">{{ n.answer }}</div>
+      <div class="answer" ng-show="n.visible">{{ n.answer }}</div>
       <span class="glyphicon glyphicon-plus-sign"></span>
     </div>
 

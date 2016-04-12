@@ -1,3 +1,10 @@
+/**
+ * @ngdoc object
+ * @name just
+ * @description
+ *
+ * The main module just for the Just Arrived application.
+ */
 angular.module('just', [
     'templates-app',
     'ngRoute',
@@ -8,7 +15,9 @@ angular.module('just', [
     'just.service',
     'pascalprecht.translate',
     'tmh.dynamicLocale',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'beauby.jsonApiDataStore',
+    'just.translate'
   ])
   .constant('justRoutes', {
     global: {
@@ -164,18 +173,6 @@ angular.module('just', [
     /*    $locationProvider.html5Mode(true);
      $locationProvider.hashPrefix('!'); */
   })
-  .config(function(tmhDynamicLocaleProvider) {
-    tmhDynamicLocaleProvider.localeLocationPattern('https://code.angularjs.org/1.5.0/i18n/angular-locale_{{locale}}.js');
-  })
-  .config(['$translateProvider', function ($translateProvider) {
-    $translateProvider.useSanitizeValueStrategy('escape');
-    $translateProvider.useStaticFilesLoader({
-      prefix: '/translations/',
-      suffix: '.json'
-    });
-    $translateProvider.preferredLanguage('sv');
-    $translateProvider.fallbackLanguage('sv');
-  }])
   .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
     localStorageServiceProvider
       .setPrefix('just-arrived')

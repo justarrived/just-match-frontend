@@ -1,5 +1,5 @@
 angular.module('just.common')
-  .controller('MainCtrl', ['AuthService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', function (authService, $location, flow, routes, i18nService, $scope) {
+  .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', function (authService, $location, flow, routes, i18nService, $scope) {
     var that = this;
     this.signedIn = function () {
       return authService.isAuthenticated();

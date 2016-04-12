@@ -1,5 +1,10 @@
 angular
   .module('just.common')
+  /**
+   * @ngdoc controller
+   * @name just.common.controller:ContactCtrl
+   *
+   */
   .controller('ContactCtrl', ['contactService', function (contactService) {
     var that = this;
     this.data = contactService.model;
