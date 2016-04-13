@@ -47,6 +47,6 @@
   "menu.faq": "Frågor och Svar",
   "menu.contact": "Kontakt",
   "menu.signin": "Logga in",
-  "menu.signout": "Logga ut"
-
+  "menu.signout": "Logga ut",
+  "menu.title": "Meny"
 }

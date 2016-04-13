@@ -1,23 +1,42 @@
-<section class="row">
-  <h2 class="section-title">{{'menu.title' | translate}}</h2>
+<section class="row menu-page" ng-show="routes.global.isMainMenuOpen">
+    <button class="close-x" ng-click="ctrl.menu(0)"><i class="demo-icon icon-ic-close2"></i></button>
 
-  <div ng-hide="ctrl.signedIn()">
-    <ul>
-      <li><a href="#{{routes.job.list.url}}">{{'menu.assignment.find' | translate}}</a></li>
-      <li><a href="#{{routes.job.create.url}}">{{'menu.assignment.create' | translate}}</a></li>
-      <li><a href="#{{routes.faq.list.url}}">{{'menu.faq' | translate}}</a></li>
-      <li><a href="#{{routes.contact.form.url}}">{{'menu.contact' | translate}}</a></li>
-      <li><a href="" ng-click="ctrl.signin()">{{'menu.signin' | translate}}</a></li>
-    </ul>
-  </div>
+    <div ng-hide="ctrl.signedIn()">
+        <div>
+            <div>
+                <h2 class="section-title"><i class="demo-icon icon-ic-just-arrived-logo"></i></h2>
+                <ul>
+                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.find' | translate}}</a></li>
+                    <li><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.create' | translate}}</a></li>
+                    <li><a class="nav-faq" href="#{{routes.faq.list.url}}" ng-click="ctrl.menu(0)">{{'menu.faq' | translate}}</a></li>
+                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.contact' | translate}}</a></li>
+                    <li><a class="nav-signin" href="" ng-click="ctrl.signin()" ng-click="ctrl.menu(0)">{{'menu.signin' | translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div class="user-info">
+                    <div><span class="user-info-image"><img src="assets/images/content/hero.png"> </span> Hanna Larsson
+                    </div>
+                    <div><i class="demo-icon icon-ic-settings"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <div ng-show="ctrl.signedIn()">
-    <ul>
-      <li><a href="#{{routes.job.list.url}}">{{'menu.assignment.list' | translate}}</a></li>
-      <li><a href="#{{routes.job.create.url}}">{{'menu.assignment.create' | translate}}</a></li>
-      <li><a href="#{{routes.faq.list.url}}">{{'menu.faq' | translate}}</a></li>
-      <li><a href="#{{routes.contact.form.url}}">{{'menu.contact' | translate}}</a></li>
-      <li><a href="" ng-click="ctrl.signout()">{{'menu.signout' | translate}}</a></li>
-    </ul>
-  </div>
+    <div ng-show="ctrl.signedIn()">
+        <div>
+            <div>
+                <h2 class="section-title"><i class="demo-icon icon-ic-just-arrived-logo"></i></h2>
+                <ul>
+                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.list' | translate}}</a></li>
+                    <li><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.create' | translate}}</a></li>
+                    <li><a class="nav-faq" href="#{{routes.faq.list.url}}" ng-click="ctrl.menu(0)">{{'menu.faq' | translate}}</a></li>
+                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.contact' | translate}}</a></li>
+                    <li><a class="nav-signout" href="" ng-click="ctrl.signout()" ng-click="ctrl.menu(0)">{{'menu.signout' | translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </section>
