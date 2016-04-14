@@ -1,0 +1,70 @@
+.lang-page {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  margin: 0;
+  background: $darkBlue;
+  overflow-y: auto;
+  color: $white;
+
+  .just-arrived-logo {
+    @include just-arrived-logo;
+    height:40px;
+    margin-bottom: 45px;
+  }
+
+  > div {
+    padding: 20px 30px 30px;
+  }
+
+  h2 {
+    font-weight: 300;
+    font-size: 1.5em;
+  }
+  p {
+    text-align: center;
+  }
+  a {
+    color: $brightBlue;
+  }
+  .lang-wrapper {
+    font-size: 0;
+    padding: 25px 0;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    width: 33.3333%;
+    margin: 12px 0;
+
+    span {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .lang-icon {
+      width: 60px;
+      height: 60px;
+      display: inline-block;
+      line-height: 60px;
+      box-sizing: border-box;
+      border: 1px solid $white;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+
+    }
+    .lang-text {
+      font-size: 11px;
+    }
+  }
+
+}
