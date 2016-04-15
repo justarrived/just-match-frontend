@@ -1,5 +1,5 @@
 angular.module('just.common')
-  .controller('SigninCtrl', ['userService', function (userService) {
+  .controller('SigninCtrl', ['$scope', 'userService', function ($scope, userService) {
       var that = this;
       this.data = userService.signinModel;
       this.message = userService.signinMessage;

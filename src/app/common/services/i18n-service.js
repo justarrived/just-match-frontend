@@ -9,12 +9,14 @@ angular.module('just.service')
   .service('i18nService', [
     '$translate', 'tmhDynamicLocale','settings',
     'localStorageService', 'justFlowService',
-    'justRoutes', 'Resources', '$q', function($translate, tmhDynamicLocale, settings, storage, flow, routes, Resources, $q) {
+    'justRoutes', '$q',
+    'datastoreService', function($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService) {
+      this.listeners = [];
       var that = this;
 
       this.getDefaultLang = function (langs) {
         var defLang = langs.filter(function (lang) {
-          return lang.attributes.lang_code === 'sv';
+          return lang['lang-code'] === 'sv';
         });
 
         if (defLang.length === 0) {
@@ -23,13 +25,22 @@ angular.module('just.service')
         return defLang[0];
       };
 
-      this.langResolve = $q(function (resolve, reject) {
-        that.allLanguages = Resources.languages.get(function (langs) {
-          var lang = that.getDefaultLang(langs.data);
-          that.updateLanguage(lang);
-          resolve(lang);
-        });
+      this.allLanguages = $q(function (resolve, reject) {
+        datastoreService.fetch('languages?filter[system_language]=true')
+          .then(function (data) {
+            resolve(data.store.findAll('languages'));
+          }, reject);
       });
+
+      this.langResolve = function () {
+        return $q(function (resolve, reject) {
+          that.allLanguages.then(function (langs) {
+            var lang = that.getDefaultLang(langs);
+            that.updateLanguage(lang);
+            resolve(lang);
+          }, reject);
+        });
+      };
 
       /**
        * @ngdoc function
@@ -37,17 +48,24 @@ angular.module('just.service')
        * @methodOf just.service.service:i18nService
        *
        * @description
-       * Method to get data form the backend api
+       * Get the language setting. The language will be defaulted to 'sv' initially.
+       * The used language will be stored in the localStorageService with key 'language'.
+       *
        * @example
        * i18nService.getLanguage();
-       * @returns {httpPromise} resolve with fetched data, or fails with error description.
+       * @returns {Promise} resolve with current json-api language object, or fails with error description.
        */
       this.getLanguage = function () {
         var language = storage.get("language");
         if (angular.isObject(language)) {
-          return language;
+          if (angular.isUndefined(that.current_language)) {
+            that.useLanguage(language);
+          }
+          var deferd = $q.defer();
+          deferd.resolve(language);
+          return deferd.promise;
         }
-        return that.langResolve;
+        return that.langResolve();
       };
 
       /**
@@ -56,23 +74,74 @@ angular.module('just.service')
        * @methodOf just.service.service:i18nService
        *
        * @description
-       * Method to get data form the backend api
-       * @example
-       * i18nService.useLanguage(lang);
-       * @returns {httpPromise} resolve with fetched data, or fails with error description.
+       * Returns an array of all supported languages.
+       * The array will be populated once the xhr requests is completed.
+       *
+       * @param {object} lang A language json-api object.
+       * @returns {void} will redirect to routes.global.start.url.
        */
       this.useLanguage = function(lang) {
         that.updateLanguage(lang);
         flow.completed(routes.global.start.url);
       };
 
+      this.useLanguageById = function(id) {
+        var idStr = id;
+        if (angular.isNumber(id)) {
+            idStr = id.toString();
+        }
+        that.allLanguages.then(function (langs) {
+            var filteredLang = langs.filter(function (lang) {
+              return lang.id === idStr;
+            });
+            if (filteredLang.length === 1) {
+              that.useLanguage(filteredLang[0]);
+            }
+        });
+      };
+
       this.updateLanguage = function (lang) {
-        $translate.use(lang.attributes.lang_code);
-        tmhDynamicLocale.set(lang.attributes.lang_code);
+        $translate.use(lang.lang_code);
+        tmhDynamicLocale.set(lang.lang_code);
         storage.set("language", lang);
+        that.current_language = lang;
+        that.notifyChange(lang);
+      };
+
+      /**
+       * @ngdoc function
+       * @name just.service:i18nService#addLanguageChangeListener
+       * @methodOf just.service.service:i18nService
+       *
+       * @description
+       * Register a function to be called when the langauge changes.
+       * Should only be used by controllers that are long-lived (like MainCtrl)
+       * else this will generate a memory leak.
+       *
+       * @param {function} cb is called when language is changed. The language object will be passed as first argument.
+       */
+      this.addLanguageChangeListener = function (cb) {
+        this.listeners.push(cb);
       };
 
 
+      this.notifyChange = function (lang) {
+        this.listeners.forEach(function (cb) {
+          cb(lang);
+        });
+      };
+
+      /**
+       * @ngdoc function
+       * @name just.service:i18nService#suppotedLanguage
+       * @methodOf just.service.service:i18nService
+       *
+       * @description
+       * Get all supported languages. The supported languages
+       * has attribute system_language = true.
+       *
+       * @returns {promise} resolve with list of languages.
+       */
       this.supportedLanguages = function () {
         return that.allLanguages;
       };

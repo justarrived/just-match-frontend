@@ -6,7 +6,9 @@ angular.module('just.service')
    *
    * Handles auth_token and signin/signout of users.
    */
-  .service('authService', ['$http', '$q', 'settings', 'localStorageService', function ($http, $q, settings, storage) {
+  .service('authService', ['$http', '$q', 'settings',
+    'localStorageService', 'i18nService',
+    function ($http, $q, settings, storage, i18nService) {
       var current_auth_token = storage.get('auth_token');
       if (current_auth_token) {
         $http.defaults.headers.common.Authorization = current_auth_token;
@@ -24,11 +26,14 @@ angular.module('just.service')
             var token = 'Token token=' + resp.data.data.attributes.auth_token;
             storage.set("auth_token", token);
             storage.set("user_id", resp.data.data.attributes.user_id);
-
             $http.defaults.headers.common.Authorization = token;
-            deferd.resolve();
+            return $http.get(settings.just_match_api + "/api/v1/users/" + resp.data.data.attributes.user_id);
           }, function (err) {
             deferd.reject(err);
+          }).then(function (resp) {
+            storage.set("user_id", resp.data.data);
+            i18nService.useLanguageById(resp.data.data.attributes.language_id);
+            deferd.resolve();
           });
         return deferd.promise;
       };

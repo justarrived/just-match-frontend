@@ -40,5 +40,8 @@
   "menu.faq": "FAQ",
   "menu.contact": "Contact",
   "menu.signin": "Sign in",
-  "menu.signout": "Sign out"
+  "menu.signout": "Sign out",
+
+  "language.select.title": "Select Language"
+
 }
