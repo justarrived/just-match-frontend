@@ -82,7 +82,6 @@ angular.module('just.service')
        */
       this.useLanguage = function(lang) {
         that.updateLanguage(lang);
-        flow.completed(routes.global.start.url);
       };
 
       this.useLanguageById = function(id) {
@@ -101,8 +100,8 @@ angular.module('just.service')
       };
 
       this.updateLanguage = function (lang) {
-        $translate.use(lang.lang_code);
-        tmhDynamicLocale.set(lang.lang_code);
+        $translate.use(lang['lang-code']);
+        tmhDynamicLocale.set(lang['lang-code']);
         storage.set("language", lang);
         that.current_language = lang;
         that.notifyChange(lang);

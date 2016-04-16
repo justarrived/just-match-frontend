@@ -1,5 +1,5 @@
 angular.module('just.common')
-  .controller('LanguageCtrl', ['i18nService','$scope', function (i18nService, $scope) {
+  .controller('LanguageCtrl', ['i18nService','justRoutes', function (i18nService, routes) {
     var that = this;
     i18nService.supportedLanguages()
       .then(function (langs) {
@@ -9,8 +9,8 @@ angular.module('just.common')
       .then(function (lang) {
         that.language = lang;
       });
-
     this.useLanguage = function (lang) {
       i18nService.useLanguage(lang);
+      routes.global.isSelectLanguageOpen = false;
     };
   }]);

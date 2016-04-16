@@ -14,18 +14,6 @@ angular.module('just.common')
           flow.reload(path);
         });
       };
-      this.selectLanguage = function () {
-        var path = $location.path();
-        flow.redirect(routes.global.select_language.url, function () {
-          flow.reload(path);
-        });
-      };
-      this.menu = function () {
-        var path = $location.path();
-        flow.redirect(routes.global.menu.url, function () {
-          flow.reload(path);
-        });
-      };
       this.updateLanguage = function () {
         i18nService.getLanguage().then(function (lang) {
           that.language = lang;
@@ -34,6 +22,22 @@ angular.module('just.common')
       i18nService.addLanguageChangeListener(function () {
         that.updateLanguage();
       });
+
+      this.selectLanguage = function (show) {
+        //show = 1 : force open
+        //show = 0 : force hide
+        //show = undefined : toggle
+        show = show | !routes.global.isSelectLanguageOpen;
+        routes.global.isSelectLanguageOpen = show;
+      };
+      this.menu = function (show) {
+        //show = 1 : force open
+        //show = 0 : force hide
+        //show = undefined : toggle
+        show = show | !routes.global.isMainMenuOpen;
+        routes.global.isMainMenuOpen = show;
+      };
+
       this.updateLanguage();
     }]
   );

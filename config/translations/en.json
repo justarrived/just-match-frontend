@@ -15,6 +15,16 @@
   "register.form.zip": "Zip",
   "register.form.password": "Password",
 
+  "register.form.ssn.validation_error": "Person number",
+  "register.form.first_name.validation_error": "First name",
+  "register.form.last_name.validation_error": "Last name",
+  "register.form.email.validation_error": "Email",
+  "register.form.description.validation_error": "Description",
+  "register.form.phone.validation_error": "Phone",
+  "register.form.street.validation_error": "Street",
+  "register.form.zip.validation_error": "Zip",
+  "register.form.password.validation_error": "Password",
+
   "assignment.new.title" : "Create new assignment",
   "assignment.new.form.title" : "Title",
   "assignment.new.form.description" : "Job description",

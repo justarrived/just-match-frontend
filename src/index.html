@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="just" ng-cloak class="ng-cloak">
-  <head>
+<head>
     <title>Just Arrived</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19,29 +19,37 @@
     <meta name="msapplication-TileColor" content="#36b4c4">
 
     <!-- compiled CSS --><% styles.forEach(function (file) { %>
-    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>"/>
+    <% }); %>
 
     <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
-    <script type="text/javascript" src="<%= file %>"></script><% }); %>
-  </head>
+    <script type="text/javascript" src="<%= file %>"></script>
+    <% }); %>
+</head>
 
-  <body ng-controller="MainCtrl as ctrl">
+<body ng-controller="MainCtrl as ctrl">
 
-    <header>
-      <div class="top-logo">
-        <a href="#/">
-          <img src="assets/images/ui/logo.png" alt="logo"/>
-        </a>
-        <div class="menu">
-          <button ng-click="ctrl.selectLanguage()" type="button" >{{ctrl.language['lang-code']}}</button>
-          <button ng-click="ctrl.menu()" type="button">menu</button>
+<header>
+    <div class="top-bar">
+        <div class="top-logo">
+            <a href="#/">
+                <img src="assets/images/ui/logo.png" alt="logo"/>
+            </a>
         </div>
-      </div>
+        <div>
+            <button ng-click="ctrl.selectLanguage()" type="button"><span class="lang-icon">{{ctrl.language["lang-code"]}}</span><span
+                    class="lang-text">{{ctrl.language["local-name"]}}</span></button>
+        </div>
+        <div>
+            <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
+                    class="menu-text">{{"menu.title" | translate}}</span></button>
+        </div>
+    </div>
+</header>
 
+<div class="container-fluid" ng-view></div>
 
-    </header>
+<ng-include src="'common/templates/menu.html'"></ng-include>
+<ng-include src="'common/templates/select-language.html'"></ng-include>
 
-    <div class="container-fluid" ng-view></div>
-
-  </body>
-</html>
+</body>
