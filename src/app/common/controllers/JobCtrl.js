@@ -68,7 +68,7 @@
                     });
 
                 $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
-                $scope.comments_quantity = 5; //ng-repeat limitTo
+                $scope.comments_quantity = 5;
 
                 $scope.jobs_more = jobService.getJobs();
                 $scope.jobs_more_quantity = 5;
