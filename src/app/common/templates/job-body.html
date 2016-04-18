@@ -6,11 +6,23 @@
 
 
 <div class="Job-body-description">
-  <h3>Uppdrag</h3>
+  <h3>{{"job-body.uppdrag.title" | translate}}</h3>
   <div class="Job-body-description-inner">
     <p>{{ job.description }}</p>
     <p>6,7 KM Vinäs</p>
-    <p>{{ job.date | date: 'yyyy-MM-dd' }} - {{ job.date | date: 'yyyy-MM-dd' }}</p>
-    <p><a href="#">Anmäl till granskning</a></p>
+    <p>{{ job["job-date"] | date: 'yyyy-MM-dd' }} - {{ job["job-date"] | date: 'yyyy-MM-dd' }}</p>
+    <p><a href="#">{{"job-body.review.text" | translate}}</a></p>
   </div>
+</div>
+<div class="Job-comment-list">
+  <h3>{{"job-body.comment.title" | translate}}</h3>
+  <ul>
+    <li ng-repeat="comment in comments.data | limitTo: comments_quantity">
+      {{comment.attributes.body}}
+      <div ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}" >
+        {{ owner.attributes["first-name"] }}
+      </div>
+    </li>
+  </ul>
+  <div ng-show="ctrl.signedIn()"><input type="text" name="add_comment" placeholder="{{job-body.comment.write}}"/></div>
 </div>

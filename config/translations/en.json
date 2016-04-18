@@ -50,5 +50,12 @@
   "menu.faq": "FAQ",
   "menu.contact": "Contact",
   "menu.signin": "Sign in",
-  "menu.signout": "Sign out"
+  "menu.signout": "Sign out",
+
+  "job-body.hours": "Hours",
+  "job-body.uppdrag.title": "Assignments",
+  "job-body.review.text": "Review",
+  "job-body.comment.title": "Comments",
+  "job-body.comment.write": "Write your comment",
+  "job-body.search.text": "Search assignments"
 }
