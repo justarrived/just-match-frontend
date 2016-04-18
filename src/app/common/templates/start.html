@@ -1,84 +1,86 @@
 <section class="hero">
-  <div class="hero__slider">
-    <h2 class="section-title section-title--white">
-      {{'start.title' | translate}}
-    </h2>
-  </div>
-  <div class="hero__col hero__col--left">
-    <div class="hero__col__content">
-      <h3> Vad behöver du hjälp med? </h3>
-      <h4>
-        <a href="#{{routes.job.create.url}}">Lägg upp ditt uppdrag här!</a>
-      </h4>
+    <div class="hero__slider">
+        <h2 class="section-title section-title--white">
+            {{'start.title' | translate}}
+        </h2>
     </div>
-  </div>
-  <div class="hero__col hero__col--right">
-    <div class="hero__col__content">
-      <h3> Söker du extra jobb? </h3>
-      <h4>
-        <a href="#{{routes.user.register.url}}">Registrera dig här!</a>
-      </h4>
+    <div class="hero__col hero__col--left">
+        <div class="hero__col__content">
+            <h3> Vad behöver du hjälp med? </h3>
+            <h4>
+                <a href="#{{routes.job.create.url}}">Lägg upp ditt uppdrag här!</a>
+            </h4>
+        </div>
     </div>
-  </div>
+    <div class="hero__col hero__col--right">
+        <div class="hero__col__content">
+            <h3> Söker du extra jobb? </h3>
+            <h4>
+                <a href="#{{routes.user.register.url}}">Registrera dig här!</a>
+            </h4>
+        </div>
+    </div>
 </section>
 <section class="section-jobs">
-  <div class="section-jobs__content">
-    <img class="section-icon" src="/assets/images/ui/calender.png" alt="calender" />
-    <h3> Nya uppdrag </h3>
-    <ul ng-repeat="job in ctrl.jobs.data | limitTo: 5">
-      <li>
-        <a href="#{{ routes.job.get.resolve(job) }}">
-          {{ job.attributes.description | limitTo: 80 }} {{ job.attributes.description.length < 80 ? '' : '...' }}
-          <br>
-          <b>{{ job.attributes.max_rate | currency }}</b>
-        </a>
-      </li>
-    </ul>
-    <div class="section-jobs__content-right">
-      <a href=""> Visa alla </a>
-      <img src="assets/images/ui/arrow-right.png" alt="arrow-right" />
+    <div class="section-jobs__content">
+        <img class="section-icon" src="/assets/images/ui/calender.png" alt="calender"/>
+        <h3> Nya uppdrag </h3>
+        <ul ng-repeat="job in ctrl.jobs.data | limitTo: 5">
+            <li>
+                <a href="#{{ routes.job.get.resolve(job) }}">
+                    {{ job.attributes.description | limitTo: 80 }} {{ job.attributes.description.length < 80 ? '' :
+                    '...' }}
+                    <br>
+                    <b>{{ job.attributes.max_rate | currency }}</b>
+                </a>
+            </li>
+        </ul>
+        <div class="section-jobs__content-right">
+            <a href=""> Visa alla </a>
+            <img src="assets/images/ui/arrow-right.png" alt="arrow-right"/>
+        </div>
     </div>
-  </div>
 </section>
 <section class="section-categories">
-  <img class="section-icon" src="/assets/images/ui/person.png" alt="person" />
-  <h2> En hjälpande hand </h2>
-  <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-    sed diam nonummy nibh euismod tincidunt ut </p>
-  <p> Vad behöver du hjälp med? <p>
-  <select name="categories">
-    <option value="Cooking">Cooking</option>
-  </select>
+    <img class="section-icon" src="/assets/images/ui/person.png" alt="person"/>
+    <h2> En hjälpande hand </h2>
+    <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+        sed diam nonummy nibh euismod tincidunt ut </p>
+    <p> Vad behöver du hjälp med?
+    <p>
+        <select name="categories">
+            <option value="Cooking">Cooking</option>
+        </select>
 </section>
 <section class="section-steps">
-  <div class="section-steps__content">
-    <h2 class="section-title section-title--white"> Så fungerar det </h2>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/1.png" alt="number-one"/>
-      <p> Lägg ut ett uppdrag gratis här </p>
+    <div class="section-steps__content">
+        <h2 class="section-title section-title--white"> Så fungerar det </h2>
+        <div class="section-steps__element">
+            <img src="assets/images/ui/1.png" alt="number-one"/>
+            <p> Lägg ut ett uppdrag gratis här </p>
+        </div>
+        <div class="section-steps__element">
+            <img src="assets/images/ui/2.png" alt="number-two"/>
+            <p> Få svar direkt från matchade (tjänsteutförare) nära dig </p>
+        </div>
+        <div class="section-steps__element">
+            <img src="assets/images/ui/3.png" alt="number-three"/>
+            <p> Betala säkert online när uppdraget är slutfört </p>
+        </div>
     </div>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/2.png" alt="number-two"/>
-      <p> Få svar direkt från matchade (tjänsteutförare) nära dig </p>
-    </div>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/3.png" alt="number-three"/>
-      <p> Betala säkert online när uppdraget är slutfört </p>
-    </div>
-  </div>
 </section>
 <section class="section-instructions">
-  <h2 class="section-title"> Så kommer du igång </h2>
+    <h2 class="section-title"> Så kommer du igång </h2>
 </section>
 <section class="section-partners">
-  <h3> Partners </h3>
-  <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </p>
-  <div class="section group">
-    <img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="universum-logo">
-    <img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="wntrgarden-logo">
-  </div>
-  <div class="section group">
-    <img class="col span_1_of_2" src="assets/images/content/antrop-logo.png" alt="antrop-logo">
-    <img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo">
-  </div>
+    <h3> Partners </h3>
+    <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </p>
+    <div class="section group">
+        <img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="universum-logo">
+        <img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="wntrgarden-logo">
+    </div>
+    <div class="section group">
+        <img class="col span_1_of_2" src="assets/images/content/antrop-logo.png" alt="antrop-logo">
+        <img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo">
+    </div>
 </section>
