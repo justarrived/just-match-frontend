@@ -1,0 +1,11 @@
+// For correct IntelliJ syntax checking I include the imports we are working with. This is actually not needed.
+@import '../base/variables';
+@import '../base/mixins';
+
+.ng-valid.ng-touched {
+  border-color: #3c763d;
+}
+.ng-invalid.ng-touched {
+  border-color: #a94442;
+}
+
