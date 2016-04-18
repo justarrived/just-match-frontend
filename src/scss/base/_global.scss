@@ -36,3 +36,20 @@ p, li, input, textarea {
 .container-fluid {
   padding: 0;
 }
+
+footer {
+  background: $lightBlue;
+  color: $white;
+  padding: 35px 0 40px;
+  font-size: 1.2em;
+
+  p {
+    width: 80%;
+    margin: 0 auto;
+
+    span {
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+  }
+}
