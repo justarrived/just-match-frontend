@@ -30,35 +30,38 @@
 </head>
 
 <body ng-controller="MainCtrl as ctrl">
-
-<header>
-    <div class="top-bar">
-        <div class="top-logo">
-            <a href="#/">
-                <img src="assets/images/ui/logo.png" alt="logo"/>
-            </a>
+<div class="wrapper">
+    <header>
+        <div class="top-bar">
+            <div class="top-logo">
+                <a href="#/">
+                    <img src="assets/images/ui/logo.png" alt="logo"/>
+                </a>
+            </div>
+            <div>
+                <button ng-click="ctrl.selectLanguage()" type="button"><span class="lang-icon">{{ctrl.language.attributes["lang-code"]}}</span><span
+                        class="lang-text">{{ctrl.language.attributes["local-name"]}}</span></button>
+            </div>
+            <div>
+                <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
+                        class="menu-text">{{"menu.title" | translate}}</span></button>
+            </div>
         </div>
+    </header>
+
+    <div class="container-fluid" ng-view></div>
+
+    <footer>
         <div>
-            <button ng-click="ctrl.selectLanguage()" type="button"><span class="lang-icon">{{ctrl.language.attributes["lang-code"]}}</span><span
-                    class="lang-text">{{ctrl.language.attributes["local-name"]}}</span></button>
+            <p>
+                <span>Just Arrived</span><br>
+                <span>Jakobsbergsgatan 22,</span>
+                <span>111 44 Stockholm</span><br>
+                <span>hej@justarrived</span>
+            </p>
         </div>
-        <div>
-            <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
-                    class="menu-text">{{"menu.title" | translate}}</span></button>
-        </div>
-    </div>
-</header>
-
-<div class="container-fluid" ng-view></div>
-
-<footer>
-    <p>
-        <span>Just Arrived</span><br>
-        <span>Jakobsbergsgatan 22,</span>
-        <span>111 44 Stockholm</span><br>
-        <span>hej@justarrived</span>
-    </p>
-</footer>
+    </footer>
+</div>
 
 <ng-include src="'common/templates/menu.html'"></ng-include>
 <ng-include src="'common/templates/select-language.html'"></ng-include>

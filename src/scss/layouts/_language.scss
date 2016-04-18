@@ -9,14 +9,26 @@
   overflow-y: auto;
   color: $white;
 
-  .just-arrived-logo {
-    @include just-arrived-logo;
-    height:40px;
-    margin-bottom: 45px;
-  }
-
   > div {
-    padding: 20px 30px 30px;
+    display: table;
+    height: calc(100% - 20px);
+    width: 100%;
+    margin-top: 20px;
+
+    > div {
+      display: table-row;
+
+      > div {
+        padding: 30px;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      .just-arrived-logo {
+        @include just-arrived-logo;
+        height: 40px;
+        padding: 0;
+      }
+    }
   }
 
   h2 {
@@ -32,6 +44,8 @@
   .lang-wrapper {
     font-size: 0;
     padding: 25px 0;
+    max-width: 800px;
+    margin: auto;
   }
 
   button {
