@@ -1,70 +1,70 @@
 // Order of the includes matters, and it is: normal, bold, italic, bold+italic.
 @mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false ) {
-    @font-face {
-        font-family: $font-family;
-        font-weight: $weight;
-        font-style: $style;
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
 
-        @if $asset-pipeline == true {
-            src: font-url('#{$file-path}.eot');
-            src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
-                //font-url('#{$file-path}.svg##{$font-family}') format('svg'),
-            font-url('#{$file-path}.woff') format('woff'),
-            font-url('#{$file-path}.ttf') format('truetype');
+    @if $asset-pipeline == true {
+      src: font-url('#{$file-path}.eot');
+      src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+        //font-url('#{$file-path}.svg##{$font-family}') format('svg'),
+      font-url('#{$file-path}.woff') format('woff'),
+      font-url('#{$file-path}.ttf') format('truetype');
 
-        } @else {
-            src: url('#{$file-path}.eot');
-            src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
-                //url('#{$file-path}.svg##{$font-family}')      format('svg'),
-            url('#{$file-path}.woff') format('woff'),
-            url('#{$file-path}.ttf') format('truetype');
-        }
+    } @else {
+      src: url('#{$file-path}.eot');
+      src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+        //url('#{$file-path}.svg##{$font-family}')      format('svg'),
+      url('#{$file-path}.woff') format('woff'),
+      url('#{$file-path}.ttf') format('truetype');
     }
+  }
 }
 
 // Modern micro clearfix provides an easy way to contain floats without adding additional markup.
 @mixin clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 @mixin vertical-align {
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 @mixin cover-background {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 @mixin flexbox {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 @mixin circle($size) {
-    border-radius: 50%;
-    height: $size;
-    width: $size;
-    overflow: hidden;
+  border-radius: 50%;
+  height: $size;
+  width: $size;
+  overflow: hidden;
 }
 
 @mixin just-arrived-logo {
-    display: block;
-    background: url("../assets/images/ui/logo.svg") center center no-repeat;
-    background-size: contain;
+  display: block;
+  background: url("../assets/images/ui/logo.svg") center center no-repeat;
+  background-size: contain;
 }
 
 @mixin calendar-icon {
