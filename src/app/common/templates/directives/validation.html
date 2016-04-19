@@ -1,0 +1,9 @@
+<div class="form-group"
+     ng-class="{'has-error': form[field].$invalid && form[field].$touched, 'has-success': form[field].$valid}">
+    <div>
+        <ng-transclude/>
+    </div>
+    <div ng-show="form[field].$invalid && form[field].$touched">
+        <span class="text-danger">{{errormsg | translate}}</span>
+    </div>
+</div>

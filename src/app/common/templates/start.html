@@ -1,84 +1,78 @@
 <section class="hero">
-  <div class="hero__slider">
-    <h2 class="section-title section-title--white">
-      {{'start.title' | translate}}
-    </h2>
-  </div>
-  <div class="hero__col hero__col--left">
-    <div class="hero__col__content">
-      <h3> Vad behöver du hjälp med? </h3>
-      <h4>
-        <a href="#{{routes.job.create.url}}">Lägg upp ditt uppdrag här!</a>
-      </h4>
+    <div class="hero__slider">
+        <h2 class="section-title section-title--white">
+            {{'start.title' | translate}}
+        </h2>
     </div>
-  </div>
-  <div class="hero__col hero__col--right">
-    <div class="hero__col__content">
-      <h3> Söker du extra jobb? </h3>
-      <h4>
-        <a href="#{{routes.user.register.url}}">Registrera dig här!</a>
-      </h4>
+    <div class="hero__col hero__col--left">
+        <div class="hero__col__content">
+            <h3> {{'start.job.create.title' | translate}} </h3>
+            <h4>
+                <a href="#{{routes.job.create.url}}">{{'start.job.create.description' | translate}}</a>
+            </h4>
+        </div>
     </div>
-  </div>
+    <div class="hero__col hero__col--right">
+        <div class="hero__col__content">
+            <h3> {{'start.job.list.title' | translate}} </h3>
+            <h4>
+                <a href="#{{routes.user.register.url}}">{{'start.signup' | translate}}</a>
+            </h4>
+        </div>
+    </div>
 </section>
 <section class="section-jobs">
-  <div class="section-jobs__content">
-    <img class="section-icon" src="/assets/images/ui/calender.png" alt="calender" />
-    <h3> Nya uppdrag </h3>
-    <ul ng-repeat="job in ctrl.jobs.data | limitTo: 5">
-      <li>
-        <a href="#{{ routes.job.get.resolve(job) }}">
-          {{ job.attributes.description | limitTo: 80 }} {{ job.attributes.description.length < 80 ? '' : '...' }}
-          <br>
-          <b>{{ job.attributes.max_rate | currency }}</b>
-        </a>
-      </li>
-    </ul>
-    <div class="section-jobs__content-right">
-      <a href=""> Visa alla </a>
-      <img src="assets/images/ui/arrow-right.png" alt="arrow-right" />
+    <div class="section-jobs__content">
+        <h3>
+            <div class="calendar">23</div>
+            {{'start.new.job.title' | translate}}
+            <div class="section-jobs__content-right"><a href=""> {{'start.new.job.showall' | translate}} </a></div>
+        </h3>
+        <ul>
+            <li ng-repeat="job in ctrl.jobs.data | limitTo: 5">
+                <div>
+                    <div style="background-image: url(assets/images/content/hero.png); "></div>
+                    <b><!--{{ job.attributes.max_rate | currency }}-->500:-</b>
+                </div>
+                <a href="#{{ routes.job.get.resolve(job) }}">
+                    {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                    '...' }}
+                </a>
+            </li>
+        </ul>
     </div>
-  </div>
 </section>
 <section class="section-categories">
-  <img class="section-icon" src="/assets/images/ui/person.png" alt="person" />
-  <h2> En hjälpande hand </h2>
-  <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-    sed diam nonummy nibh euismod tincidunt ut </p>
-  <p> Vad behöver du hjälp med? <p>
-  <select name="categories">
-    <option value="Cooking">Cooking</option>
-  </select>
+    <h2> {{'start.help.title' | translate}} </h2>
+    <p> {{'start.help.description' | translate}} </p>
+    <p> {{'start.help.what' | translate}} </p>
+    <div class="select-wrapper">
+        <select name="categories">
+            <option value="Cooking">Cooking</option>
+        </select>
+    </div>
 </section>
 <section class="section-steps">
-  <div class="section-steps__content">
-    <h2 class="section-title section-title--white"> Så fungerar det </h2>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/1.png" alt="number-one"/>
-      <p> Lägg ut ett uppdrag gratis här </p>
+    <div class="section-steps__content">
+        <h2 class="section-title section-title--white"> {{'start.how.work.title' | translate}} </h2>
+        <ol>
+            <li>{{'start.how.work.step1' | translate}}</li>
+            <li>{{'start.how.work.step2' | translate}}</li>
+            <li>{{'start.how.work.step3' | translate}}</li>
+            <li>{{'start.how.work.step4' | translate}}</li>
+        </ol>
     </div>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/2.png" alt="number-two"/>
-      <p> Få svar direkt från matchade (tjänsteutförare) nära dig </p>
-    </div>
-    <div class="section-steps__element">
-      <img src="assets/images/ui/3.png" alt="number-three"/>
-      <p> Betala säkert online när uppdraget är slutfört </p>
-    </div>
-  </div>
 </section>
 <section class="section-instructions">
-  <h2 class="section-title"> Så kommer du igång </h2>
+    <h2 class="section-title"> {{'start.how.start.title' | translate}} </h2>
 </section>
 <section class="section-partners">
-  <h3> Partners </h3>
-  <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </p>
-  <div class="section group">
-    <img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="universum-logo">
-    <img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="wntrgarden-logo">
-  </div>
-  <div class="section group">
-    <img class="col span_1_of_2" src="assets/images/content/antrop-logo.png" alt="antrop-logo">
-    <img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo">
-  </div>
+    <h3> {{'start.partners.title' | translate}} </h3>
+    <p> {{'start.partners.description' | translate}} </p>
+    <div class="section group">
+        <div><img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="universum-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="wntrgarden-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/antrop-logo.png" alt="antrop-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo"></div>
+    </div>
 </section>
