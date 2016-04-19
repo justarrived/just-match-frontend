@@ -73,3 +73,14 @@ p, li, input, textarea {
     }
   }
 }
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+textarea {
+  border: 1px solid $lightBlue;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
