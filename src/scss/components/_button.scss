@@ -1,0 +1,22 @@
+// For correct IntelliJ syntax checking I include the imports we are working with. This is actually not needed.
+@import '../base/variables';
+@import '../base/mixins';
+
+.btn-pos, .btn-pos[disabled], .btn-pos.disabled, .btn-neg, .btn-neg[disabled], .btn-neg.disabled {
+  @include border-radius($btnBorderRadius);
+}
+
+.btn-pos, .btn-pos[disabled], .btn-pos.disabled {
+  background-color: $btnBgColorPositive;
+  color: $btnTxtColorPositive;
+}
+
+.btn-neg, .btn-neg[disabled], .btn-neg.disabled {
+  background-color: $btnBgColorNegative;
+  color: $btnTxtColorNegative;
+}
+
+.btn-pos[disabled], .btn-pos.disabled, .btn-neg[disabled], .btn-neg.disabled {
+  color: $btnTxtColorDisabled;
+  opacity: $btnOpacityDisabled;
+}
