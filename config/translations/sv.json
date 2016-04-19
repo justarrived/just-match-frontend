@@ -15,6 +15,16 @@
   "register.form.zip": "Postnummer",
   "register.form.password": "Lösenord",
 
+  "register.form.first_name.validation_error": "Du måste ange förnamn",
+  "register.form.ssn.validation_error": "Ange personnummer i formen ÅÅMMDDXXXX",
+  "register.form.last_name.validation_error": "Du måste ange efternamn",
+  "register.form.email.validation_error": "Du måste ange en giltig email",
+  "register.form.description.validation_error": "Du måste ange beskrivning",
+  "register.form.phone.validation_error": "Ange telefon",
+  "register.form.street.validation_error": "Ange adress",
+  "register.form.zip.validation_error": "Ange postnummer med fem siffror",
+  "register.form.password.validation_error": "Lösenordet bör vara minst 8 tecken",
+
   "assignment.new.title" : "Skapa Nytt Uppdrag",
   "assignment.new.form.title" : "Titel",
   "assignment.new.form.description" : "Beskrivning av uppdraget",
@@ -49,6 +59,13 @@
   "menu.signin": "Logga in",
   "menu.signout": "Logga ut",
   "menu.title": "Meny",
+
+  "job-body.hours": "Timmer",
+  "job-body.uppdrag.title": "Uppdrag",
+  "job-body.review.text": "Anmäl till granskning",
+  "job-body.comment.title": "Kommentarer",
+  "job-body.comment.write": "Skriv din kommentar",
+  "job-body.search.text": "Sök uppdrag",
 
   "job-body.hours": "Timmer",
   "job-body.uppdrag.title": "Uppdrag",
