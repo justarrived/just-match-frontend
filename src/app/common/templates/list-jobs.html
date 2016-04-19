@@ -3,6 +3,12 @@
   <div class="col-xs-10 col-xs-offset-1">
 
     <h2 class="text-center">{{ 'assignment.list.title' | translate }}</h2>
+
+    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+      <ui-gmap-marker ng-repeat="marker in markers" coords="marker.coords" idKey="marker.idkey">
+      </ui-gmap-marker>
+    </ui-gmap-google-map>
+
     <ul>
       <li data-ng-repeat="job in ctrl.model.data">
         <a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a>

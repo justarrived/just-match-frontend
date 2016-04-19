@@ -1,4 +1,5 @@
-.Job {}
+.Job {
+}
 
 .Job-header {
   padding: $spacing 0;
@@ -50,4 +51,8 @@
 
 .Job-body-description-inner {
   padding-left: $spacing * 2;
+}
+
+.angular-google-map-container {
+  height: 400px;
 }
