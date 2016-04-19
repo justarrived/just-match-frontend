@@ -1,38 +1,55 @@
 // Global CSS goes here
 html, div {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body * {
-    font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3, strong, b {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 a:focus {
-    outline: 0;
+  outline: 0;
 }
 
 p, li, input, textarea {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 *, *:before, *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 .container {
-    max-width: 1200px;
-    outline: 2px;
-    margin: 0 auto;
-    width: 100%;
+  max-width: 1200px;
+  outline: 2px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /**
   * Overwhite bootstrap default
   */
 .container-fluid {
-    padding: 0;
+  padding: 0;
+}
+
+footer {
+  background: $lightBlue;
+  color: $white;
+  padding: 35px 0 40px;
+  font-size: 1.2em;
+
+  p {
+    width: 80%;
+    margin: 0 auto;
+
+    span {
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+  }
 }
