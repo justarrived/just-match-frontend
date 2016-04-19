@@ -1,11 +1,11 @@
 header {
-  background: $darkBlue;
   overflow: hidden;
 }
 
 .top-bar {
   width: 100%;
   display: table;
+  background: $darkBlue;
 
   .top-logo {
     img {

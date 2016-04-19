@@ -3,6 +3,9 @@
 }
 
 .hero__slider {
+  .section-title {
+    font-weight: 400;
+  }
   background: linear-gradient(
                   rgba(34, 37, 49, 0.5),
                   rgba(34, 37, 49, 0.5)
@@ -11,13 +14,7 @@
   @include cover-background;
   background-position: center;
   height: 195px;
-  .section-title {
-    font-weight: 400;
-  }
 
-  h2 {
-    @include vertical-align;
-  }
 }
 
 .hero__col {
@@ -29,7 +26,7 @@
   display: flex;
 
   h3, h4 {
-      text-align: center;
+    text-align: center;
     color: $white;
     font-weight: 400;
   }
@@ -249,7 +246,7 @@
 .section-steps {
   background: $blue;
   position: relative;
-  border-top:1px solid $grey;
+  border-top: 1px solid $grey;
 
   img, p {
     display: inline-block;
@@ -309,13 +306,13 @@
 }
 
 .section-instructions {
-  padding:40px 0;
+  padding: 40px 0 0;
 }
 
 .section-partners {
   text-align: center;
   position: relative;
-  padding:40px 0;
+  padding: 10px 0 40px;
 
   h3 {
     font-weight: 400;
@@ -328,7 +325,7 @@
 
   .group {
     font-size: 0;
-    padding:10px;
+    padding: 10px;
 
     > div {
       width: 50%;
@@ -357,8 +354,6 @@
 }
 
 .section-title {
-  font-size: 24px;
-  text-align: center;
   margin: auto;
   text-align: center;
   font-weight: 400;
@@ -375,3 +370,153 @@
   padding-right: 10px;
   outline: 2px solid red;
 }
+
+.carousel {
+  overflow: hidden;
+}
+
+.carousel-inner {
+  width: 250%;
+  left: -75%;
+}
+
+.carousel-inner .active.left {
+  left: -33%;
+}
+
+.carousel-inner .next {
+  left: 33%;
+}
+
+.carousel-inner .prev {
+  left: -33%;
+}
+
+.carousel-control.left, .carousel-control.right {
+  background: none !important;
+  width: 25%;
+}
+
+#instructionsCarousel {
+  margin: 20px 0;
+
+  .col-xs-4 {
+    text-align: center;
+    background: $white;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+
+      li {
+        padding: 10px 0 10px 30px;
+        position: relative;
+      }
+      li:before {
+        content: '\e81f';
+        font-family: 'fontello';
+        position: absolute;
+        left: 0;
+        top: 5px;
+        font-size: 1.5em;
+      }
+    }
+    h3 {
+      font-weight: 400;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    > div {
+      padding: 30px 30px 40px;
+    }
+    > div:first-child {
+      background: $lightBlue;
+      color: $white;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    }
+    > .highlight {
+      background: $pink !important;
+    }
+    > div:last-child {
+      border-radius: 0 0 5px 5px;
+      background: $white;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+      margin-bottom: 5px;
+    }
+    button {
+      border: 1px solid $white;
+      height: 45px;
+      line-height: 43px;
+      text-align: center;
+      border-radius: 23px;
+      background: none;
+      padding: 0;
+      width: 100%;
+      max-width: 180px;
+      margin-top: 15px;
+      font-size: 1.2em;
+    }
+  }
+  .carousel-control {
+    background: none !important;
+  }
+  .carousel-indicators {
+    position: relative;
+    left: 0;
+    padding: 0;
+    margin: 25px 0 0 0;
+    width: 100%;
+
+    li {
+      background-color: $lightGrey;
+      border: 1px solid $white;
+      width: 10px;
+      height: 10px;
+      margin: 0 4px;
+    }
+    li.active {
+      background-color: $lightBlue;
+      border: 1px solid $lightBlue;
+    }
+  }
+}
+
+#heroCarousel {
+
+  .carousel-inner {
+    width: 100%;
+    left: 0%;
+  }
+
+  h2 {
+    @include vertical-align;
+
+    i {
+      display: inline-block;
+      margin-top: 20px;
+    }
+  }
+
+  .carousel-control.left, .carousel-control.right {
+    background: none !important;
+    width: 0;
+  }
+  .carousel-indicators {
+    li {
+      margin: 0 3px;
+      border: 1px solid $white;
+      width: 10px;
+      height: 10px;
+    }
+  }
+}
+
+#heroCarousel, #heroCarousel .carousel-inner, #heroCarousel .item, #heroCarousel .col-xs-4 {
+  height: 100%;
+}
+
+
+

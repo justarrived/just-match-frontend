@@ -33,6 +33,7 @@ module.exports = {
     js: [
       'bower_components/underscore/underscore.js',
       'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
       'bower_components/showdown/compressed/showdown.js',
       'bower_components/respond/dest/respond.min.js',
