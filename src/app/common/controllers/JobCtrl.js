@@ -49,28 +49,39 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', function (datastoreService, jobService, $scope) {
+        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', function (datastoreService, jobService, $scope, $location) {
             var that = this;
 
-            this.model = jobService.getJobs();
-
-            $scope.map = {zoom: 8};
+            $scope.map = {
+                zoom: 7,
+                options: {
+                    draggable: true,
+                    disableDefaultUI: true,
+                    panControl: false,
+                    navigationControl: false,
+                    scrollwheel: false,
+                    scaleControl: false
+                }
+            };
 
             $scope.markers = [];
 
             var i = 0;
-            datastoreService.fetch('jobs')
+            datastoreService.fetch('jobs?include=owner,company,hourly-pay')
                 .then(function (data) {
                     var jobs = data.store.graph.jobs;
                     $scope.jobs = jobs;
                     angular.forEach($scope.jobs, function (value, key) {
+                        $scope.jobs[key].max_rate = value["hourly-pay"].rate;
+                        $scope.jobs[key].totalRate = value.hours * value["hourly-pay"].rate;
                         if (value["zip-latitude"] !== null && value["zip-longitude"] !== null) {
                             $scope.markers.push({
-                                idkey: i,
+                                id: value.id,
                                 coords: {
                                     latitude: value["zip-latitude"],
                                     longitude: value["zip-longitude"]
-                                }
+                                },
+                                job: value
                             });
                             if (i === 0) {
                                 $scope.map.center = {

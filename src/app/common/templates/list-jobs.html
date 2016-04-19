@@ -4,17 +4,30 @@
 
     <h2 class="text-center">{{ 'assignment.list.title' | translate }}</h2>
 
-    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-      <ui-gmap-marker ng-repeat="marker in markers" coords="marker.coords" idKey="marker.idkey">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom">
+
+      <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" idkey="m.id">
+        <ui-gmap-window>
+          <div>
+            <h2>{{m.job.name}}</h2>
+            <p>{{m.job.description}}</p>
+            <p>{{m.job.totalRate}} {{m.job["hourly-pay"].currency}}</p>
+            <a href="#{{routes.job.get.resolve(m.job)}}">Click Here</a>
+          </div>
+
+        </ui-gmap-window>
       </ui-gmap-marker>
+
     </ui-gmap-google-map>
 
+
     <ul>
-      <li data-ng-repeat="job in ctrl.model.data">
-        <a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a>
+      <li data-ng-repeat="job in jobs">
+        <a href="#{{routes.job.get.resolve(job)}}">{{job.name}}</a>
+        <p>{{job.description}}</p>
+        <p>{{job.totalRate}} {{job["hourly-pay"].currency}}</p>
       </li>
     </ul>
-    <p>{{ ctrl.model | json }}</p>
     <p><i>{{ ctrl.message | json}}</i></p>
   </div>
 </section>

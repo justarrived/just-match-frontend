@@ -26,7 +26,7 @@
         <h3>
             <div class="calendar">23</div>
             {{'start.new.job.title' | translate}}
-            <div class="section-jobs__content-right"><a href=""> {{'start.new.job.showall' | translate}} </a></div>
+            <div class="section-jobs__content-right"><a href="#{{routes.job.list.url}}"> {{'start.new.job.showall' | translate}} </a></div>
         </h3>
         <ul>
             <li ng-repeat="job in ctrl.jobs.data | limitTo: 5">
