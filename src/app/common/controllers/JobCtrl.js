@@ -52,6 +52,9 @@
         .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', function (datastoreService, jobService, $scope, $location) {
             var that = this;
 
+            $scope.map_class = "";
+            $scope.zoom_class = "map-zoom-in";
+
             $scope.map = {
                 zoom: 7,
                 options: {
@@ -62,6 +65,22 @@
                     scrollwheel: false,
                     scaleControl: false
                 }
+            };
+
+            $scope.zoomInOut = function () {
+                if ($scope.map_class === '') {
+                    $scope.map_class = "full-screen";
+                } else {
+                    $scope.map_class = "";
+                }
+
+                if ($scope.zoom_class === 'map-zoom-in') {
+                    $scope.zoom_class = "map-zoom-in map-zoom-out";
+                } else {
+                    $scope.zoom_class = "map-zoom-in";
+                }
+
+                window.google.maps.event.trigger($scope.map, 'resize');
             };
 
             $scope.markers = [];
@@ -80,6 +99,9 @@
                                 coords: {
                                     latitude: value["zip-latitude"],
                                     longitude: value["zip-longitude"]
+                                },
+                                options: {
+                                    icon: "/assets/images/ui/logo-pin.png"
                                 },
                                 job: value
                             });

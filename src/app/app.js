@@ -170,4 +170,11 @@ angular.module('just', [
         localStorageServiceProvider
             .setPrefix('just-arrived')
             .setStorageType('sessionStorage');
-    }]);
+    }])
+    .config(function (uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            key: 'AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M',
+            v: '3.20',
+            libraries: 'weather,geometry,visualization'
+        });
+    });
