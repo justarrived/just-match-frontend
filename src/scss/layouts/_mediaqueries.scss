@@ -2,34 +2,35 @@
 // Media Queries for Responsive Design
 // ==========================================================================
 
-@media only screen and (min-width: 1920px) {
-  @import "../mediaqueries/1920";
-} // EO min width 1920px
-
-@media only screen and (min-width: 1440px) {
-  @import "../mediaqueries/1440";
-} // EO min width 1440px
-
-@media only screen and (min-width: 1280px) {
-  @import "../mediaqueries/1280";
-} // EO min width 1280px
-
-@media only screen and (min-width: 1024px) {
-  @import "../mediaqueries/1024";
-} // EO min width 1024px
-
-@media only screen and (min-width: 800px) {
-  @import "../mediaqueries/0800";
-} // EO min width 800px
-
-@media only screen and (min-width: 768px) {
-  @import "../mediaqueries/0768";
-} // EO min width 768px
+@media only screen and (min-width: 480px) {
+  @import "../mediaqueries/0480";
+} // EO min width 480px
 
 @media only screen and (min-width: 640px) {
   @import "../mediaqueries/0640";
 } // EO min width 640px
 
-@media only screen and (min-width: 480px) {
-  @import "../mediaqueries/0480";
-} // EO min width 480px
+@media only screen and (min-width: 768px) {
+  @import "../mediaqueries/0768";
+} // EO min width 768px
+
+@media only screen and (min-width: 800px) {
+  @import "../mediaqueries/0800";
+} // EO min width 800px
+
+@media only screen and (min-width: 1024px) {
+  @import "../mediaqueries/1024";
+} // EO min width 1024px
+
+@media only screen and (min-width: 1280px) {
+  @import "../mediaqueries/1280";
+} // EO min width 1280px
+
+@media only screen and (min-width: 1440px) {
+  @import "../mediaqueries/1440";
+} // EO min width 1440px
+
+@media only screen and (min-width: 1920px) {
+  @import "../mediaqueries/1920";
+} // EO min width 1920px
+
