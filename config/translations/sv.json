@@ -92,5 +92,11 @@
   "start.how.work.step4": "Vi ordnar med arbetsgivaransvar och sociala avgifter",
   "start.how.start.title": "Så kommer du igång",
   "start.partners.title": "Partners",
-  "start.partners.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+  "start.partners.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+
+  "language.select.title" : "Välkommen! Börja med att välja språk",
+  "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
+
+  "common.click-here" : "Klicka här"
+
 }
