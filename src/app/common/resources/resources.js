@@ -80,9 +80,3 @@ angular.module('just.common')
             };
         }
     ]);
-//
-//
-//       };
-//     }
-//   ]);
-// >>>>>>> Stashed changes
