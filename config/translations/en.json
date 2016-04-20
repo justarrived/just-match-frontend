@@ -34,6 +34,8 @@
   "assignment.new.form.hours" : "Number of hours",
   "assignment.new.form.pay_level" : "Pay level",
 
+  "assignment.list.title" : "Find assignment",
+
   "contact.title" : "Contact",
   "contact.instructions" : "Any questions? We are happy to answer them! Fill in and submit the form bellow.",
   "contact.form.name" : "Name",
