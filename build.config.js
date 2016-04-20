@@ -33,9 +33,11 @@ module.exports = {
     js: [
       'bower_components/underscore/underscore.js',
       'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
       'bower_components/showdown/compressed/showdown.js',
       'bower_components/respond/dest/respond.min.js',
+      'bower_components/lodash/dist/lodash.min.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-resource/angular-resource.js',
@@ -46,10 +48,17 @@ module.exports = {
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
-      'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js'
+      'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js',
+
+      'bower_components/slick-carousel/slick/slick.js',
+      'bower_components/angular-slick/dist/slick.js',
+      'bower_components/angular-simple-logger/dist/angular-simple-logger.min.js',
+      'bower_components/angular-google-maps/dist/angular-google-maps.min.js'
     ],
     css: [
-      'bower_components/bootstrap/dist/css/bootstrap.min.css'
+      'bower_components/bootstrap/dist/css/bootstrap.min.css',
+      'bower_components/slick-carousel/slick/slick.css',
+      'bower_components/slick-carousel/slick/slick-theme.css'
     ],
     assets: [
 

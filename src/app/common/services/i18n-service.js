@@ -7,9 +7,9 @@
  */
 angular.module('just.service')
   .service('i18nService', [
-    '$translate', 'tmhDynamicLocale','settings',
+    '$translate', 'tmhDynamicLocale', 'settings',
     'localStorageService', 'justFlowService',
-    'justRoutes', 'Resources', '$q', function($translate, tmhDynamicLocale, settings, storage, flow, routes, Resources, $q) {
+    'justRoutes', 'Resources', '$q', function ($translate, tmhDynamicLocale, settings, storage, flow, routes, Resources, $q) {
       var that = this;
 
       this.getDefaultLang = function (langs) {
@@ -22,6 +22,12 @@ angular.module('just.service')
         }
         return defLang[0];
       };
+
+
+      this.getSystemLanguages = function () {
+        return Resources.languages.get({'filter[system-language]': true, 'page[size]': 50});
+      };
+
 
       this.langResolve = $q(function (resolve, reject) {
         that.allLanguages = Resources.languages.get(function (langs) {
@@ -61,17 +67,15 @@ angular.module('just.service')
        * i18nService.useLanguage(lang);
        * @returns {httpPromise} resolve with fetched data, or fails with error description.
        */
-      this.useLanguage = function(lang) {
+      this.useLanguage = function (lang) {
         that.updateLanguage(lang);
-        flow.completed(routes.global.start.url);
       };
 
       this.updateLanguage = function (lang) {
-        $translate.use(lang.attributes.lang_code);
-        tmhDynamicLocale.set(lang.attributes.lang_code);
+        $translate.use(lang.attributes['lang-code']);
+        tmhDynamicLocale.set(lang.attributes['lang-code']);
         storage.set("language", lang);
       };
-
 
       this.supportedLanguages = function () {
         return that.allLanguages;

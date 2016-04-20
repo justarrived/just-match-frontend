@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/apple-touch-icon-144x144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="images/icons/apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="images/icons/apple-touch-icon-114x114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/icons/apple-touch-icon-57x57-precomposed.png">
     <link rel="shortcut icon" href="images/icons/apple-touch-icon.png">
@@ -27,29 +29,42 @@
     <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
     <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 </head>
 
 <body ng-controller="MainCtrl as ctrl">
+<div class="wrapper">
+    <header>
+        <div class="top-bar">
+            <div class="top-logo">
+                <a href="#/">
+                    <img src="assets/images/ui/logo.png" alt="logo"/>
+                </a>
+            </div>
+            <div>
+                <button ng-click="ctrl.selectLanguage()" type="button"><span class="lang-icon">{{ctrl.language.attributes["lang-code"]}}</span><span
+                        class="lang-text">{{ctrl.language.attributes["local-name"]}}</span></button>
+            </div>
+            <div>
+                <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
+                        class="menu-text">{{"menu.title" | translate}}</span></button>
+            </div>
+        </div>
+    </header>
 
-<header>
-    <div class="top-bar">
-        <div class="top-logo">
-            <a href="#/">
-                <img src="assets/images/ui/logo.png" alt="logo"/>
-            </a>
-        </div>
-        <div>
-            <button ng-click="ctrl.selectLanguage()" type="button"><span class="lang-icon">{{ctrl.language.attributes["lang-code"]}}</span><span
-                    class="lang-text">{{ctrl.language.attributes["local-name"]}}</span></button>
-        </div>
-        <div>
-            <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
-                    class="menu-text">{{"menu.title" | translate}}</span></button>
-        </div>
-    </div>
-</header>
+    <div class="container-fluid" ng-view></div>
 
-<div class="container-fluid" ng-view></div>
+    <footer>
+        <div>
+            <p>
+                <span>Just Arrived</span><br>
+                <span>Jakobsbergsgatan 22,</span>
+                <span>111 44 Stockholm</span><br>
+                <span>hej@justarrived</span>
+            </p>
+        </div>
+    </footer>
+</div>
 
 <ng-include src="'common/templates/menu.html'"></ng-include>
 <ng-include src="'common/templates/select-language.html'"></ng-include>

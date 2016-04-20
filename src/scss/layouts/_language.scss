@@ -12,16 +12,37 @@
   .just-arrived-logo {
     @include just-arrived-logo;
     height:40px;
-    margin-bottom: 45px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20px ;
+
   }
 
-  > div {
-    padding: 20px 30px 30px;
+  .lang-wrapper {
+    display: table;
+    width: 80%;
+    height: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+
+    > div {
+      padding: 90px 0 30px;
+      display: table-cell;
+       vertical-align: middle;
+
+      > div {
+        font-size: 0;
+        padding: 25px 0;
+        text-align: center;
+      }
+    }
   }
 
   h2 {
     font-weight: 300;
     font-size: 1.5em;
+    line-height: 1.4em;
   }
   p {
     text-align: center;
@@ -29,19 +50,14 @@
   a {
     color: $brightBlue;
   }
-  .lang-wrapper {
-    font-size: 0;
-    padding: 25px 0;
-  }
 
-  button {
+   button {
     background: none;
     border: 0;
     display: inline-block;
     text-align: center;
     font-size: 14px;
-    width: 33.3333%;
-    margin: 12px 0;
+    margin: 12px;
 
     span {
       display: block;

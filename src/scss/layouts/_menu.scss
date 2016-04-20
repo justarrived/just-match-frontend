@@ -1,133 +1,133 @@
 .menu-page {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  margin: 0;
+  background: $darkBlue;
+  overflow-y: auto;
+
+  .close-x {
+    color: $white;
+    opacity: 0.8;
+    font-size: 20px;
     position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    top: 0px;
-    margin: 0;
+    top: 18px;
+    right: 12px;
+    background: none;
+    border: 0;
+  }
+  > div {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: table;
     background: $darkBlue;
-    overflow-y: auto;
 
-    .close-x {
-        color: $white;
-        opacity: 0.8;
-        font-size: 20px;
-        position: fixed;
-        top: 18px;
-        right: 12px;
-        background: none;
-        border: 0;
-    }
     > div {
+      display: table-row;
+
+      > div {
         text-align: center;
-        width: 100%;
-        height: 100%;
-        display: table;
-        background: $darkBlue;
-
-        > div {
-            display: table-row;
-
-            > div {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-                font-size: 1.35em;
-            }
-        }
-        > div:first-child > div {
-            height: 100%;
-        }
-        > div:nth-child(2) > div {
-            height: 80px;
-        }
-
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1.35em;
+      }
+    }
+    > div:first-child > div {
+      height: 100%;
+    }
+    > div:nth-child(2) > div {
+      height: 80px;
     }
 
-    .section-title {
-        color: $dark;
-        font-size: 105px;
-        padding: 20px 0;
-        line-height: 1em;
-    }
+  }
 
-    ul {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
+  .section-title {
+    color: $dark;
+    font-size: 105px;
+    padding: 20px 0;
+    line-height: 1em;
+  }
 
-        li {
-            display: block;
-            text-align: left;
-            position: relative;
-            padding: 7px 0;
+  ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
 
-            a {
-                padding-left: 38px;
-                text-decoration: none;
-                color: $brightBlue;
-            }
+    li {
+      display: block;
+      text-align: left;
+      position: relative;
+      padding: 7px 0;
 
-            a:before {
-                position: absolute;
-                color: $white;
-                font-family: "fontello";
-                font-size: 1.1em;
-                left: 0;
-                top: 6px;
-            }
-            a.nav-job-list:before {
-                content: '\e815';
-            }
-            a.nav-job-create:before {
-                content: '\e819';
-            }
-            a.nav-faq:before {
-                content: '\e816';
-            }
-            a.nav-contact:before {
-                content: '\e81e';
-            }
-            a.nav-signin:before {
-                content: '\e810';
-            }
-            a.nav-signout:before {
-                content: '\e810';
-            }
+      a {
+        padding-left: 38px;
+        text-decoration: none;
+        color: $brightBlue;
+      }
 
-        }
-    }
-
-    .user-info {
-        display: table;
-        width: 100%;
+      a:before {
+        position: absolute;
         color: $white;
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-        }
-        > div:first-child {
-            text-align: left;
-            padding-left: 25px;
-        }
-        > div:last-child {
-            text-align: right;
-            padding-right: 20px;
-            font-size: 1.45em;
-        }
-        .user-info-image {
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
-            @include circle(35px);
-
-            img {
-                width: 100%;
-                height: auto;
-                min-height: 35px;
-            }
-        }
+        font-family: "fontello";
+        font-size: 1.1em;
+        left: 0;
+        top: 6px;
+      }
+      a.nav-job-list:before {
+        content: '\e815';
+      }
+      a.nav-job-create:before {
+        content: '\e819';
+      }
+      a.nav-faq:before {
+        content: '\e816';
+      }
+      a.nav-contact:before {
+        content: '\e81e';
+      }
+      a.nav-signin:before {
+        content: '\e810';
+      }
+      a.nav-signout:before {
+        content: '\e810';
+      }
 
     }
+  }
+
+  .user-info {
+    display: table;
+    width: 100%;
+    color: $white;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    > div:first-child {
+      text-align: left;
+      padding-left: 25px;
+    }
+    > div:last-child {
+      text-align: right;
+      padding-right: 20px;
+      font-size: 1.45em;
+    }
+    .user-info-image {
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: middle;
+      @include circle(35px);
+
+      img {
+        width: 100%;
+        height: auto;
+        min-height: 35px;
+      }
+    }
+
+  }
 
 }

@@ -14,9 +14,20 @@ $white: #FFFFFF;
 $dark: #121315;
 $darkBlue: #222531;
 $lightBlue: #383F4E;
+$grey: #979797;
 $lightGrey: #E8EBEE;
+$blue: #0069d2;
 $brightBlue: #00D7FF;
 $darkGrey: #2A303D;
 $pink: #E5007D;
 
 $spacing: 10px;
+
+// Buttons
+$btnBgColorPositive: #e5007d; //dark hot pink
+$btnTxtColorPositive: #fff;
+$btnBgColorNegative: #383f4e; //charcoal grey
+$btnTxtColorNegative: #fff;
+$btnTxtColorDisabled: #eee;
+$btnOpacityDisabled: 0.5;
+$btnBorderRadius: 24px;

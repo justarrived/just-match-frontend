@@ -1,14 +1,17 @@
 <section class="row lang-page" ng-controller="LanguageCtrl as ctrl" ng-show="routes.global.isSelectLanguageOpen">
-    <div>
-        <div class="just-arrived-logo"></div>
-        <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
-        <div class="lang-wrapper">
-            <button data-ng-repeat="lang in ctrl.languages.data" ng-click="ctrl.useLanguage(lang)" type="button">
-                <span class="lang-icon">{{lang.attributes["lang-code"]}}</span><span class="lang-text">{{ctrl.language.attributes["local-name"]}}</span>
-            </button>
+    <div class="just-arrived-logo"></div>
+
+    <div class="lang-wrapper">
+        <div>
+            <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
+            <div>
+                <button data-ng-repeat="lang in ctrl.systemLanguages.data" ng-click="ctrl.useLanguage(lang)" type="button">
+                    <span class="lang-icon">{{lang.attributes["lang-code"]}}</span><span class="lang-text">{{lang.attributes["local-name"]}}</span>
+                </button>
+            </div>
+            <p>{{ 'language.select.body' | translate }}</p>
+            <p><a href="">{{ 'common.click-here' | translate }}</a></p>
         </div>
-        <p>By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your
-            experience. For more information, or to change your cookie settings, Click here.</p>
-        <p><a href="">Click here</a></p>
     </div>
 </section>
+
