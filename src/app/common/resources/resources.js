@@ -59,7 +59,7 @@ angular.module('just.common')
 
         languages: crud("/api/v1/languages"),
 
-        comments: crud("/api/v1/:resource_name/:resource_id/comments"),
+        comments: crud("/api/v1/:resource_name/:resource_id/comments?include=:include"),
         comment: crud("/api/v1/:resource_name/:resource_id/comments/:id"),
 
         jobSkills: crud("/api/v1/jobs/:job_id/skills"),
