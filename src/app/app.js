@@ -43,6 +43,13 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/menu.html'
                 }
+            },
+            faq: {
+                url: '/faq',
+                handler: {
+                    templateUrl: 'common/templates/faq.html',
+                    controller: 'FAQCtrl as ctrl'
+                }
             }
         },
         user: {

@@ -73,8 +73,16 @@ angular.module('just.common')
 
                 contact: crud("/api/v1/contacts"),
 
-                categories: crud("/api/v1/categories")
+                categories: crud("/api/v1/categories"),
+
+                faqs: crud("/api/v1/faqs?filter[language-id]=:id")
 
             };
         }
     ]);
+//
+//
+//       };
+//     }
+//   ]);
+// >>>>>>> Stashed changes
