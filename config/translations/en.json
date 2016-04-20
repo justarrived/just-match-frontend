@@ -53,6 +53,7 @@
   "menu.contact": "Contact",
   "menu.signin": "Sign in",
   "menu.signout": "Sign out",
+  "menu.title": "Menu",
 
   "job-body.hours": "Hours",
   "job-body.uppdrag.title": "Assignments",
@@ -60,8 +61,6 @@
   "job-body.comment.title": "Comments",
   "job-body.comment.write": "Write your comment",
   "job-body.search.text": "Search assignments",
-
-  "header.menu.title": "Menu",
 
   "start.job.create.title": "What do you need help with?",
   "start.job.create.description": "Post your mission here!",
