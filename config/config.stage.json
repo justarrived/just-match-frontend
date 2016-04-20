@@ -1,5 +1,6 @@
 {
   "just_match_api": "https://just-match-api-staging.herokuapp.com",
+  "just_match_api_version": "/api/v1/",
   "translated_languages": [
     {
       "code": "sv",

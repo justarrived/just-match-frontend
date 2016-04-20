@@ -4,9 +4,10 @@
 
         <h2 class="text-center">{{ 'assignment.list.title' | translate }} ({{jobs.meta.total}})</h2>
 
-        <select ng-model="categorySelected" ng-options="category.id as category.attributes.name for category in categories.data" ng-change="categoryFilter()">
-            <option style="display: none;" value="">Kategorier</option>
-        </select>
+
+        <div custom-select="category.id as category.name for category in searchAsync($searchTerm)"
+             custom-select-options="categoryOptions" ng-model="categorySelected"></div>
+
 
         <div id="map_canvas" ng-class="map_class">
             <ui-gmap-google-map center="map.center" zoom="map.zoom">
