@@ -18,7 +18,9 @@ angular.module('just', [
         'LocalStorageModule',
         'beauby.jsonApiDataStore',
         'just.translate',
+        'slick',
         'uiGmapgoogle-maps'
+
     ])
     .constant('justRoutes', {
         global: {
