@@ -6,7 +6,7 @@ module.exports = {
   config_dir: './config/',
   doc_dir: 'docs',
   coverage_dir: 'coverage',
-  
+
   config_files: {
     json: ['config/*.json']
   },
@@ -49,11 +49,16 @@ module.exports = {
       'bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js',
+
+      'bower_components/slick-carousel/slick/slick.js',
+      'bower_components/angular-slick/dist/slick.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.min.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.min.js'
     ],
     css: [
-      'bower_components/bootstrap/dist/css/bootstrap.min.css'
+      'bower_components/bootstrap/dist/css/bootstrap.min.css',
+      'bower_components/slick-carousel/slick/slick.css',
+      'bower_components/slick-carousel/slick/slick-theme.css'
     ],
     assets: [
 

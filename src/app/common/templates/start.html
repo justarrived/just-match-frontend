@@ -1,19 +1,22 @@
 <section class="hero">
     <div class="hero__slider">
-
-        <div class="carousel slide" id="heroCarousel">
-            <div class="carousel-inner">
-                <div class="item active">
-                    <h2 class="section-title section-title--white">
-                        {{'start.title' | translate}}<br><i class="demo-icon icon-ic-arrow-right2"></i>
-                    </h2>
-                </div>
+        <slick class="hero-slick" dots="true" prev-arrow="false" next-arrow="false">
+            <div>
+                <h2 class="section-title section-title--white">
+                    {{'start.title' | translate}}<br><i class="demo-icon icon-ic-arrow-right2"></i>
+                </h2>
             </div>
-            <ol class="carousel-indicators">
-                <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
-            </ol>
-        </div>
-
+            <div>
+                <h2 class="section-title section-title--white">
+                    {{'start.title' | translate}}<br><i class="demo-icon icon-ic-arrow-right2"></i>
+                </h2>
+            </div>
+            <div>
+                <h2 class="section-title section-title--white">
+                    {{'start.title' | translate}}<br><i class="demo-icon icon-ic-arrow-right2"></i>
+                </h2>
+            </div>
+        </slick>
     </div>
     <div class="hero__col hero__col--left">
         <div class="hero__col__content">
@@ -40,18 +43,19 @@
             <div class="section-jobs__content-right"><a href="#{{routes.job.list.url}}"> {{'start.new.job.showall' |
                 translate}} </a></div>
         </h3>
-        <ul>
-            <li ng-repeat="job in ctrl.jobs.data | limitTo: 5">
-                <div>
-                    <div style="background-image: url(assets/images/content/hero.png); "></div>
+        <slick class="slick-job" infinite="false" prev-arrow="false" next-arrow="false"
+               init-onload="true" slides-to-show="10" data="ctrl.jobs.data" responsive="jobGalleryResponsive" on-directive-init="onDirectiveInit()">
+            <div ng-repeat="job in ctrl.jobs.data | limitTo: 10">
+                <div class="image-wrapper">
+                    <div style="background-image: url(assets/images/content/hero.png);"></div>
                     <b><!--{{ job.attributes.max_rate | currency }}-->500:-</b>
                 </div>
                 <a href="#{{ routes.job.get.resolve(job) }}">
                     {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
                     '...' }}
                 </a>
-            </li>
-        </ul>
+            </div>
+        </slick>
     </div>
 </section>
 <section class="section-categories">
@@ -77,67 +81,51 @@
 </section>
 <section class="section-instructions">
     <h2 class="section-title"> {{'start.how.start.title' | translate}} </h2>
-
-    <div class="carousel slide" id="instructionsCarousel">
-        <div class="carousel-inner">
-            <div class="item active">
-                <div class="col-xs-4">
-                    <div>
-                        <ul>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                        </ul>
-                        <button>Starta här!</button>
-                    </div>
-                    <div>
-                        <h3>Skapa din profil 1</h3>
-                        <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
-                    </div>
-                </div>
+    <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
+           slides-to-show="1">
+        <div>
+            <div class="highlight">
+                <ul>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                </ul>
+                <button>Starta här!</button>
             </div>
-            <div class="item">
-                <div class="col-xs-4">
-                    <div class="highlight">
-                        <ul>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                        </ul>
-                        <button>Starta här!</button>
-                    </div>
-                    <div>
-                        <h3>Skapa din profil 2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                    <div>
-                        <ul>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                            <li>Lorem ipsum dolor sitamet</li>
-                        </ul>
-                        <button>Starta här!</button>
-                    </div>
-                    <div>
-                        <h3>Skapa din profil 3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
-                    </div>
-                </div>
+            <div>
+                <h3>Skapa din profil</h3>
+                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
             </div>
         </div>
-        <ol class="carousel-indicators">
-            <li data-target="#instructionsCarousel" data-slide-to="0" class="active"></li>
-            <li class="" data-target="#instructionsCarousel" data-slide-to="1"></li>
-            <li class="" data-target="#instructionsCarousel" data-slide-to="2"></li>
-        </ol>
-        <span class="left carousel-control" data-target="#instructionsCarousel" data-slide="prev"></span>
-        <span class="right carousel-control" data-target="#instructionsCarousel" data-slide="next"></span>
-    </div>
-
+        <div>
+            <div>
+                <ul>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                </ul>
+                <button>Starta här!</button>
+            </div>
+            <div>
+                <h3>Skapa din profil</h3>
+                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
+            </div>
+        </div>
+        <div>
+            <div>
+                <ul>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Lorem ipsum dolor sitamet</li>
+                </ul>
+                <button>Starta här!</button>
+            </div>
+            <div>
+                <h3>Skapa din profil</h3>
+                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
+            </div>
+        </div>
+    </slick>
 
 </section>
 <section class="section-partners">
@@ -150,24 +138,3 @@
         <div><img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo"></div>
     </div>
 </section>
-
-
-<script>
-    $(document).ready(function () {
-        $('#instructionsCarousel,#heroCarousel').carousel({
-            interval: 10000
-        })
-        $('.carousel .item').each(function () {
-            var next = $(this).next();
-            if (!next.length) {
-                next = $(this).siblings(':first');
-            }
-            next.children(':first-child').clone().appendTo($(this));
-            if (next.next().length > 0) {
-                next.next().children(':first-child').clone().appendTo($(this));
-            } else {
-                $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-            }
-        });
-    });
-</script>
