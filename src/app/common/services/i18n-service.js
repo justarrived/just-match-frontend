@@ -7,7 +7,7 @@
  */
 angular.module('just.service')
   .service('i18nService', [
-    '$translate', 'tmhDynamicLocale','settings',
+    '$translate', 'tmhDynamicLocale', 'settings',
     'localStorageService', 'justFlowService',
     'justRoutes', '$q',
     'datastoreService', function($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService) {
@@ -80,7 +80,7 @@ angular.module('just.service')
        * @param {object} lang A language json-api object.
        * @returns {void} will redirect to routes.global.start.url.
        */
-      this.useLanguage = function(lang) {
+      this.useLanguage = function (lang) {
         that.updateLanguage(lang);
       };
 

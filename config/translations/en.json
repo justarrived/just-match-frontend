@@ -52,6 +52,36 @@
   "menu.signin": "Sign in",
   "menu.signout": "Sign out",
 
-  "language.select.title": "Select Language"
+  "job-body.hours": "Hours",
+  "job-body.uppdrag.title": "Assignments",
+  "job-body.review.text": "Review",
+  "job-body.comment.title": "Comments",
+  "job-body.comment.write": "Write your comment",
+  "job-body.search.text": "Search assignments",
+
+  "header.menu.title": "Menu",
+
+  "start.job.create.title": "What do you need help with?",
+  "start.job.create.description": "Post your mission here!",
+  "start.job.list.title": "Looking for extra work?",
+  "start.signup": "Sign up here!",
+  "start.new.job.title": "New assignments",
+  "start.new.job.showall": "Show all",
+  "start.help.title": "A Helping hand",
+  "start.help.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+  "start.help.what": "What do you need help with?",
+  "start.how.work.title": "How it works",
+  "start.how.work.step1": "Place a mission for free here",
+  "start.how.work.step2": "Get answers directly from matched (service providers) near you",
+  "start.how.work.step3": "Pay safely online when the mission is complete",
+  "start.how.work.step4": "We arrange with the employer responsibility and social charges",
+  "start.how.start.title": "How to start",
+  "start.partners.title": "Partners",
+  "start.partners.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+
+  "language.select.title" : "Wellcome! Start with Choosing your langauge",
+  "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
+
+  "common.click-here" : "Click here"
 
 }

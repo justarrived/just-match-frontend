@@ -16,7 +16,7 @@
   "register.form.password": "Lösenord",
 
   "register.form.first_name.validation_error": "Du måste ange förnamn",
-  "register.form.ssn.validation_error": "Ange personnummer på formen ÅÅMMDDXXXX",
+  "register.form.ssn.validation_error": "Ange personnummer i formen ÅÅMMDDXXXX",
   "register.form.last_name.validation_error": "Du måste ange efternamn",
   "register.form.email.validation_error": "Du måste ange en giltig email",
   "register.form.description.validation_error": "Du måste ange beskrivning",
@@ -58,7 +58,37 @@
   "menu.contact": "Kontakt",
   "menu.signin": "Logga in",
   "menu.signout": "Logga ut",
-  "menu.title": "Meny",
 
-  "language.select.title": "Välj Språk"
+  "job-body.hours": "Timmer",
+  "job-body.uppdrag.title": "Uppdrag",
+  "job-body.review.text": "Anmäl till granskning",
+  "job-body.comment.title": "Kommentarer",
+  "job-body.comment.write": "Skriv din kommentar",
+  "job-body.search.text": "Sök uppdrag",
+
+  "header.menu.title": "Meny",
+
+  "start.job.create.title": "Vad behöver du hjälp med?",
+  "start.job.create.description": "Lägg upp ditt uppdrag här!",
+  "start.job.list.title": "Söker du extra jobb?",
+  "start.signup": "Registrera dig här!",
+  "start.new.job.title": "Nya uppdrag",
+  "start.new.job.showall": "Visa alla",
+  "start.help.title": "En hjälpande hand",
+  "start.help.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+  "start.help.what": "Vad behöver du hjälp med?",
+  "start.how.work.title": "Så fungerar det",
+  "start.how.work.step1": "Lägg ut ett uppdrag gratis här",
+  "start.how.work.step2": "Få svar direkt från matchade (tjänsteutförare) nära dig",
+  "start.how.work.step3": "Betala säkert online när uppdraget är slutfört",
+  "start.how.work.step4": "Vi ordnar med arbetsgivaransvar och sociala avgifter",
+  "start.how.start.title": "Så kommer du igång",
+  "start.partners.title": "Partners",
+  "start.partners.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+
+  "language.select.title" : "Välkommen! Börja med att välja språk",
+  "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
+
+  "common.click-here" : "Klicka här"
+
 }
