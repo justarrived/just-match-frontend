@@ -31,6 +31,7 @@
     "normalize-less": "*",
     "bootstrap": "^3.3.6",
     "underscore": "1.5.2",
-    "jsonapi-datastore": "^0.4.0-beta"
+    "jsonapi-datastore": "^0.4.0-beta",
+    "angular-google-maps": "2.3.2"
   }
 }
