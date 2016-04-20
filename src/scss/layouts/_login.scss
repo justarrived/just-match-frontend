@@ -1,0 +1,32 @@
+
+.login-form {
+  text-align: center;
+  width: 90%;
+  margin: auto;
+
+  h1 {
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  input[type="submit"] {
+    @include button-pink;
+    margin: 40px auto;
+  }
+
+  form {
+
+    > div {
+      padding: 5px 0;
+      width: 100%;
+      margin: auto;
+      max-width: 500px;
+    }
+  }
+
+  a {
+    color: $brightBlue;
+    font-weight: 600;
+  }
+
+}

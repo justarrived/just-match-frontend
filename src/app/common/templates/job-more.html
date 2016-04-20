@@ -1,0 +1,7 @@
+<div class="Job-more-heading">
+    <h2>Fler uppdrag</h2>
+    <ul>
+        <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}  | limitTo: jobs_more_quantity"><a href="#{{ routes.job.get.resolve(job_m) }}">{{job_m.attributes.description}}</a></li>
+    </ul>
+    <a href="#{{routes.job.list.url}}">{{"job-body.search.text" | translate}}</a>
+</div>
