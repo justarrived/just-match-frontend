@@ -59,6 +59,14 @@
   "menu.contact": "Kontakt",
   "menu.signin": "Logga in",
   "menu.signout": "Logga ut",
+  "menu.title": "Meny",
+
+  "job-body.hours": "Timmer",
+  "job-body.uppdrag.title": "Uppdrag",
+  "job-body.review.text": "Anmäl till granskning",
+  "job-body.comment.title": "Kommentarer",
+  "job-body.comment.write": "Skriv din kommentar",
+  "job-body.search.text": "Sök uppdrag",
 
   "job-body.hours": "Timmer",
   "job-body.uppdrag.title": "Uppdrag",

@@ -156,16 +156,24 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['datastoreService', '$scope', '$routeParams',
-            function (datastoreService, $scope, $routeParams) {
+        .controller('ViewJobCtrl', ['datastoreService', 'commentService', 'jobService', '$scope', '$routeParams',
+            function (datastoreService, commentService, jobService, $scope, $routeParams) {
 
-                datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company')
+                datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company,hourly-pay')
                     .then(function (data) {
                         var job = data.store.find('jobs', $routeParams.id);
+                        job.max_rate = job["hourly-pay"].rate;
                         job.totalRate = job.hours * job.max_rate;
 
                         $scope.job = job;
                     });
+
+                $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
+                $scope.comments_quantity = 5;
+
+                $scope.jobs_more = jobService.getJobs();
+                $scope.jobs_more_quantity = 5;
+
             }]);
 
 }(window, window.angular, _));
