@@ -3,7 +3,6 @@
   "start.title": "Ta hjälp av vänner du inte känner",
   "account.email": "E-Post",
 
-
   "register.title": "Skapa konto",
   "register.form.first_name": "Förnamn",
   "register.form.ssn": "Personnummer",
@@ -42,6 +41,8 @@
   "assignment.preview.button.approve" : "Godkänn",
   "assignment.preview.button.edit" : "Redigera",
 
+  "assignment.list.title" : "Hitta uppdrag",
+
   "contact.title" : "Kontakt",
   "contact.instructions" : "Frågot och funderingar? Vi besvarar dem gärna! Fyll i dina uppgifter nedan.",
   "contact.form.name" : "Namn",
@@ -58,6 +59,14 @@
   "menu.contact": "Kontakt",
   "menu.signin": "Logga in",
   "menu.signout": "Logga ut",
+  "menu.title": "Meny",
+
+  "job-body.hours": "Timmer",
+  "job-body.uppdrag.title": "Uppdrag",
+  "job-body.review.text": "Anmäl till granskning",
+  "job-body.comment.title": "Kommentarer",
+  "job-body.comment.write": "Skriv din kommentar",
+  "job-body.search.text": "Sök uppdrag",
 
   "job-body.hours": "Timmer",
   "job-body.uppdrag.title": "Uppdrag",
