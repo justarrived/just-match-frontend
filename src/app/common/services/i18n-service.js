@@ -25,7 +25,7 @@ angular.module('just.service')
 
 
       this.getSystemLanguages = function () {
-        return Resources.languages.get({'filter[system-language]': true, 'page[size]' : 50});
+        return Resources.languages.get({'filter[system-language]': true, 'page[size]': 50});
       };
 
 
@@ -69,15 +69,13 @@ angular.module('just.service')
        */
       this.useLanguage = function (lang) {
         that.updateLanguage(lang);
-        flow.completed(routes.global.start.url);
       };
 
       this.updateLanguage = function (lang) {
-        $translate.use(lang.attributes.lang_code);
-        tmhDynamicLocale.set(lang.attributes.lang_code);
+        $translate.use(lang.attributes['lang-code']);
+        tmhDynamicLocale.set(lang.attributes['lang-code']);
         storage.set("language", lang);
       };
-
 
       this.supportedLanguages = function () {
         return that.allLanguages;
