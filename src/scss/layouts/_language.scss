@@ -9,24 +9,32 @@
   overflow-y: auto;
   color: $white;
 
-  > div {
+  .just-arrived-logo {
+    @include just-arrived-logo;
+    height:40px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20px ;
+
+  }
+
+  .lang-wrapper {
     display: table;
-    height: calc(100% - 20px);
-    width: 100%;
-    margin-top: 20px;
+    width: 80%;
+    height: 90%;
+    max-width: 800px;
+    margin: 0 auto;
 
     > div {
-      display: table-row;
+      padding: 90px 0 30px;
+      display: table-cell;
+       vertical-align: middle;
 
       > div {
-        padding: 30px;
-        display: table-cell;
-        vertical-align: middle;
-      }
-      .just-arrived-logo {
-        @include just-arrived-logo;
-        height: 40px;
-        padding: 0;
+        font-size: 0;
+        padding: 25px 0;
+        text-align: center;
       }
     }
   }
@@ -34,6 +42,7 @@
   h2 {
     font-weight: 300;
     font-size: 1.5em;
+    line-height: 1.4em;
   }
   p {
     text-align: center;
@@ -41,21 +50,14 @@
   a {
     color: $brightBlue;
   }
-  .lang-wrapper {
-    font-size: 0;
-    padding: 25px 0;
-    max-width: 800px;
-    margin: auto;
-  }
 
-  button {
+   button {
     background: none;
     border: 0;
     display: inline-block;
     text-align: center;
     font-size: 14px;
-    width: 33.3333%;
-    margin: 12px 0;
+    margin: 12px;
 
     span {
       display: block;

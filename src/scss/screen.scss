@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600italic,600,700,700italic);
 @import url("../assets/fonts/fontello.css");
 @import 'base/variables';
 @import 'base/normalize';
@@ -13,4 +13,6 @@
 @import 'layouts/job';
 @import 'layouts/menu';
 @import 'layouts/language';
+@import 'layouts/login';
+@import 'layouts/contact';
 @import 'layouts/mediaqueries';

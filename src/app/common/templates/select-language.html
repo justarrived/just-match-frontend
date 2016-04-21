@@ -1,20 +1,16 @@
 <section class="row lang-page" ng-controller="LanguageCtrl as ctrl" ng-show="routes.global.isSelectLanguageOpen">
-    <div>
+    <div class="just-arrived-logo"></div>
+
+    <div class="lang-wrapper">
         <div>
-            <div class="just-arrived-logo"></div>
-        </div>
-        <div>
+            <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
             <div>
-                <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
-                <div class="lang-wrapper">
-                    <button data-ng-repeat="lang in ctrl.systemLanguages.data" ng-click="ctrl.useLanguage(lang)"
-                            type="button">
-                        <span class="lang-icon">{{lang.attributes["lang-code"]}}</span><span class="lang-text">{{lang.attributes["local-name"]}}</span>
-                    </button>
-                </div>
-                <p>{{ 'language.select.body' | translate }}</p>
-                <p><a href="">{{ 'common.click-here' | translate }}</a></p>
+                <button data-ng-repeat="lang in ctrl.systemLanguages.data" ng-click="ctrl.useLanguage(lang)" type="button">
+                    <span class="lang-icon">{{lang.attributes["lang-code"]}}</span><span class="lang-text">{{lang.attributes["local-name"]}}</span>
+                </button>
             </div>
+            <p>{{ 'language.select.body' | translate }}</p>
+            <p><a href="">{{ 'common.click-here' | translate }}</a></p>
         </div>
     </div>
 </section>

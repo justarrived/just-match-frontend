@@ -15,8 +15,11 @@ h1, h2, h3, strong, b {
   font-weight: 700;
 }
 
-a:focus {
-  outline: 0;
+a,
+button,
+input[type="submit"],
+input[type="button"]{
+  outline: none !important;
 }
 
 p, li, input, textarea {
@@ -72,4 +75,31 @@ p, li, input, textarea {
       }
     }
   }
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+textarea {
+  border: 1px solid $lightBlue;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.main-title {
+  background: $lightBlue;
+  padding: 10px;
+  text-align: center;
+  color: $white;
+
+  h1 {
+    font-weight: 400;
+    font-size: 1.5em;
+  }
+}
+
+.main-content {
+  padding: 35px 20px;
 }
