@@ -1,46 +1,58 @@
-<section class="row">
-
-    <div class="col-xs-10 col-xs-offset-1">
-
-        <h2 class="text-center">{{ 'assignment.list.title' | translate }} ({{jobs.meta.total}})</h2>
-
-
-        <div custom-select="category.id as category.name for category in searchAsync($searchTerm)"
-             custom-select-options="categoryOptions" ng-model="categorySelected"></div>
-
-
-        <div id="map_canvas" ng-class="map_class">
-            <ui-gmap-google-map center="map.center" zoom="map.zoom">
-                <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" idkey="m.id" options="m.options">
-                    <ui-gmap-window>
-                        <div>
-                            <h2>{{m.job.attributes.name}}</h2>
-                            <p>{{m.job.attributes.description}}</p>
-                            <p>{{m.job.totalRate}} {{m.job.currency}}</p>
-                            <a href="#{{routes.job.get.resolve(m.job)}}">Click Here</a>
-                        </div>
-                    </ui-gmap-window>
-                </ui-gmap-marker>
-            </ui-gmap-google-map>
-            <button ng-class="zoom_class" ng-click="zoomInOut()"></button>
+<div class="job-wrapper">
+    <div class="main-title">
+        <div class="job-list-title">
+            <div>
+                <h1>{{ 'assignment.list.title' | translate }} ({{jobs.meta.total}})</h1>
+            </div>
+            <div>
+                <div class="dropdown-white-border"
+                     custom-select="category.id as category.name for category in searchAsync($searchTerm)"
+                     custom-select-options="categoryOptions" ng-model="categorySelected"></div>
+            </div>
         </div>
-
-        <ul>
+    </div>
+    <div id="map_canvas" ng-class="map_class">
+        <ui-gmap-google-map center="map.center" zoom="map.zoom">
+            <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" idkey="m.id" options="m.options">
+                <ui-gmap-window>
+                    <div>
+                        <h2>{{m.job.attributes.name}}</h2>
+                        <p>{{m.job.attributes.description}}</p>
+                        <p>{{m.job.totalRate}} {{m.job.currency}}</p>
+                        <a href="#{{routes.job.get.resolve(m.job)}}">Click Here</a>
+                    </div>
+                </ui-gmap-window>
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+        <button ng-class="zoom_class" ng-click="zoomInOut()"></button>
+    </div>
+    <div>
+        <ul class="job-list-wrapper">
             <li ng-repeat="job in jobs.data">
-                <a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a>
-                <p>{{job.attributes.description}}</p>
-                <p>{{job.totalRate}} {{job.currency}}</p>
+                <div class="job-image"><a href="#{{routes.job.get.resolve(job)}}" style="background-image: url(assets/images/content/hero.png);"></a></div>
+                <div class="job-desc">
+                    <h3><a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a></h3>
+                    <p>{{job.attributes.description}}</p>
+
+                    <div class="location">4,8km</div>
+                </div>
+                <div class="job-rate">
+                    <span>{{job.totalRate}}</span>
+                    <em>5 h ({{ job.max_rate | currency }}/h)</em>
+                </div>
+                <div>
+                    <a href="#{{routes.job.get.resolve(job)}}"><i class="demo-icon icon-ic-arrow-right"></i></a>
+                </div>
             </li>
         </ul>
-
-        <div>
-            <button ng-click="getJobsPage('first')" ng-disabled="!jobs.links.first">First</button>
-            <button ng-click="getJobsPage('prev')" ng-disabled="!jobs.links.prev">Prev</button>
-            <button ng-click="getJobsPage('next')" ng-disabled="!jobs.links.next">Next</button>
-            <button ng-click="getJobsPage('last')" ng-disabled="!jobs.links.last">Last</button>
+        <div class="nav-job-list-bottom">
+            <button class="button-first" ng-click="getJobsPage('first')" ng-disabled="!jobs.links.first"></button>
+            <button class="button-prev" ng-click="getJobsPage('prev')" ng-disabled="!jobs.links.prev"></button>
+            <button class="button-next" ng-click="getJobsPage('next')" ng-disabled="!jobs.links.next"></button>
+            <button class="button-last" ng-click="getJobsPage('last')" ng-disabled="!jobs.links.last"></button>
         </div>
-        <p><i>{{ ctrl.message | json}}</i></p>
+        <div>
+            <p><i>{{ ctrl.message | json}}</i></p>
+        </div>
     </div>
-
-
-</section>
+</div>

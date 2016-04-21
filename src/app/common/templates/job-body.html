@@ -1,11 +1,10 @@
-<div class="Job-body-heading">
-  <h2>Containerstädning</h2>
-  <span>{{ job.hours }} Timmar ({{ job.max_rate | currency }}/h)</span>
-  <span class="Job-body-heading-total">{{ job.totalRate | currency }}</span>
+<div class="job-body-heading">
+  <span>{{ job.totalRate }}</span><br>
+  <em>{{ job.hours }} Timmar ({{ job.max_rate | currency }}/h)</em>
 </div>
 
 
-<div class="Job-body-description">
+<div class="job-body-description">
   <h3>{{"job-body.uppdrag.title" | translate}}</h3>
   <div class="Job-body-description-inner">
     <p>{{ job.description }}</p>
@@ -14,7 +13,7 @@
     <p><a href="#">{{"job-body.review.text" | translate}}</a></p>
   </div>
 </div>
-<div class="Job-comment-list">
+<div class="job-comment-list">
   <h3>{{"job-body.comment.title" | translate}}</h3>
   <ul>
     <li ng-repeat="comment in comments.data | limitTo: comments_quantity">
