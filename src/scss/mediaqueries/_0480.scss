@@ -1,1 +1,24 @@
 .top-bar { white-space: nowrap;}
+
+.main-title {
+  padding: 30px;
+}
+
+.job-list-title {
+  display: table;
+  width: 100%;
+  margin-bottom: 0;
+
+  h1 {
+    text-align: left;
+  }
+
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  vertical-align: middle;
+  > div:last-child {
+    text-align: right;
+  }
+}
