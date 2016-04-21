@@ -1,15 +1,15 @@
 <div class="job-body-heading">
   <span>{{ job.totalRate }}</span><br>
-  <em>{{ job.hours }} Timmar ({{ job.max_rate | currency }}/h)</em>
+  <em>{{ job.attributes.hours }} Timmar ({{ job.max_rate }} {{ job.currency }}/h)</em>
 </div>
 
 
 <div class="job-body-description">
   <h3>{{"job-body.uppdrag.title" | translate}}</h3>
   <div class="Job-body-description-inner">
-    <p>{{ job.description }}</p>
+    <p>{{ job.attributes.description }}</p>
     <p>6,7 KM Vinäs</p>
-    <p>{{ job["job-date"] | date: 'yyyy-MM-dd' }} - {{ job["job-date"] | date: 'yyyy-MM-dd' }}</p>
+    <p>{{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }}</p>
     <p><a href="#">{{"job-body.review.text" | translate}}</a></p>
   </div>
 </div>

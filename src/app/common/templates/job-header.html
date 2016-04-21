@@ -5,12 +5,12 @@
         </div>
         <div>
             <ul>
-                <li><h1>{{ job.company.name }}</h1></li>
-                <li><h2>Containerstädning</h2></li>
+                <li><h1>{{ job.company.attributes.name }}</h1></li>
+                <li><h2>{{ job.attributes.name }}</h2></li>
             </ul>
             <ul>
-                <li>{{ job.name }}</li>
-                <li>www.mediamarkt.se</li>
+                <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
+                <li>{{ job.company.attributes.website }}</li>
             </ul>
         </div>
     </div>
