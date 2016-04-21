@@ -85,7 +85,14 @@
   "language.select.title" : "Wellcome! Start with Choosing your langauge",
   "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
 
-  "common.click-here" : "Click here"
+  "common.click-here" : "Click here",
 
-
+  "company-register.id.label" : "Company ID",
+  "company-register.name.label": "Name",
+  "company-register.url.label": "Website",
+  "company-register.contact-firstname.label": "Contact firstname",
+  "company-register.contact-lastname.label": "Contact lastname",
+  "company-register.email.label": "E-Mail",
+  "company-register.telephone.label": "Telephone",
+  "company-register.password.label": "Password"
 }

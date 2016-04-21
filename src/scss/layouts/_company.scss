@@ -1,0 +1,46 @@
+.company-register-form {
+
+}
+
+.material-input {
+
+  /* form starting stylings ------------------------------- */
+  .group {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  input {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 300px;
+    border: solid 1px #ccc;
+  }
+  input:focus {
+    outline: none;
+  }
+
+  /* LABEL ======================================= */
+  label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  /* active state */
+  input:focus ~ label, input:valid ~ label {
+    top: -10px;
+    font-size: 14px;
+    color: #5264AE;
+    background-color: #fff;
+    padding: 0 5px;
+  }
+
+}

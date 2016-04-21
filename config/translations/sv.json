@@ -98,6 +98,14 @@
   "language.select.title" : "Välkommen! Börja med att välja språk",
   "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
 
-  "common.click-here" : "Klicka här"
+  "common.click-here" : "Klicka här",
 
+  "company-register.id.label" : "Organisationsnummer",
+  "company-register.name.label": "Företagsnamn",
+  "company-register.url.label": "Företagets webbplats",
+  "company-register.contact-firstname.label": "Förnamn kontaktperson",
+  "company-register.contact-lastname.label": "Efternamn kontaktperson",
+  "company-register.email.label": "mailadress",
+  "company-register.telephone.label": "telefonnummer",
+  "company-register.password.label": "lösenord"
 }

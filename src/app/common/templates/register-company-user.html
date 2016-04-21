@@ -1,3 +1,44 @@
 <section class="row">
-    <h2>SKAPA KONTO</h2>
+    <div class="col-xs-10 col-xs-offset-1">
+        <h2>SKAPA KONTO</h2>
+        <br/><br/>
+
+        <form name="form" novalidate ng-submit="ctrl.process()">
+            <div class="company-register-form material-input">
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.id.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.name.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.url.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.contact-firstname.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.contact-lastname.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.email.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.telephone.label' | translate}}</label>
+                </div>
+                <div class="group">
+                    <input type="text" required>
+                    <label>{{'company-register.password.label' | translate}}</label>
+                </div>
+            </div>
+        </form>
+
+    </div>
 </section>
