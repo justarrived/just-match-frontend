@@ -1,6 +1,6 @@
 <section class="section-instructions">
     <div class="login-form">
-        <h1 class="section-title">{{'signin.title' | translate}}</h1>
+        <h1 class="section-title">{{'menu.signin' | translate}}</h1>
         <form ng-submit="ctrl.process()">
             <div><input ng-model="ctrl.data.email" type="email" placeholder="{{'register.form.email'  | translate}}"/>
             </div>
@@ -9,12 +9,6 @@
             <div><input type="submit"/></div>
             <div><a href="">Glömt lösenord?</a></div>
         </form>
-
-        <p>
-            {{ctrl.data}}
-        </p>
-        <p>
-            <i>{{ctrl.message}}</i>
-        </p>
+        <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
     </div>
 </section>
