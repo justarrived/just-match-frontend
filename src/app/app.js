@@ -150,6 +150,15 @@ angular.module('just', [
                     controller: 'ContactCtrl as ctrl'
                 }
             }
+        },
+        company:{
+            new:{
+                url:'/company/register',
+                handler:{
+                    templateUrl: 'common/templates/register-company-user.html',
+                    controller: 'RegisterCompanyCtrl as ctrl'
+                }
+            }
         }
     })
     .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
