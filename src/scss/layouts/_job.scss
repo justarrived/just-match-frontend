@@ -1,46 +1,73 @@
-.Job {
-}
-
-.Job-header {
-  padding: $spacing 0;
-
-  background: $darkGrey;
-  color: $white;
-}
-
-.Job-header-logo {
-  background: $white;
-
+.job-body-heading {
   text-align: center;
-  line-height: 100px;
+  padding:20px 0;
 
-  @include circle(100px);
+  span {
+    color: $pink;
+    font-size: 3em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 
-  > img {
-    max-width: 80%;
+  }
+  span:after {
+    content: ':-';
+  }
+
+  em {
+    font-style: normal;
   }
 }
 
-.Job-header-info {
-  margin-top: $spacing * 2;
+.job-header {
+  padding: 15px;
 
-  list-style: none;
+  h1 {
+    font-weight: 400;
+    font-size: 1.5em;
+    margin: 0;
+  }
+  h2 {
+    font-weight: 400;
+    font-size: 1.2em;
+    margin: 0;
+  }
 
-  text-align: center;
+  > div {
+    display: table;
+    width: 80%;
+    margin: 0 auto;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+
+      ul {
+        display: inline-block;
+        vertical-align: middle;
+        width: 45%;
+        min-width: 220px;
+        margin: 0;
+        list-style: none;
+        padding: 5px 0;
+      }
+    }
+  }
+
+  .job-header-logo {
+    background-color: $white;
+    display: inline-block;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
 }
 
-.Job-body-heading {
-  text-align: center;
-}
-
-.Job-body-heading-total {
-  display: block;
-  font-size: 2em;
-  font-weight: bold;
-  color: $pink;
-}
-
-.Job-body-description {
+.job-body-description {
   h3 {
     width: 100%;
     border-bottom: 1px $lightGrey solid;
@@ -49,7 +76,7 @@
   }
 }
 
-.Job-body-description-inner {
+.job-body-description-inner {
   padding-left: $spacing * 2;
 }
 
@@ -67,32 +94,242 @@
 
 #map_canvas {
   position: relative;
-  height: 400px;
+  height: 130px;
   width: 100%;
+  background: $lightGrey;
+
   &.full-screen {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     height: 100%;
+    width: 100%;
+    z-index: 2;
   }
 }
 
 button.map-zoom-in {
-  background-color: #000;
-  color: #fff;
-  font-size: 32px;
+  background: none;
+  border: 0;
   padding: 4px;
   z-index: 2;
   &::after {
-    content: '+';
+    font-family: "fontello";
+    content: '\e81d';
+    color: $lightBlue;
+    font-size: 35px;
+  }
+  &::before {
+    content: '\25cf';
+    color: $white;
+    margin-left: 2px;
+    margin-top: -15px;
+    font-size: 50px;
+    position: absolute;
+    z-index: -1;
   }
   &.map-zoom-out {
     &::after {
-      content: '-';
+      font-family: "fontello";
+      content: '\e81c';
+      color: $lightBlue;
+      font-size: 35px;
+    }
+    &::before {
+      content: '\25cf';
+      color: $white;
+      position: absolute;
+      margin-left: 2px;
+      margin-top: -15px;
+      font-size: 50px;
+      z-index: -1;
     }
   }
   position: absolute;
-  right: 0;
-  top: calc(50% - 50px);
+  right: 10px;
+  top: calc(50% - 30px);
 }
 
+.job-list-title {
+  margin-bottom: 12px;
+
+  .custom-select {
+    width: 90%;
+    max-width: 180px;
+  }
+
+  h1 {
+    margin: 8px 0 10px;
+  }
+
+  > div {
+    padding-bottom: 5px;
+  }
+}
+
+a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"], .gm-style-cc {
+  display: none !important;
+}
+
+.job-wrapper {
+  height:100%;
+  position: relative;
+  overflow: hidden;
+}
+.job-list-wrapper {
+  display: table;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+
+  > li {
+    display: table-row;
+
+    > div {
+      display: table-cell;
+      padding: 18px 0 18px 20px;
+    }
+    > div:last-child {
+      text-align: right;
+      vertical-align: middle;
+      color: $grey;
+      font-size: 20px;
+      padding-right: 10px;
+      padding-left: 10px;
+
+      a {
+        color: $dark;
+        opacity: 0.3;
+      }
+      a:hover {
+        opacity: 1;
+      }
+    }
+    .job-image{
+      vertical-align: middle;
+
+      a {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+        border-radius: 50%;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+    .job-desc {
+      h3 {
+        font-weight: 600;
+        font-size: 1.2em;
+        margin-bottom: 8px;
+
+        a { color: $dark;}
+      }
+      p {
+        font-size: 0.95em;
+        line-height: 1.3em;
+      }
+      .location {
+        position: relative;
+        padding-left: 15px;
+      }
+      .location:before {
+        content: '\e812';
+        font-family: 'fontello';
+        margin-top: -2px;
+        position: absolute;
+        left: 0;
+      }
+    }
+    .job-rate {
+      vertical-align: middle;
+      position: relative;
+      text-align: center;
+
+      span {
+        position: absolute;
+        display: block;
+        bottom: 14px;
+        right: 0;
+        color: $pink;
+        font-weight: 600;
+        font-size: 1.3em;
+        letter-spacing: 0.1em;
+      }
+      span:after {
+        content: ':-';
+      }
+      em { 
+        font-style: normal;
+        display: none;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+.nav-job-list-bottom {
+  text-align: center;
+  padding-bottom: 15px;
+
+  button {
+    background: none;
+    border: 0;
+    display: inline-block;
+    font-family: 'fontello';
+    color: $dark;
+    opacity: 0.3;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .button-first:before {
+    content: '\e804';
+    position: absolute;
+    top: 8px;
+    left: 10px;
+  }
+  .button-first:after {
+    content: '\e804';
+    position: absolute;
+    top: 8px;
+    left: 18px;
+  }
+
+  .button-prev:before {
+    content: '\e804';
+    position: absolute;
+    top: 8px;
+    left: 13px;
+  }
+
+  .button-next:before {
+    content: '\e80a';
+    position: absolute;
+    top: 8px;
+    left: 14px;
+  }
+
+  .button-last:before {
+    content: '\e80a';
+    position: absolute;
+    top: 8px;
+    left: 10px;
+  }
+  .button-last:after {
+    content: '\e80a';
+    position: absolute;
+    top: 8px;
+    left: 18px;
+  }
+  button:hover {
+    opacity: 1;
+  }
+}
