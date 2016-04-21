@@ -64,15 +64,6 @@
                 if (!term) {
                     term = '';
                 }
-                /*var deferred = $q.defer();
-                 $timeout(function () {
-                 var result = [];
-                 for (var i = 1; i <= 3; i++) {
-                 result.push(term + ' ' + i);
-                 }
-                 deferred.resolve(result);
-                 }, 300);
-                 return deferred.promise;*/
 
                 var deferd = $q.defer();
                 var url = settings.just_match_api + settings.just_match_api_version + "categories?page[number]=1&page[size]=100&filter[name]=" + term;
@@ -136,16 +127,16 @@
                     url = mode;
                 }
                 url = decodeURIComponent(url);
-                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?include=', '');
+                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?', '');
 
                 if (isNav === 1) {
                     var param = url.split('&');
-                    var paramVal = [];
+                    var paramVal = {};
                     for (i = 0; i < param.length; i++) {
                         var val = param[i].split('=');
-                        paramVal.push(val[1]);
+                        paramVal[val[0]] = val[1];
                     }
-                    $scope.jobs = jobService.getJobsPage(paramVal[0], paramVal[1], paramVal[2]);
+                    $scope.jobs = jobService.getJobsPage(paramVal);
                 } else {
                     $scope.jobs = jobService.getJobs(url);
                 }

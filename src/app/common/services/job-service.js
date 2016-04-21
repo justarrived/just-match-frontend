@@ -27,13 +27,13 @@ angular.module('just.service')
                 return Resources.job.get({id: id});
             };
             this.getJobs = function () {
-                return Resources.jobsParam.get();
+                return Resources.jobs.get();
             };
             this.getJobs = function (include) {
-                return Resources.jobsParam.get({include: include});
+                return Resources.jobs.get({'include': include});
             };
-            this.getJobsPage = function (include, page_number, page_size) {
-                return Resources.jobsParam.get({include: include, page_number: page_number, page_size: page_size});
+            this.getJobsPage = function (paramObj) {
+                return Resources.jobs.get(paramObj);
             };
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {

@@ -61,7 +61,6 @@ angular.module('just.common')
 
                 comments: crud(":resource_name/:resource_id/comments"),
                 comment: crud(":resource_name/:resource_id/comments/:id"),
-                commentsParam: crud(":resource_name/:resource_id/comments?include=:include"),
 
                 jobSkills: crud("jobs/:job_id/skills"),
                 jobSkill: crud("jobs/:job_id/skills/:id"),
@@ -71,7 +70,6 @@ angular.module('just.common')
 
                 jobs: crud("jobs"),
                 job: crud("jobs/:id"),
-                jobsParam: crud("jobs?include=:include&page[number]=:page_number&page[size]=:page_size"),
 
                 contact: crud("contacts"),
 
