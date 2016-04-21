@@ -19,7 +19,7 @@ angular.module('just.service')
       };
       this.login = function (data) {
         var deferd = $q.defer();
-        $http.post(settings.just_match_api + "/api/v1/users/sessions", data)
+        $http.post(settings.just_match_api + settings.just_match_api_version +  "users/sessions", data)
           .then(function(resp) {
             var token = 'Token token=' + resp.data.data.attributes.auth_token;
             storage.set("auth_token", token);

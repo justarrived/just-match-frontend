@@ -49,14 +49,49 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', 'settings', 'Resources', function (datastoreService, jobService, $scope, $location, settings, Resources) {
+        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', 'settings', 'Resources', '$timeout', '$http', '$q', function (datastoreService, jobService, $scope, $location, settings, Resources, $timeout, $http, $q) {
             var that = this;
 
-            $scope.categories = Resources.categories.get();
-            $scope.categoryFilter = function () {
-                //console.log($scope.categorySelected);
-                //Need more api get jobs by category
+            $scope.categoryOptions = {
+                async: true,
+                onSelect: function (item) {
+                    console.log(item);
+                }
             };
+
+            $scope.searchAsync = function (term) {
+                // No search term: return initial items
+                if (!term) {
+                    term = '';
+                }
+                /*var deferred = $q.defer();
+                 $timeout(function () {
+                 var result = [];
+                 for (var i = 1; i <= 3; i++) {
+                 result.push(term + ' ' + i);
+                 }
+                 deferred.resolve(result);
+                 }, 300);
+                 return deferred.promise;*/
+
+                var deferd = $q.defer();
+                var url = settings.just_match_api + settings.just_match_api_version + "categories?page[number]=1&page[size]=100&filter[name]=" + term;
+                $http.get(url)
+                    .then(function (response) {
+                        var result = [];
+                        angular.forEach(response.data.data, function (obj, key) {
+                            result.push({
+                                id: obj.id,
+                                name: obj.attributes.name
+                            });
+                        });
+                        deferd.resolve(result);
+                    }, function (err) {
+                        deferd.reject(err);
+                    });
+                return deferd.promise;
+            };
+
 
             $scope.map_class = "";
             $scope.zoom_class = "map-zoom-in";
@@ -101,7 +136,8 @@
                     url = mode;
                 }
                 url = decodeURIComponent(url);
-                url = url.replace(settings.just_match_api + '/api/v1/jobs?include=', '');
+                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?include=', '');
+
                 if (isNav === 1) {
                     var param = url.split('&');
                     var paramVal = [];

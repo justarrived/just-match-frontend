@@ -10,7 +10,7 @@ angular.module('just.service')
     function(settings, jsonApiDataStore, $http, $q) {
       return {
         fetch: function (path) {
-          return $http.get(settings.just_match_api + "/api/v1/" + path)
+          return $http.get(settings.just_match_api + settings.just_match_api_version + path)
             .then(function (response) {
               if (typeof response.data === 'object') {
                 // https://github.com/beauby/jsonapi-datastore
