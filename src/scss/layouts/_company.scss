@@ -35,7 +35,7 @@
   }
 
   /* active state */
-  input:focus ~ label, input:valid ~ label {
+  input:focus ~ label, input.ng-not-empty ~ label {
     top: -10px;
     font-size: 14px;
     color: #5264AE;

@@ -14,5 +14,15 @@ angular.module('just.service')
 
         this.register = function (attributes) {
             that.registerModel = attributes;
+            Resources.companies.create({data: {attributes: attributes}}, function (data) {
+                flow.next(routes.company.job_create.url, data);
+            }, function (error) {
+                that.registerMessage = error;
+                flow.reload(routes.company.register.url);
+            });
+        };
+
+        this.choose = function (company) {
+            flow.next(routes.company.job_create.url, company);
         };
     }]);
