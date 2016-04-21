@@ -49,7 +49,7 @@ angular.module('just.common')
             };
 
             return {
-                users: crud(+"users"),
+                users: crud("users"),
                 user: crud("users/:id"),
 
                 chatMessage: crud("chats/:id/messages"),
