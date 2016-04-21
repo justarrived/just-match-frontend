@@ -19,8 +19,8 @@ angular.module('just', [
         'beauby.jsonApiDataStore',
         'just.translate',
         'slick',
-        'uiGmapgoogle-maps'
-
+        'uiGmapgoogle-maps',
+        'AxelSoft'
     ])
     .constant('justRoutes', {
         global: {
