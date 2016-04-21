@@ -66,20 +66,19 @@
                 }
 
                 var deferd = $q.defer();
-                var url = settings.just_match_api + settings.just_match_api_version + "categories?page[number]=1&page[size]=100&filter[name]=" + term;
-                $http.get(url)
-                    .then(function (response) {
-                        var result = [];
-                        angular.forEach(response.data.data, function (obj, key) {
-                            result.push({
-                                id: obj.id,
-                                name: obj.attributes.name
-                            });
+                $scope.categories = Resources.categories.get({'page[number]': 1,'page[size]': 100, 'filter[name]': term});
+
+                $scope.categories.$promise.then(function (response) {
+                    $scope.categories = response;
+                    var result = [];
+                    angular.forEach(response.data, function (obj, key) {
+                        result.push({
+                            id: obj.id,
+                            name: obj.attributes.name
                         });
-                        deferd.resolve(result);
-                    }, function (err) {
-                        deferd.reject(err);
                     });
+                    deferd.resolve(result);
+                });
                 return deferd.promise;
             };
 
@@ -186,14 +185,15 @@
         .controller('ViewJobCtrl', ['datastoreService', 'commentService', 'jobService', '$scope', '$routeParams',
             function (datastoreService, commentService, jobService, $scope, $routeParams) {
 
-                datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company,hourly-pay')
-                    .then(function (data) {
-                        var job = data.store.find('jobs', $routeParams.id);
-                        job.max_rate = job["hourly-pay"].rate;
-                        job.totalRate = job.hours * job.max_rate;
-
-                        $scope.job = job;
-                    });
+                $scope.job = jobService.getJob($routeParams.id);
+                $scope.job.$promise.then(function (result) {
+                    $scope.job = result.data;
+                    $scope.job.owner = result.included[0];
+                    $scope.job.company = result.included[1];
+                    $scope.job.max_rate = result.included[2].attributes.rate;
+                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                    $scope.job.currency = result.included[2].attributes.currency;
+                });
 
                 $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
                 $scope.comments_quantity = 5;

@@ -8,9 +8,9 @@
         </div>
         <div class="col-xs-8">
           <ul class="Job-header-info">
-            <li>{{ job.company.name }}</li>
-            <li>{{ job.name }}</li>
-            <li>www.mediamarkt.se</li>
+            <li>{{ job.company.attributes.name }}</li>
+            <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
+            <li>{{ job.company.attributes.website }}</li>
           </ul>
         </div>
       </div>

@@ -24,7 +24,7 @@ angular.module('just.service')
             };
             this.jobMessage = {};
             this.getJob = function (id) {
-                return Resources.job.get({id: id});
+                return Resources.job.get({id: id,"include": "owner,company,hourly-pay"});
             };
             this.getJobs = function () {
                 return Resources.jobs.get();
