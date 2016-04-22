@@ -6,11 +6,16 @@ input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="number"],
-textarea {
+textarea,
+select {
   border: 1px solid $lightBlue;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
+}
+
+label {
+  font-weight: 400;
 }
 
 .form-control {
@@ -92,4 +97,144 @@ textarea {
 .btn:focus,
 .btn:hover {
   color: $white;
+  outline: none;
 }
+
+.custom-select,
+.material-input input {
+  width: 100%;
+  font-size: 1em;
+}
+
+.custom-select {
+  margin-bottom: 25px;
+
+  > a.dropdown-toggle {
+
+    > b::before {
+      font-family: 'fontello';
+      content: '\e800' !important;
+      font-size: 8px;
+      margin-left: -4px;
+      top: 4px;
+    }
+  }
+  > .dropdown-menu {
+    padding: 5px;
+    border-color: $lightBlue;
+
+    > .custom-select-search {
+      margin-top: 5px;
+    }
+    > .custom-select-search:after {
+      display: none;
+    }
+    > ul > li > a:focus,
+    > ul > li > a:hover {
+      background: $lightGrey;
+      color: $darkBlue;
+    }
+
+    .ng-valid.ng-touched {
+      border-color: $lightBlue;
+    }
+  }
+
+}
+
+.material-input {
+
+  .group {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  input,
+  textarea {
+    padding: 10px 12px;
+    display: block;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+  }
+
+  input[disabled],
+  textarea[disabled] {
+    opacity: 0.4;
+    background: $white;
+  }
+  input[disabled] ~ label,
+  textarea[disabled] ~ label {
+    color: $grey;
+  }
+
+  label {
+    position: absolute;
+    pointer-events: none;
+    left: 12px;
+    top: 11px;
+    font-weight: 400;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  input:focus ~ label,
+  input.ng-not-empty ~ label,
+  textarea:focus ~ label,
+  textarea.ng-not-empty ~ label,
+  .group-select label {
+    top: -10px;
+    font-size: 14px;
+    color: $lightBlue;
+    background-color: $white;
+    padding: 0 5px;
+  }
+
+  .btn-pos[disabled],
+  .btn-pos.disabled,
+  .btn-neg[disabled],
+  .btn-neg.disabled {
+    background-color: $lightBlue;
+    border-color: $lightBlue;
+  }
+
+  .ng-valid.ng-touched {
+    border-color: $lightBlue;
+  }
+
+}
+
+.company-register-form,
+.register-form,
+.new-job-form {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  .custom-select > a.dropdown-toggle {
+    border: 1px solid $lightBlue;
+    padding: 5px 10px;
+    height: 40px;
+  }
+
+  button.form-control {
+    font-size: 1.4em;
+    max-width: 180px;
+    margin: 40px auto 0;
+    display: inherit;
+  }
+
+  .btn-primary,
+  .btn-primary:hover {
+    background-color: $lightBlue;
+    border-color: $lightBlue;
+  }
+}
+.new-job-form {
+  select {
+    padding: 9px 8px;
+  }
+}
+
+
