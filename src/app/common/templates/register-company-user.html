@@ -1,13 +1,11 @@
-<section class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-            <h2>SKAPA KONTO</h2>
-            <br/><br/>
+<section>
+    <div class="company-register-form">
+        <h1>SKAPA KONTO</h1>
 
         <form name="form" novalidate ng-submit="ctrl.process()">
-            <div class="company-register-form material-input">
+            <div class="material-input">
                 <div custom-select="company.id as company.attributes.name for company in searchAsync($searchTerm)"
                      custom-select-options="companyOptions" ng-model="companySelected"></div>
-                <br/><br/>
                 <input type="hidden" name="id" ng-model="ctrl.data.id"/>
                 <validation form="form" field="cin" errormsg="company-register.form.cin.validation_error"
                             ng-show="isAddNewCIN">
@@ -63,11 +61,13 @@
         </form>
 
     </div>
+    <div class="data-generate">
+        <p>
+            {{ctrl.data}}
+        </p>
+        <p>
+            <i>{{ctrl.message}}</i>
+        </p>
+    </div>
 
-    <p>
-        {{ctrl.data}}
-    </p>
-    <p>
-        <i>{{ctrl.message}}</i>
-    </p>
 </section>

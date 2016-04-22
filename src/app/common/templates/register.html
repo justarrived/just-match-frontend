@@ -1,67 +1,90 @@
-<section class="row">
+<section>
 
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="register-form">
 
-        <h2 class="text-center">{{ 'register.title' | translate }}</h2>
+        <h1>{{ 'register.title' | translate }}</h1>
 
         <form name="form" novalidate ng-submit="ctrl.process()">
-            <validation form="form" field="ssn" errormsg="register.form.ssn.validation_error">
-                <input name="ssn" class="form-control" type="number" required ng-minlength="10" ng-maxlength="10"
-                       placeholder="{{ 'register.form.ssn' | translate }}" ng-model="ctrl.data.ssn"/>
-            </validation>
+            <div class="material-input">
+                <validation form="form" field="ssn" errormsg="register.form.ssn.validation_error">
+                    <div class="group">
+                        <input name="ssn" type="text" required ng-minlength="10"
+                               ng-maxlength="10" ng-model="ctrl.data.ssn"/>
+                        <label>{{ 'register.form.ssn' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="first_name" errormsg="register.form.first_name.validation_error">
-                <input name="first_name" class="form-control" type="text" required
-                       placeholder="{{ 'register.form.first_name' | translate }}" ng-model="ctrl.data.first_name">
-            </validation>
+                <validation form="form" field="first_name" errormsg="register.form.first_name.validation_error">
+                    <div class="group">
+                        <input name="first_name" type="text" required
+                               ng-model="ctrl.data.first_name">
+                        <label>{{ 'register.form.first_name' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="last_name" errormsg="register.form.last_name.validation_error">
-                <input name="last_name" class="form-control" type="text" required
-                       placeholder="{{'register.form.last_name'  | translate }}" ng-model="ctrl.data.last_name">
-            </validation>
+                <validation form="form" field="last_name" errormsg="register.form.last_name.validation_error">
+                    <div class="group">
+                        <input name="last_name" type="text" required ng-model="ctrl.data.last_name">
+                        <label>{{'register.form.last_name' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="description" errormsg="register.form.description.validation_error">
-                <textarea name="description" class="form-control" required ng-minlength="5"
-                          placeholder="{{ 'register.form.description' | translate }}"
-                          ng-model="ctrl.data.description"></textarea>
-            </validation>
+                <validation form="form" field="description" errormsg="register.form.description.validation_error">
+                    <div class="group">
+                    <textarea name="description" required ng-minlength="5"
+                              ng-model="ctrl.data.description"></textarea>
+                        <label>{{ 'register.form.description' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="email" errormsg="register.form.email.validation_error">
-                <input name="email" class="form-control" type="email" required
-                       pattern="[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,10}"
-                       placeholder="{{ 'register.form.email' | translate }}" ng-model="ctrl.data.email">
-            </validation>
+                <validation form="form" field="email" errormsg="register.form.email.validation_error">
+                    <div class="group">
+                        <input name="email" type="email" required
+                               pattern="[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,10}" ng-model="ctrl.data.email">
+                        <label>{{ 'register.form.email' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="password" errormsg="register.form.password.validation_error">
-                <input name="password" class="form-control" type="password" required ng-minlength="8"
-                       placeholder="{{ 'register.form.password' | translate }}" ng-model="ctrl.data.password">
-            </validation>
+                <validation form="form" field="password" errormsg="register.form.password.validation_error">
+                    <div class="group">
+                        <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password">
+                        <label>{{ 'register.form.password' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="phone" errormsg="register.form.phone.validation_error">
-                <input name="phone" class="form-control" type="text" required ng-minlength="6"
-                       placeholder="{{ 'register.form.phone' | translate }}" ng-model="ctrl.data.phone">
-            </validation>
+                <validation form="form" field="phone" errormsg="register.form.phone.validation_error">
+                    <div class="group">
+                        <input name="phone" type="text" required ng-minlength="6" ng-model="ctrl.data.phone">
+                        <label>{{ 'register.form.phone' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="street" errormsg="register.form.street.validation_error">
-                <input name="street" class="form-control" type="text" required ng-minlength="5"
-                       placeholder="{{ 'register.form.street' | translate }}" ng-model="ctrl.data.street">
-            </validation>
+                <validation form="form" field="street" errormsg="register.form.street.validation_error">
+                    <div class="group">
+                        <input name="street" type="text" required ng-minlength="5" ng-model="ctrl.data.street">
+                        <label>{{ 'register.form.street' | translate }}</label>
+                    </div>
+                </validation>
 
-            <validation form="form" field="zip" errormsg="register.form.zip.validation_error">
-                <input name="zip" class="form-control" type="text" required ng-minlength="5"
-                       placeholder="{{ 'register.form.zip' | translate }}" ng-model="ctrl.data.zip">
-            </validation>
+                <validation form="form" field="zip" errormsg="register.form.zip.validation_error">
+                    <div class="group">
+                        <input name="zip" type="text" required ng-minlength="5" ng-model="ctrl.data.zip">
+                        <label>{{ 'register.form.zip' | translate }}</label>
+                    </div>
+                </validation>
 
-            <div class="form-group">
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                <div class="form-group">
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                </div>
             </div>
         </form>
     </div>
+    <div class="data-generate">
+        <p>
+            {{ctrl.data}}
+        </p>
+        <p>
+            <i>{{ctrl.message}}</i>
+        </p>
+    </div>
 </section>
-
-<p>
-    {{ctrl.data}}
-</p>
-<p>
-    <i>{{ctrl.message}}</i>
-</p>
