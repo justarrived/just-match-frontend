@@ -7,12 +7,14 @@ angular.module('just.common')
       this.signout = function () {
         authService.logout();
         flow.completed(routes.global.start.url);
+        this.menu(0);
       };
       this.signin = function () {
         var path = $location.path();
         flow.redirect(routes.user.signin.url, function () {
           flow.reload(path);
         });
+        this.menu(0);
       };
       this.updateLanguage = function () {
         i18nService.getLanguage().then(function (lang) {

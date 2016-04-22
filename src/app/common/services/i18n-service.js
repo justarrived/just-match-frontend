@@ -123,7 +123,6 @@ angular.module('just.service')
         this.listeners.push(cb);
       };
 
-
       this.notifyChange = function (lang) {
         this.listeners.forEach(function (cb) {
           cb(lang);

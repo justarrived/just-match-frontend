@@ -24,16 +24,16 @@ angular.module('just.service')
             };
             this.jobMessage = {};
             this.getJob = function (id) {
-                return Resources.job.get({id: id});
+                return Resources.job.get({id: id,"include": "owner,company,hourly-pay"});
             };
             this.getJobs = function () {
                 return Resources.jobs.get();
             };
             this.getJobs = function (include) {
-                return Resources.jobs.get({include: include});
+                return Resources.jobs.get({'include': include});
             };
-            this.getJobsPage = function (include, page_number, page_size) {
-                return Resources.jobs.get({include: include, page_number: page_number, page_size: page_size});
+            this.getJobsPage = function (paramObj) {
+                return Resources.jobs.get(paramObj);
             };
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {

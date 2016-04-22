@@ -5,6 +5,7 @@ module.exports = function(config){
 
     files : [
       'bower_components/underscore/underscore.js',
+      'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-resource/angular-resource.js',
@@ -15,8 +16,11 @@ module.exports = function(config){
       'bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/jsonapi-datastore/dist/ng-jsonapi-datastore.min.js',
+      'bower_components/slick-carousel/slick/slick.js',
+      'bower_components/angular-slick/dist/slick.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.min.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.min.js',
+      'bower_components/js-custom-select/js/customSelect.js',
 
       'build/templates-app.js',
       'build/src/app/constant.js',

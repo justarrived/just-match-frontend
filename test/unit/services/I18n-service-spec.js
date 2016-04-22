@@ -20,7 +20,7 @@ describe('I18nService', function () {
 
       // No cached version of language
       localStorageService.remove('language');
-      $httpBackend.expectGET(settings.just_match_api + '/api/v1/languages?filter[system_language]=true').respond(200, JSON.stringify(
+      $httpBackend.expectGET(settings.just_match_api + settings.just_match_api_version + 'languages?filter[system_language]=true').respond(200, JSON.stringify(
         {
           "data": [
             {

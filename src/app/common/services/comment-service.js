@@ -10,7 +10,7 @@ angular.module('just.service')
         var that = this;
 
         this.getComments = function (resource_name, resource_id, include) {
-            return Resources.comments.get({resource_name: resource_name, resource_id: resource_id, include: include});
+            return Resources.comments.get({resource_name: resource_name, resource_id: resource_id, 'include': include});
         };
 
     }]);
