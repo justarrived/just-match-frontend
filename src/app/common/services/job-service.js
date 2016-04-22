@@ -57,4 +57,14 @@ angular.module('just.service')
                     });
                 }
             };
+            this.companyCreate = function (job) {
+                that.jobModel = job;
+                if (authService.isAuthenticated()) {
+                    flow.next(routes.company.job_approve.url);
+                } else {
+                    flow.redirect(routes.user.select.url, function () {
+                        that.companyCreate(job);
+                    });
+                }
+            };
         }]);

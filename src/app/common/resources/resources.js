@@ -73,7 +73,10 @@ angular.module('just.common')
 
                 contact: crud("contacts"),
 
-                categories: crud("categories")
+                categories: crud("categories"),
+
+                companies: crud("companies"),
+                company: crud("companies/:company_id")
 
             };
         }
