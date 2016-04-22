@@ -5,10 +5,15 @@
 
 <div class="job-body-description">
   <h3>{{"job-body.uppdrag.title" | translate}}</h3>
-  <div class="Job-body-description-inner">
-    <p>{{ job.attributes.description }}</p>
-    <p>6,7 KM Vinäs</p>
-    <p>{{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }}</p>
-    <p><a href="#">{{"job-body.review.text" | translate}}</a></p>
+  <div>
+    <ul>
+      <li class="job-description">{{ job.attributes.description }}</li>
+    </ul>
+    <ul>
+      <li class="job-location">6,7 KM Vinäs</li>
+      <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }}</li>
+      <li class="job-language">Eng, Svenska, Arabiska</li>
+      <li class="job-review"><a href="#">{{"job-body.review.text" | translate}}</a></li>
+    </ul>
   </div>
 </div>
