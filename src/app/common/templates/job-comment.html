@@ -1,0 +1,12 @@
+<div class="job-comment-list">
+    <h3>{{"job-body.comment.title" | translate}}</h3>
+    <ul>
+        <li ng-repeat="comment in comments.data | limitTo: comments_quantity">
+            {{comment.attributes.body}}
+            <div ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}" >
+                {{ owner.attributes["first-name"] }}
+            </div>
+        </li>
+    </ul>
+    <div ng-show="ctrl.signedIn()"><input type="text" name="add_comment" placeholder="{{job-body.comment.write}}"/></div>
+</div>
