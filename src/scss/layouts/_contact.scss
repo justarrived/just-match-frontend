@@ -38,7 +38,7 @@
     font-weight: 400;
   }
 
-  button {
+  a.button {
     @include button-pink;
     max-width: 250px;
   }
