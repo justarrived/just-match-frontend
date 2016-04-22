@@ -407,8 +407,11 @@
       border-radius: 5px 5px 0 0;
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
-    > .highlight {
+    > .pink {
       background: $pink !important;
+    }
+    > .blue {
+      background: $blue !important;
     }
     > div:last-child {
       border-radius: 0 0 5px 5px;
@@ -457,11 +460,11 @@
 
   .group {
     font-size: 0;
-    padding: 10px;
+    padding: 0 20px;
 
     > div {
       width: 50%;
-      padding: 5px;
+      padding: 15px 5px;
       display: inline-block;
       vertical-align: middle;
       text-align: center;
