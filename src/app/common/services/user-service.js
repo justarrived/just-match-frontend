@@ -6,46 +6,68 @@
  * Service to handle users.
  */
 angular.module('just.service')
-  .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources',  function (flow, authService, i18nService, routes, Resources) {
-    var that = this;
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', function (flow, authService, i18nService, routes, Resources) {
+        var that = this;
 
-    this.signinModel = {};
-    this.signinMessage = {};
+        this.signinModel = {};
+        this.signinMessage = {};
+        this.isCompanyRegister = 1;
 
-    this.signin = function (attributes, completeCb) {
-      authService.login({data : {attributes: attributes}})
-        .then(function (ok) {
-          if (angular.isFunction(completeCb)) {
-            completeCb();
-          }
-          flow.completed(routes.user.signed_in.url, ok);
-        }, function (error) {
-          that.signinMessage = error;
-          flow.reload(routes.user.signin.url);
-        });
-    };
 
-    this.registerModel = {language_id: i18nService.getLanguage().id};
-    this.registerMessage = {};
+        this.signin = function (attributes, completeCb) {
+            authService.login({data: {attributes: attributes}})
+                .then(function (ok) {
+                    if (angular.isFunction(completeCb)) {
+                        completeCb();
+                    }
+                    flow.completed(routes.user.signed_in.url, ok);
+                }, function (error) {
+                    that.signinMessage = error;
+                    flow.reload(routes.user.signin.url);
+                });
 
-    this.register = function (attributes) {
-      that.registerModel = attributes;
-      var user = Resources.user.create({data: {attributes: attributes}}, function () {
-        flow.push(function () {
-          flow.completed(routes.user.created.url, user);
-        });
-        that.signin(attributes);
+            /*
+             authService.login({data: {attributes: attributes}})
+             .then(function (ok) {
+             if (that.isCompanyRegister === 0) {
+             flow.completed(routes.user.signed_in.url, ok);
+             } else {
+             flow.redirect(routes.job.create.url);
+             }
+             }, function (error) {
+             that.signinMessage = error;
+             flow.reload(routes.user.signin.url);
+             });
+             */
+        };
 
-      }, function (error) {
-        that.registerMessage = error;
-        flow.reload(routes.user.register.url);
-      });
-    };
 
-    this.userModel = function() {
-      if (angular.isUndefined(that.user)) {
-        that.user = Resources.user.get({id: authService.userId()});
-      }
-      return that.user;
-    };
-  }]);
+        this.registerModel = {
+            language_id: parseInt(i18nService.getLanguage().id),
+            language_ids: [parseInt(i18nService.getLanguage().id)]
+        };
+        this.registerMessage = {};
+
+        this.register = function (attributes) {
+            that.registerModel = attributes;
+            var user = Resources.user.create({data: {attributes: attributes}}, function () {
+                flow.push(function () {
+                    flow.completed(routes.user.created.url, user);
+                });
+                if (attributes.company_id) {
+                    that.isCompanyRegister = 1;
+                }
+                that.signin(attributes);
+            }, function (error) {
+                that.registerMessage = error;
+                flow.reload(routes.user.register.url);
+            });
+        };
+
+        this.userModel = function () {
+            if (angular.isUndefined(that.user)) {
+                that.user = Resources.user.get({id: authService.userId()});
+            }
+            return that.user;
+        };
+    }]);

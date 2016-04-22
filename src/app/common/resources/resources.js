@@ -76,7 +76,9 @@ angular.module('just.common')
                 categories: crud("categories"),
 
                 companies: crud("companies"),
-                company: crud("companies/:company_id")
+                company: crud("companies/:company_id"),
+
+                hourly_pays: crud("hourly-pays")
 
             };
         }
