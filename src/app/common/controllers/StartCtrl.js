@@ -90,4 +90,13 @@ angular.module('just.common')
             }
         ];
 
+        $scope.instructionsResponsive = [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ];
+
     }]);
