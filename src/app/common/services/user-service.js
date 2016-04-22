@@ -41,10 +41,9 @@ angular.module('just.service')
              */
         };
 
-
         this.registerModel = {
-            language_id: parseInt(i18nService.getLanguage().id),
-            language_ids: [parseInt(i18nService.getLanguage().id)]
+            language_id: parseInt(i18nService.getLanguage().$$state.value.id),
+            language_ids: [parseInt(i18nService.getLanguage().$$state.value.id)]
         };
         this.registerMessage = {};
 
