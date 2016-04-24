@@ -72,8 +72,10 @@ angular.module('just.common')
                 job: crud("jobs/:id"),
 
                 contact: crud("contacts"),
+                
+                categories: crud("/api/v1/categories"),
 
-                categories: crud("categories"),
+                faqs: crud("/api/v1/faqs?filter[language-id]=:id"),
 
                 companies: crud("companies"),
                 company: crud("companies/:company_id")

@@ -55,6 +55,8 @@
   "menu.signout": "Sign out",
   "menu.title": "Menu",
 
+  "faq.title": "Frequently asked questions",
+
   "job-body.hours": "Hours",
   "job-body.uppdrag.title": "Assignments",
   "job-body.review.text": "Review",
@@ -84,5 +86,4 @@
   "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
 
   "common.click-here" : "Click here"
-
 }
