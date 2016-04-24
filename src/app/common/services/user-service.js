@@ -12,9 +12,12 @@ angular.module('just.service')
     this.signinModel = {};
     this.signinMessage = {};
 
-    this.signin = function (attributes) {
+    this.signin = function (attributes, completeCb) {
       authService.login({data : {attributes: attributes}})
         .then(function (ok) {
+          if (angular.isFunction(completeCb)) {
+            completeCb();
+          }
           flow.completed(routes.user.signed_in.url, ok);
         }, function (error) {
           that.signinMessage = error;

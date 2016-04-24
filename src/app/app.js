@@ -19,8 +19,8 @@ angular.module('just', [
         'beauby.jsonApiDataStore',
         'just.translate',
         'slick',
-        'uiGmapgoogle-maps'
-
+        'uiGmapgoogle-maps',
+        'AxelSoft'
     ])
     .constant('justRoutes', {
         global: {
@@ -150,6 +150,35 @@ angular.module('just', [
                     controller: 'ContactCtrl as ctrl'
                 }
             }
+        },
+        company: {
+            register: {
+                url: '/company/register',
+                handler: {
+                    templateUrl: 'common/templates/register-company-user.html',
+                    controller: 'RegisterCompanyCtrl as ctrl'
+                }
+            },
+            job_create: {
+                url: '/company/job/create',
+                handler: {
+                    templateUrl: 'common/templates/company-new-job.html',
+                    controller: 'CompanyCreateJobCtrl as ctrl'
+                }
+            },
+            job_approve: {
+                url: '/job/approve',
+                handler: {
+                    templateUrl: 'common/templates/company-approve-job.html',
+                    controller: 'CompanyApproveJobCtrl as ctrl'
+                }
+            },
+            job_approved: {
+                url: '/job/approved',
+                handler: {
+                    templateUrl: 'common/templates/company-approved-job.html'
+                }
+            },
         }
     })
     .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {

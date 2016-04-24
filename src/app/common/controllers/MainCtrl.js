@@ -7,13 +7,24 @@ angular.module('just.common')
       this.signout = function () {
         authService.logout();
         flow.completed(routes.global.start.url);
+        this.menu(0);
       };
       this.signin = function () {
         var path = $location.path();
         flow.redirect(routes.user.signin.url, function () {
           flow.reload(path);
         });
+        this.menu(0);
       };
+      this.updateLanguage = function () {
+        i18nService.getLanguage().then(function (lang) {
+          that.language = lang;
+        });
+      };
+      i18nService.addLanguageChangeListener(function () {
+        that.updateLanguage();
+      });
+
       this.selectLanguage = function (show) {
         //show = 1 : force open
         //show = 0 : force hide
@@ -29,9 +40,6 @@ angular.module('just.common')
         routes.global.isMainMenuOpen = show;
       };
 
-      that.language = i18nService.getLanguage();
-      $scope.$on('language-change', function () {
-        that.language = i18nService.getLanguage();
-      });
+      this.updateLanguage();
     }]
   );

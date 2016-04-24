@@ -5,8 +5,8 @@
         <div>
             <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
             <div>
-                <button data-ng-repeat="lang in ctrl.systemLanguages.data" ng-click="ctrl.useLanguage(lang)" type="button">
-                    <span class="lang-icon">{{lang.attributes["lang-code"]}}</span><span class="lang-text">{{lang.attributes["local-name"]}}</span>
+                <button data-ng-repeat="lang in ctrl.languages" ng-click="ctrl.useLanguage(lang)" type="button">
+                    <span class="lang-icon">{{lang["lang-code"]}}</span><span class="lang-text">{{lang["local-name"]}}</span>
                 </button>
             </div>
             <p>{{ 'language.select.body' | translate }}</p>

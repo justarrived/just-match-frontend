@@ -33,10 +33,11 @@
     "grunt-run-grunt": "~0.1.4",
     "grunt-shell": "~1.1.2",
     "istanbul": "^0.4.2",
+    "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.1.4",
     "karma-coverage": "^0.5.5",
-    "karma-jasmine": "~0.1.0",
+    "karma-jasmine": "0.3.8",
     "protractor": "^2.1.0"
   },
   "scripts": {

@@ -10,8 +10,15 @@ html, div {
 body * {
   font-family: 'Open Sans', sans-serif;
 }
-
-h1, h2, h3, strong, b {
+h1 {
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.6em;
+  margin: 35px 0 30px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+h2, h3, strong, b {
   font-weight: 700;
 }
 
@@ -20,6 +27,8 @@ button,
 input[type="submit"],
 input[type="button"]{
   outline: none !important;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 p, li, input, textarea {
@@ -61,31 +70,16 @@ p, li, input, textarea {
       display: table-cell;
       background: $lightBlue;
       color: $white;
-      padding: 35px 0 40px;
+      padding: 30px;
       font-size: 1.2em;
 
       p {
-        width: 80%;
-        margin: 0 auto;
-
         span {
           white-space: nowrap;
-          padding-right: 10px;
         }
       }
     }
   }
-}
-
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="number"],
-textarea {
-  border: 1px solid $lightBlue;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
 }
 
 .main-title {

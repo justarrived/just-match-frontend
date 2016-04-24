@@ -49,14 +49,39 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', 'settings', 'Resources', function (datastoreService, jobService, $scope, $location, settings, Resources) {
+        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', 'settings', 'Resources', '$timeout', '$http', '$q', function (datastoreService, jobService, $scope, $location, settings, Resources, $timeout, $http, $q) {
             var that = this;
 
-            $scope.categories = Resources.categories.get();
-            $scope.categoryFilter = function () {
-                //console.log($scope.categorySelected);
-                //Need more api get jobs by category
+            $scope.categoryOptions = {
+                async: true,
+                onSelect: function (item) {
+                    console.log(item);
+                }
             };
+
+            $scope.searchAsync = function (term) {
+                // No search term: return initial items
+                if (!term) {
+                    term = '';
+                }
+
+                var deferd = $q.defer();
+                $scope.categories = Resources.categories.get({'page[number]': 1,'page[size]': 100, 'filter[name]': term});
+
+                $scope.categories.$promise.then(function (response) {
+                    $scope.categories = response;
+                    var result = [];
+                    angular.forEach(response.data, function (obj, key) {
+                        result.push({
+                            id: obj.id,
+                            name: obj.attributes.name
+                        });
+                    });
+                    deferd.resolve(result);
+                });
+                return deferd.promise;
+            };
+
 
             $scope.map_class = "";
             $scope.zoom_class = "map-zoom-in";
@@ -101,15 +126,16 @@
                     url = mode;
                 }
                 url = decodeURIComponent(url);
-                url = url.replace(settings.just_match_api + '/api/v1/jobs?include=', '');
+                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?', '');
+
                 if (isNav === 1) {
                     var param = url.split('&');
-                    var paramVal = [];
+                    var paramVal = {};
                     for (i = 0; i < param.length; i++) {
                         var val = param[i].split('=');
-                        paramVal.push(val[1]);
+                        paramVal[val[0]] = val[1];
                     }
-                    $scope.jobs = jobService.getJobsPage(paramVal[0], paramVal[1], paramVal[2]);
+                    $scope.jobs = jobService.getJobsPage(paramVal);
                 } else {
                     $scope.jobs = jobService.getJobs(url);
                 }
@@ -159,14 +185,15 @@
         .controller('ViewJobCtrl', ['datastoreService', 'commentService', 'jobService', '$scope', '$routeParams',
             function (datastoreService, commentService, jobService, $scope, $routeParams) {
 
-                datastoreService.fetch('jobs/' + $routeParams.id + '.json?include=owner,company,hourly-pay')
-                    .then(function (data) {
-                        var job = data.store.find('jobs', $routeParams.id);
-                        job.max_rate = job["hourly-pay"].rate;
-                        job.totalRate = job.hours * job.max_rate;
-
-                        $scope.job = job;
-                    });
+                $scope.job = jobService.getJob($routeParams.id);
+                $scope.job.$promise.then(function (result) {
+                    $scope.job = result.data;
+                    $scope.job.owner = result.included[0];
+                    $scope.job.company = result.included[1];
+                    $scope.job.max_rate = result.included[2].attributes.rate;
+                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                    $scope.job.currency = result.included[2].attributes.currency;
+                });
 
                 $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
                 $scope.comments_quantity = 5;

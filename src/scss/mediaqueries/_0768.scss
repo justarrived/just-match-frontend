@@ -1,0 +1,19 @@
+#map_canvas {
+  height: 250px;
+}
+
+.job-list-wrapper > li .job-rate {
+  padding-right: 10px;
+  font-size: 1.2em;
+
+  span {
+    position: static;
+  }
+  em {
+    display: block;
+  }
+}
+
+.section-partners .group > div {
+  width: 25%;
+}

@@ -1,12 +1,16 @@
 angular.module('just.common')
-  .controller('LanguageCtrl', ['i18nService', '$scope', function (i18nService, $scope) {
-
-    this.systemLanguages = i18nService.getSystemLanguages();
-    this.languages = i18nService.supportedLanguages();
-    this.language = i18nService.getLanguage();
+  .controller('LanguageCtrl', ['i18nService','justRoutes', function (i18nService, routes) {
+    var that = this;
+    i18nService.supportedLanguages()
+      .then(function (langs) {
+        that.languages = langs;
+      });
+    i18nService.getLanguage()
+      .then(function (lang) {
+        that.language = lang;
+      });
     this.useLanguage = function (lang) {
       i18nService.useLanguage(lang);
-      $scope.$emit('language-change');
-      $scope.$parent.ctrl.selectLanguage(0);
+      routes.global.isSelectLanguageOpen = false;
     };
   }]);

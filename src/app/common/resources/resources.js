@@ -25,7 +25,7 @@ angular.module('just.common')
         function ($resource, settings) {
 
             var crud = function (url) {
-                return $resource(settings.just_match_api + url, {},
+                return $resource(settings.just_match_api + settings.just_match_api_version + url, {},
                     {
                         'get': {
                             method: 'GET'
@@ -49,33 +49,36 @@ angular.module('just.common')
             };
 
             return {
-                users: crud("/api/v1/users"),
-                user: crud("/api/v1/users/:id"),
+                users: crud("users"),
+                user: crud("users/:id"),
 
-                chatMessage: crud("/api/v1/chats/:id/messages"),
+                chatMessage: crud("chats/:id/messages"),
 
-                chats: crud("/api/v1/chats"),
-                chat: crud("/api/v1/chats/:id"),
+                chats: crud("chats"),
+                chat: crud("chats/:id"),
 
-                languages: crud("/api/v1/languages"),
+                languages: crud("languages"),
 
-                comments: crud("/api/v1/:resource_name/:resource_id/comments?include=:include"),
-                comment: crud("/api/v1/:resource_name/:resource_id/comments/:id"),
+                comments: crud(":resource_name/:resource_id/comments"),
+                comment: crud(":resource_name/:resource_id/comments/:id"),
 
-                jobSkills: crud("/api/v1/jobs/:job_id/skills"),
-                jobSkill: crud("/api/v1/jobs/:job_id/skills/:id"),
+                jobSkills: crud("jobs/:job_id/skills"),
+                jobSkill: crud("jobs/:job_id/skills/:id"),
 
-                jobUsers: crud("/api/v1/jobs/:job_id/users"),
-                jobUser: crud("/api/v1/jobs/:job_id/users/:id"),
+                jobUsers: crud("jobs/:job_id/users"),
+                jobUser: crud("jobs/:job_id/users/:id"),
 
-                jobs: crud("/api/v1/jobs?include=:include&page[number]=:page_number&page[size]=:page_size"),
-                job: crud("/api/v1/jobs/:id"),
+                jobs: crud("jobs"),
+                job: crud("jobs/:id"),
 
-                contact: crud("/api/v1/contacts"),
-
+                contact: crud("contacts"),
+                
                 categories: crud("/api/v1/categories"),
 
-                faqs: crud("/api/v1/faqs?filter[language-id]=:id")
+                faqs: crud("/api/v1/faqs?filter[language-id]=:id"),
+
+                companies: crud("companies"),
+                company: crud("companies/:company_id")
 
             };
         }
