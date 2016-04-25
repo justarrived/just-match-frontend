@@ -3,7 +3,7 @@
 
     angular
         .module('just.common')
-        .controller('CreateJobCtrl', ['jobService', 'i18nService', function (jobService) {
+        .controller('CreateJobCtrl', ['jobService', 'i18nService', '$scope', '$q', 'Resources', function (jobService, i18nService, $scope, $q, Resources) {
             var that = this;
             this.text = {
                 title: 'assignment.new.title',
@@ -12,8 +12,57 @@
 
             this.model = jobService.jobModel;
             this.message = jobService.jobMessage;
-            this.model.data.attributes.hours = 1;
-            this.rates = jobService.rates();
+            this.model.data.attributes.hours = 2;
+
+            this.rates = {};
+            $scope.getRate = function (hp_id) {
+                that.rates = jobService.rates();
+                var deferd = $q.defer();
+                that.rates.$promise.then(function (response) {
+                    that.rates = response;
+                    that.model.data.attributes['hourly-pay-id'] = ((!hp_id) ? response.data[0].id : hp_id );
+                    deferd.resolve(that.rates);
+                });
+                return deferd.promise;
+            };
+
+            $scope.getRate(this.model.data.attributes['hourly-pay-id']);
+
+            $scope.categoryOptions = {
+                async: true,
+                onSelect: function (item) {
+                    that.model.data.attributes['category-id'] = item.id;
+                    that.model.data.attributes.category_name = item.name;
+                }
+            };
+
+            $scope.searchAsync = function (term) {
+                // No search term: return initial items
+                if (!term) {
+                    term = '';
+                }
+
+                var deferd = $q.defer();
+                $scope.categories = Resources.categories.get({
+                    'page[number]': 1,
+                    'page[size]': 100,
+                    'filter[name]': term
+                });
+
+                $scope.categories.$promise.then(function (response) {
+                    $scope.categories = response;
+                    var result = [];
+                    angular.forEach(response.data, function (obj, key) {
+                        result.push({
+                            id: obj.id,
+                            name: obj.attributes.name
+                        });
+                    });
+                    deferd.resolve(result);
+                });
+                return deferd.promise;
+            };
+
             this.save = function () {
                 jobService.create(that.model);
             };
@@ -37,10 +86,31 @@
 
             };
         }])
-        .controller('ApproveJobCtrl', ['jobService', function (jobService) {
+        .controller('ApproveJobCtrl', ['jobService', '$scope', '$q', function (jobService, $scope, $q) {
             var that = this;
 
             this.model = jobService.jobModel;
+            $scope.job = jobService.jobModel.data;
+
+            this.rates = {};
+            $scope.setRate = function () {
+                that.rates = jobService.rates();
+                var deferd = $q.defer();
+                that.rates.$promise.then(function (response) {
+                    that.rates = response.data;
+                    angular.forEach(that.rates, function (obj, key) {
+                        if (obj.id === $scope.job.attributes["hourly-pay-id"]) {
+                            $scope.job.max_rate = obj.attributes.rate;
+                            $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                            $scope.job.currency = obj.attributes.currency;
+                        }
+                    });
+                    deferd.resolve(that.rates);
+                });
+                return deferd.promise;
+            };
+
+            $scope.setRate();
 
             this.approve = function () {
                 jobService.approve(that.model);
