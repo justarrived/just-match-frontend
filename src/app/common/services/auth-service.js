@@ -23,16 +23,16 @@ angular.module('just.service')
         var deferd = $q.defer();
         $http.post(settings.just_match_api + settings.just_match_api_version +  "users/sessions", data)
           .then(function(resp) {
-            var token = 'Token token=' + resp.data.data.attributes.auth_token;
+            var token = 'Token token=' + resp.data.data.attributes["auth-token"];
             storage.set("auth_token", token);
-            storage.set("user_id", resp.data.data.attributes.user_id);
+            storage.set("user_id", resp.data.data.attributes["user-id"]);
             $http.defaults.headers.common.Authorization = token;
-            return $http.get(settings.just_match_api + "/api/v1/users/" + resp.data.data.attributes.user_id);
+            return $http.get(settings.just_match_api + "/api/v1/users/" + resp.data.data.attributes["user-id"]);
           }, function (err) {
             deferd.reject(err);
           }).then(function (resp) {
             storage.set("user_id", resp.data.data);
-            i18nService.useLanguageById(resp.data.data.attributes.language_id);
+            i18nService.useLanguageById(resp.data.data.attributes["language-id"]);
             deferd.resolve();
           });
         return deferd.promise;
