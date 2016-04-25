@@ -1,0 +1,30 @@
+.faq {
+  .well {
+    background-color: $white;
+    box-shadow: none;
+    border: 1px solid $grey;
+    padding: 20px 15px;
+  }
+  .question {
+    position: relative;
+    padding-right: 40px;
+  }
+  .question:before {
+    font-family: 'fontello';
+    content: '\e81d';
+    right: 0;
+    font-size: 32px;
+    color: $lightBlue;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  .question.select:before {
+    content: '\e81c';
+  }
+  .answer {
+    margin-top: 10px;
+    padding-right: 40px;
+  }
+}

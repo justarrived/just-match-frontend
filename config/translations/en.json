@@ -33,6 +33,7 @@
   "assignment.new.form.to_date" : "To",
   "assignment.new.form.hours" : "Number of hours",
   "assignment.new.form.pay_level" : "Pay level",
+  "assignment.new.rate.category" : "Category",
 
   "assignment.list.title" : "Find assignment",
 
