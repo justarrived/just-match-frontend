@@ -82,5 +82,12 @@
       font-size: 11px;
     }
   }
+  button.select {
+    .lang-icon {
+      border: 1px solid $pink;
+      background: $pink;
+      color: $white;
+    }
+  }
 
 }
