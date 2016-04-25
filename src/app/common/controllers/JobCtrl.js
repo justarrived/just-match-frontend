@@ -49,7 +49,7 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', 'settings', 'Resources', '$q', function (datastoreService, jobService, $scope, settings, Resources, $q, authService) {
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', function (jobService, $scope, settings, Resources, $q) {
             var that = this;
 
             $scope.categoryOptions = {
@@ -194,6 +194,7 @@
                 };
 
                 $scope.isSignIn = this.signedIn();
+
 
                 $scope.job = jobService.getJob($routeParams.id);
                 $scope.job.$promise.then(function (result) {

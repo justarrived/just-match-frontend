@@ -30,6 +30,8 @@
   "assignment.new.form.street" : "Gata",
   "assignment.new.form.zip" : "Postnummer",
   "assignment.new.form.date" : "När",
+  "assignment.new.form.date-start" : "Från",
+  "assignment.new.form.date-end" : "Till",
   "assignment.new.form.hours" : "Antal timmar",
   "assignment.new.form.rate" : "Ersättning",
   "assignment.new.form.next": "Nästa steg",
@@ -109,6 +111,10 @@
   "company-register.form.contact-lastname.validation_error": "Du måste ange efternamn",
   "company-register.form.email.validation_error": "Du måste ange en giltig email",
   "company-register.form.phone.validation_error": "Ange telefon",
-
-  "company-register.form.description.validation_error": "Du måste ange beskrivning"
+  "company-register.form.description.validation_error": "Du måste ange beskrivning",
+  "company-register.form.job-title.validation_error": "Du måste ange titel",
+  "company-register.form.steet.validation_error": "Du måste ange gata",
+  "company-register.form.zip.validation_error": "Du måste ange zip",
+  "company-register.form.job-date.validation_error": "Du måste ange datum YYYY-MM-DD",
+  "company-register.form.hours.validation_error": "Du måste ange hours"
 }
