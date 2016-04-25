@@ -240,6 +240,10 @@
     color: $white;
     padding: 0 10%;
   }
+  a.button {
+    @include button-pink;
+    max-width: 200px;
+  }
   .select-wrapper {
     width: 100%;
     max-width: 270px;
