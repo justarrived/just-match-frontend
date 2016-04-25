@@ -205,6 +205,9 @@
 
   a {
     text-decoration: none;
+    span {
+      display: none;
+    }
   }
   a:after {
     font-family: fontello;
