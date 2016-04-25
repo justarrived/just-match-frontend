@@ -395,7 +395,7 @@
       margin-bottom: 10px;
     }
     > div {
-      padding: 25px 30px;
+      padding: 30px;
       margin: 0 10px;
       -webkit-transition: margin 0.2s;
       transition: margin 0.2s;
@@ -434,14 +434,6 @@
     }
 
   }
-  .slick-slide.slick-center {
-    -webkit-transform: translateY(-10px);
-    transform: translateY(-10px);
-    > div {
-      padding: 30px;
-    }
-  }
-
 }
 
 .section-partners {
