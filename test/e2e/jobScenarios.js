@@ -23,9 +23,9 @@ describe('Job', function () {
     });
 
     it('should be possible to increment hours', function () {
-      var addHourButton = element(by.css('[ng-click="ctrl.addHour()"]'));
+      var addHourButton = element.all(by.css('[ng-click="ctrl.addHour()"]'));
       addHourButton.click();
-      expect(element(by.model('ctrl.data.hours')).getAttribute('value')).toEqual("2");
+      expect(element.all(by.model('ctrl.data.hours')).getAttribute('value')).toEqual("2");
     });
   });
 });

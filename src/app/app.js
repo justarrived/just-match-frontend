@@ -24,13 +24,6 @@ angular.module('just', [
     ])
     .constant('justRoutes', {
         global: {
-            contact: {
-                url: '/contact',
-                handler: {
-                    templateUrl: 'common/templates/contact.html',
-                    controller: 'ContactCtrl as ctrl'
-                }
-            },
             start: {
                 url: '/',
                 handler: {
@@ -49,6 +42,13 @@ angular.module('just', [
                 url: '/menu',
                 handler: {
                     templateUrl: 'common/templates/menu.html'
+                }
+            },
+            faq: {
+                url: '/faq',
+                handler: {
+                    templateUrl: 'common/templates/faq.html',
+                    controller: 'FAQCtrl as ctrl'
                 }
             }
         },
