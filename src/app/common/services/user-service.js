@@ -11,7 +11,7 @@ angular.module('just.service')
 
         this.signinModel = {};
         this.signinMessage = {};
-        this.isCompanyRegister = 1;
+        this.isCompanyRegister = 0;
 
 
         this.signin = function (attributes, completeCb) {
@@ -20,25 +20,17 @@ angular.module('just.service')
                     if (angular.isFunction(completeCb)) {
                         completeCb();
                     }
-                    flow.completed(routes.user.signed_in.url, ok);
+                    if (that.isCompanyRegister === 1) {
+                        // Go to job new if register user from company register page
+                        flow.completed(routes.job.create.url, ok);
+                    } else {
+                        flow.completed(routes.user.signed_in.url, ok);
+                    }
+
                 }, function (error) {
                     that.signinMessage = error;
                     flow.reload(routes.user.signin.url);
                 });
-
-            /*
-             authService.login({data: {attributes: attributes}})
-             .then(function (ok) {
-             if (that.isCompanyRegister === 0) {
-             flow.completed(routes.user.signed_in.url, ok);
-             } else {
-             flow.redirect(routes.job.create.url);
-             }
-             }, function (error) {
-             that.signinMessage = error;
-             flow.reload(routes.user.signin.url);
-             });
-             */
         };
 
         this.registerModel = {
@@ -50,9 +42,11 @@ angular.module('just.service')
         this.register = function (attributes) {
             that.registerModel = attributes;
             var user = Resources.user.create({data: {attributes: attributes}}, function () {
+                /*
                 flow.push(function () {
                     flow.completed(routes.user.created.url, user);
                 });
+                */
                 if (attributes.company_id) {
                     that.isCompanyRegister = 1;
                 }
