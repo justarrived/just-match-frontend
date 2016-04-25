@@ -13,13 +13,6 @@
     margin: 15px auto 0;
     max-width: 250px;
   }
-
-  div {
-    width: 90%;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 .contact-sent {
   background: $lightBlue;
@@ -36,6 +29,8 @@
     font-size: 1.5em;
     line-height: 1.5em;
     font-weight: 400;
+    text-transform: capitalize;
+    margin: 0;
   }
 
   a.button {
@@ -46,7 +41,7 @@
   .icon-ic-envelope {
     font-size: 55px;
     display: inline-block;
-    margin: 35px 15px 35px 0;
+    margin: 35px 15px 30px 0;
   }
 
   > div {
