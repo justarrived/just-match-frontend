@@ -15,7 +15,7 @@ angular.module('just.service')
         this.register = function (attributes) {
             that.registerModel = attributes;
             Resources.companies.create({data: {attributes: attributes}}, function (data) {
-                flow.next(routes.company.job_create.url, data);
+                flow.next(routes.user.register.url, data);
             }, function (error) {
                 that.registerMessage = error;
                 flow.reload(routes.company.register.url);
@@ -23,6 +23,6 @@ angular.module('just.service')
         };
 
         this.choose = function (company) {
-            flow.next(routes.company.job_create.url, company);
+            flow.next(routes.user.register.url, company);
         };
     }]);

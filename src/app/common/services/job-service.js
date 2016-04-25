@@ -16,6 +16,7 @@ angular.module('just.service')
                     {value: 120, name: 'assignment.new.rate.high'},
                 ];
                 return rates;
+                //return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
             this.jobModel = {
                 data: {
@@ -24,7 +25,7 @@ angular.module('just.service')
             };
             this.jobMessage = {};
             this.getJob = function (id) {
-                return Resources.job.get({id: id,"include": "owner,company,hourly-pay"});
+                return Resources.job.get({id: id, "include": "owner,company,hourly-pay"});
             };
             this.getJobs = function () {
                 return Resources.jobs.get();
@@ -46,7 +47,6 @@ angular.module('just.service')
             this.edit = function (job) {
                 flow.next(routes.job.create.url, job);
             };
-
             this.create = function (job) {
                 that.jobModel = job;
                 if (authService.isAuthenticated()) {
@@ -54,16 +54,6 @@ angular.module('just.service')
                 } else {
                     flow.redirect(routes.user.select.url, function () {
                         that.create(job);
-                    });
-                }
-            };
-            this.companyCreate = function (job) {
-                that.jobModel = job;
-                if (authService.isAuthenticated()) {
-                    flow.next(routes.company.job_approve.url);
-                } else {
-                    flow.redirect(routes.user.select.url, function () {
-                        that.companyCreate(job);
                     });
                 }
             };

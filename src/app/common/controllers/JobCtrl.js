@@ -49,7 +49,7 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['datastoreService', 'jobService', '$scope', '$location', 'settings', 'Resources', '$timeout', '$http', '$q', function (datastoreService, jobService, $scope, $location, settings, Resources, $timeout, $http, $q) {
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', function (jobService, $scope, settings, Resources, $q) {
             var that = this;
 
             $scope.categoryOptions = {
@@ -66,7 +66,11 @@
                 }
 
                 var deferd = $q.defer();
-                $scope.categories = Resources.categories.get({'page[number]': 1,'page[size]': 100, 'filter[name]': term});
+                $scope.categories = Resources.categories.get({
+                    'page[number]': 1,
+                    'page[size]': 100,
+                    'filter[name]': term
+                });
 
                 $scope.categories.$promise.then(function (response) {
                     $scope.categories = response;
@@ -182,8 +186,15 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['datastoreService', 'commentService', 'jobService', '$scope', '$routeParams',
-            function (datastoreService, commentService, jobService, $scope, $routeParams) {
+        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams',
+            function (authService, commentService, jobService, $scope, $routeParams) {
+
+                this.signedIn = function () {
+                    return authService.isAuthenticated();
+                };
+
+                $scope.isSignIn = this.signedIn();
+
 
                 $scope.job = jobService.getJob($routeParams.id);
                 $scope.job.$promise.then(function (result) {
