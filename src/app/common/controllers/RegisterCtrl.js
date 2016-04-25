@@ -6,7 +6,6 @@ angular.module('just.common')
         this.message = userService.registerMessage;
 
         if(flow.next_data){
-            //console.log(flow.next_data);
             this.data.company_id = flow.next_data.data.id;
         }
 
