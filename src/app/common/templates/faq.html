@@ -1,12 +1,9 @@
-<section class="row">
-
-  <div class="col-xs-10 col-xs-offset-1">
-    <h2 class="text-center">{{ 'faq.title' | translate }}</h2>
-
+<div class="main-title">
+    <h1>{{ 'faq.title' | translate }}</h1>
+</div>
+<div class="main-content faq">
     <div class="well well-lg" ng-repeat="n in ctrl.faqs track by $index" ng-click="ctrl.toggle($index)">
-      <div>{{ n.question }}</div>
-      <div class="answer" ng-show="n.visible">{{ n.answer }}</div>
-      <span class="glyphicon glyphicon-plus-sign"></span>
+        <div class="question">{{ n.question }}</div>
+        <div class="answer" ng-show="n.visible"><strong>Answer:</strong><br>{{ n.answer }}</div>
     </div>
-
-</section>
+</div>
