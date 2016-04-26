@@ -47,6 +47,10 @@
   "contact.title.success" : "Thank you for the message!",
   "contact.success.message" : "We will get back to you as soon as possible.",
 
+  "contact.form.name.validation_error" : "Name",
+  "contact.form.email.validation_error" : "Email",
+  "contact.form.message.validation_error" : "Message",
+
   "menu.assignment.find": "Find assignment",
   "menu.assignment.list": "My assignment",
   "menu.assignment.create":  "Create assignment",
