@@ -235,10 +235,11 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 }
 
 .job-wrapper {
-  height:100%;
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
+
 .job-list-wrapper {
   display: table;
   width: 100%;
@@ -269,7 +270,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         opacity: 1;
       }
     }
-    .job-image{
+    .job-image {
       vertical-align: middle;
 
       a {
@@ -289,7 +290,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         font-size: 1.2em;
         margin-bottom: 8px;
 
-        a { color: $dark;}
+        a {
+          color: $dark;
+        }
       }
       p {
         font-size: 0.95em;
@@ -325,7 +328,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       span:after {
         content: ':-';
       }
-      em { 
+      em {
         font-style: normal;
         display: none;
         white-space: nowrap;
@@ -333,6 +336,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
   }
 }
+
 .nav-job-list-bottom {
   text-align: center;
   padding-bottom: 15px;
@@ -392,5 +396,11 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   }
   button:hover {
     opacity: 1;
+  }
+}
+
+.new-job-form {
+  .cate-group {
+    position: relative;
   }
 }
