@@ -17,11 +17,13 @@
                     </div>
                 </validation>
 
-                <div><input type="submit" ng-disabled="form.$invalid"/></div>
+                <div>
+                    <div class="error-message">{{ctrl.message.data.errors[0].detail}}</div>
+                    <input type="submit" ng-disabled="form.$invalid"/>
+                </div>
 
                 <div><a href="">Glömt lösenord?</a></div>
             </div>
         </form>
-        <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
     </div>
 </section>
