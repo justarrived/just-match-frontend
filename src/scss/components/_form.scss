@@ -278,5 +278,33 @@ label {
     }
   }
 }
+.job-approve {
+
+  .main-content {
+    padding: 35px 20px 0;
+  }
+  .job-review {
+    display: none;
+  }
+  .buttons {
+    text-align: center;
+    margin: 30px auto 0;
+
+    button:first-child {
+      @include button-dark;
+    }
+    button:last-child {
+      @include button-pink;
+    }
+    button {
+      display: inline-block;
+      margin: 0 3px;
+      width: 45% !important;
+    }
+  }
+  h3 {
+    @include header-light;
+  }
+}
 
 

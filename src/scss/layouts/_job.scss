@@ -70,13 +70,7 @@
   padding: 25px;
 
   h3 {
-    width: 100%;
-    border-bottom: 1px $lightGrey solid;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 1.1em;
-    padding-bottom: 10px;
-    margin: 20px 0 0;
+    @include header-light;
   }
 
 }
