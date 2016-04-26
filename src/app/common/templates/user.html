@@ -1,10 +1,44 @@
 <section class="row">
 
-  <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-10 col-xs-offset-1">
 
-    <h2 class="text-center">{{ 'user.title' | translate }}</h2>
+        <h2 class="text-center">{{ 'user.title' | translate }}</h2>
 
-    <p>{{ ctrl.model | json }}</p>
-    <p><i>{{ ctrl.message | json}}</i></p>
-  </div>
+        <form name="form" novalidate ng-submit="ctrl.save()">
+            <div>
+                <input type="file" id="file1" name="file" fileread="vm.uploadme" />
+            </div>
+            <div>{{ctrl.model.data.attributes["first-name"]}} {{ctrl.model.data.attributes["last-name"]}}</div>
+            <ul>
+                <li>
+                    <label>{{ "user.presentation.label" | translate }}*</label>
+                    <textarea name="presentation"></textarea>
+                </li>
+                <li>
+                    <label>{{ "user.language-skills.label" | translate }}*</label>
+                    <textarea name="language_skill"></textarea>
+                </li>
+                <li>
+                    <label>{{ "user.job-experience.label" | translate }}</label>
+                    <textarea name="job_experience"></textarea>
+                </li>
+                <li>
+                    <label>{{ "user.training.label" | translate }}</label>
+                    <textarea name="training"></textarea>
+                </li>
+                <li>
+                    <label>{{ "user.competences.label" | translate }}</label>
+                    <textarea name="competences"></textarea>
+                </li>
+            </ul>
+            <div class="form-group">
+                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+            </div>
+        </form>
+
+
+        <p>{{ ctrl.model | json }}</p>
+        <p><i>{{ ctrl.message | json}}</i></p>
+        <p>{{ uploadme }}</p>
+    </div>
 </section>

@@ -119,5 +119,13 @@
   "company-register.form.contact-lastname.validation_error": "Du måste ange efternamn",
   "company-register.form.email.validation_error": "Du måste ange en giltig email",
   "company-register.form.phone.validation_error": "Ange telefon",
-  "company-register.form.zip.validation_error": "Du måste ange zip"
+  "company-register.form.zip.validation_error": "Du måste ange zip",
+
+  "user.title": "Skapa profil",
+  "user.presentation.label": "Presentation",
+  "user.language-skills.label": "Språkkunskaper",
+  "user.job-experience.label": "Jobberfarenhet",
+  "user.training.label": "Utbildning",
+  "user.competences.label": "Kompetenser"
+
 }

@@ -43,10 +43,10 @@ angular.module('just.service')
             that.registerModel = attributes;
             var user = Resources.user.create({data: {attributes: attributes}}, function () {
                 /*
-                flow.push(function () {
-                    flow.completed(routes.user.created.url, user);
-                });
-                */
+                 flow.push(function () {
+                 flow.completed(routes.user.created.url, user);
+                 });
+                 */
                 if (attributes.company_id) {
                     that.isCompanyRegister = 1;
                 }
@@ -59,8 +59,12 @@ angular.module('just.service')
 
         this.userModel = function () {
             if (angular.isUndefined(that.user)) {
-                that.user = Resources.user.get({id: authService.userId()});
+                that.user = Resources.user.get({id: authService.userId().id, "include": "user-images"});
+
             }
             return that.user;
         };
+
+        this.userMessage = {};
+
     }]);
