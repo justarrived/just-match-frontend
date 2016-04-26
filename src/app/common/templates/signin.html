@@ -1,13 +1,26 @@
 <section>
     <div class="login-form">
         <h1>{{'menu.signin' | translate}}</h1>
-        <form ng-submit="ctrl.process()">
-            <div><input ng-model="ctrl.data.email" type="email" placeholder="{{'register.form.email'  | translate}}"/>
+        <form name="form" novalidate ng-submit="ctrl.process()">
+            <div class="material-input">
+                <validation form="form" field="email" errormsg="register.form.email.validation_error">
+                    <div class="group">
+                        <input type="email" name="email" required ng-model="ctrl.data.email">
+                        <label>{{'register.form.email' | translate}}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="password" errormsg="register.form.password.validation_error">
+                    <div class="group">
+                        <input type="password" name="password" required ng-model="ctrl.data.password">
+                        <label>{{'register.form.password' | translate}}</label>
+                    </div>
+                </validation>
+
+                <div><input type="submit" ng-disabled="form.$invalid"/></div>
+
+                <div><a href="">Glömt lösenord?</a></div>
             </div>
-            <div><input ng-model="ctrl.data.password" type="password"
-                        placeholder="{{'register.form.password'  | translate}}"/></div>
-            <div><input type="submit"/></div>
-            <div><a href="">Glömt lösenord?</a></div>
         </form>
         <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
     </div>
