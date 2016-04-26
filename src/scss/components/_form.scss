@@ -214,8 +214,9 @@ label {
   margin: 0 auto;
   .custom-select > a.dropdown-toggle {
     border: 1px solid $lightBlue;
-    padding: 5px 10px;
-    height: 40px;
+    padding: 6px 10px;
+    height: 42px;
+    color: $dark;
   }
 
   button.form-control {
@@ -234,6 +235,32 @@ label {
 .new-job-form {
   select {
     padding: 9px 8px;
+  }
+}
+.new-job-form {
+  .cate-group,
+  .job-date {
+
+    label {
+      position: absolute;
+      z-index: 1;
+      background: $white;
+      top: -10px;
+      left: 12px;
+      padding: 0 5px;
+    }
+  }
+  .job-date {
+    position: relative;
+    margin-bottom: 26px;
+
+    span.text-danger {
+      margin-top: -12px;
+    }
+
+    .ng-invalid-pattern.ng-touched ~ label {
+      color: $pink !important;
+    }
   }
 }
 
