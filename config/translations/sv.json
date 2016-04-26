@@ -62,6 +62,10 @@
   "contact.title.success" : "Tack för att ditt meddelande!",
   "contact.success.message" : "Vi besvarar det så fort vi kan.",
 
+  "contact.form.name.validation_error" : "Du måste ange namn",
+  "contact.form.email.validation_error" : "Du måste ange email",
+  "contact.form.message.validation_error" : "Du måste ange meddelande",
+
   "menu.assignment.find": "Hitta uppdrag",
   "menu.assignment.list": "Mina uppdrag",
   "menu.assignment.create":  "Skapa uppdrag",

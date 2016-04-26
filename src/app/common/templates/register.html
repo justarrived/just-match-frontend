@@ -29,10 +29,9 @@
                     </div>
                 </validation>
 
-                <validation form="form" field="description" errormsg="register.form.description.validation_error">
+                <validation form="form" field="description" errormsg="register.form.description.validation_error" ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                    <textarea name="description" required ng-minlength="5"
-                              ng-model="ctrl.data.description"></textarea>
+                    <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.description"></textarea>
                         <label>{{ 'register.form.description' | translate }}</label>
                     </div>
                 </validation>
@@ -45,13 +44,6 @@
                     </div>
                 </validation>
 
-                <validation form="form" field="password" errormsg="register.form.password.validation_error">
-                    <div class="group">
-                        <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password">
-                        <label>{{ 'register.form.password' | translate }}</label>
-                    </div>
-                </validation>
-
                 <validation form="form" field="phone" errormsg="register.form.phone.validation_error">
                     <div class="group">
                         <input name="phone" type="text" required ng-minlength="6" ng-model="ctrl.data.phone">
@@ -59,17 +51,24 @@
                     </div>
                 </validation>
 
-                <validation form="form" field="street" errormsg="register.form.street.validation_error">
+                <validation form="form" field="street" errormsg="register.form.street.validation_error" ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <input name="street" type="text" required ng-minlength="5" ng-model="ctrl.data.street">
+                        <input name="street" type="text" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.street">
                         <label>{{ 'register.form.street' | translate }}</label>
                     </div>
                 </validation>
 
-                <validation form="form" field="zip" errormsg="register.form.zip.validation_error">
+                <validation form="form" field="zip" errormsg="register.form.zip.validation_error" ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <input name="zip" type="text" required ng-minlength="5" ng-model="ctrl.data.zip">
+                        <input name="zip" type="text" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.zip">
                         <label>{{ 'register.form.zip' | translate }}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="password" errormsg="register.form.password.validation_error">
+                    <div class="group">
+                        <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password">
+                        <label>{{ 'register.form.password' | translate }}</label>
                     </div>
                 </validation>
 
