@@ -24,7 +24,7 @@ angular.module('just.service')
                         // Go to job new if register user from company register page
                         flow.completed(routes.job.create.url, ok);
                     } else {
-                        flow.completed(routes.user.signed_in.url, ok);
+                        flow.completed(routes.user.user.url, ok);
                     }
 
                 }, function (error) {
@@ -49,6 +49,8 @@ angular.module('just.service')
                 */
                 if (attributes.company_id) {
                     that.isCompanyRegister = 1;
+                }else{
+                    that.isCompanyRegister = 0;
                 }
                 that.signin(attributes);
             }, function (error) {
@@ -59,7 +61,7 @@ angular.module('just.service')
 
         this.userModel = function () {
             if (angular.isUndefined(that.user)) {
-                that.user = Resources.user.get({id: authService.userId()});
+                that.user = Resources.user.get({id: authService.userId().id});
             }
             return that.user;
         };
