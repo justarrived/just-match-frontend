@@ -49,3 +49,29 @@ button.map-zoom-in {
 .section-partners .group > div {
   width: 20%;
 }
+
+.job-body-description,
+.job-comment-list {
+  width: 70%;
+  margin: 0 auto;
+}
+.job-body-description {
+  > div { font-size: 0;
+
+    ul {
+      width: 50%;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    ul:first-child {
+      li {
+        border: 0;
+      }
+    }
+    ul:last-child {
+      padding-left: 35px;
+    }
+  }
+
+}

@@ -1,7 +1,22 @@
-<div class="Job-more-heading">
-    <h2>Fler uppdrag</h2>
-    <ul>
-        <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}  | limitTo: jobs_more_quantity"><a href="#{{ routes.job.get.resolve(job_m) }}">{{job_m.attributes.description}}</a></li>
+<div class="job-more-wrapper">
+    <div class="main-title">
+        <h2>Fler uppdrag</h2>
+    </div>
+    <ul class="job-list-wrapper">
+        <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}  | limitTo: jobs_more_quantity">
+            <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}" style="background-image: url(assets/images/content/hero.png);"></a></div>
+            <div class="job-desc">
+                <h3><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                <div class="location"><span>4,8km</span></div>
+            </div>
+            <div class="job-rate">
+                <span>{{job.totalRate}}</span>
+                <em>5 h ({{ job.max_rate | currency }}/h)</em>
+            </div>
+            <div>
+                <a href="#{{routes.job.get.resolve(job_m)}}"><i class="demo-icon icon-ic-arrow-right"></i></a>
+            </div>
+        </li>
     </ul>
-    <a href="#{{routes.job.list.url}}">{{"job-body.search.text" | translate}}</a>
+    <div><a class="button" href="#{{routes.job.list.url}}">{{"job-body.search.text" | translate}}</a></div>
 </div>
