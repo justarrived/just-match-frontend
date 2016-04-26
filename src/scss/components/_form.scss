@@ -307,4 +307,59 @@ label {
   }
 }
 
+.complete {
+  background: $lightBlue;
+  color: $white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 69px;
+  text-align: center;
+  overflow-y: auto;
+
+  h1 {
+    font-size: 1.5em;
+    line-height: 1.5em;
+    font-weight: 400;
+  }
+
+  a.button {
+    @include button-pink;
+    max-width: 250px;
+  }
+
+  .icon-ic-envelope {
+    font-size: 55px;
+    display: inline-block;
+    margin: 35px 15px 35px 0;
+  }
+
+  > div {
+    height: 100%;
+    display: table;
+    width: 100%;
+    max-width: 0 auto;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 20px 20px 40px;
+    }
+  }
+
+  button {
+    @include button-white-border;
+    max-width: none;
+    margin-top: 30px;
+  }
+  p {
+    font-size: 1.2em;
+  }
+  .icon-ic-check2 {
+    font-size: 30px;
+    color: $brightBlue;
+  }
+
+}
 
