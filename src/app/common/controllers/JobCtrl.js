@@ -256,8 +256,30 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['datastoreService', 'commentService', 'jobService', '$scope', '$routeParams',
-            function (datastoreService, commentService, jobService, $scope, $routeParams) {
+        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
+            function (authService, commentService, jobService, $scope, $routeParams, settings) {
+
+                $scope.map_class = "";
+                $scope.zoom_class = "map-zoom-in";
+
+                $scope.map = {
+                    zoom: 7,
+                    options: {
+                        draggable: true,
+                        disableDefaultUI: true,
+                        panControl: false,
+                        navigationControl: false,
+                        scrollwheel: false,
+                        scaleControl: false
+                    }
+                };
+
+                this.signedIn = function () {
+                    return authService.isAuthenticated();
+                };
+
+                $scope.isSignIn = this.signedIn();
+
 
                 $scope.job = jobService.getJob($routeParams.id);
                 $scope.job.$promise.then(function (result) {
@@ -272,8 +294,71 @@
                 $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
                 $scope.comments_quantity = 5;
 
-                $scope.jobs_more = jobService.getJobs();
-                $scope.jobs_more_quantity = 5;
+                $scope.getJobsPage = function (mode) {
+                    var url;
+                    var isNav = 0;
+                    var i = 0;
+                    $scope.markers = [];
+                    if (['first', 'prev', 'next', 'last'].indexOf(mode) > -1) {
+                        url = $scope.jobs_more.links[mode];
+                        isNav = 1;
+                    } else {
+                        url = mode;
+                    }
+                    url = decodeURIComponent(url);
+                    url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?', '');
+
+                    if (isNav === 1) {
+                        var param = url.split('&');
+                        var paramVal = {};
+                        for (i = 0; i < param.length; i++) {
+                            var val = param[i].split('=');
+                            paramVal[val[0]] = val[1];
+                        }
+                        $scope.jobs_more = jobService.getJobsPage(paramVal);
+                    } else {
+                        $scope.jobs_more = jobService.getJobs(url);
+                    }
+
+                    $scope.jobs_more.$promise.then(function (result) {
+                        i = 0;
+
+                        angular.forEach(result.data, function (obj, key) {
+                            var value = obj.attributes;
+                            if (value["zip-latitude"] !== null && value["zip-longitude"] !== null) {
+                                $scope.markers.push({
+                                    id: obj.id,
+                                    coords: {
+                                        latitude: value["zip-latitude"],
+                                        longitude: value["zip-longitude"]
+                                    },
+                                    options: {
+                                        icon: "/assets/images/ui/logo-pin.png"
+                                    },
+                                    job: obj
+                                });
+                                if (i === 0) {
+                                    $scope.map.center = {
+                                        latitude: value["zip-latitude"],
+                                        longitude: value["zip-longitude"]
+                                    };
+                                }
+                                i++;
+                            }
+
+                            angular.forEach(result.included, function (obj2, key2) {
+                                if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
+                                    $scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
+                                    $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
+                                    $scope.jobs_more.data[key].currency = obj2.attributes.currency;
+                                }
+                            });
+                        });
+                    });
+
+                };
+
+                $scope.getJobsPage('owner,company,hourly-pay');
 
             }]);
 

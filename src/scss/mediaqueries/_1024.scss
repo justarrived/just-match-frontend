@@ -33,19 +33,68 @@ button.map-zoom-in {
 .job-list-wrapper {
   margin-top: 0;
   > li {
-    position: relative;
+    > div {
+      border-bottom: 1px solid $lightGrey;
+    }
   }
-  li:after {
-    position: absolute;
-    content: ' ';
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    background: $lightGrey;
-  }
+
 }
 
 .section-partners .group > div {
   width: 20%;
+}
+
+.job-body-description,
+.job-comment-list {
+  width: 70%;
+  margin: 0 auto;
+}
+.job-body-description {
+  > div { font-size: 0;
+
+    ul {
+      width: 50%;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    ul:first-child {
+      li {
+        border: 0;
+      }
+    }
+    ul:last-child {
+      padding-left: 35px;
+    }
+  }
+
+}
+.job-more-wrapper {
+  #map_canvas {
+    display: block;
+  }
+
+  .job-more-table {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: table;
+
+    .job-list-title,
+    .nav-job-list-bottom,
+    .job-list-wrapper {
+      max-width: none;
+    }
+
+    > div {
+      display: table-cell;
+      height: 100%;
+      vertical-align: top;
+    }
+    > div:first-child {
+      width: 70%;
+    }
+  }
+
+
 }

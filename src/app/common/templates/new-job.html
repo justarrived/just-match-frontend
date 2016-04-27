@@ -47,27 +47,28 @@
             </div>
 
             <div class="clearfix">
-                <div class="col-sm-6">
+                <div class="job-date">
                     <validation form="form" field="job_date" errormsg="assignment.new.form.job-date.validation_error">
                         <div class="form-group">
-                            <label for="job_date">{{'assignment.new.form.date-start' | translate}}</label>
                             <input type="text" id="job_date" name="job_date" required
                                    ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
                                    ng-model="ctrl.model.data.attributes['job-date']"
                                    placeholder="YYYY-MM-DD">
+                            <label for="job_date">{{'assignment.new.form.date-start' | translate}}</label>
                         </div>
                     </validation>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="job-date">
                     <validation form="form" field="job_end_date"
                                 errormsg="assignment.new.form.job-date.validation_error">
                         <div class="form-group">
-                            <label for="job_end_date">{{'assignment.new.form.date-end' | translate}}</label>
+
                             <input type="text" id="job_end_date" name="job_end_date" required
                                    ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
                                    ng-model="ctrl.model.data.attributes['job-end-date']"
                                    placeholder="YYYY-MM-DD">
+                            <label for="job_end_date">{{'assignment.new.form.date-end' | translate}}</label>
                         </div>
                     </validation>
                 </div>
