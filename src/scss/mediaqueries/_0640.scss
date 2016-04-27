@@ -4,3 +4,11 @@
 #map_canvas {
 	height: 200px;
 }
+.user-title > div {
+	width: auto;
+
+	> div:first-child {
+		padding-right: 50px;
+	}
+
+}

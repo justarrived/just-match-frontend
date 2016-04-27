@@ -90,6 +90,8 @@ angular.module('just.common')
                 update_data.data.attributes.education = that.model.data.attributes.education;
                 update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
+                //save data
+
                 if(flow.next_data){
                     flow.next(routes.job.accept.url,flow.next_data);
                 }

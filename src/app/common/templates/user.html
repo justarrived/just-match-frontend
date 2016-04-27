@@ -1,25 +1,31 @@
-<section class="row">
-
-    <div class="col-xs-10 col-xs-offset-1">
-
-        <h2 class="text-center">{{ 'user.title' | translate }}</h2>
-
-        <form name="form" novalidate ng-submit="ctrl.save()">
+<section>
+    <form name="form" novalidate ng-submit="ctrl.save()">
+        <div class="main-title user-title">
+            <h1>{{ 'user.title' | translate }}</h1>
             <div>
-                <input type="file" id="file1" name="file" fileread="vm.uploadme"/>
-            </div>
-            <div>{{ctrl.model.data.attributes["first-name"]}} {{ctrl.model.data.attributes["last-name"]}}</div>
-            <div>
-                <validation form="form" field="presentation" errormsg="user.presentation.validation_error">
-                    <div class="form-group">
-                        <label>{{ 'user.presentation.label' | translate }}</label>
-                        <textarea name="presentation" required
-                                  ng-model="ctrl.model.data.attributes.presentation"></textarea>
+                <div>
+                    <div class="upload-button">
+                        <input type="file" id="file1" name="file" fileread="vm.uploadme"/>
+                        <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>Välj bild</span></div>
+                        <div class="user-info-image"
+                             style="background-image: url(assets/images/content/hero.png)"></div>
                     </div>
-                </validation>
+                </div>
+                <div>{{ctrl.model.data.attributes["first-name"]}} {{ctrl.model.data.attributes["last-name"]}}</div>
+            </div>
+        </div>
+        <div class="user-form">
 
+            <validation form="form" field="presentation" errormsg="user.presentation.validation_error">
+                <div class="form-group presentation">
+                    <label>{{ 'user.presentation.label' | translate }}</label>
+                    <textarea name="presentation" required
+                              ng-model="ctrl.model.data.attributes.presentation"></textarea>
+                </div>
+            </validation>
 
-                <div class="form-group">
+            <validation form="form">
+                <div class="form-group language">
                     <label>{{ "user.language-skills.label" | translate }}*</label>
                     <oi-select
                             oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
@@ -28,50 +34,55 @@
                             placeholder="Select"
                     ></oi-select>
                 </div>
+            </validation>
 
-                <validation form="form" field="language_id" errormsg="user.language-skills.validation_error">
-                    <div class="form-group">
-                        <label>Select primary skill*</label>
-                        <select name="language_id" ng-model="ctrl.model.data.attributes['language-id']">
-                            <option style="display:none" value="">Select primary language</option>
-                            <option ng-repeat="lang in ctrl.language_bundle" value="{{lang.id}}">
-                                {{lang.attributes["en-name"]}}
-                            </option>
-                        </select>
-                    </div>
-                </validation>
-
-                <validation form="form" field="job_experience" errormsg="user.job-experience.validation_error">
-                    <div class="form-group">
-                        <label>{{ "user.job-experience.label" | translate }}</label>
-                        <textarea name="job_experience"
-                                  ng-model="ctrl.model.data.attributes['job-experience']"></textarea>
-                    </div>
-                </validation>
-
-                <validation form="form" field="education" errormsg="user.education.validation_error">
-                    <div class="form-group">
-                        <label>{{ "user.education.label" | translate }}</label>
-                        <textarea name="education" ng-model="ctrl.model.data.attributes.education"></textarea>
-                    </div>
-                </validation>
-
-                <validation form="form" field="competences" errormsg="user.competences.validation_error">
-                    <div class="form-group">
-                        <label>{{ "user.competences.label" | translate }}</label>
-                        <textarea name="competences" ng-model="ctrl.model.data.attributes.competences"></textarea>
-                    </div>
-                </validation>
-
+            <validation form="form" field="language_id" errormsg="user.language-skills.validation_error">
                 <div class="form-group">
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                    <label>Select primary skill*</label>
+                    <select name="language_id" ng-model="ctrl.model.data.attributes['language-id']">
+                        <option style="display:none" value="">Select primary language</option>
+                        <option ng-repeat="lang in ctrl.language_bundle" value="{{lang.id}}">
+                            {{lang.attributes["en-name"]}}
+                        </option>
+                    </select>
                 </div>
+            </validation>
+
+
+            <validation form="form" field="job_experience" errormsg="user.job-experience.validation_error">
+                <div class="form-group experience">
+                    <label>{{ "user.job-experience.label" | translate }}</label>
+                    <textarea name="job_experience" ng-model="ctrl.model.data.attributes['job-experience']"></textarea>
+                </div>
+            </validation>
+
+            <validation form="form" field="education" errormsg="user.education.validation_error">
+                <div class="form-group education">
+                    <label>{{ "user.education.label" | translate }}</label>
+                    <textarea name="education" ng-model="ctrl.model.data.attributes.education"></textarea>
+                </div>
+            </validation>
+
+            <validation form="form" field="competences" errormsg="user.competences.validation_error">
+                <div class="form-group competences">
+                    <label>{{ "user.competences.label" | translate }}</label>
+                    <textarea name="competences" ng-model="ctrl.model.data.attributes.competences"></textarea>
+                </div>
+            </validation>
+            <div>
+                <hr>
+                <p>Uppgifterna sparas till din profil och syns på alla dina ansökningar</p>
             </div>
-        </form>
+            <div class="form-group">
+                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+            </div>
 
 
-        <p>{{ ctrl.model | json }}</p>
-        <p><i>{{ ctrl.message | json}}</i></p>
-        <p>{{ ctrl.language_bundle | json }}</p>
-    </div>
+        </div>
+        <div class="data-generate">
+            <p>{{ ctrl.model | json }}</p>
+            <p><i>{{ ctrl.message | json}}</i></p>
+            <p>{{ bundle }}</p>
+        </div>
+    </form>
 </section>
