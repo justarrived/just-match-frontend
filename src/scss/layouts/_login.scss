@@ -1,35 +1,35 @@
 
 .login-form {
-  text-align: center;
-  width: 90%;
-  margin: 0 auto 30px;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto 30px;
 
-  .error-message {
-    color: $pink;
-  }
-
-  h1 {
-    text-transform: uppercase;
-  }
-
-  input[type="submit"] {
-    @include button-pink;
-    margin: 30px auto;
-  }
-
-  form {
-
-    > div {
-      padding: 5px 0;
-      width: 100%;
-      margin: auto;
-      max-width: 500px;
+    .error-message {
+        color: $pink;
     }
-  }
 
-  a {
-    color: $brightBlue;
-    font-weight: 600;
-  }
+    h1 {
+        text-transform: uppercase;
+    }
+
+    input[type="submit"] {
+        @include button-pink;
+        margin: 30px auto;
+    }
+
+    form {
+
+        > div {
+            padding: 5px 0;
+            width: 100%;
+            margin: auto;
+            max-width: 500px;
+        }
+    }
+
+    a {
+        color: $brightBlue;
+        font-weight: 600;
+    }
 
 }
