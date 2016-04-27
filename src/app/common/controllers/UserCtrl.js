@@ -17,9 +17,11 @@ angular.module('just.common')
             }
         };
     }])
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q',
-        function (userService, $scope, Resources, authService, flow, routes, $q) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter',
+        function (userService, $scope, Resources, authService, flow, routes, $q, $filter) {
             var that = this;
+
+            this.isStart = 1;
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -27,21 +29,45 @@ angular.module('just.common')
                 });
             }
 
+            this.model = {};
+            this.model.data = {};
+            this.model.data.attributes = {};
+
             this.model = userService.userModel();
             this.message = userService.userMessage;
+
+
+            this.model.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                that.language_bundle = [];
+                var found = $filter('filter')(response.included, {
+                    id: "" + response.data.attributes["language-id"],
+                    type: "languages"
+                }, true);
+                if (found.length > 0) {
+                    that.language_bundle.push(found[0]);
+                    that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
+                }
+
+                deferd.resolve(that.language_bundle);
+                return deferd.promise;
+            });
+
 
             $scope.languagesArr = [];
 
             $scope.languagesArrFn = function (query, querySelectAs) {
-
                 var deferd = $q.defer();
-                $scope.categories = Resources.languages.get({
+
+                $scope.languages = Resources.languages.get({
                     'page[number]': 1,
                     'page[size]': 50,
+                    'sort': 'en-name',
                     'filter[name]': query
                 });
 
-                $scope.categories.$promise.then(function (response) {
+                $scope.languages.$promise.then(function (response) {
                     $scope.languagesArr = response;
                     var result = [];
                     angular.forEach(response.data, function (obj, key) {
@@ -52,17 +78,30 @@ angular.module('just.common')
                 return deferd.promise;
             };
 
-            $scope.language_bundle = undefined;
 
             /*Image upload and submit*/
             this.image = {};
 
             this.save = function () {
-                console.log("Submit data");
+                var update_data = {};
+                update_data.data = {};
+                update_data.data.attributes = {};
+                update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
+                update_data.data.attributes.education = that.model.data.attributes.education;
+                update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
+
+                if(flow.next_data){
+                    flow.next(routes.job.accept.url,flow.next_data);
+                }
+
                 /*
-                 console.log("update user uploadme");
-
-
+                 // UPDATE users
+                 Resources.users.update(update_data, function (response) {
+                 console.log(response);
+                 });
+                 */
+                /*
+                 // UPLOAD IMAGE
                  Resources.userImage.upload({
                  image: $scope.vm.uploadme,
                  data: {
