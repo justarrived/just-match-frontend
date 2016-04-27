@@ -245,6 +245,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   height: 100%;
   position: relative;
   overflow: hidden;
+  .custom-select {
+    margin-bottom: 0;
+  }
 }
 
 .job-list-wrapper {
@@ -473,13 +476,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 }
 
 .job-more-wrapper {
-  .job-list-wrapper {
-    margin: 0 -25px;
-    width: calc(100% + 50px);
-  }
+  margin: 0 -25px -25px;
+
   .main-title, .button {
-    margin: 0 -25px;
-    width: calc(100% + 50px);
     padding: 18px;
 
     h2 {
@@ -508,10 +507,18 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     font-size: 1.3em;
     text-transform: uppercase;
     display: block;
-    margin-bottom: -25px;
+  }
+
+  #map_canvas {
+    display: none;
   }
   .job-list-wrapper {
-    max-width: none;
+    margin-top: 0;
+    > li {
+      > div {
+        border-bottom: 1px solid $lightGrey;
+      }
+    }
   }
 }
 
