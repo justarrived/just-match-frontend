@@ -15,7 +15,7 @@ angular.module('just.service')
     };
 
     this.faqsResolve = $q(function(resolve, reject) {
-      resources.faqs.query({id: i18nService.getLanguage().id}, function(faqs) {
+      resources.faqs.query({id: i18nService.current_language.id}, function(faqs) {
         resolve(faqs);
       });
     });

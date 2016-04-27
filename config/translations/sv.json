@@ -38,6 +38,14 @@
   "assignment.new.rate.low" : "Låg",
   "assignment.new.rate.medium" : "Medium",
   "assignment.new.rate.high" : "Hög",
+  "assignment.new.form.category" : "Kategori",
+
+  "assignment.new.form.job-title.validation_error": "Du måste ange titel",
+  "assignment.new.form.description.validation_error": "Du måste ange beskrivning",
+  "assignment.new.form.steet.validation_error": "Du måste ange gata",
+  "assignment.new.form.zip.validation_error": "Du måste ange postnummer",
+  "assignment.new.form.job-date.validation_error": "Du måste ange datum YYYY-MM-DD",
+  "assignment.new.form.hours.validation_error": "Du måste ange hours",
 
   "assignment.preview.title" : "Förhandsgranskning",
   "assignment.preview.button.approve" : "Godkänn",
@@ -53,6 +61,10 @@
   "contact.form.submit" : "Skicka",
   "contact.title.success" : "Tack för att ditt meddelande!",
   "contact.success.message" : "Vi besvarar det så fort vi kan.",
+
+  "contact.form.name.validation_error" : "Du måste ange namn",
+  "contact.form.email.validation_error" : "Du måste ange email",
+  "contact.form.message.validation_error" : "Du måste ange meddelande",
 
   "menu.assignment.find": "Hitta uppdrag",
   "menu.assignment.list": "Mina uppdrag",
@@ -111,10 +123,5 @@
   "company-register.form.contact-lastname.validation_error": "Du måste ange efternamn",
   "company-register.form.email.validation_error": "Du måste ange en giltig email",
   "company-register.form.phone.validation_error": "Ange telefon",
-  "company-register.form.description.validation_error": "Du måste ange beskrivning",
-  "company-register.form.job-title.validation_error": "Du måste ange titel",
-  "company-register.form.steet.validation_error": "Du måste ange gata",
-  "company-register.form.zip.validation_error": "Du måste ange zip",
-  "company-register.form.job-date.validation_error": "Du måste ange datum YYYY-MM-DD",
-  "company-register.form.hours.validation_error": "Du måste ange hours"
+  "company-register.form.zip.validation_error": "Du måste ange zip"
 }

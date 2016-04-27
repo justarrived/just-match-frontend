@@ -10,17 +10,17 @@ angular.module('just.service')
         'Resources', 'justRoutes', 'i18nService', '$timeout', function ($q, flow, authService, Resources, routes, i18nService, $timeout) {
             var that = this;
             this.rates = function () {
-                var rates = [
+                /*var rates = [
                     {value: 80, name: 'assignment.new.rate.low'},
                     {value: 100, name: 'assignment.new.rate.medium'},
                     {value: 120, name: 'assignment.new.rate.high'},
                 ];
-                return rates;
-                //return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
+                return rates;*/
+                return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
             this.jobModel = {
                 data: {
-                    attributes: {"language_id": i18nService.getLanguage().id, "max_rate": "80"}
+                    attributes: {"language-id": i18nService.current_language.id, "max_rate": "80"}
                 }
             };
             this.jobMessage = {};
