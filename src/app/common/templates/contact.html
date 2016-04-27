@@ -1,27 +1,42 @@
-<div class="main-title">
-    <h1>{{ 'contact.title' | translate }}</h1>
-</div>
-<div class="main-content contact-form">
-    <p>{{ 'contact.instructions' | translate }}<br><i class="demo-icon icon-ic-envelope"></i></p>
-     <form ng-submit="ctrl.process()">
-        <div class="form-group">
-            <input type="text" ng-model="ctrl.data.name"
-                   placeholder="{{'contact.form.name' | translate}}"/>
-        </div>
-        <div class="form-group">
-            <input type="email" ng-model="ctrl.data.email"
-                   placeholder="{{'contact.form.email' | translate}}"/>
-        </div>
-        <div class="form-group">
-                <textarea ng-model="ctrl.data.body"
-                          placeholder="{{'contact.form.message' | translate}}"></textarea>
-        </div>
-         <div class="form-group">
-            <input type="submit" value="{{ 'contact.form.submit' | translate }}"/>
-         </div>
-    </form>
-    <p>
-        <i>{{ctrl.data}}</i>
-    </p>
+<section>
+    <div class="contact-form">
+        <h1>{{ 'contact.title' | translate }}</h1>
+        <p>{{ 'contact.instructions' | translate }}<br><i class="demo-icon icon-ic-envelope"></i></p>
 
-</div>
+        <form name="form" novalidate ng-submit="ctrl.process()">
+
+            <div class="material-input">
+                <validation form="form" field="name" errormsg="contact.form.name.validation_error">
+                    <div class="group">
+                        <input type="text" name="name" required ng-model="ctrl.data.name">
+                        <label>{{'contact.form.name' | translate}}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="email" errormsg="contact.form.email.validation_error">
+                    <div class="group">
+                        <input type="email" name="email" required ng-model="ctrl.data.email">
+                        <label>{{'contact.form.email' | translate}}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="body" errormsg="contact.form.message.validation_error">
+                    <div class="group">
+                        <textarea name="body" required ng-model="ctrl.data.body"></textarea>
+                        <label>{{'contact.form.message' | translate}}</label>
+                    </div>
+                </validation>
+
+                <div class="form-group">
+                    <input type="submit" value="{{ 'contact.form.submit' | translate }}" ng-disabled="form.$invalid"/>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="data-generate">
+        <p>
+            <i>{{ctrl.data}}</i>
+        </p>
+    </div>
+</section>
