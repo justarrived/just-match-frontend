@@ -6,39 +6,62 @@
 
         <form name="form" novalidate ng-submit="ctrl.save()">
             <div>
-                <input type="file" id="file1" name="file" fileread="vm.uploadme" />
+                <input type="file" id="file1" name="file" fileread="vm.uploadme"/>
             </div>
             <div>{{ctrl.model.data.attributes["first-name"]}} {{ctrl.model.data.attributes["last-name"]}}</div>
-            <ul>
-                <li>
-                    <label>{{ "user.presentation.label" | translate }}*</label>
-                    <textarea name="presentation"></textarea>
-                </li>
-                <li>
-                    <label>{{ "user.language-skills.label" | translate }}*</label>
-                    <textarea name="language_skill"></textarea>
-                </li>
-                <li>
-                    <label>{{ "user.job-experience.label" | translate }}</label>
-                    <textarea name="job_experience"></textarea>
-                </li>
-                <li>
-                    <label>{{ "user.training.label" | translate }}</label>
-                    <textarea name="training"></textarea>
-                </li>
-                <li>
-                    <label>{{ "user.competences.label" | translate }}</label>
-                    <textarea name="competences"></textarea>
-                </li>
-            </ul>
-            <div class="form-group">
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+            <div>
+                <validation form="form" field="presentation" errormsg="user.presentation.validation_error">
+                    <div class="form-group">
+                        <label>{{ 'user.presentation.label' | translate }}</label>
+                        <textarea name="presentation" required
+                                  ng-model="ctrl.data.model.attributes.presentation"></textarea>
+                    </div>
+                </validation>
+
+
+                <validation form="form" field="language_skill" errormsg="user.language-skills.validation_error">
+                    <div class="form-group">
+                        <label>{{ "user.language-skills.label" | translate }}*</label>
+                        <input type="hidden" name="language_skill" required ng-model="language_bundle"/>
+                        <oi-select
+                                oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
+                                ng-model="language_bundle"
+                                multiple
+                                placeholder="Select"
+                        ></oi-select>
+                    </div>
+                </validation>
+
+                <validation form="form" field="job_experience" errormsg="user.job-experience.validation_error">
+                    <div class="form-group">
+                        <label>{{ "user.job-experience.label" | translate }}</label>
+                        <textarea name="job_experience"></textarea>
+                    </div>
+                </validation>
+
+                <validation form="form" field="education" errormsg="user.education.validation_error">
+                    <div class="form-group">
+                        <label>{{ "user.education.label" | translate }}</label>
+                        <textarea name="education"></textarea>
+                    </div>
+                </validation>
+
+                <validation form="form" field="competences" errormsg="user.competences.validation_error">
+                    <div class="form-group">
+                        <label>{{ "user.competences.label" | translate }}</label>
+                        <textarea name="competences"></textarea>
+                    </div>
+                </validation>
+
+                <div class="form-group">
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                </div>
             </div>
         </form>
 
 
         <p>{{ ctrl.model | json }}</p>
         <p><i>{{ ctrl.message | json}}</i></p>
-        <p>{{ uploadme }}</p>
+        <p>{{ bundle }}</p>
     </div>
 </section>

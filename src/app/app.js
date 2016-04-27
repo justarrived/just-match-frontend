@@ -20,7 +20,8 @@ angular.module('just', [
         'just.translate',
         'slick',
         'uiGmapgoogle-maps',
-        'AxelSoft'
+        'AxelSoft',
+        'oi.select'
     ])
     .constant('justRoutes', {
         global: {
