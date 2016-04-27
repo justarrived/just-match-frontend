@@ -107,3 +107,40 @@
   text-decoration: none;
   display: inline-block;
 }
+@mixin button-dark {
+  height: 45px;
+  line-height: 43px;
+  font-size: 1.3em;
+  color: $white;
+  background: $lightBlue;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 180px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 23px;
+  text-decoration: none;
+  display: inline-block;
+}
+@mixin button-white-border {
+  border: 1px solid $white;
+  height: 45px;
+  line-height: 43px;
+  text-align: center;
+  border-radius: 23px;
+  background: none;
+  padding: 0 20px;
+  width: auto;
+  max-width: 180px;
+  margin-top: 15px;
+  font-size: 1.2em;
+}
+@mixin header-light {
+  width: 100%;
+  border-bottom: 1px $lightGrey solid;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 1.1em;
+  padding-bottom: 10px;
+  margin: 20px 0 0;
+}
