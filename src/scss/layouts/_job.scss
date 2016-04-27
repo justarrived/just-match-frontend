@@ -230,6 +230,11 @@ button.map-zoom-in {
   > div {
     padding-bottom: 5px;
   }
+  .custom-select > a.dropdown-toggle > b::before {
+    font-size: 7px;
+    margin-left: 0;
+    top: 0;
+  }
 }
 
 a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"], .gm-style-cc {
