@@ -11,6 +11,7 @@
   width: 30%;
   overflow: hidden;
 }
+
 #map_canvas:after {
   position: absolute;
   width: 2px;
@@ -23,13 +24,16 @@
   background: $white;
   left: -1px;
 }
+
 button.map-zoom-in {
   top: 15px;
   right: 25px;
 }
+
 .main-title {
   padding: 35px;
 }
+
 .job-list-wrapper {
   margin-top: 0;
   > li {
@@ -49,8 +53,10 @@ button.map-zoom-in {
   width: 70%;
   margin: 0 auto;
 }
+
 .job-body-description {
-  > div { font-size: 0;
+  > div {
+    font-size: 0;
 
     ul {
       width: 50%;
@@ -69,6 +75,7 @@ button.map-zoom-in {
   }
 
 }
+
 .job-more-wrapper {
   #map_canvas {
     display: block;
@@ -96,5 +103,14 @@ button.map-zoom-in {
     }
   }
 
+}
 
+.menu-page, .lang-page {
+  background: rgba(255,255,255, 0.3);
+
+  > div, .lang-wrapper {
+    width: 375px;
+    background: rgba(34,37,49,0.95);
+    float: right;
+  }
 }

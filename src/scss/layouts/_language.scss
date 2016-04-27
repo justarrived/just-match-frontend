@@ -9,6 +9,9 @@
   overflow-y: auto;
   color: $white;
   z-index: 999;
+  opacity: 0;
+  -webkit-animation: fadeIn 0.3s forwards;
+  animation: fadeIn 0.3s forwards;
 
   .just-arrived-logo {
     @include just-arrived-logo;
@@ -23,14 +26,15 @@
   .lang-wrapper {
     display: table;
     width: 80%;
-    height: 90%;
+    height: 100%;
     max-width: 800px;
     margin: 0 auto;
 
     > div {
-      padding: 90px 0 30px;
+      padding: 90px 30px 30px;
       display: table-cell;
        vertical-align: middle;
+      position: relative;
 
       > div {
         font-size: 0;
