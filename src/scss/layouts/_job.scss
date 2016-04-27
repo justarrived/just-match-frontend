@@ -70,13 +70,7 @@
   padding: 25px;
 
   h3 {
-    width: 100%;
-    border-bottom: 1px $lightGrey solid;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 1.1em;
-    padding-bottom: 10px;
-    margin: 20px 0 0;
+    @include header-light;
   }
 
 }
@@ -133,6 +127,8 @@
 
     .job-review {
       border-bottom: 0;
+      margin-left: 0;
+      text-align: center;
 
       a {
         color: $pink;
@@ -228,6 +224,11 @@ button.map-zoom-in {
   > div {
     padding-bottom: 5px;
   }
+  .custom-select > a.dropdown-toggle > b::before {
+    font-size: 7px;
+    margin-left: 0;
+    top: 0;
+  }
 }
 
 a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"], .gm-style-cc {
@@ -238,6 +239,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   height: 100%;
   position: relative;
   overflow: hidden;
+  .custom-select {
+    margin-bottom: 0;
+  }
 }
 
 .job-list-wrapper {
@@ -272,6 +276,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
     .job-image {
       vertical-align: middle;
+      width: 100px;
 
       a {
         display: inline-block;
@@ -285,6 +290,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       }
     }
     .job-desc {
+      position: relative;
+      padding-bottom: 45px;
+
       h3 {
         font-weight: 600;
         font-size: 1.2em;
@@ -299,16 +307,21 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         line-height: 1.3em;
       }
       .location {
-        position: relative;
-        padding-left: 15px;
-      }
-      .location:before {
-        content: '\e812';
-        font-family: 'fontello';
-        margin-top: -2px;
         position: absolute;
-        left: 0;
+        bottom: 17px;
+        span {
+          padding-left: 15px;
+          position: relative;
+        }
+        span:before {
+          content: '\e812';
+          font-family: 'fontello';
+          margin-top: -2px;
+          position: absolute;
+          left: 0;
+        }
       }
+
     }
     .job-rate {
       vertical-align: middle;
@@ -318,7 +331,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       span {
         position: absolute;
         display: block;
-        bottom: 14px;
+        bottom: 15px;
         right: 0;
         color: $pink;
         font-weight: 600;
@@ -397,6 +410,115 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   button:hover {
     opacity: 1;
   }
+}
+
+.job-comment-list {
+  clear: both;
+  width: 100%;
+  overflow: hidden;
+
+  input[type="text"] {
+    border-radius: 5px;
+    border: 1px solid $midgrey;
+    margin-bottom: 35px;
+  }
+
+  ul {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 20px 0;
+    clear: both;
+    overflow: hidden;
+
+    li {
+      position: relative;
+      clear: both;
+      overflow: hidden;
+      padding: 8px 0;
+
+      > div:last-child {
+        width: 35px;
+        height: 35px;
+        background-size: cover;
+        display: block;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center center;
+        float: left;
+        margin-top: 5px;
+      }
+      > div:first-child {
+        float: right;
+        width: calc(100% - 52px);
+        border-radius: 5px;
+        background: $midgrey;
+        box-sizing: border-box;
+        padding: 10px 15px;
+      }
+    }
+    li.right {
+      position: relative;
+      > div:last-child {
+        float: right;
+      }
+      > div:first-child {
+        float: left;
+      }
+    }
+  }
+}
+
+.job-more-wrapper {
+  margin: 0 -25px -25px;
+
+  .main-title, .button {
+    padding: 18px;
+
+    h2 {
+      font-weight: 400;
+      font-size: 1.3em;
+      text-transform: uppercase;
+    }
+  }
+  h3 {
+    border: 0;
+    margin: 5px 0 8px 0;
+    padding: 0;
+    text-transform: capitalize;
+  }
+  .job-list-wrapper > li .job-rate span {
+    bottom: 23px;
+  }
+  .job-list-wrapper > li .job-desc .location {
+    bottom: 25px;
+  }
+  .button {
+    text-align: center;
+    background: $pink;
+    color: $white;
+    font-weight: 400;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  #map_canvas {
+    display: none;
+  }
+  .job-list-wrapper {
+    margin-top: 0;
+    > li {
+      > div {
+        border-bottom: 1px solid $lightGrey;
+      }
+    }
+  }
+}
+
+job-body, job-comment {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .new-job-form {

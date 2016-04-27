@@ -8,6 +8,7 @@
   background: $darkBlue;
   overflow-y: auto;
   color: $white;
+  z-index: 999;
 
   .just-arrived-logo {
     @include just-arrived-logo;
