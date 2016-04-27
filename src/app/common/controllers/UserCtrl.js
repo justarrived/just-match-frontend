@@ -17,8 +17,8 @@ angular.module('just.common')
             }
         };
     }])
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$timeout',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $timeout) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q',
+        function (userService, $scope, Resources, authService, flow, routes, $q) {
             var that = this;
 
             if (!authService.isAuthenticated()) {
@@ -32,14 +32,7 @@ angular.module('just.common')
 
             $scope.languagesArr = [];
 
-            /*Resources.languages.get({"page[number]":"1","page[size]":"50"},function(response){
-                $scope.languagesArr = response.data;
-            });*/
-
             $scope.languagesArrFn = function (query, querySelectAs) {
-                console.log(query);
-                console.log(querySelectAs);
-                //return findOptions(query);
 
                 var deferd = $q.defer();
                 $scope.categories = Resources.languages.get({
@@ -65,29 +58,26 @@ angular.module('just.common')
             this.image = {};
 
             this.save = function () {
-                console.log("update user uploadme");
+                console.log("Submit data");
+                /*
+                 console.log("update user uploadme");
 
 
-                Resources.userImage.upload({
-                        image: $scope.vm.uploadme,
-                        data: {
-                            attributes: {
-                                image: $scope.vm.uploadme
-                            }
-                        }
-                    },
-                    function (response) {
-                        console.log("upload image");
-                        console.log(response);
-                    }
-                );
+                 Resources.userImage.upload({
+                 image: $scope.vm.uploadme,
+                 data: {
+                 attributes: {
+                 image: $scope.vm.uploadme
+                 }
+                 }
+                 },
+                 function (response) {
+                 console.log("upload image");
+                 console.log(response);
+                 }
+                 );
 
+                 */
 
-                /*Image.save($scope.newImage, function (result) {
-                 if (result.status != 'OK')
-                 throw result.status;
-
-                 $scope.images.push(result.data);
-                 });*/
             };
         }]);

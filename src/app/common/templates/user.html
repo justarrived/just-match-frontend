@@ -22,7 +22,7 @@
                 <validation form="form" field="language_skill" errormsg="user.language-skills.validation_error">
                     <div class="form-group">
                         <label>{{ "user.language-skills.label" | translate }}*</label>
-                        <input type="hidden" name="language_skill" required ng-model="language_bundle"/>
+                        <input type="hidden" name="language_skill" required ng-model="language_bundle[0].id"/>
                         <oi-select
                                 oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
                                 ng-model="language_bundle"
