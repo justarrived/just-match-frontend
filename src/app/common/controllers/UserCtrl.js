@@ -17,8 +17,8 @@ angular.module('just.common')
             }
         };
     }])
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $filter) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService',
+        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService) {
             var that = this;
 
             this.isStart = 1;
@@ -88,16 +88,34 @@ angular.module('just.common')
                 update_data.data.attributes = {};
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
-                update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
+                //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 //save data
 
-                if(flow.next_data){
-                    flow.next(routes.job.accept.url,flow.next_data);
+
+                if (flow.next_data) {
+
+                    var job_id = flow.next_data;
+                    // UPLOAD USER IMAGE GET ONE-TOKEN
+                    // UPDATE USER PROFILE + ONE-TOKEN
+                    // UPDATE USER LANGUAGE SKILL
+                    jobService.acceptJob(job_id);
+
+
+                    /*$http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
+                     console.log(data);
+                     console.log(status);
+                     flow.next(routes.job.accept.url, job_id);
+                     }).error(function (data, status) {
+                     //that.message = error;
+                     //flow.reload(routes.user.user.url);
+                     console.error('Repos error', status, data);
+                     });*/
+
                 }
 
                 /*
-                 // UPDATE users
+                 // UPDATE USER PROFILE
                  Resources.users.update(update_data, function (response) {
                  console.log(response);
                  });

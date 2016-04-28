@@ -6,16 +6,16 @@
  * Service to handle jobs.
  */
 angular.module('just.service')
-    .service('jobService', ['$q', 'justFlowService', 'authService',
-        'Resources', 'justRoutes', 'i18nService', '$timeout', function ($q, flow, authService, Resources, routes, i18nService, $timeout) {
+    .service('jobService', ['$q', 'justFlowService', 'authService', 'Resources', 'justRoutes', 'i18nService', '$http', 'settings',
+        function ($q, flow, authService, Resources, routes, i18nService, $http, settings) {
             var that = this;
             this.rates = function () {
                 /*var rates = [
-                    {value: 80, name: 'assignment.new.rate.low'},
-                    {value: 100, name: 'assignment.new.rate.medium'},
-                    {value: 120, name: 'assignment.new.rate.high'},
-                ];
-                return rates;*/
+                 {value: 80, name: 'assignment.new.rate.low'},
+                 {value: 100, name: 'assignment.new.rate.medium'},
+                 {value: 120, name: 'assignment.new.rate.high'},
+                 ];
+                 return rates;*/
                 return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
             this.jobModel = {
@@ -56,5 +56,21 @@ angular.module('just.service')
                         that.create(job);
                     });
                 }
+            };
+            this.acceptJob = function (job_id) {
+                /*Resources.jobUsers.create({job_id: job_id}, function (data) {
+                 flow.next(routes.job.accept.url, job_id);
+                 }, function (error) {
+                 that.jobMessage = error;
+                 flow.reload(routes.user.user.url);
+                 });*/
+                
+                $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
+                    flow.next(routes.job.accept.url, job_id);
+                }).error(function (data, status) {
+                    that.jobMessage = data;
+                    flow.reload(routes.user.user.url);
+                });
+
             };
         }]);
