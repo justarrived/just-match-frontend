@@ -1,18 +1,18 @@
 <section class="hero">
     <div class="hero__slider">
-        <slick class="hero-slick" dots="true" prev-arrow="false" next-arrow="false">
+        <slick class="hero-slick" ng-hide="showvdo" dots="true" prev-arrow="false" next-arrow="false">
             <div>
-                <iframe id="youtube" width="920" height="518" src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&controls=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
-                <!--
+                <img src="http://img.youtube.com/vi/ScMzIvxBSi4/default.jpg">
                 <h2 class="section-title section-title--white">
-                    {{'start.title' | translate}}<br><i class="demo-icon icon-ic-arrow-right2"></i>
+                    {{'start.title' | translate}}<br><i ng-click="showvdo=1"
+                                                        class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
-                -->
             </div>
             <div>
-                <img src="assets/images/content/hero.png">
+                <img ng-hide="showvdo2" src="http://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg">
                 <h2 class="section-title section-title--white">
-                    {{'start.title' | translate}}
+                    {{'start.title' | translate}}<br><i ng-click="showvdo=2"
+                                                        class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
             <div>
@@ -22,6 +22,13 @@
                 </h2>
             </div>
         </slick>
+        <div ng-show="showvdo" id="popupVid">
+            <iframe  ng-show="showvdo==1" src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?enablejsapi=1&rel=0&controls=0&showinfo=0"
+                     frameborder="0" allowfullscreen></iframe>
+            <iframe  ng-show="showvdo==2" src="https://www.youtube-nocookie.com/embed/y2Ky3Wo37AY?enablejsapi=1&rel=0&controls=0&showinfo=0"
+                     frameborder="0" allowfullscreen></iframe>
+            <div class="close-x" ng-click="showvdo=false"><i class="demo-icon icon-ic-close"></i></div>
+        </div>
     </div>
     <div class="hero__col hero__col--left">
         <div class="hero__col__content">
@@ -49,7 +56,8 @@
                 translate}}</span></a></div>
         </h3>
         <slick class="slick-job" infinite="false" prev-arrow="false" next-arrow="false"
-               init-onload="true" slides-to-show="10" data="ctrl.jobs.data" responsive="jobGalleryResponsive" on-directive-init="onDirectiveInit()">
+               init-onload="true" slides-to-show="10" data="ctrl.jobs.data" responsive="jobGalleryResponsive"
+               on-directive-init="onDirectiveInit()">
             <div ng-repeat="job in ctrl.jobs.data | limitTo: 10">
                 <div class="image-wrapper">
                     <div style="background-image: url(assets/images/content/hero.png);"></div>
