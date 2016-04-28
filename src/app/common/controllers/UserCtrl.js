@@ -126,7 +126,7 @@ angular.module('just.common')
 
             };
         }])
-    .controller('UserJobsCtrl', ['authService', 'userService', 'jobService', '$scope', '$q', function (authService, userService, jobService, $scope, $q) {
+    .controller('UserJobsCtrl', ['authService', 'justFlowService','justRoutes', 'userService', 'jobService', '$scope', '$q', function (authService, flow,routes, userService, jobService, $scope, $q) {
         var that = this;
 
         this.model = userService.userModel();
@@ -170,8 +170,12 @@ angular.module('just.common')
             deferd.resolve(that.model);
             return deferd.promise;
         });
+
+        this.gotoUserJobPage = function(obj){
+            flow.redirect(routes.user.job_manage.resolve(obj));
+        };
     }])
-    .controller('UserJobsManageCtrl', ['jobService', 'userService', '$routeParams', '$scope', '$q','$filter', function (jobService, userService, $routeParams, $scope, $q,$filter) {
+    .controller('UserJobsManageCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
         var that = this;
 
         if (userService.isCompany === -1) {
@@ -194,12 +198,12 @@ angular.module('just.common')
                 return deferd.promise;
 
             });
-        }else{
+        } else {
             this.getJobData();
         }
 
-        this.getJobData = function(){
-            if(that.isCompany===1){
+        this.getJobData = function () {
+            if (that.isCompany === 1) {
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
                 $scope.job_user.$promise.then(function (response) {
                     var deferd = $q.defer();
@@ -209,7 +213,7 @@ angular.module('just.common')
                         type: "jobs"
                     }, true);
 
-                    if(found.length > 0){
+                    if (found.length > 0) {
                         $scope.job = found[0];
                     }
 
@@ -217,7 +221,7 @@ angular.module('just.common')
                     return deferd.promise;
 
                 });
-            }else{
+            } else {
                 $scope.job = jobService.getJob($routeParams.id);
                 $scope.job.$promise.then(function (response) {
                     var deferd = $q.defer();

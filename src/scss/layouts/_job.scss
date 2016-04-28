@@ -526,3 +526,134 @@ job-body, job-comment {
     position: relative;
   }
 }
+
+.user-job-header {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+
+  > ul {
+    display: table;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    text-transform: uppercase;
+
+    > li {
+      display: table-cell;
+    }
+    > li:first-child {
+      border-bottom: 5px solid $pink;
+    }
+
+    a {
+      color: $white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
+
+    }
+    a:hover {
+      opacity: 0.7;
+    }
+  }
+
+  h1 {
+    margin: 15px 0;
+  }
+}
+
+.user-job-content {
+  h2 {
+    background: $lightGrey;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+    font-size: 1em;
+    padding: 10px;
+    margin-bottom: 1px;
+
+    i {
+      font-size: 7px;
+      vertical-align: middle;
+      margin-left: 3px;
+      opacity: 0.5;
+    }
+  }
+  ul {
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    > li {
+      display: table;
+      width: 100%;
+
+      h3 {
+        font-weight: 400;
+        font-size: 1em;
+      }
+      p {
+        font-size: 0.9em;
+        margin: 5px 0;
+      }
+
+      > div {
+        display: table-cell;
+        padding: 20px 30px;
+        border-bottom: 1px solid $lightGrey;
+        vertical-align: top;
+        cursor: pointer;
+      }
+      > div:first-child {
+        text-align: center;
+        text-transform: uppercase;
+        line-height: 1.3em;
+        padding-right: 0;
+        width: 45px;
+
+        span {
+          font-size: 1.3em;
+        }
+      }
+      .stars {
+        font-size: 2em;
+        white-space: nowrap;
+      }
+    }
+    > li.select {
+      border-left: 3px solid $pink;
+
+      h3 {
+        font-weight: 700;
+        color: $dark;
+      }
+
+    }
+    > li:last-child > div {
+      border-bottom: 0;
+    }
+    .user-info-image {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      border-radius: 50%;
+      overflow: hidden;
+
+    }
+  }
+  .wait-rating li {
+    > div:nth-child(2) {
+      padding-bottom: 12px;
+    }
+    > div:last-child {
+      text-align: right;
+      padding-left: 0;
+    }
+  }
+}

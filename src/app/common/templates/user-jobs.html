@@ -1,46 +1,52 @@
 <section>
-    <h2>{{ "menu.assignment.list" | translate }}</h2>
-    <div>
-        <a href="#{{routes.user.jobs.url}}" class="curr">{{"user-jobs.job.label" | translate}}</a> |
-        <a href="">ARKIV</a>
-    </div>
-    <div class="recent-activity">
-        <h3>SENASTE AKTIVITET</h3>
+    <div class="main-title user-job-header">
+        <h1>{{ "menu.assignment.list" | translate }}</h1>
         <ul>
-            <li ng-repeat="job in jobs">
-                <a href="#{{routes.user.job_manage.resolve(job)}}">
+            <li><a href="#{{routes.user.jobs.url}}">{{"user-jobs.job.label" | translate}}</a></li>
+            <li><a href="">ARKIV</a></li>
+        </ul>
+    </div>
+    <div class="user-job-content">
+        <div>
+            <h2>Senaste Aktivitet<i class="demo-icon icon-ic-arrow-bottom"></i></h2>
+            <ul>
+                <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
                         {{job.attributes["job-date"] | date: "MMM"}}<br/>
-                        {{job.attributes["job-date"] | date: "dd"}}
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
                     </div>
                     <div>
-                        {{job.attributes["name"]}}<br/>
-                        {{job.relationships.comments.data.length}} kommentarer & 17 ansökningar
+                        <h3>{{job.attributes["name"]}}</h3>
+                        <p><em>{{job.relationships.comments.data.length}} kommentarer & xx ansökningar</em></p>
                     </div>
-                </a>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="wait-rating">
+            <h2>SAKNAR BEDÖMNING</h2>
+            <ul>
+                <li>
+                    <div>
+                        JAN<br/>
+                        <span>07</span>
+                    </div>
+                    <div>
+                        <h3>Satta ihop 5 hyllor</h3>
+                        <p><em>Du anlitade Amir Kheirmand</em></p>
+
+                        <p>Ge betyg ditt betyg: <br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                    </div>
+                    <div><div class="user-info-image" style="background-image: url(assets/images/content/hero.png)"></div></div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="wait-rating">
-        <h3>SAKNAR BEDÖMNING</h3>
-        <ul>
-            <li>
-                <div>
-                    JAN<br/>
-                    07
-                </div>
-                <div>
-                    Satta ihop 5 hyllor<br/>
-                    <i>Du anlitade Amir Kheirmand</i><br/>
-                    Ge betyg ditt betyg:<br/>
-                    &#9734; &#9734; &#9734; &#9734; &#9734;
-                </div>
-            </li>
-        </ul>
+    <div class="data-generate">
+        <p>{{ctrl.model | json}}</p>
+        <p>{{ctrl.message | json}}</p>
+        <p>{{jobs | json}}</p>
     </div>
 
-    <p>{{ctrl.model | json}}</p>
-    <p>{{ctrl.message | json}}</p>
-    <p>{{jobs | json}}</p>
+
 </section>
 
