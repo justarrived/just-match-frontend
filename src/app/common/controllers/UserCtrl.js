@@ -126,7 +126,7 @@ angular.module('just.common')
 
             };
         }])
-    .controller('UserJobsCtrl', ['authService', 'justFlowService','justRoutes', 'userService', 'jobService', '$scope', '$q', function (authService, flow,routes, userService, jobService, $scope, $q) {
+    .controller('UserJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', function (authService, flow, routes, userService, jobService, $scope, $q) {
         var that = this;
 
         this.model = userService.userModel();
@@ -171,12 +171,14 @@ angular.module('just.common')
             return deferd.promise;
         });
 
-        this.gotoUserJobPage = function(obj){
+        this.gotoUserJobPage = function (obj) {
             flow.redirect(routes.user.job_manage.resolve(obj));
         };
     }])
     .controller('UserJobsManageCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
         var that = this;
+
+        $scope.job_obj = {id: $routeParams.id};
 
         if (userService.isCompany === -1) {
             this.model = userService.userModel();
@@ -235,4 +237,108 @@ angular.module('just.common')
             }
         };
 
-    }]);
+    }])
+    .controller('UserJobsCommentsCtrl', ['jobService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings',
+        function (jobService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings) {
+            var that = this;
+            this.model = commentService.getModel('jobs', $routeParams.id);
+            this.message = {};
+
+            $scope.job = jobService.getJob($routeParams.id);
+            $scope.job.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                $scope.job = response.data;
+
+                deferd.resolve($scope.job);
+                return deferd.promise;
+
+            });
+
+            this.getComments = function (job_id) {
+                $scope.comments = commentService.getComments('jobs', job_id, 'owner');
+                $scope.comments.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    $scope.comments = [];
+                    angular.forEach(response.data, function (obj, key) {
+                        var found = $filter('filter')(response.included, {
+                            id: "" + obj.relationships.owner.data.id,
+                            type: "users"
+                        }, true);
+                        if (found.length > 0) {
+                            obj.attributes["first-name"] = found[0].attributes["first-name"];
+                            obj.attributes["last-name"] = found[0].attributes["last-name"];
+                        }
+                        $scope.comments.push(obj);
+                    });
+                    console.log($scope.comments);
+                    deferd.resolve($scope.comments);
+                    return deferd.promise;
+                });
+            };
+
+            this.getComments($routeParams.id);
+
+            this.submit = function () {
+                $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + $routeParams.id + "/comments", that.model)
+                    .success(function (data, status) {
+                        that.model.data.attributes.body = "";
+                        that.getComments($routeParams.id);
+                    }).error(function (data, status) {
+                    that.message = data;
+                });
+            };
+        }])
+    .controller('UserJobsCandidatesCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter',
+        function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
+            var that = this;
+            this.job_id = $routeParams.id;
+
+            $scope.candidates = [];
+
+            $scope.job_users = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
+            $scope.job_users.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                $scope.job_users = [];
+                angular.forEach(response.data, function (obj, key) {
+                    var found = $filter('filter')(response.included, {
+                        id: "" + obj.relationships.user.data.id,
+                        type: "users"
+                    }, true);
+
+                    if (found.length > 0) {
+                        obj.attributes["first-name"] = found[0].attributes["first-name"];
+                        obj.attributes["last-name"] = found[0].attributes["last-name"];
+                    }
+
+                    $scope.job_users.push(obj);
+                });
+
+                /*var found = $filter('filter')(response.included, {
+                 id: "" + $routeParams.id,
+                 type: "jobs"
+                 }, true);
+
+                 if (found.length > 0) {
+                 $scope.job = found[0];
+                 }
+
+                 $scope.candidates = $filter('filter')(response.included, {type: "users"}, true);*/
+
+                deferd.resolve($scope.job_users);
+                return deferd.promise;
+
+            });
+        }])
+    .controller('UserJobsCandidateCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter',
+        function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
+            var that = this;
+            this.job_id = $routeParams.job_id;
+            this.job_user_id = $routeParams.job_user_id;
+
+            this.model = jobService.getJobUser(this.job_id, this.job_user_id, 'job,user,user.user-images');
+
+        }]);
+

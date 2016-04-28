@@ -42,6 +42,9 @@ angular.module('just.service')
             this.getJobUsers = function (job_id, include) {
                 return Resources.jobUsers.get({job_id: job_id, 'include': include});
             };
+            this.getJobUser = function (job_id, user_id, include) {
+                return Resources.jobUser.get({job_id: job_id, id: user_id, 'include': include});
+            };
 
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {

@@ -3,12 +3,12 @@
 
     <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
         <h2>Du har {{job_user.data.length}} ansökningar</h2>
-        <a href="">Välj kandidat</a>
+        <a href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
     </div>
     <div class="job-user-header" ng-show="ctrl.isCompany === 0">
         <h2>Du har sökt uppdraget</h2>
     </div>
-    <div><a href="">Kommentarer</a></div>
+    <div><a href="#{{routes.user.job_comments.resolve(job_obj)}}">Kommentarer</a></div>
     <div><a href="">Chatt</a></div>
     {{job | json}}
 </section>
