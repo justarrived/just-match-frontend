@@ -2,11 +2,18 @@ angular.module('just.common')
     .directive("scroll", function ($window) {
         return function(scope, element, attrs) {
             angular.element($window).bind("scroll", function() {
-                var windowHeight = window.innerHeight;
-                if (this.pageYOffset <= windowHeight - 100) {
-                    element.addClass('sticky-bottom');
+                function getDocHeight() {
+                    return Math.max(
+                        document.body.scrollHeight, document.documentElement.scrollHeight,
+                        document.body.offsetHeight, document.documentElement.offsetHeight,
+                        document.body.clientHeight, document.documentElement.clientHeight
+                    );
+                }
+                console.log(getDocHeight()-200);
+                if (this.pageYOffset <= getDocHeight()-200) {
+                    element.addClass('sticky');
                 } else {
-                    element.removeClass('sticky-bottom');
+                    element.removeClass('sticky');
                 }
             });
         };
