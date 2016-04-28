@@ -1,4 +1,16 @@
 angular.module('just.common')
+    .directive("scroll", function ($window) {
+        return function(scope, element, attrs) {
+            angular.element($window).bind("scroll", function() {
+                var windowHeight = window.innerHeight;
+                if (this.pageYOffset <= windowHeight - 100) {
+                    element.addClass('sticky-bottom');
+                } else {
+                    element.removeClass('sticky-bottom');
+                }
+            });
+        };
+    })
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', function (authService, $location, flow, routes, i18nService, $scope, Resources) {
             var that = this;
             this.signedIn = function () {
