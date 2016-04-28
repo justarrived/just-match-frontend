@@ -1,7 +1,7 @@
 angular.module('just.common')
     .directive("scroll", function ($window) {
-        return function(scope, element, attrs) {
-            angular.element($window).bind("scroll", function() {
+        return function (scope, element, attrs) {
+            angular.element($window).bind("scroll", function () {
                 function getDocHeight() {
                     return Math.max(
                         document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -9,8 +9,10 @@ angular.module('just.common')
                         document.body.clientHeight, document.documentElement.clientHeight
                     );
                 }
-                console.log(getDocHeight()-200);
-                if (this.pageYOffset <= getDocHeight()-200) {
+
+                var windowHeight = window.innerHeight;
+                var docHeight = getDocHeight() - 200;
+                if ((this.pageYOffset + windowHeight) <= docHeight) {
                     element.addClass('sticky');
                 } else {
                     element.removeClass('sticky');
@@ -18,6 +20,7 @@ angular.module('just.common')
             });
         };
     })
+
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', function (authService, $location, flow, routes, i18nService, $scope, Resources) {
             var that = this;
             this.signedIn = function () {
