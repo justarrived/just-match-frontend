@@ -21,22 +21,27 @@ label {
 .form-control {
   height: auto;
 }
+
 .data-generate {
   overflow: auto;
   margin: 30px;
 }
+
 .text-danger {
   color: $pink;
   display: block;
   margin-top: -22px;
   font-size: 0.9em;
 }
+
 .ng-valid.ng-touched {
 }
+
 .ng-invalid.ng-touched {
   border-color: $pink;
   color: $pink;
 }
+
 .ng-invalid.ng-touched ~ label {
   color: $pink !important;
 }
@@ -192,24 +197,31 @@ label {
     padding: 0 5px;
   }
 
-  .btn-pos[disabled],
-  .btn-pos.disabled,
-  .btn-neg[disabled],
-  .btn-neg.disabled {
-    background-color: $lightBlue;
-    border-color: $lightBlue;
-  }
-
   .ng-valid.ng-touched {
     border-color: $lightBlue;
   }
 
 }
 
+input[type="submit"][disabled],
+.btn-pos[disabled],
+.btn-pos.disabled,
+.btn-neg[disabled],
+.btn-neg.disabled {
+  background-color: $lightBlue !important;
+  border-color: $lightBlue !important;
+}
+
+oi-select .select-search {
+  border: 1px solid $lightBlue;
+  border-radius: 0;
+}
+
 .company-register-form,
 .register-form,
 .new-job-form,
-.contact-form {
+.contact-form,
+.user-form {
   width: 80%;
   max-width: 500px;
   margin: 0 auto;
@@ -233,11 +245,158 @@ label {
     border-color: $lightBlue;
   }
 }
+
+.user-form {
+  padding-top: 35px;
+  label {
+    text-transform: uppercase;
+  }
+  .text-danger {
+    margin-top: -15px;
+  }
+  hr {
+    margin: 35px 0 25px;
+  }
+  p {
+    font-size: 1.2em;
+    text-align: center;
+  }
+  .form-group {
+    padding-left: 20px;
+    position: relative;
+  }
+  .form-group:before {
+    position: absolute;
+    font-family: 'fontello';
+    left: -20px;
+    font-size: 20px;
+    color: $midgrey;
+  }
+  .presentation:before {
+    content: '\e823';
+  }
+  .language:before {
+    content: '\e824';
+  }
+  .experience:before {
+    content: '\e820';
+  }
+  .education:before {
+    content: '\e825'
+  }
+  .competences:before {
+    content: '\e821';
+  }
+  textarea,
+  oi-select .select-search {
+    border-color: $midgrey;
+  }
+}
+
+.user-title {
+  > div {
+    display: table;
+    width: 90%;
+    margin: 0 auto;
+    > div {
+      display: table-cell;
+      padding-bottom: 20px;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    > div:first-child {
+      width: 85px;
+      padding-right: 10px;
+    }
+
+  }
+  h1 {
+    text-transform: uppercase;
+  }
+  .upload-button {
+    display: block;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
+
+    input[type="file"] {
+      width: 85px;
+      height: 85px;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .user-info-image {
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      -webkit-transition: background .3s;
+      transition: background .3s;
+    }
+    .icon-camera {
+      text-align: center;
+      width: 85px;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      height: 85px;
+      text-shadow: 0px 0px 5px rgba(0,0,0,1);
+      pointer-events: none;
+      opacity: 0;
+      -webkit-transition: opacity .2s;
+      transition: opacity .2s;
+
+      .icon-ic-camera {
+        font-family: 'fontello';
+        color: $white;
+        content: '\e822';
+        font-size: 26px;
+        margin: 14px 8px -2px 0;
+        display: inline-block;
+      }
+      span {
+        font-size: 12px;
+        display: block;
+        text-align: center;
+      }
+
+    }
+  }
+
+  .upload-button:hover {
+    .user-info-image {
+      -webkit-filter: blur(3px);
+      -moz-filter: blur(3px);
+      -o-filter: blur(3px);
+      -ms-filter: blur(3px);
+      filter: blur(3px);
+    }
+    .icon-camera {
+      opacity: 1;
+    }
+  }
+
+}
+
 .new-job-form {
   select {
     padding: 9px 8px;
   }
 }
+
 .new-job-form {
   .cate-group,
   .job-date {
@@ -264,12 +423,13 @@ label {
     }
   }
 }
+
 .select-login {
   text-align: center;
   width: 80%;
   margin: 0 auto;
   p {
-    margin:30px 0;
+    margin: 30px 0;
     font-size: 1.2em;
 
     a {
@@ -279,6 +439,7 @@ label {
     }
   }
 }
+
 .job-approve {
 
   .main-content {

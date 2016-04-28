@@ -44,6 +44,10 @@ angular.module('just.common')
                         },
                         'query': {
                             method: 'GET'
+                        },
+                        'upload': {
+                            method: 'POST',
+                            headers: {'Content-Type': undefined, enctype: 'multipart/form-data'}
                         }
                     });
             };
@@ -51,6 +55,8 @@ angular.module('just.common')
             return {
                 users: crud("users"),
                 user: crud("users/:id"),
+
+                userImage: crud("users/images"),
 
                 chatMessage: crud("chats/:id/messages"),
 
@@ -72,7 +78,7 @@ angular.module('just.common')
                 job: crud("jobs/:id"),
 
                 contact: crud("contacts"),
-                
+
                 categories: crud("categories"),
 
                 faqs: crud("faqs?filter[language-id]=:id"),

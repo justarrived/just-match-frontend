@@ -20,7 +20,8 @@ angular.module('just', [
         'just.translate',
         'slick',
         'uiGmapgoogle-maps',
-        'AxelSoft'
+        'AxelSoft',
+        'oi.select'
     ])
     .constant('justRoutes', {
         global: {
@@ -132,6 +133,13 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/list-jobs.html',
                     controller: 'ListJobCtrl as ctrl'
+                }
+            },
+            accept:{
+                url: '/job/accept',
+                handler: {
+                    templateUrl: 'common/templates/accepted-job.html',
+                    controller: 'AcceptedJobCtrl as ctrl'
                 }
             }
         },
