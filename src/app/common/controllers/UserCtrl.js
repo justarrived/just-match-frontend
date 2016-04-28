@@ -93,56 +93,75 @@ angular.module('just.common')
                 //save data
 
 
+                // UPLOAD IMAGE
+                if($scope.vm){
+                    Resources.userImage.upload({
+                            image: $scope.vm.uploadme,
+                            data: {
+                                attributes: {
+                                    image: $scope.vm.uploadme
+                                }
+                            }
+                        },
+                        function (response) {
+                            console.log("upload image");
+                            console.log(response);
+                        }
+                    );
+                }
+
+
+
+                // UPDATE USER PROFILE
+                Resources.users.update(update_data, function (response) {
+                    console.log(response);
+                });
+
+
+                // UPDATE USER LANGUAGE SKILL
+
                 if (flow.next_data) {
 
                     var job_id = flow.next_data;
                     // UPLOAD USER IMAGE GET ONE-TOKEN
                     // UPDATE USER PROFILE + ONE-TOKEN
                     // UPDATE USER LANGUAGE SKILL
-                    jobService.acceptJob(job_id);
 
+                    //jobService.acceptJob(job_id);
 
-                    /*$http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
-                     console.log(data);
-                     console.log(status);
-                     flow.next(routes.job.accept.url, job_id);
-                     }).error(function (data, status) {
-                     //that.message = error;
-                     //flow.reload(routes.user.user.url);
-                     console.error('Repos error', status, data);
-                     });*/
 
                 }
 
-                /*
-                 // UPDATE USER PROFILE
-                 Resources.users.update(update_data, function (response) {
-                 console.log(response);
-                 });
-                 */
-                /*
-                 // UPLOAD IMAGE
-                 Resources.userImage.upload({
-                 image: $scope.vm.uploadme,
-                 data: {
-                 attributes: {
-                 image: $scope.vm.uploadme
-                 }
-                 }
-                 },
-                 function (response) {
-                 console.log("upload image");
-                 console.log(response);
-                 }
-                 );
-
-                 */
-
             };
         }])
-    .controller('UserJobsCtrl', ['userService', function (userService) {
+    .controller('UserJobsCtrl', ['authService', 'userService', 'jobService', '$scope', '$q', function (authService, userService, jobService, $scope, $q) {
         this.model = userService.userModel();
         this.message = userService.userMessage;
 
-        console.log("company_id:" + userService.companyId());
+        //$scope.jobs = jobService.getUserJobs(authService.userId().id,"job,user");
+
+        /*$scope.jobs = Resources.job.get({"include": "owner,company,hourly-pay","filter[owner-id]":authService.userId().id},function(response){
+         // getjob
+         });*/
+
+        if (userService.companyId) {
+            $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
+
+            $scope.jobs.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                $scope.jobs = [];
+                angular.forEach(response.data, function (obj, key) {
+                    if (obj.relationships.owner.data.id === authService.userId().id) {
+                        $scope.jobs.push(obj);
+                    }
+                });
+
+                console.log($scope.jobs);
+                deferd.resolve($scope.jobs);
+                return deferd.promise;
+            });
+        } else {
+            $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
+        }
     }]);

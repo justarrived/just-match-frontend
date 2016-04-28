@@ -136,6 +136,8 @@
   "user.language-skills.validation_error": "Du måste ange språkkunskaper",
   "user.job-experience.validation_error": "Du måste ange jobberfarenhet",
   "user.education.validation_error": "Du måste ange utbildning",
-  "user.competences.validation_error": "Du måste ange kompetenser"
+  "user.competences.validation_error": "Du måste ange kompetenser",
+
+  "user-jobs.job.label": "Uppdrag"
 
 }

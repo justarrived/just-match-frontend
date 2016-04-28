@@ -1,4 +1,29 @@
-USER JOBS
+<section>
+    <h2>{{ "menu.assignment.list" | translate }}</h2>
+    <div>
+        <a href="#{{routes.user.jobs.url}}">{{"user-jobs.job.label" | translate}}</a> |
+        <a href="">ARKIV</a>
+    </div>
+    <div class="recent-activity">
+        <ul>
+            <li ng-repeat="job in jobs">
+                <div>
+                    {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                    {{job.attributes["job-date"] | date: "dd"}}
+                </div>
+                <div>
+                    {{job.attributes["name"]}}<br/>
+                    2 kommentarer & 17 ansökningar
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="wait-rating">
 
-{{ctrl.model | json}}
-{{ctrl.message | json}}
+    </div>
+
+    {{ctrl.model | json}}
+    {{ctrl.message | json}}
+    {{jobs | json}}
+</section>
+

@@ -68,7 +68,7 @@ angular.module('just.service')
             if (angular.isUndefined(that.user)) {
 
                 that.user = Resources.user.get({id: authService.userId().id,"include": "language,languages,user-images"},function(){
-                    if(that.user.data.relationships.company){
+                    if(that.user.data.relationships.company.data !== null){
                         storage.set("company_id", that.user.data.relationships.company.data.id);
                     }else{
                         storage.set("company_id", null);
