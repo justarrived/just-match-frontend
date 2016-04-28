@@ -5,6 +5,7 @@
         <a href="">ARKIV</a>
     </div>
     <div class="recent-activity">
+        <h3>SENASTE AKTIVITET</h3>
         <ul>
             <li ng-repeat="job in jobs">
                 <div>
@@ -19,11 +20,25 @@
         </ul>
     </div>
     <div class="wait-rating">
-
+        <h3>SAKNAR BEDÖMNING</h3>
+        <ul>
+            <li>
+                <div>
+                    JAN<br/>
+                    07
+                </div>
+                <div>
+                    Satta ihop 5 hyllor<br/>
+                    <i>Du anlitade Amir Kheirmand</i><br/>
+                    Ge betyg ditt betyg:<br/>
+                    &#9734; &#9734; &#9734; &#9734; &#9734;
+                </div>
+            </li>
+        </ul>
     </div>
 
-    {{ctrl.model | json}}
-    {{ctrl.message | json}}
-    {{jobs | json}}
+    <p>{{ctrl.model | json}}</p>
+    <p>{{ctrl.message | json}}</p>
+    <p>{{jobs | json}}</p>
 </section>
 

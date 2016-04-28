@@ -144,7 +144,8 @@ angular.module('just.common')
          // getjob
          });*/
 
-        if (userService.companyId) {
+
+        if (userService.companyId() !== null) {
             $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
 
             $scope.jobs.$promise.then(function (response) {
@@ -157,11 +158,27 @@ angular.module('just.common')
                     }
                 });
 
-                console.log($scope.jobs);
+                //console.log($scope.jobs);
                 deferd.resolve($scope.jobs);
                 return deferd.promise;
             });
         } else {
+            // need to work with data
             $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
+            $scope.jobs.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                $scope.jobs = [];
+                angular.forEach(response.included, function (obj, key) {
+                    if (obj.type === 'jobs') {
+                        $scope.jobs.push(obj);
+                    }
+                });
+
+                //console.log($scope.jobs);
+                deferd.resolve($scope.jobs);
+
+                return deferd.promise;
+            });
         }
     }]);
