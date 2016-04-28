@@ -66,7 +66,8 @@ angular.module('just.service')
 
         this.userModel = function () {
             if (angular.isUndefined(that.user)) {
-                that.user = Resources.user.get({id: authService.userId().id},function(){
+
+                that.user = Resources.user.get({id: authService.userId().id,"include": "language,languages,user-images"},function(){
                     if(that.user.data.relationships.company){
                         storage.set("company_id", that.user.data.relationships.company.data.id);
                     }else{
@@ -76,4 +77,7 @@ angular.module('just.service')
             }
             return that.user;
         };
+
+        this.userMessage = {};
+
     }]);
