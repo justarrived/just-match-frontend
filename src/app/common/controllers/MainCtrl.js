@@ -9,9 +9,9 @@ angular.module('just.common')
                         document.body.clientHeight, document.documentElement.clientHeight
                     );
                 }
-
+                var footerHeight = angular.element("footer").height();
                 var windowHeight = window.innerHeight;
-                var docHeight = getDocHeight() - 200;
+                var docHeight = getDocHeight() - footerHeight;
                 if ((this.pageYOffset + windowHeight) <= docHeight) {
                     element.addClass('sticky');
                 } else {

@@ -1,19 +1,26 @@
 <div class="job-body-heading">
-  <span>{{ job.totalRate }}</span><br>
-  <em>{{ job.attributes.hours }} Timmar ({{ job.max_rate }} {{ job.currency }}/h)</em>
+    <div>
+        <span>{{ job.totalRate }}</span><br>
+        <em>{{ job.attributes.hours }} Timmar ({{ job.max_rate }} {{ job.currency }}/h)</em>
+    </div>
+    <div>
+        <button ng-click="next(routes.job.list.url)">{{"job-body.search.text" | translate}}</button>
+    </div>
 </div>
 
 <div class="job-body-description">
-  <h3>{{"job-body.uppdrag.title" | translate}}</h3>
-  <div>
-    <ul>
-      <li class="job-description">{{ job.attributes.description }}</li>
-    </ul>
-    <ul>
-      <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>
-      <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"] | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}</li>
-      <li class="job-language">Eng, Svenska, Arabiska</li>
-      <li class="job-review"><a href="#">{{"job-body.review.text" | translate}}</a></li>
-    </ul>
-  </div>
+    <h3>{{"job-body.uppdrag.title" | translate}}</h3>
+    <div>
+        <ul>
+            <li class="job-description">{{ job.attributes.description }}</li>
+        </ul>
+        <ul>
+            <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>
+            <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
+                | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}
+            </li>
+            <li class="job-language">Eng, Svenska, Arabiska</li>
+            <li class="job-review"><a href="#">{{"job-body.review.text" | translate}}</a></li>
+        </ul>
+    </div>
 </div>
