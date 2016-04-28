@@ -91,6 +91,16 @@ angular.module('just', [
                     templateUrl: 'common/templates/user-jobs.html',
                     controller: 'UserJobsCtrl as ctrl'
                 }
+            },
+            job_manage: {
+                url: '/user/job/:id',
+                resolve: function (obj) {
+                    return '/user/job/' + obj.id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job.html',
+                    controller: 'UserJobsManageCtrl as ctrl'
+                }
             }
         },
         job: {

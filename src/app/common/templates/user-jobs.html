@@ -1,21 +1,23 @@
 <section>
     <h2>{{ "menu.assignment.list" | translate }}</h2>
     <div>
-        <a href="#{{routes.user.jobs.url}}">{{"user-jobs.job.label" | translate}}</a> |
+        <a href="#{{routes.user.jobs.url}}" class="curr">{{"user-jobs.job.label" | translate}}</a> |
         <a href="">ARKIV</a>
     </div>
     <div class="recent-activity">
         <h3>SENASTE AKTIVITET</h3>
         <ul>
             <li ng-repeat="job in jobs">
-                <div>
-                    {{job.attributes["job-date"] | date: "MMM"}}<br/>
-                    {{job.attributes["job-date"] | date: "dd"}}
-                </div>
-                <div>
-                    {{job.attributes["name"]}}<br/>
-                    2 kommentarer & 17 ansökningar
-                </div>
+                <a href="#{{routes.user.job_manage.resolve(job)}}">
+                    <div>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        {{job.attributes["job-date"] | date: "dd"}}
+                    </div>
+                    <div>
+                        {{job.attributes["name"]}}<br/>
+                        {{job.relationships.comments.data.length}} kommentarer & 17 ansökningar
+                    </div>
+                </a>
             </li>
         </ul>
     </div>

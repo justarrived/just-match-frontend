@@ -39,6 +39,10 @@ angular.module('just.service')
             this.getUserJobs = function (user_id, include) {
                 return Resources.userJobs.get({user_id: user_id, 'include': include});
             };
+            this.getJobUsers = function (job_id, include) {
+                return Resources.jobUsers.get({job_id: job_id, 'include': include});
+            };
+
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {
                     flow.next(routes.job.approved.url, data);

@@ -94,7 +94,7 @@ angular.module('just.common')
 
 
                 // UPLOAD IMAGE
-                if($scope.vm){
+                if ($scope.vm) {
                     Resources.userImage.upload({
                             image: $scope.vm.uploadme,
                             data: {
@@ -111,7 +111,6 @@ angular.module('just.common')
                 }
 
 
-
                 // UPDATE USER PROFILE
                 Resources.users.update(update_data, function (response) {
                     console.log(response);
@@ -121,64 +120,115 @@ angular.module('just.common')
                 // UPDATE USER LANGUAGE SKILL
 
                 if (flow.next_data) {
-
                     var job_id = flow.next_data;
-                    // UPLOAD USER IMAGE GET ONE-TOKEN
-                    // UPDATE USER PROFILE + ONE-TOKEN
-                    // UPDATE USER LANGUAGE SKILL
-
-                    //jobService.acceptJob(job_id);
-
-
+                    jobService.acceptJob(job_id);
                 }
 
             };
         }])
     .controller('UserJobsCtrl', ['authService', 'userService', 'jobService', '$scope', '$q', function (authService, userService, jobService, $scope, $q) {
+        var that = this;
+
         this.model = userService.userModel();
         this.message = userService.userMessage;
+        $scope.jobs = {};
 
-        //$scope.jobs = jobService.getUserJobs(authService.userId().id,"job,user");
+        this.isCompany = -1;
 
-        /*$scope.jobs = Resources.job.get({"include": "owner,company,hourly-pay","filter[owner-id]":authService.userId().id},function(response){
-         // getjob
-         });*/
+        this.model.$promise.then(function (response) {
+            var deferd = $q.defer();
 
-
-        if (userService.companyId() !== null) {
-            $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
+            that.model = response;
+            if (response.data.relationships.company.data !== null) {
+                that.isCompany = 1;
+                $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
+            } else {
+                that.isCompany = 0;
+                $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
+            }
 
             $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
-
                 $scope.jobs = [];
-                angular.forEach(response.data, function (obj, key) {
-                    if (obj.relationships.owner.data.id === authService.userId().id) {
-                        $scope.jobs.push(obj);
-                    }
-                });
-
-                //console.log($scope.jobs);
+                if (that.isCompany === 1) {
+                    angular.forEach(response.data, function (obj, key) {
+                        if (obj.relationships.owner.data.id === authService.userId().id) {
+                            $scope.jobs.push(obj);
+                        }
+                    });
+                } else {
+                    angular.forEach(response.included, function (obj, key) {
+                        if (obj.type === 'jobs') {
+                            $scope.jobs.push(obj);
+                        }
+                    });
+                }
                 deferd.resolve($scope.jobs);
                 return deferd.promise;
             });
-        } else {
-            // need to work with data
-            $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
-            $scope.jobs.$promise.then(function (response) {
+
+            deferd.resolve(that.model);
+            return deferd.promise;
+        });
+    }])
+    .controller('UserJobsManageCtrl', ['jobService', 'userService', '$routeParams', '$scope', '$q','$filter', function (jobService, userService, $routeParams, $scope, $q,$filter) {
+        var that = this;
+
+        if (userService.isCompany === -1) {
+            this.model = userService.userModel();
+
+            this.model.$promise.then(function (response) {
                 var deferd = $q.defer();
 
-                $scope.jobs = [];
-                angular.forEach(response.included, function (obj, key) {
-                    if (obj.type === 'jobs') {
-                        $scope.jobs.push(obj);
-                    }
-                });
+                that.model = response;
 
-                //console.log($scope.jobs);
-                deferd.resolve($scope.jobs);
+                if (response.data.relationships.company.data !== null) {
+                    that.isCompany = 1;
+                } else {
+                    that.isCompany = 0;
+                }
 
+                that.getJobData();
+
+                deferd.resolve(that.model);
                 return deferd.promise;
+
             });
+        }else{
+            this.getJobData();
         }
+
+        this.getJobData = function(){
+            if(that.isCompany===1){
+                $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
+                $scope.job_user.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    var found = $filter('filter')(response.included, {
+                        id: "" + $routeParams.id,
+                        type: "jobs"
+                    }, true);
+
+                    if(found.length > 0){
+                        $scope.job = found[0];
+                    }
+
+                    deferd.resolve($scope.job);
+                    return deferd.promise;
+
+                });
+            }else{
+                $scope.job = jobService.getJob($routeParams.id);
+                $scope.job.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    $scope.job = response.data;
+
+                    deferd.resolve($scope.job);
+                    return deferd.promise;
+
+                });
+            }
+        };
+
     }]);

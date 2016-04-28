@@ -27,4 +27,11 @@ angular
             // scope: { model: '=model' },
             templateUrl: 'common/templates/job-more.html'
         };
+    })
+    .directive('userJobHeader', function () {
+        return {
+            restrict: 'E',
+            // scope: { model: '=model' },
+            templateUrl: 'common/templates/user-job-header.html'
+        };
     });
