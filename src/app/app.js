@@ -83,6 +83,13 @@ angular.module('just', [
                     templateUrl: 'common/templates/user.html',
                     controller: 'UserCtrl as ctrl'
                 }
+            },
+            jobs: {
+                url: '/user/jobs',
+                handler: {
+                    templateUrl: 'common/templates/user-jobs.html',
+                    controller: 'UserJobsCtrl as ctrl'
+                }
             }
         },
         job: {
