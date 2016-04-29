@@ -86,6 +86,7 @@ angular.module('just.common')
                 var update_data = {};
                 update_data.data = {};
                 update_data.data.attributes = {};
+                update_data.data.attributes.description = that.model.data.attributes.description;
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
@@ -337,8 +338,27 @@ angular.module('just.common')
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
+            this.candidate_model = {};
+            $scope.currTab = 1;
+            $scope.modalShow = false;
 
             this.model = jobService.getJobUser(this.job_id, this.job_user_id, 'job,user,user.user-images');
+            this.model.$promise.then(function (response) {
+                var deferd = $q.defer();
+
+                this.candidate_model = {};
+                var found = $filter('filter')(response.included, {
+                    id: "" + response.data.relationships.user.data.id,
+                    type: "users"
+                }, true);
+
+                if (found.length > 0) {
+                    that.candidate_model = found[0].attributes;
+                }
+
+                deferd.resolve(that.candidate_model);
+                return deferd.promise;
+            });
 
         }]);
 
