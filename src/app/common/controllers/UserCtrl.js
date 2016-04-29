@@ -341,6 +341,8 @@ angular.module('just.common')
             this.candidate_model = {};
             $scope.currTab = 1;
             $scope.modalShow = false;
+            $scope.job_status_title = "Amir har sokt uppdraget";
+            $scope.isAccepted = false;
 
             this.model = jobService.getJobUser(this.job_id, this.job_user_id, 'job,user,user.user-images');
             this.model.$promise.then(function (response) {
@@ -360,5 +362,16 @@ angular.module('just.common')
                 return deferd.promise;
             });
 
+            this.acceptJob = function () {
+                jobService.ownerAcceptJob(that.job_id, that.job_user_id, this.fn);
+            };
+            this.fn = function (result) {
+                if (result === 1) {
+                    $scope.isAccepted = true;
+                    //set time interval 60000 calculate hour and min from start
+                    $scope.job_status_title = "Amir har 11h 59min pa sig att acceptera uppdraget.";
+                }
+                $scope.modalShow = false;
+            };
         }]);
 

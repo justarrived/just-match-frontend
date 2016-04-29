@@ -7,8 +7,8 @@
     </div>
     <hr/>
     <div class="user-job-status">
-        <div class="user-job-status-title">Amir har sokt uppdraget</div>
-        <div><a href="" ng-click="modalShow = true">Anlita</a></div>
+        <div class="user-job-status-title">{{job_status_title}}</div>
+        <div ng-hide="isAccepted"><a href="" ng-click="modalShow = true">Anlita</a></div>
     </div>
     <hr/>
     <div class="candidate-profile" ng-show="currTab === 1">
@@ -85,7 +85,7 @@
         </p>
         <div>
             <a href="" ng-click="modalShow = false">Avbryt</a>
-            <a href="">Skicka</a>
+            <a href="" ng-click="ctrl.acceptJob()">Skicka</a>
         </div>
     </div>
 
