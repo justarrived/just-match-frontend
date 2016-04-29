@@ -526,6 +526,7 @@ job-body, job-comment {
     position: relative;
   }
 }
+
 .sticky {
   .job-more-wrapper {
     .button {
@@ -709,6 +710,9 @@ job-body, job-comment {
       padding-left: 0;
     }
   }
+  .stars {
+    font-size: 24px;
+  }
 }
 
 .user-job-wrapper {
@@ -770,23 +774,34 @@ job-body, job-comment {
 
 .user-job-cadidates {
   .stars {
-    font-size: 1.2em;
+    font-size: 20px;
     margin-right: 5px;
   }
+  .heart {
+    font-size: 35px;
+    line-height: 25px;
+    .select {
+      font-size: 25px;
+      line-height: 35px;
+    }
+  }
+
   > h1,
   > p {
     text-align: center;
     padding-left: 25px;
     padding-right: 25px;
     max-width: 700px;
-    margin-left: auto ;
-    margin-right: auto ;
+    margin-left: auto;
+    margin-right: auto;
   }
+
   > h1 {
     font-weight: 400;
     font-size: 1.2em;
     margin-bottom: 15px;
   }
+
   > ul {
     display: table;
     width: 100%;
@@ -798,7 +813,7 @@ job-body, job-comment {
       > div {
         display: table-cell;
         border-top: 1px solid $lightGrey;
-        padding: 10px 25px;
+        padding: 15px 25px;
         vertical-align: middle;
 
         a {
@@ -823,10 +838,9 @@ job-body, job-comment {
       }
     }
   }
+
   .user-info-image {
     @include circle(35px);
   }
-  .heart {
-    font-size: 1.6em;
-  }
+
 }

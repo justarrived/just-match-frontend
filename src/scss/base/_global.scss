@@ -108,57 +108,11 @@ p, li, input, textarea {
 .main-content {
   padding: 35px 20px;
 }
-
-.stars {
-  font-size: 2em;
+.stars, .heart {
   white-space: nowrap;
-  display: inline-block;
-  margin-top: -5px;
-
-  i {
-    font-style: normal;
-    color: $white;
-    text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    position: relative;
-    font-size: 1.2em;
-    padding-right: 5px;
-  }
-  i:before,
-  i:after {
-    position: absolute;
-    content: '\2605';
-    text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-    left: 0;
-  }
-  i.select {
+  font-weight: 300;
+  color: $midgrey;
+  .select {
     color: $pink;
-    text-shadow: none;
   }
-  i.select:before,
-  i.select:after  {
-    text-shadow: none;
-  }
-}
-.heart {
-  font-style: normal;
-  color: $white;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-  position: relative;
-  font-size: 1.2em;
-  padding-right: 5px;
-}
-.heart:before,
-.heart:after  {
-  position: absolute;
-  content: '\2764';
-  text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-  left: 0;
-}
-.heart.select {
-  color: $pink;
-  text-shadow: none;
-}
-.heart.select:before,
-.heart.select:after  {
-  text-shadow: none;
 }
