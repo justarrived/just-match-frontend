@@ -20,7 +20,7 @@
                 <div class="form-group presentation">
                     <label>{{ 'user.presentation.label' | translate }}</label>
                     <textarea name="presentation" required
-                              ng-model="ctrl.model.data.attributes.presentation"></textarea>
+                              ng-model="ctrl.model.data.attributes.description"></textarea>
                 </div>
             </validation>
 
@@ -64,10 +64,10 @@
                 </div>
             </validation>
 
-            <validation form="form" field="competences" errormsg="user.competences.validation_error">
+            <validation form="form" field="competences" errormsg="user.skills.validation_error">
                 <div class="form-group competences">
-                    <label>{{ "user.competences.label" | translate }}</label>
-                    <textarea name="competences" ng-model="ctrl.model.data.attributes.competences"></textarea>
+                    <label>{{ "user.skills.label" | translate }}</label>
+                    <textarea name="competences" ng-model="ctrl.model.data.attributes.skills"></textarea>
                 </div>
             </validation>
             <div>

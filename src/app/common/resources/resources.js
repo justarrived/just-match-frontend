@@ -57,8 +57,8 @@ angular.module('just.common')
                 user: crud("users/:id"),
 
                 userJobs: crud("users/:user_id/jobs"), //for user
-
                 userImage: crud("users/images"),
+                userLanguages: crud("users/:user_id/languages"),
 
                 chatMessage: crud("chats/:id/messages"),
 
