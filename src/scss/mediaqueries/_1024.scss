@@ -1,10 +1,7 @@
 .job-list-title,
 .nav-job-list-bottom,
-.job-list-wrapper,
-.user-job-comments .main-content {
+.job-list-wrapper {
   max-width: 70%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 #map_canvas {
@@ -14,6 +11,7 @@
   width: 30%;
   overflow: hidden;
 }
+
 #map_canvas:after {
   position: absolute;
   width: 2px;
@@ -26,13 +24,16 @@
   background: $white;
   left: -1px;
 }
+
 button.map-zoom-in {
   top: 15px;
   right: 25px;
 }
+
 .main-title {
   padding: 35px;
 }
+
 .job-list-wrapper {
   margin-top: 0;
   > li {
@@ -48,12 +49,24 @@ button.map-zoom-in {
 }
 
 .job-body-description,
-.job-comment-list {
+.job-comment-list,
+.job-body-heading {
   width: 70%;
   margin: 0 auto;
 }
+.job-body-heading {
+  display: table;
+  table-layout: fixed;
+  > div,
+  > div:last-child{
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
 .job-body-description {
-  > div { font-size: 0;
+  > div {
+    font-size: 0;
 
     ul {
       width: 50%;
@@ -72,6 +85,7 @@ button.map-zoom-in {
   }
 
 }
+
 .job-more-wrapper {
   #map_canvas {
     display: block;
@@ -98,11 +112,18 @@ button.map-zoom-in {
       width: 70%;
     }
   }
-
+  .button {
+    display: none;
+  }
 
 }
-.faq {
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
+
+.menu-page, .lang-page {
+  background: rgba(255,255,255, 0.3);
+
+  > div, .lang-wrapper {
+    width: 375px;
+    background: rgba(34,37,49,0.95);
+    float: right;
+  }
 }

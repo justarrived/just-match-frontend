@@ -108,15 +108,20 @@
     > div {
       display: table-cell;
       vertical-align: middle;
+      text-align: left;
     }
     > div:first-child {
       text-align: left;
       padding-left: 25px;
+      width: 80px;
     }
     > div:last-child {
       text-align: right;
       padding-right: 20px;
       font-size: 1.45em;
+    }
+    a {
+      color: $brightBlue;
     }
     .user-info-image {
       margin-right: 10px;
@@ -129,6 +134,10 @@
       }
     }
 
+  }
+  a:hover {
+    text-decoration: none;
+    opacity: 0.7;
   }
 
 }

@@ -15,6 +15,15 @@
   em {
     font-style: normal;
   }
+  > div:last-child {
+    display: none;
+  }
+  button {
+    @include button-pink;
+    padding: 0 40px;
+    width: auto;
+    max-width: none;
+  }
 }
 
 .job-header {
@@ -503,6 +512,27 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   .right {
     > div:first-child {
       text-align: right;
+    }
+  }
+}
+
+job-body, job-comment {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.new-job-form {
+  .cate-group {
+    position: relative;
+  }
+}
+.sticky {
+  .job-more-wrapper {
+    .button {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
   }
 }
