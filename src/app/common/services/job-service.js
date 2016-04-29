@@ -36,6 +36,16 @@ angular.module('just.service')
             this.getJobsPage = function (paramObj) {
                 return Resources.jobs.get(paramObj);
             };
+            this.getUserJobs = function (user_id, include) {
+                return Resources.userJobs.get({user_id: user_id, 'include': include});
+            };
+            this.getJobUsers = function (job_id, include) {
+                return Resources.jobUsers.get({job_id: job_id, 'include': include});
+            };
+            this.getJobUser = function (job_id, user_id, include) {
+                return Resources.jobUser.get({job_id: job_id, id: user_id, 'include': include});
+            };
+
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {
                     flow.next(routes.job.approved.url, data);
@@ -64,13 +74,12 @@ angular.module('just.service')
                  that.jobMessage = error;
                  flow.reload(routes.user.user.url);
                  });*/
-                
+
                 $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
                     flow.next(routes.job.accept.url, job_id);
                 }).error(function (data, status) {
                     that.jobMessage = data;
                     flow.reload(routes.user.user.url);
                 });
-
             };
         }]);

@@ -66,6 +66,10 @@ p, li, input, textarea {
   }
   footer {
     display: table-row;
+
+    p {
+      margin: 0;
+    }
     > div {
       display: table-cell;
       background: $lightBlue;
@@ -73,10 +77,8 @@ p, li, input, textarea {
       padding: 30px;
       font-size: 1.2em;
 
-      p {
-        span {
-          white-space: nowrap;
-        }
+      span {
+        white-space: nowrap;
       }
     }
   }
@@ -93,8 +95,17 @@ p, li, input, textarea {
     font-size: 1.5em;
     text-transform: capitalize;
   }
+  h2 {
+    font-weight: 600;
+    font-size: 1.2em;
+    text-transform: capitalize;
+  }
+}
+.main-title.pink {
+  background: $pink;
 }
 
 .main-content {
   padding: 35px 20px;
 }
+
