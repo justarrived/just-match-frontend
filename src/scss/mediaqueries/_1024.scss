@@ -1,7 +1,10 @@
 .job-list-title,
 .nav-job-list-bottom,
-.job-list-wrapper {
+.job-list-wrapper,
+.user-job-comments .main-content {
   max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #map_canvas {

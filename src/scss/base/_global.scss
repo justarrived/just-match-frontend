@@ -95,8 +95,17 @@ p, li, input, textarea {
     font-size: 1.5em;
     text-transform: capitalize;
   }
+  h2 {
+    font-weight: 600;
+    font-size: 1.2em;
+    text-transform: capitalize;
+  }
+}
+.main-title.pink {
+  background: $pink;
 }
 
 .main-content {
   padding: 35px 20px;
 }
+

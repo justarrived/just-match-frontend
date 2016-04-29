@@ -4,22 +4,23 @@
 #map_canvas {
 	height: 200px;
 }
+.user-title > div {
+	width: auto;
 
+	> div:first-child {
+		padding-right: 50px;
+	}
 
-.wrapper footer > div > div {
+}
+.job-owner-header {
 	display: table;
-	width: 100%;
-
-	p {
+	table-layout: fixed;
+	width: 70%;
+	margin: 0 auto;
+	padding-bottom: 0;
+	> div {
 		display: table-cell;
-		span {
-			white-space: nowrap;
-		}
-	}
-	p:nth-child(2) {
-		text-align: center;
-	}
-	p:last-child {
-		text-align: right;
+		vertical-align: middle;
+
 	}
 }
