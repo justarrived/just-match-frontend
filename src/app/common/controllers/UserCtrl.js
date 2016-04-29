@@ -340,6 +340,7 @@ angular.module('just.common')
             this.job_user_id = $routeParams.job_user_id;
             this.candidate_model = {};
             $scope.currTab = 1;
+            $scope.modalShow = false;
 
             this.model = jobService.getJobUser(this.job_id, this.job_user_id, 'job,user,user.user-images');
             this.model.$promise.then(function (response) {

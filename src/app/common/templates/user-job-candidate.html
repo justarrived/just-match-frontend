@@ -8,7 +8,7 @@
     <hr/>
     <div class="user-job-status">
         <div class="user-job-status-title">Amir har sokt uppdraget</div>
-        <div><a href="">Anlita</a></div>
+        <div><a href="" ng-click="modalShow = true">Anlita</a></div>
     </div>
     <hr/>
     <div class="candidate-profile" ng-show="currTab === 1">
@@ -31,10 +31,10 @@
         <div>
             <h3>{{"user.language-skills.label" | translate}}</h3>
             <p>
-                <ul>
-                    <li>Swedish</li>
-                    <li>English</li>
-                </ul>
+            <ul>
+                <li>Swedish</li>
+                <li>English</li>
+            </ul>
             </p>
         </div>
     </div>
@@ -72,6 +72,21 @@
             <input type="text" required/>
             <input type="submit" value="skicka">
         </form>
+    </div>
+
+    <div class="modal-assign-job" ng-show="modalShow" style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#fff;">
+        <a href="" ng-click="modalShow = false">X</a>
+        <h3>Du skickar en forfragan till</h3>
+        <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
+        <p>
+            {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
+            {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar valja en
+            annan kandidat.
+        </p>
+        <div>
+            <a href="" ng-click="modalShow = false">Avbryt</a>
+            <a href="">Skicka</a>
+        </div>
     </div>
 
     <p>{{ctrl.model | json}}</p>
