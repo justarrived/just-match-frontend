@@ -20,7 +20,8 @@ angular.module('just', [
         'just.translate',
         'slick',
         'uiGmapgoogle-maps',
-        'AxelSoft'
+        'AxelSoft',
+        'oi.select'
     ])
     .constant('justRoutes', {
         global: {
@@ -83,6 +84,53 @@ angular.module('just', [
                     templateUrl: 'common/templates/user.html',
                     controller: 'UserCtrl as ctrl'
                 }
+            },
+            jobs: {
+                url: '/user/jobs',
+                handler: {
+                    templateUrl: 'common/templates/user-jobs.html',
+                    controller: 'UserJobsCtrl as ctrl'
+                }
+            },
+            job_manage: {
+                url: '/user/job/:id',
+                resolve: function (obj) {
+                    return '/user/job/' + obj.id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job.html',
+                    controller: 'UserJobsManageCtrl as ctrl'
+                }
+            },
+            job_comments: {
+                url: '/user/job/:id/comments',
+                resolve: function (obj) {
+                    return '/user/job/' + obj.id + '/comments';
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job-comments.html',
+                    controller: 'UserJobsCommentsCtrl as ctrl'
+                }
+            },
+            job_candidates: {
+                url: '/user/job/:id/candidates',
+                resolve: function (obj) {
+                    return '/user/job/' + obj.id + '/candidates';
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job-candidates.html',
+                    controller: 'UserJobsCandidatesCtrl as ctrl'
+                }
+            },
+            job_candidate: {
+                url: '/user/job/:job_id/candidate/:job_user_id',
+                resolve: function (job_id, job_user_id) {
+                    return '/user/job/' + job_id + '/candidate/' + job_user_id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job-candidate.html',
+                    controller: 'UserJobsCandidateCtrl as ctrl'
+                }
             }
         },
         job: {
@@ -132,6 +180,13 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/list-jobs.html',
                     controller: 'ListJobCtrl as ctrl'
+                }
+            },
+            accept: {
+                url: '/job/accept',
+                handler: {
+                    templateUrl: 'common/templates/accepted-job.html',
+                    controller: 'AcceptedJobCtrl as ctrl'
                 }
             }
         },

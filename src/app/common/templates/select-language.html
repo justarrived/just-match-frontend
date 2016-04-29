@@ -1,8 +1,8 @@
 <section class="row lang-page" ng-controller="LanguageCtrl as ctrl" ng-show="routes.global.isSelectLanguageOpen">
-    <div class="just-arrived-logo"></div>
 
     <div class="lang-wrapper">
         <div>
+            <div class="just-arrived-logo"></div>
             <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
             <div>
                 <button data-ng-repeat="lang in ctrl.languages" ng-click="ctrl.useLanguage(lang)"

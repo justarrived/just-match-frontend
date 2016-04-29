@@ -256,8 +256,8 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
-            function (authService, commentService, jobService, $scope, $routeParams, settings) {
+        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes',
+            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes) {
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
@@ -276,6 +276,10 @@
 
                 this.signedIn = function () {
                     return authService.isAuthenticated();
+                };
+
+                this.accept_job = function () {
+                    flow.next(routes.user.user.url, $routeParams.id);
                 };
 
                 $scope.isSignIn = this.signedIn();
@@ -360,6 +364,16 @@
 
                 $scope.getJobsPage('owner,company,hourly-pay');
 
-            }]);
+            }])
+        .controller('AcceptedJobCtrl', ['justFlowService', 'justRoutes', function (flow, routes) {
+
+            this.gotoJobDetail = function(){
+                if (flow.next_data) {
+                    flow.redirect(routes.job.get.resolve({id: flow.next_data}));
+                }else{
+                    flow.redirect(routes.job.list.url);
+                }
+            };
+        }]);
 
 }(window, window.angular, _));
