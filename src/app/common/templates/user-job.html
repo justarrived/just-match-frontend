@@ -1,14 +1,26 @@
-<section>
+<section class="user-job-wrapper">
     <user-job-header></user-job-header>
+    <div class="main-title pink">
+        <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
+            <div>
+                <h2>Du har {{job_user.data.length}} ansökningar</h2>
+            </div>
+            <div>
+                <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
+            </div>
+        </div>
+        <div class="job-user-header" ng-show="ctrl.isCompany === 0">
+            <h2>Du har sökt uppdraget</h2>
+        </div>
+    </div>
+    <div class="main-content">
+        <ul>
+            <li class="select"><a href="#{{routes.user.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två kommentarer</a></li>
+            <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
+        </ul>
 
-    <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
-        <h2>Du har {{job_user.data.length}} ansökningar</h2>
-        <a href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
     </div>
-    <div class="job-user-header" ng-show="ctrl.isCompany === 0">
-        <h2>Du har sökt uppdraget</h2>
+    <div class="data-generate">
+        {{job | json}}
     </div>
-    <div><a href="#{{routes.user.job_comments.resolve(job_obj)}}">Kommentarer</a></div>
-    <div><a href="">Chatt</a></div>
-    {{job | json}}
 </section>
