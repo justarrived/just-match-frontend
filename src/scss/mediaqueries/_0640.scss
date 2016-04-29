@@ -4,11 +4,22 @@
 #map_canvas {
 	height: 200px;
 }
-.user-title > div {
-	width: auto;
 
-	> div:first-child {
-		padding-right: 50px;
+
+.wrapper footer > div > div {
+	display: table;
+	width: 100%;
+
+	p {
+		display: table-cell;
+		span {
+			white-space: nowrap;
+		}
 	}
-
+	p:nth-child(2) {
+		text-align: center;
+	}
+	p:last-child {
+		text-align: right;
+	}
 }
