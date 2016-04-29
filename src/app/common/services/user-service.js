@@ -6,12 +6,13 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', function (flow, authService, i18nService, routes, Resources) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', function (flow, authService, i18nService, routes, Resources, storage) {
         var that = this;
 
         this.signinModel = {};
         this.signinMessage = {};
         this.isCompanyRegister = 0;
+        this.isCompany = -1;
 
 
         this.signin = function (attributes, completeCb) {
@@ -59,13 +60,19 @@ angular.module('just.service')
             });
         };
 
+        this.companyId = function () {
+            return storage.get("company_id");
+        };
+
         this.userModel = function () {
             if (angular.isUndefined(that.user)) {
-                that.user = Resources.user.get({
-                    id: authService.userId().id,
-                    "include": "language,languages,user-images"
-                }, function () {
-                    //console.log(that.user);
+
+                that.user = Resources.user.get({id: authService.userId().id,"include": "language,languages,user-images"},function(){
+                    if(that.user.data.relationships.company.data !== null){
+                        storage.set("company_id", that.user.data.relationships.company.data.id);
+                    }else{
+                        storage.set("company_id", null);
+                    }
                 });
             }
             return that.user;

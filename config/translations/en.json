@@ -115,11 +115,11 @@
   "user.language-skills.label": "Language skills",
   "user.job-experience.label": "Job experience",
   "user.education.label": "Education",
-  "user.competences.label": "Competences",
+  "user.skills.label": "Competences",
 
   "user.presentation.validation_error": "Presentation",
   "user.language-skills.validation_error": "Language skills",
   "user.job-experience.validation_error": "Job experience",
   "user.education.validation_error": "Education",
-  "user.competences.validation_error": "Competences"
+  "user.skills.validation_error": "Competences"
 }

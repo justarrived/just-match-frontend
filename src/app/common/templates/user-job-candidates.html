@@ -1,0 +1,13 @@
+<section>
+    <user-job-header></user-job-header>
+    <h2>VÄLJ KANDIDAT</h2>
+    <p>Så här gör du text Lorem ipsum dolor sit amet, consectetuer adipiscing elit lorem.</p>
+    <div>
+        <ul>
+            <li ng-repeat="job_user in job_users">
+                <a href="#{{routes.user.job_candidate.resolve(ctrl.job_id,job_user.id)}}">{{job_user.attributes["first-name"]}} {{job_user.attributes["last-name"]}}</a>
+            </li>
+        </ul>
+    </div>
+
+</section>
