@@ -63,7 +63,7 @@ angular.module('just.common')
             };
 
             if (this.signedIn()) {
-                $scope.user = Resources.user.get({
+                that.user = Resources.user.get({
                     id: authService.userId().id,
                     "include": "user-images"
                 });

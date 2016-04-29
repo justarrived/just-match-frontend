@@ -54,13 +54,15 @@ module.exports = {
       'bower_components/angular-slick/dist/slick.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.min.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.min.js',
-      'bower_components/js-custom-select/js/customSelect.js'
+      'bower_components/js-custom-select/js/customSelect.js',
+      'bower_components/oi.select/dist/select.min.js'
     ],
     css: [
       'bower_components/bootstrap/dist/css/bootstrap.min.css',
       'bower_components/slick-carousel/slick/slick.css',
       'bower_components/slick-carousel/slick/slick-theme.css',
-      'bower_components/js-custom-select/css/style.css'
+      'bower_components/js-custom-select/css/style.css',
+      'bower_components/oi.select/dist/select.min.css'
     ],
     assets: [
 

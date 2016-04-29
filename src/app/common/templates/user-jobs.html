@@ -1,0 +1,55 @@
+<section>
+    <div class="main-title user-job-header">
+        <h1>{{ "menu.assignment.list" | translate }}</h1>
+        <ul>
+            <li><a href="#{{routes.user.jobs.url}}">{{"user-jobs.job.label" | translate}}</a></li>
+            <li><a href="">ARKIV</a></li>
+        </ul>
+    </div>
+    <div class="user-job-content">
+        <div>
+            <h2 ng-show="ctrl.isCompany === 1">Senaste Aktivitet<i class="demo-icon icon-ic-arrow-bottom"></i></h2>
+            <ul>
+                <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
+                    <div>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                    </div>
+                    <div>
+                        <h3>{{job.attributes["name"]}}</h3>
+                        <p><em>{{job.relationships.comments.data.length}} kommentarer & xx ansökningar</em></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="wait-rating" ng-show="ctrl.isCompany === 1">
+            <h2>SAKNAR BEDÖMNING</h2>
+            <ul>
+                <li>
+                    <div>
+                        JAN<br/>
+                        <span>07</span>
+                    </div>
+                    <div>
+                        <h3>Satta ihop 5 hyllor</h3>
+                        <p><em>Du anlitade Amir Kheirmand</em></p>
+
+                        <p>Ge betyg ditt betyg: <br><span class="stars"><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i></span></p>
+                    </div>
+                    <div>
+                        <div class="user-info-image"
+                             style="background-image: url(assets/images/content/hero.png)"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="data-generate">
+        <p>{{ctrl.model | json}}</p>
+        <p>{{ctrl.message | json}}</p>
+        <p>{{jobs | json}}</p>
+    </div>
+
+
+</section>
+
