@@ -124,9 +124,7 @@
       color: $brightBlue;
     }
     .user-info-image {
-      display: inline-block;
       margin-right: 10px;
-      vertical-align: middle;
       @include circle(35px);
 
       img {

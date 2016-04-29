@@ -59,6 +59,12 @@
   height: $size;
   width: $size;
   overflow: hidden;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  vertical-align: middle;
+
 }
 
 @mixin just-arrived-logo {
