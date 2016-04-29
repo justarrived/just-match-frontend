@@ -8,6 +8,10 @@
             <div>
                 <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
+            <div>
+                <a class="button" href="">Nej</a>
+                <a class="button" href="" ng-click="modalShow=true; isPerformed=false;">Ja</a>
+            </div>
         </div>
         <div class="job-user-header" ng-show="ctrl.isCompany === 0">
             <h2>Du har sökt uppdraget</h2>
@@ -15,10 +19,40 @@
     </div>
     <div class="main-content">
         <ul>
-            <li class="select"><a href="#{{routes.user.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två kommentarer</a></li>
+            <li class="select"><a href="#{{routes.user.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två
+                kommentarer</a></li>
             <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
         </ul>
 
+    </div>
+    <div class="modal-performed-job" ng-show="modalShow"
+         style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#fff;">
+        <section ng-show="!isPerformed">
+            <h3>Ar uppdraget utfort?</h3>
+            <p>Perioden for uppdraget har passerats. For att fakturering ska goras och ersattningen ska betalas ut maste
+                bade du och Amir godkanna uppdraget nar det har utforts.</p>
+            <div>
+                <span>Containerstadning</span>
+                <span>5h 100 SEK</span>
+            </div>
+            <div>
+                Totalkonstnad 500 SEK inkl. moms
+            </div>
+            <div>
+                <a href="" ng-click="isPerformed=true">Ja</a>
+                <a href="" ng-click="modalShow=false">Nej</a>
+            </div>
+        </section>
+        <section ng-show="isPerformed">
+            <h3>Tack!</h3>
+            <p>Hur tyckte du att Amir utforde uppdraget? Ge antal stjanor (1-5) och skriv en recension som laggs till
+                Amits profil</p>
+            <div><span class="stars"><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i></span></div>
+            <div>
+                <input type="text" placeholder="Skriv en rekommendation"><br/>
+                <a href="" ng-click="modalShow=false; isPerformed=false;">Skicka</a>
+            </div>
+        </section>
     </div>
     <div class="data-generate">
         {{job | json}}
