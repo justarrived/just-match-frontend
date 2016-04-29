@@ -656,27 +656,6 @@ job-body, job-comment {
           font-size: 1.3em;
         }
       }
-      .stars {
-        font-size: 2em;
-        white-space: nowrap;
-        display: inline-block;
-        margin-top: -5px;
-
-        i {
-          font-style: normal;
-          color: $white;
-          text-shadow: 0 0 2px rgba(0, 0, 0, 1);
-          position: relative;
-          font-size: 1.2em;
-          padding-right: 5px;
-        }
-        i:before, i:after {
-          position: absolute;
-          content: '\2605';
-          text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-          left: 0;
-        }
-      }
     }
     > li.select {
       border-left: 3px solid $pink;
@@ -689,17 +668,6 @@ job-body, job-comment {
     }
     > li:last-child > div {
       border-bottom: 0;
-    }
-    .user-info-image {
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      border-radius: 50%;
-      overflow: hidden;
-
     }
   }
   .wait-rating li {
@@ -768,4 +736,67 @@ job-body, job-comment {
 
   }
 
+}
+
+.user-job-cadidates {
+  .stars {
+    font-size: 1.2em;
+    margin-right: 5px;
+  }
+  > h1,
+  > p {
+    text-align: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    max-width: 700px;
+    margin-left: auto ;
+    margin-right: auto ;
+  }
+  > h1 {
+    font-weight: 400;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+  > ul {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    > li {
+      display: table-row;
+      > div {
+        display: table-cell;
+        border-top: 1px solid $lightGrey;
+        padding: 10px 25px;
+        vertical-align: middle;
+
+        a {
+          color: $lightBlue;
+          text-decoration: none;
+          font-weight: 700;
+        }
+
+        span {
+          white-space: nowrap;
+        }
+      }
+      > div:nth-child(2) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      > div:first-child {
+        width: 85px;
+      }
+      > div:last-child {
+        text-align: center;
+      }
+    }
+  }
+  .user-info-image {
+    @include circle(35px);
+  }
+  .heart {
+    font-size: 1.6em;
+  }
 }
