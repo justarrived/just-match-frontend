@@ -1,4 +1,26 @@
 angular.module('just.common')
+    .directive("scroll", function ($window) {
+        return function (scope, element, attrs) {
+            angular.element($window).bind("scroll", function () {
+                function getDocHeight() {
+                    return Math.max(
+                        document.body.scrollHeight, document.documentElement.scrollHeight,
+                        document.body.offsetHeight, document.documentElement.offsetHeight,
+                        document.body.clientHeight, document.documentElement.clientHeight
+                    );
+                }
+                var footerHeight = angular.element("footer").height();
+                var windowHeight = window.innerHeight;
+                var docHeight = getDocHeight() - footerHeight;
+                if ((this.pageYOffset + windowHeight) <= docHeight) {
+                    element.addClass('sticky');
+                } else {
+                    element.removeClass('sticky');
+                }
+            });
+        };
+    })
+
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', function (authService, $location, flow, routes, i18nService, $scope, Resources) {
             var that = this;
             this.signedIn = function () {
@@ -41,7 +63,7 @@ angular.module('just.common')
             };
 
             if (this.signedIn()) {
-                $scope.user = Resources.user.get({
+                that.user = Resources.user.get({
                     id: authService.userId().id,
                     "include": "user-images"
                 });

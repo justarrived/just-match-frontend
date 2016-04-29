@@ -1,0 +1,25 @@
+<section class="user-job-comments">
+    <user-job-header></user-job-header>
+    <div class="main-content">
+        <h1>KOMMENTARER</h1>
+        <ul>
+            <li ng-repeat="comment in comments">
+                <div class="bubble">
+                    <div>{{comment.attributes["first-name"]}} {{comment.attributes["last-name"]}}</div>
+                    <div>{{comment.attributes["body"]}}</div>
+                </div>
+                <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
+                </div>
+            </li>
+        </ul>
+        <form name="form" ng-submit="ctrl.submit()">
+            <div class="form-group">
+                <input type="text" name="comment_text" required placeholder="Skirv din kommentar"
+                       ng-model="ctrl.model.data.attributes['body']"/>
+            </div>
+        </form>
+    </div>
+    <div class="data-generate">
+        {{ctrl.model | json}}
+    </div>
+</section>

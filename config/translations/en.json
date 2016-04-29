@@ -90,5 +90,36 @@
   "language.select.title" : "Wellcome! Start with Choosing your langauge",
   "language.select.body" : "By using the justarrived.se website, you agree to the use of cookies by us and third parties to enhance your experience. For more information, or to change your cookie settings",
 
-  "common.click-here" : "Click here"
+  "common.click-here" : "Click here",
+
+  "company-register.cin.label" : "Company id",
+  "company-register.name.label": "Company name",
+  "company-register.website.label": "Company website",
+  "company-register.contact-firstname.label": "Contact person first name",
+  "company-register.contact-lastname.label": "Contact person last name",
+  "company-register.email.label": "Email",
+  "company-register.telephone.label": "Telephone",
+  "company-register.password.label": "Password",
+
+  "company-register.form.cin.validation_error": "Company id",
+  "company-register.form.name.validation_error": "Company name",
+  "company-register.form.website.validation_error": "Company website",
+  "company-register.form.contact-firstname.validation_error": "Contact person first name",
+  "company-register.form.contact-lastname.validation_error": "Contact person last name",
+  "company-register.form.email.validation_error": "Email",
+  "company-register.form.phone.validation_error": "Telephone",
+  "company-register.form.zip.validation_error": "Password",
+
+  "user.title": "Create profile",
+  "user.presentation.label": "Presentation",
+  "user.language-skills.label": "Language skills",
+  "user.job-experience.label": "Job experience",
+  "user.education.label": "Education",
+  "user.skills.label": "Competences",
+
+  "user.presentation.validation_error": "Presentation",
+  "user.language-skills.validation_error": "Language skills",
+  "user.job-experience.validation_error": "Job experience",
+  "user.education.validation_error": "Education",
+  "user.skills.validation_error": "Competences"
 }

@@ -49,9 +49,19 @@ button.map-zoom-in {
 }
 
 .job-body-description,
-.job-comment-list {
+.job-comment-list,
+.job-body-heading {
   width: 70%;
   margin: 0 auto;
+}
+.job-body-heading {
+  display: table;
+  table-layout: fixed;
+  > div,
+  > div:last-child{
+    display: table-cell;
+    vertical-align: middle;
+  }
 }
 
 .job-body-description {
@@ -101,6 +111,9 @@ button.map-zoom-in {
     > div:first-child {
       width: 70%;
     }
+  }
+  .button {
+    display: none;
   }
 
 }

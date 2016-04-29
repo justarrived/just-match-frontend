@@ -32,7 +32,7 @@
     <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 </head>
 
-<body ng-controller="MainCtrl as ctrl">
+<body ng-controller="MainCtrl as ctrl" scroll>
 <div class="wrapper">
     <header>
         <div class="top-bar">
@@ -56,12 +56,16 @@
 
     <footer>
         <div>
-            <p>
-                <span>Just Arrived</span><br>
-                <span>Jakobsbergsgatan 22,</span>
-                <span>111 44 Stockholm</span><br>
-                <span>hej@justarrived</span>
-            </p>
+            <div>
+                <p>
+                    <span>Just Arrived</span>
+                </p>
+                <p>
+                    <span>Jakobsbergsgatan 22,</span>
+                    <span>111 44 Stockholm</span>
+                </p>
+                <p><span>hej@justarrived</span></p>
+            </div>
         </div>
     </footer>
 </div>
