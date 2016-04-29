@@ -15,6 +15,15 @@
   em {
     font-style: normal;
   }
+  > div:last-child {
+    display: none;
+  }
+  button {
+    @include button-pink;
+    padding: 0 40px;
+    width: auto;
+    max-width: none;
+  }
 }
 
 .job-header {
@@ -44,7 +53,7 @@
         display: inline-block;
         vertical-align: middle;
         width: 45%;
-        min-width: 200px;
+        min-width: 220px;
         margin: 0;
         list-style: none;
         padding: 5px 0;
@@ -62,7 +71,6 @@
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
-    margin-right: 8px;
   }
 
 }
@@ -413,8 +421,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   }
 }
 
-.job-comment-list,
-.user-job-comments .main-content {
+.job-comment-list {
   clear: both;
   width: 100%;
   overflow: hidden;
@@ -471,42 +478,6 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   }
 }
 
-.user-job-comments {
-  .main-content {
-    h1 {
-      @include header-light;
-    }
-    input[type="text"] {
-      margin-bottom: 0;
-    }
-  }
-
-  .main-content {
-    padding-bottom: 0;
-    padding-top: 5px;
-
-    ul li > div:first-child {
-      float: right;
-      width: calc(100% - 52px);
-      box-sizing: border-box;
-      background: none;
-      padding: 0;
-      border-radius: 0;
-      > div:last-child {
-        border-radius: 5px;
-        background: $midgrey;
-        padding: 10px 15px;
-        margin-top: 3px;
-      }
-    }
-  }
-  .right {
-    > div:first-child {
-      text-align: right;
-    }
-  }
-}
-
 .job-more-wrapper {
   margin: 0 -25px -25px;
 
@@ -539,6 +510,8 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     font-size: 1.3em;
     text-transform: uppercase;
     display: block;
+    text-decoration: none;
+
   }
 
   #map_canvas {
@@ -564,208 +537,13 @@ job-body, job-comment {
     position: relative;
   }
 }
-
-.user-job-header {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-
-  > ul {
-    display: table;
-    table-layout: fixed;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-    text-transform: uppercase;
-
-    > li {
-      display: table-cell;
-    }
-    > li:first-child {
-      border-bottom: 5px solid $pink;
-    }
-
-    a {
-      color: $white;
-      text-decoration: none;
-      display: block;
-      padding: 10px;
-
-    }
-    a:hover {
-      opacity: 0.7;
-    }
-  }
-
-  h1 {
-    margin: 15px 0;
-  }
-}
-
-.user-job-content {
-  h2 {
-    background: $lightGrey;
-    text-transform: uppercase;
-    font-weight: 400;
-    text-align: center;
-    font-size: 1em;
-    padding: 10px;
-    margin-bottom: 1px;
-
-    i {
-      font-size: 7px;
-      vertical-align: middle;
-      margin-left: 3px;
-      opacity: 0.5;
-    }
-  }
-  ul {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    > li {
-      display: table;
-      width: 100%;
-
-      h3 {
-        font-weight: 400;
-        font-size: 1em;
-      }
-      p {
-        font-size: 0.9em;
-        margin: 5px 0;
-      }
-
-      > div {
-        display: table-cell;
-        padding: 20px 30px;
-        border-bottom: 1px solid $lightGrey;
-        vertical-align: top;
-        cursor: pointer;
-      }
-      > div:first-child {
-        text-align: center;
-        text-transform: uppercase;
-        line-height: 1.3em;
-        padding-right: 0;
-        width: 45px;
-
-        span {
-          font-size: 1.3em;
-        }
-      }
-      .stars {
-        font-size: 2em;
-        white-space: nowrap;
-        display: inline-block;
-        margin-top: -5px;
-
-        i {
-          font-style: normal;
-          color: $white;
-          text-shadow: 0 0 2px rgba(0, 0, 0, 1);
-          position: relative;
-          font-size: 1.2em;
-          padding-right: 5px;
-        }
-        i:before, i:after {
-          position: absolute;
-          content: '\2605';
-          text-shadow: 0 0 1px rgba(0, 0, 0, 1);
-          left: 0;
-        }
-      }
-    }
-    > li.select {
-      border-left: 3px solid $pink;
-
-      h3 {
-        font-weight: 700;
-        color: $dark;
-      }
-
-    }
-    > li:last-child > div {
-      border-bottom: 0;
-    }
-    .user-info-image {
-      display: inline-block;
-      width: 35px;
-      height: 35px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      border-radius: 50%;
-      overflow: hidden;
-
-    }
-  }
-  .wait-rating li {
-    > div:nth-child(2) {
-      padding-bottom: 12px;
-    }
-    > div:last-child {
-      text-align: right;
-      padding-left: 0;
-    }
-  }
-}
-
-.user-job-wrapper {
-  height: 100%;
-  background: $lightGrey;
-
-  .job-owner-header {
-    padding-bottom: 5px;
-
-    h2 {
-      margin: 8px;
-    }
-
+.sticky {
+  .job-more-wrapper {
     .button {
-      @include button-white-border;
-      height: 35px;
-      line-height: 33px;
-      margin: 8px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
   }
-
-  .main-content {
-    padding: 20px 20px 0;
-
-    ul {
-      display: block;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-
-      li {
-
-        > a {
-          border: 1px solid $midgrey;
-          border-radius: 0 3px 3px 0;
-          margin: 0 auto 10px;
-          background: $white;
-          padding: 15px;
-          max-width: 700px;
-          color: $lightBlue;
-          text-decoration: none;
-          display: block;
-        }
-      }
-      li.select {
-        > a {
-          border-left: 3px solid $pink;
-          > span {
-            font-weight: 700;
-            color: $dark;
-          }
-        }
-      }
-    }
-
-  }
-
 }
