@@ -315,18 +315,18 @@ angular.module('just.common')
                     }
 
                     $scope.job_users.push(obj);
+
+
                 });
 
-                /*var found = $filter('filter')(response.included, {
-                 id: "" + $routeParams.id,
-                 type: "jobs"
-                 }, true);
+                var found1 = $filter('filter')(response.included, {
+                    id: "" + that.job_id,
+                    type: "jobs"
+                }, true);
 
-                 if (found.length > 0) {
-                 $scope.job = found[0];
-                 }
-
-                 $scope.candidates = $filter('filter')(response.included, {type: "users"}, true);*/
+                if (found1.length > 0) {
+                    $scope.job = found1[0];
+                }
 
                 deferd.resolve($scope.job_users);
                 return deferd.promise;
