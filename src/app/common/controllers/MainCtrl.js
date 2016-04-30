@@ -25,6 +25,8 @@ angular.module('just.common')
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter',
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter) {
             var that = this;
+            this.showSetting = false;
+
             this.signedIn = function () {
                 return authService.isAuthenticated();
             };

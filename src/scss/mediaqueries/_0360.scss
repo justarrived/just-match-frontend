@@ -1,6 +1,7 @@
 .section-jobs__content-right a span {
   display: inline;
 }
+
 .modal-performed-job,
 .modal-assign-job {
   > div > div {
@@ -14,4 +15,16 @@
 }
 .user-job-candidate-topmenu > div:first-child {
   padding-left: 110px;
+}
+
+.setting-page form {
+  .group > div > div, > div > div {
+    padding: 5px 0;
+  }
+  > div:first-child > div:first-child {
+    padding-bottom: 30px;
+  }
+  .group {
+    margin-bottom: 30px;
+  }
 }

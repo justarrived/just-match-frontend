@@ -1,0 +1,129 @@
+.setting-page {
+  @include popup-page;
+  background: $lightBlue;
+
+  .close-x {
+    @include close-popup;
+  }
+  h2 {
+    font-weight: 400;
+    font-size: 1.5em;
+  }
+  > div {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: table;
+    > div {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+
+    }
+  }
+  form {
+    padding: 25px;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    > div {
+      display: table;
+      width: 100%;
+      > div {
+        display: table-cell;
+        text-align: left;
+      }
+    }
+    > div:first-child {
+      > div {
+        text-align: center;
+        vertical-align: middle;
+        padding-bottom: 10px;
+      }
+      > div:first-child {
+        padding-right: 10px;
+      }
+    }
+    .group {
+      border-bottom: 1px solid $grey;
+      margin-bottom: 5px;
+      > div {
+        display: table-row;
+        > div {
+          display: table-cell;
+          border-top: 1px solid $grey;
+          text-align: left;
+        }
+      }
+    }
+
+  }
+  label {
+
+    .demo-icon {
+      font-size: 20px;
+    }
+    .icon-ic-email {
+      font-size: 14px;
+    }
+    .icon-ic-user3 {
+      font-size: 24px;
+    }
+  }
+  input {
+    background: none;
+    border: none;
+  }
+  input[type="submit"] {
+    @include button-white-border;
+    max-width: none;
+    min-width: 220px;
+  }
+  .upload-photo {
+    margin-bottom: 5px;
+    @include circle(75px);
+    position: relative;
+    input[type="file"] {
+      width: 75px;
+      height: 75px;
+      display: block;
+      opacity: 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    > div {
+      width: 75px;
+      height: 75px;
+      display: block;
+      position: absolute;
+      background-size: cover;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      text-align: center;
+      line-height: 73px;
+    }
+    .icon-ic-camera {
+      font-size: 20px;
+      text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+      color: $white;
+      margin-right: 5px;
+      opacity: 0;
+      -webkit-transition: all .2s;
+      transition: all .2s;
+    }
+    .user-info-image {
+      -webkit-transition: all .3s;
+      transition: all .3s;
+    }
+  }
+  .upload-photo:hover {
+    .user-info-image {
+      -webkit-filter: blur(3px);
+      filter: blur(3px);
+    }
+    .icon-ic-camera {
+      opacity: 1;
+    }
+  }
+}

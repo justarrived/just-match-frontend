@@ -1,17 +1,5 @@
 .lang-page {
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  top: 0px;
-  margin: 0;
-  background: $darkBlue;
-  overflow-y: auto;
-  color: $white;
-  z-index: 999;
-  opacity: 0;
-  -webkit-animation: fadeIn 0.3s forwards;
-  animation: fadeIn 0.3s forwards;
+  @include popup-page;
 
   .just-arrived-logo {
     @include just-arrived-logo;
