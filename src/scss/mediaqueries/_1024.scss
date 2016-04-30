@@ -50,9 +50,14 @@ button.map-zoom-in {
 
 .job-body-description,
 .job-comment-list,
-.job-body-heading {
+.job-body-heading,
+.faq {
   width: 70%;
   margin: 0 auto;
+}
+.faq-wrapper {
+  height: 100%;
+  background: $lightGrey;
 }
 .job-body-heading {
   display: table;

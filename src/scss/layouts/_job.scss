@@ -725,6 +725,7 @@ job-body, job-comment {
     h2 {
       margin: 8px;
       text-transform: none;
+      font-weight: 400;
     }
 
     .button {
@@ -774,7 +775,7 @@ job-body, job-comment {
 }
 
 .user-job-cadidates {
-  .stars {
+  .stars, .rating {
     font-size: 20px;
     margin-right: 5px;
   }
@@ -845,4 +846,65 @@ job-body, job-comment {
     @include circle(35px);
   }
 
+}
+.modal-performed-job,
+.modal-assign-job {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: $white;
+  overflow-y: auto;
+
+  > div {
+    display: table;
+    height: 100%;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto ;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+      height: 100%;
+      text-align: center;
+      padding: 30px;
+      .user-info-image {
+        @include circle(70px);
+        margin-bottom: 30px;
+      }
+      h3 {
+        font-weight: 600;
+        font-size: 1.4em;
+      }
+      h4 {
+        font-size: 1.2em;
+        margin: 5px 0px;
+      }
+      p {
+        margin: 20px 0;
+      }
+      .button.pink {
+        @include button-pink;
+        max-width: 115px;
+        margin: 35px 5px 0;
+      }
+      .button.dark {
+        @include button-dark;
+        max-width: 115px;
+        margin: 35px 5px 0;
+      }
+      .button.submit {
+        min-width: 200px;
+        margin-top: 10px;
+      }
+      .rating {
+        font-size: 35px;
+      }
+      input[type="text"] {
+        margin-top: 12px;
+      }
+    }
+  }
 }

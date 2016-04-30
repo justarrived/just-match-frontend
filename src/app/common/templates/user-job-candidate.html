@@ -74,21 +74,27 @@
         </form>
     </div>
 
-    <div class="modal-assign-job" ng-show="modalShow" style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#fff;">
-        <a href="" ng-click="modalShow = false">X</a>
-        <h3>Du skickar en forfragan till</h3>
-        <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
-        <p>
-            {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
-            {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar valja en
-            annan kandidat.
-        </p>
+    <div class="modal-assign-job" ng-show="modalShow">
         <div>
-            <a href="" ng-click="modalShow = false">Avbryt</a>
-            <a href="" ng-click="ctrl.acceptJob()">Skicka</a>
+            <div>
+                <a href="" ng-click="modalShow = false">X</a>
+                <h3>Du skickar en forfragan till</h3>
+                <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
+                <p>
+                    {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
+                    {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar
+                    valja en
+                    annan kandidat.
+                </p>
+                <p>
+                    <a href="" ng-click="modalShow = false">Avbryt</a>
+                    <a href="" ng-click="ctrl.acceptJob()">Skicka</a>
+                </p>
+            </div>
         </div>
     </div>
-
-    <p>{{ctrl.model | json}}</p>
-    <p>{{ctrl.candidate_model | json}}</p>
+    <div class="data-generate">
+        <p>{{ctrl.model | json}}</p>
+        <p>{{ctrl.candidate_model | json}}</p>
+    </div>
 </section>

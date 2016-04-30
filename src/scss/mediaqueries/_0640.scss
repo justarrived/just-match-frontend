@@ -1,26 +1,45 @@
 .hero__slider {
-	height:400px;
+  height: 400px;
 }
+
 #map_canvas {
-	height: 200px;
+  height: 200px;
 }
+
 .user-title > div {
-	width: auto;
+  width: auto;
 
-	> div:first-child {
-		padding-right: 50px;
-	}
+  > div:first-child {
+    padding-right: 50px;
+  }
 
 }
-.job-owner-header {
-	display: table;
-	table-layout: fixed;
-	width: 70%;
-	margin: 0 auto;
-	padding-bottom: 0;
-	> div {
-		display: table-cell;
-		vertical-align: middle;
 
-	}
+.job-owner-header {
+  display: table;
+  table-layout: fixed;
+  width: 70%;
+  margin: 0 auto;
+  padding-bottom: 0;
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+
+  }
+}
+
+.wrapper footer > div {
+  > div {
+    display: table;
+    width: 100%;
+    > p {
+      display: table-cell;
+    }
+    > p:nth-child(2) {
+      text-align: center;
+    }
+    > p:last-child {
+      text-align: right;
+    }
+  }
 }

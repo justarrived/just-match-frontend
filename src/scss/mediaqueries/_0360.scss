@@ -1,3 +1,8 @@
 .section-jobs__content-right a span {
   display: inline;
 }
+.modal-performed-job > div > div {
+  .button.pink, .button.dark {
+    max-width: 135px;
+  }
+}
