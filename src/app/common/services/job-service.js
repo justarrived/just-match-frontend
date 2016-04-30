@@ -14,7 +14,7 @@ angular.module('just.service')
             };
             this.jobModel = {
                 data: {
-                    attributes: {"language-id": i18nService.getLanguage().id, "max_rate": "80"}
+                    attributes: {"language-id": i18nService.getLanguage().$$state.value.id, "max_rate": "80"}
                 }
             };
             this.jobMessage = {};

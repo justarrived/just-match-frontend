@@ -72,11 +72,13 @@ angular.module('just.common')
                         "include": "user-images"
                     }, function (response) {
                         that.user.data.attributes.user_image = 'assets/images/content/hero.png';
-                        var found_img = $filter('filter')(response.included, {
-                            type: response.data.relationships["user-images"].data[0].type
-                        }, true);
-                        if (found_img.length > 0) {
-                            that.user.data.attributes.user_image  = found_img[0].attributes["image-url-small"];
+                        if(response.data.relationships["user-images"].data.length > 0){
+                            var found_img = $filter('filter')(response.included, {
+                                type: response.data.relationships["user-images"].data[0].type
+                            }, true);
+                            if (found_img.length > 0) {
+                                that.user.data.attributes.user_image  = found_img[0].attributes["image-url-small"];
+                            }
                         }
                     });
                 }

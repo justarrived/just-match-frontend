@@ -357,8 +357,8 @@ angular.module('just.common')
             };
 
         }])
-    .controller('UserJobsCommentsCtrl', ['jobService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings',
-        function (jobService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings) {
+    .controller('UserJobsCommentsCtrl', ['jobService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
+        function (jobService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -400,12 +400,16 @@ angular.module('just.common')
             this.getComments($routeParams.id);
 
             this.submit = function () {
-                $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + $routeParams.id + "/comments", that.model)
-                    .success(function (data, status) {
-                        that.model.data.attributes.body = "";
-                        that.getComments($routeParams.id);
-                    }).error(function (data, status) {
-                    that.message = data;
+                if (!that.model.data.attributes["language-id"]) {
+                    console.log(i18nService.getLanguage().id);
+                    that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
+                }
+                Resources.comments.create({
+                    resource_name: "jobs",
+                    resource_id: $routeParams.id
+                }, that.model, function (response) {
+                    that.model.data.attributes.body = "";
+                    that.getComments($routeParams.id);
                 });
             };
         }])
