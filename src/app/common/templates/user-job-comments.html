@@ -4,10 +4,10 @@
         <h1>KOMMENTARER</h1>
         <div>
             <ul>
-                <li ng-repeat="comment in comments">
+                <li ng-repeat="comment in comments" ng-class="{'right': comment.attributes.isOwner===1}">
                     <div class="bubble">
                         <div>{{comment.attributes["first-name"]}} {{comment.attributes["last-name"]}}</div>
-                        <div>{{comment.attributes["body"]}}</div>
+                        <div ng-bind-html="comment.attributes.body"></div>
                     </div>
                     <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
                     </div>

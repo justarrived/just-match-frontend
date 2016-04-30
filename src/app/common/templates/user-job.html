@@ -7,30 +7,28 @@
             <div ng-show="!ctrl.accepted">
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
-            <div ng-show="!ctrl.accepted">
+            <div ng-show="!ctrl.accepted && job_user.data.length>0">
                 <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
 
             <!-- Wait user accepted -->
-            <div ng-show="ctrl.accepted && !ctrl.will_perform">
-                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min på
-                    sig att acceptera uppdraget.</h2>
+            <div ng-show="ctrl.accepted && !ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min<br/>
+                    på sig att acceptera uppdraget.</h2>
             </div>
 
             <!-- Job ongoing -->
-            <div ng-show="ctrl.will_perform">
+            <div ng-show="ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
                 <h2>{{ctrl.user_apply.attributes["first-name"]}} kommer utföra uppdraget</h2>
             </div>
 
             <!-- Job performed confirmation -->
-            <div ng-show="ctrl.will_perform">
+            <div ng-show="ctrl.performed">
                 <h2>Ar uppdraget utfört?</h2>
             </div>
-
-            <!-- temporary force show button for design -->
-            <div class="buttons" ng-show="ctrl.performed || true">
+            <div class="buttons" ng-show="ctrl.performed">
                 <a class="button" href="">Nej</a>
-                <a class="button" href="" ng-click="modalShow=true; isPerformed=false;">Ja</a>
+                <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
             </div>
         </div>
         <div class="job-user-header" ng-show="ctrl.isCompany === 0">
@@ -45,54 +43,7 @@
         </ul>
 
     </div>
-    <div class="modal-performed-job" ng-show="modalShow">
-        <div>
-            <div>
-                <section ng-show="!isPerformed">
-                    <h3><span class="user-info-image"
-                              style="background-image: url(assets/images/content/hero.png)"></span></h3>
-                    <h3>Ar uppdraget utfort?</h3>
-                    <p>Perioden for uppdraget har passerats. For att fakturering ska goras och ersattningen ska betalas
-                        ut maste
-                        bade du och Amir godkanna uppdraget nar det har utforts.</p>
-                    <h4>
-                        <span>Containerstadning</span>
-                        <span>5h 100 SEK</span>
-                    </h4>
-                    <h4>
-                        Totalkonstnad 500 SEK inkl. moms
-                    </h4>
-                    <div>
-                        <a class="button pink" href="" ng-click="isPerformed=true">Ja</a>
-                        <a class="button dark" href="" ng-click="modalShow=false">Nej</a>
-                    </div>
-                </section>
-                <section ng-show="isPerformed">
-                    <h3><span class="user-info-image"
-                              style="background-image: url(assets/images/content/hero.png)"></span></h3>
-                    <h3>Tack!</h3>
-                    <p>Hur tyckte du att Amir utforde uppdraget? Ge antal stjanor (1-5) och skriv en recension som laggs
-                        till
-                        Amits profil</p>
-                    <div><span class="rating"><span class="select">&#9733;</span>&#9734;&#9734;&#9734;&#9734;</div>
-                    <div>
-
-                        <div class="material-input">
-                            <validation form="form" field="comment" errormsg="">
-                                <div class="group">
-                                    <input name="comment" type="text" required
-                                           ng-model="ctrl.data.comment">
-                                    <label>Skriv en rekommendation</label>
-                                </div>
-                            </validation>
-                        </div>
-
-                        <a class="button submit pink" href="" ng-click="modalShow=false; isPerformed=false;">Skicka</a>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
+    <user-job-perform></user-job-perform>
     <div class="data-generate">
         {{job | json}}
     </div>
