@@ -51,13 +51,6 @@ angular.module('just', [
                     templateUrl: 'common/templates/faq.html',
                     controller: 'FAQCtrl as ctrl'
                 }
-            },
-            setting:{
-                url: '/setting',
-                handler: {
-                    templateUrl: 'common/templates/settings.html',
-                    controller: 'SettingCtrl as ctrl'
-                }
             }
         },
         user: {
