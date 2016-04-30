@@ -93,7 +93,7 @@ angular.module('just.common')
                 }
 
                 var found_img = $filter('filter')(response.included, {
-                    type: response.data.relationships["user-images"].data[0].type
+                    type: 'user-images'
                 }, true);
                 if (found_img.length > 0) {
                     that.user_image = found_img[0].attributes["image-url-small"];
@@ -231,8 +231,8 @@ angular.module('just.common')
             flow.redirect(routes.user.job_manage.resolve(obj));
         };
     }])
-    .controller('UserJobsManageCtrl', ['jobService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('UserJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -302,8 +302,6 @@ angular.module('just.common')
                             id: "" + $routeParams.id,
                             type: "jobs"
                         }, true);
-
-                        //console.log(found);
 
                         angular.forEach(response.data, function (obj, idx) {
                             if (obj.attributes.accepted) {
@@ -376,6 +374,16 @@ angular.module('just.common')
                 }
             };
 
+            this.userWillPerform = function () {
+                //jobService.userWillPerformJob($routeParams.id, 259, that.fn);
+            };
+            this.fn = function (result) {
+                if (result === 1) {
+                    that.getJobData();
+                }
+                $scope.isWillPerform=false;
+                $scope.modalWillPerformShow=false;
+            };
         }])
     .controller('UserJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
         function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
@@ -416,11 +424,11 @@ angular.module('just.common')
                         }
 
                         /*if (curr_user_id === obj.relationships.owner.data.id) {
-                            $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
-                        } else {
-                            curr_user_id = obj.relationships.owner.data.id;
-                            $scope.comments.push(obj);
-                        }*/
+                         $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
+                         } else {
+                         curr_user_id = obj.relationships.owner.data.id;
+                         $scope.comments.push(obj);
+                         }*/
 
                         $scope.comments.push(obj);
 

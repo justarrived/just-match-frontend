@@ -7,7 +7,7 @@
             <div ng-show="!ctrl.accepted">
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
-            <div ng-show="!ctrl.accepted && job_user.data.length>0">
+            <div ng-show="!ctrl.accepted && job_user.data.length > 0">
                 <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
 
@@ -30,9 +30,21 @@
                 <a class="button" href="">Nej</a>
                 <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
             </div>
+
         </div>
-        <div class="job-user-header" ng-show="ctrl.isCompany === 0">
-            <h2>Du har sökt uppdraget</h2>
+        <div class="job-owner-header" ng-show="ctrl.isCompany === 0">
+            <!-- Wait owner choose candidate -->
+            <div ng-show="true">
+                <h2>Du har sökt uppdraget</h2>
+            </div>
+
+            <!-- Owner choose you -->
+            <div ng-show="true">
+                <h2>Vi vill anlita dig svara inom 12h 0min</h2>
+            </div>
+            <div ng-show="true">
+                <a class="button" href="" ng-click="modalWillPerformShow=true">Ge besked</a>
+            </div>
         </div>
     </div>
     <div class="main-content">
@@ -42,6 +54,41 @@
             <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
         </ul>
 
+    </div>
+    <div class="modal-performed-job" ng-show="modalWillPerformShow">
+        <div>
+            <div>
+                <section ng-show="!isWillPerform">
+                    <h3><span class="user-info-image"
+                              style="background-image: url(assets/images/content/hero.png)"></span></h3>
+
+                    <h4>
+                        Grattis!<br/>
+                        {{company_name}} vill garna att du utfor uppdraget
+                    </h4>
+                    <p>Vill du fortfalande ta uppdraget</p>
+                    <div>
+                        <a class="button pink" href="" ng-click="isWillPerform=true">Ja</a>
+                        <a class="button dark" href="" ng-click="modalWillPerformShow=false">Nej</a>
+                    </div>
+                </section>
+                <section ng-show="isWillPerform">
+                    <h3>Kontuppgifter</h3>
+                    <p>Var vill du atr vi satter in ersattingen nar du utfort uppdraget?</p>
+                    <div class="material-input">
+
+                        <form name="form" ng-submit="ctrl.userWillPerform()">
+                            <div class="group">
+                                <input type="text" ng-model="model.data.attributes.bank"/>
+                                <label>Bank</label>
+                            </div>
+                            <input type="submit" value="Spara"/>
+                            <!--<a class="button submit pink" href="" ng-click="modalPerformShow=false; isPerformed=false;">Skicka</a>-->
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
     <user-job-perform></user-job-perform>
     <div class="data-generate">
