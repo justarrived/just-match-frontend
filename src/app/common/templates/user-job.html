@@ -2,13 +2,32 @@
     <user-job-header></user-job-header>
     <div class="main-title pink">
         <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
-            <div>
+
+            <!-- Choose candidate -->
+            <div ng-show="!ctrl.accepted">
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
-            <div>
+            <div ng-show="!ctrl.accepted">
                 <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
-            <div>
+
+            <!-- Wait user accepted -->
+            <div ng-show="ctrl.accepted && !ctrl.will_perform">
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min på sig att acceptera uppdraget.</h2>
+            </div>
+
+            <!-- Job ongoing -->
+            <div ng-show="ctrl.will_perform">
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} kommer utföra uppdraget</h2>
+            </div>
+
+            <!-- Job performed confirmation -->
+            <div ng-show="ctrl.will_perform">
+                <h2>Ar uppdraget utfört?</h2>
+            </div>
+
+            <!-- temporary force show button for design -->
+            <div ng-show="ctrl.performed || true">
                 <a class="button" href="">Nej</a>
                 <a class="button" href="" ng-click="modalShow=true; isPerformed=false;">Ja</a>
             </div>
