@@ -39,6 +39,9 @@ angular.module('just.common')
                         'update': {
                             method: 'PUT'
                         },
+                        'save': {
+                            method: 'PATCH'
+                        },
                         'remove': {
                             method: 'DELETE'
                         },

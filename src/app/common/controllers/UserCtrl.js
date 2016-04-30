@@ -1,22 +1,16 @@
 angular.module('just.common')
-    .directive("fileread", [function () {
-        return {
-            scope: {
-                fileread: "="
-            },
-            link: function (scope, element, attributes) {
-                element.bind("change", function (changeEvent) {
-                    var reader = new FileReader();
-                    reader.onload = function (loadEvent) {
-                        scope.$apply(function () {
-                            scope.fileread = loadEvent.target.result;
-                        });
-                    };
-                    reader.readAsDataURL(changeEvent.target.files[0]);
-                });
-            }
+    .factory('httpPostFactory', function ($http) {
+        return function (file, data, callback) {
+            $http({
+                url: file,
+                method: "POST",
+                data: data,
+                headers: {'Content-Type': undefined, enctype: 'multipart/form-data'}
+            }).success(function (response) {
+                callback(response);
+            });
         };
-    }])
+    })
     .factory('MyDate', function () {
 
         //Constructor
@@ -63,8 +57,8 @@ angular.module('just.common')
 
         return MyDate;
     })
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
+        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
             this.isStart = 1;
@@ -82,6 +76,8 @@ angular.module('just.common')
             this.model = userService.userModel();
             this.message = userService.userMessage;
 
+            this.user_image = 'assets/images/content/hero.png';
+
 
             this.model.$promise.then(function (response) {
                 var deferd = $q.defer();
@@ -96,7 +92,15 @@ angular.module('just.common')
                     that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
                 }
 
+                var found_img = $filter('filter')(response.included, {
+                    type: response.data.relationships["user-images"].data[0].type
+                }, true);
+                if (found_img.length > 0) {
+                    that.user_image = found_img[0].attributes["image-url-small"];
+                }
+
                 deferd.resolve(that.language_bundle);
+                deferd.resolve(that.user_image);
                 return deferd.promise;
             });
 
@@ -124,6 +128,22 @@ angular.module('just.common')
                 return deferd.promise;
             };
 
+            $scope.uploadFile = function () {
+                var formData = new FormData();
+
+                var element = angular.element("#file_upload");
+
+                formData.append("image", element[0].files[0]);
+                httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
+                    var image_token = {};
+                    image_token.data = {};
+                    image_token.data.attributes = {};
+                    image_token.data.attributes["user-image-one-time-token"] = callback.data.attributes["one-time-token"];
+                    Resources.user.save({id: that.model.data.id}, image_token, function (response) {
+                        //console.log(response);
+                    });
+                });
+            };
 
             /*Image upload and submit*/
             this.image = {};
@@ -139,28 +159,15 @@ angular.module('just.common')
 
                 //save data
 
-
                 // UPLOAD IMAGE
-                if ($scope.vm) {
-                    Resources.userImage.upload({
-                            image: $scope.vm.uploadme,
-                            data: {
-                                attributes: {
-                                    image: $scope.vm.uploadme
-                                }
-                            }
-                        },
-                        function (response) {
-                            console.log("upload image");
-                            console.log(response);
-                        }
-                    );
+                var element = angular.element("#file_upload");
+                if (element[0].files[0]) {
+                    $scope.uploadFile();
                 }
 
-
                 // UPDATE USER PROFILE
-                Resources.users.update(update_data, function (response) {
-                    console.log(response);
+                Resources.user.save({id: that.model.data.id}, update_data, function (response) {
+                    //console.log(response);
                 });
 
 
@@ -211,7 +218,7 @@ angular.module('just.common')
                         }
                     });
                 }
-                console.log($scope.jobs);
+                //console.log($scope.jobs);
                 deferd.resolve($scope.jobs);
                 return deferd.promise;
             });
@@ -384,7 +391,7 @@ angular.module('just.common')
                         }
                         $scope.comments.push(obj);
                     });
-                    console.log($scope.comments);
+                    //console.log($scope.comments);
                     deferd.resolve($scope.comments);
                     return deferd.promise;
                 });

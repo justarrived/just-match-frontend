@@ -5,10 +5,11 @@
             <div>
                 <div>
                     <div class="upload-button">
-                        <input type="file" id="file1" name="file" fileread="vm.uploadme"/>
+                        <!--<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />-->
+                        <input type="file" id="file_upload" name="file">
                         <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>Välj bild</span></div>
                         <div class="user-info-image"
-                             style="background-image: url('assets/images/content/hero.png');"></div>
+                             style="background-image: url('{{ctrl.user_image}}');"></div>
                     </div>
                 </div>
                 <div>{{ctrl.model.data.attributes["first-name"]}} {{ctrl.model.data.attributes["last-name"]}}</div>

@@ -10,17 +10,11 @@ angular.module('just.service')
         function ($q, flow, authService, Resources, routes, i18nService, $http, settings) {
             var that = this;
             this.rates = function () {
-                /*var rates = [
-                 {value: 80, name: 'assignment.new.rate.low'},
-                 {value: 100, name: 'assignment.new.rate.medium'},
-                 {value: 120, name: 'assignment.new.rate.high'},
-                 ];
-                 return rates;*/
                 return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
             this.jobModel = {
                 data: {
-                    attributes: {"language-id": i18nService.current_language.id, "max_rate": "80"}
+                    attributes: {"language-id": i18nService.getLanguage().id, "max_rate": "80"}
                 }
             };
             this.jobMessage = {};
@@ -43,7 +37,11 @@ angular.module('just.service')
                 return Resources.userOwnedJobs.get({user_id: user_id, 'include': include});
             };
             this.getJobUsers = function (job_id, include) {
-                return Resources.jobUsers.get({job_id: job_id, 'include': include});
+                return Resources.jobUsers.get({job_id: job_id, 'include': include},function(response){
+                    // Success
+                }, function(error) {
+                    flow.redirect(routes.user.jobs.url);
+                });
             };
             this.getJobUser = function (job_id, user_id, include) {
                 return Resources.jobUser.get({job_id: job_id, id: user_id, 'include': include});
