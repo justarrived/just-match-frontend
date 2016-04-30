@@ -806,7 +806,9 @@ job-body, job-comment {
       text-transform: none;
       font-weight: 400;
     }
-
+    .buttons {
+      white-space: nowrap;
+    }
     .button {
       @include button-white-border;
       height: 35px;
@@ -951,7 +953,7 @@ job-body, job-comment {
       padding: 30px;
       .user-info-image {
         @include circle(70px);
-        margin-bottom: 30px;
+        margin-bottom: 25px;
       }
       h3 {
         font-weight: 600;
@@ -963,7 +965,7 @@ job-body, job-comment {
         margin: 5px 0px;
       }
       p {
-        margin: 20px 0;
+        margin: 15px 0;
       }
       .button.pink {
         @include button-pink;
@@ -983,7 +985,7 @@ job-body, job-comment {
         font-size: 35px;
       }
       input[type="text"] {
-        margin-top: 12px;
+        margin-top: 5px;
       }
     }
   }
