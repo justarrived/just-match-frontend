@@ -22,3 +22,20 @@
     text-align: right;
   }
 }
+.user-header > div > div:first-child {
+  width: 100px;
+}
+.user-job-candidate-topmenu > div:first-child {
+  padding-left: 125px;
+}
+.modal-performed-job,
+.modal-assign-job {
+  > div > div {
+    .button.pink, .button.dark {
+      max-width: 160px;
+    }
+  }
+}
+.user-job-candidate-topmenu > div:first-child a {
+  padding: 5px 35px;
+}

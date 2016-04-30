@@ -1,8 +1,17 @@
 .section-jobs__content-right a span {
   display: inline;
 }
-.modal-performed-job > div > div {
-  .button.pink, .button.dark {
-    max-width: 135px;
+.modal-performed-job,
+.modal-assign-job {
+  > div > div {
+    .button.pink, .button.dark {
+      max-width: 135px;
+    }
   }
+}
+.user-header > div > div:first-child {
+  width: 85px;
+}
+.user-job-candidate-topmenu > div:first-child {
+  padding-left: 110px;
 }

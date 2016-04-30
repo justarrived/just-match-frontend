@@ -62,15 +62,7 @@
   }
 
   .job-header-logo {
-    background-color: $white;
-    display: inline-block;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
+    @include circle(75px);
     margin-right: 8px;
   }
 
@@ -289,14 +281,8 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       width: 100px;
 
       a {
-        display: inline-block;
-        width: 80px;
-        height: 80px;
-        overflow: hidden;
-        border-radius: 50%;
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
+        @include circle(80px);
+        margin-right: 8px;
       }
     }
     .job-desc {
@@ -337,6 +323,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       vertical-align: middle;
       position: relative;
       text-align: center;
+      min-width: 50px;
 
       span {
         position: absolute;
@@ -423,7 +410,8 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 }
 
 .job-comment-list,
-.user-job-comments .main-content {
+.user-job-comments .main-content > div,
+.candidate-chat > div {
   clear: both;
   width: 100%;
   overflow: hidden;
@@ -449,13 +437,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       padding: 8px 0;
 
       > div:last-child {
-        width: 35px;
-        height: 35px;
-        background-size: cover;
-        display: block;
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-position: center center;
+        @include circle(35px);
         float: left;
         margin-top: 5px;
       }
@@ -512,6 +494,103 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   .right {
     > div:first-child {
       text-align: right;
+    }
+  }
+}
+
+.candidate-chat {
+  h3 {
+    padding: 20px;
+    margin: 0;
+    background: $lightBlue;
+    font-size: 1.2em;
+    text-align: center;
+    color: $white;
+    font-weight: 400;
+  }
+  > div {
+    padding-top: 25px;
+    ul {
+      padding: 0 25px;
+      li {
+        > div:first-child {
+          float: right;
+          width: calc(100% - 52px);
+          box-sizing: border-box;
+          background: none;
+          padding: 0;
+          border-radius: 0;
+
+          > div:last-child {
+            border-radius: 5px;
+            background: $lightGrey;
+            border: 1px solid $midgrey;
+            padding: 10px 15px;
+            margin-top: 3px;
+          }
+        }
+      }
+    }
+    ul li.right > div:first-child {
+      > div:first-child {
+        text-align: right;
+      }
+      > div:last-child {
+        background: $midgrey;
+      }
+    }
+
+  }
+  form {
+    border-bottom: 1px solid $lightGrey;
+    border-top: 1px solid $lightGrey;
+    margin-top: 30px;
+
+    > div {
+      display: table;
+      width: 100%;
+
+      input[type="text"] {
+        border: 1px solid $midgrey;
+        background: $lightGrey;
+        border-radius: 25px;
+        margin: 0;
+      }
+      input[type="submit"] {
+        color: $blue;
+        font-weight: 700;
+        border: 0;
+        background: none;
+        font-size: 1.2em;
+        white-space: nowrap;
+      }
+      > div {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 15px 25px;
+      }
+      > div:first-child {
+        padding-right: 15px;
+      }
+      > div:last-child {
+        width: 90px;
+        text-align: center;
+        text-align: right;
+        padding-left: 0;
+      }
+    }
+  }
+  .translate {
+    text-align: center;
+    padding: 10px 25px;
+
+    span:after {
+      font-family: 'fontello';
+      content: '\e800';
+      font-size: 0.5em;
+      vertical-align: middle;
+      color: lightgrey;
+      margin-left: 5px;
     }
   }
 }
@@ -847,6 +926,7 @@ job-body, job-comment {
   }
 
 }
+
 .modal-performed-job,
 .modal-assign-job {
   position: fixed;
@@ -855,7 +935,6 @@ job-body, job-comment {
   right: 0;
   bottom: 0;
   height: 100%;
-  background: $white;
   overflow-y: auto;
 
   > div {
@@ -863,7 +942,7 @@ job-body, job-comment {
     height: 100%;
     width: 100%;
     max-width: 500px;
-    margin: 0 auto ;
+    margin: 0 auto;
     > div {
       display: table-cell;
       vertical-align: middle;
@@ -877,6 +956,7 @@ job-body, job-comment {
       h3 {
         font-weight: 600;
         font-size: 1.4em;
+        line-height: 1.4em;
       }
       h4 {
         font-size: 1.2em;
@@ -906,5 +986,185 @@ job-body, job-comment {
         margin-top: 12px;
       }
     }
+  }
+}
+
+.modal-performed-job {
+  background: $white;
+}
+
+.modal-assign-job {
+  background: $lightBlue;
+  color: $white;
+  > div > div .button.dark {
+    border: 1px solid $white;
+  }
+  .icon-ic-close {
+    color: $white;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 1.6em;
+  }
+}
+
+.user-header {
+  background: $lightBlue;
+  padding: 25px 25px 5px;
+  color: $white;
+  > div {
+    display: table;
+    width: 100%;
+    > div {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+    > div:first-child {
+      width: 80px;
+    }
+    > div:last-child {
+      text-align: right;
+      > div {
+        text-align: center;
+        display: inline-block;
+      }
+    }
+  }
+  .user-info-image {
+    @include circle(70px);
+  }
+  h2 {
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+  .rating, .heart {
+    color: $pink;
+    font-size: 1.3em;
+  }
+  .rating {
+    padding-right: 5px;
+  }
+}
+
+.user-job-candidate-topmenu {
+  background: $lightBlue;
+  color: $white;
+  > div:first-child {
+    padding-left: 105px;
+    padding-bottom: 20px;
+    a {
+      @include button-white-border-small;
+    }
+  }
+  a {
+    color: $white !important;
+    text-decoration: none;
+  }
+  > ul {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: table-cell;
+      text-align: center;
+      padding: 0 0 3px;
+      a {
+        display: block;
+        padding: 5px;
+        border-bottom: 6px solid $lightBlue;
+        text-transform: uppercase;
+      }
+      a.sel {
+        border-bottom: 6px solid $pink;
+      }
+    }
+  }
+}
+
+.user-job-status {
+  background: $pink;
+  padding: 15px;
+  color: $white;
+  text-align: center;
+
+  > div > div:first-child {
+    font-size: 1.2em;
+  }
+  a {
+    @include button-white-border-small;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    min-width: 150px;
+  }
+}
+
+.candidate-profile {
+  padding: 25px;
+  h3 {
+    @include header-light;
+    position: relative;
+
+    .demo-icon {
+      position: absolute;;
+      color: $midgrey;
+      font-size: 1.2em;
+      left: -40px;
+    }
+  }
+  p {
+    margin: 8px 0;
+  }
+  > div {
+    padding: 0 0 0 40px;
+
+    > ul {
+      margin: 8px 0;
+      list-style: none;
+      padding: 0;
+    }
+  }
+}
+
+.candidate-referencer {
+
+  > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: table;
+    width: 100%;
+    > li {
+      display: table-row;
+      > div {
+        display: table-cell;
+        padding: 20px 10px;
+        border-bottom: 1px solid $lightGrey;
+        vertical-align: top;
+        p {
+          margin: 0;
+        }
+      }
+      > div:first-child {
+        padding-left: 20px;
+      }
+      > div:last-child {
+        padding-right: 20px;
+        text-align: center;
+        > span {
+          font-size: 1.4em;
+        }
+      }
+    }
+  }
+  .rating {
+    font-size: 1.5em;
+  }
+  .user-info-image {
+    @include circle(35px);
+    margin-top: 5px;
   }
 }

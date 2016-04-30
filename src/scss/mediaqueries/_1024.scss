@@ -51,7 +51,11 @@ button.map-zoom-in {
 .job-body-description,
 .job-comment-list,
 .job-body-heading,
-.faq {
+.faq,
+.user-job-comments .main-content > div,
+.candidate-chat > div ul,
+.candidate-chat form > div,
+.candidate-chat .translate {
   width: 70%;
   margin: 0 auto;
 }

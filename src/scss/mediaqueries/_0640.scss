@@ -43,3 +43,15 @@
     }
   }
 }
+.user-job-status {
+  > div {
+    display: table;
+    width: 70%;
+    margin: 0 auto;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0 10px;
+    }
+  }
+}
