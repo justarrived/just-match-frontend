@@ -154,3 +154,27 @@
   margin: 20px 0 0;
   text-align: left;
 }
+@mixin popup-page {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  margin: 0;
+  background: $darkBlue;
+  overflow-y: auto;
+  color: $white;
+  z-index: 999;
+  opacity: 0;
+  -webkit-animation: fadeIn 0.3s forwards;
+  animation: fadeIn 0.3s forwards;
+}
+@mixin close-popup {
+  color: $white;
+  font-size: 20px;
+  position: fixed;
+  top: 18px;
+  right: 12px;
+  background: none;
+  border: 0;
+}

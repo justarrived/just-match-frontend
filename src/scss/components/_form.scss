@@ -528,3 +528,6 @@ oi-select .select-search {
 input:invalid {
   box-shadow: none;
 }
+textarea:focus, input:focus{
+  outline: none;
+}
