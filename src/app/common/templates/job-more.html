@@ -9,8 +9,15 @@
                     <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}"
                                               style="background-image: url(assets/images/content/antrop-logo.png);"></a></div>
                     <div class="job-desc">
-                        <h3><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
-                        <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span></div>
+                        <div>
+                            <div>
+                                <h3><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                            </div>
+                            <div>
+                                <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span></div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="job-rate">
                         <span>{{job_m.totalRate}}</span>
