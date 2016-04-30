@@ -39,6 +39,9 @@ angular.module('just.common')
                         'update': {
                             method: 'PUT'
                         },
+                        'save': {
+                            method: 'PATCH'
+                        },
                         'remove': {
                             method: 'DELETE'
                         },
@@ -57,6 +60,7 @@ angular.module('just.common')
                 user: crud("users/:id"),
 
                 userJobs: crud("users/:user_id/jobs"), //for user
+                userOwnedJobs: crud("users/:user_id/owned-job"),  //for owner
                 userImage: crud("users/images"),
                 userLanguages: crud("users/:user_id/languages"),
 
@@ -75,6 +79,7 @@ angular.module('just.common')
 
                 jobUsers: crud("jobs/:job_id/users"),   //for owner
                 jobUser: crud("jobs/:job_id/users/:id"), //for owner
+
 
                 jobs: crud("jobs"),
                 job: crud("jobs/:id"),

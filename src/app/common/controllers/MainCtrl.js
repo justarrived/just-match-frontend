@@ -9,6 +9,7 @@ angular.module('just.common')
                         document.body.clientHeight, document.documentElement.clientHeight
                     );
                 }
+
                 var footerHeight = angular.element("footer").height();
                 var windowHeight = window.innerHeight;
                 var docHeight = getDocHeight() - footerHeight;
@@ -21,7 +22,8 @@ angular.module('just.common')
         };
     })
 
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', function (authService, $location, flow, routes, i18nService, $scope, Resources) {
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter) {
             var that = this;
             this.showSetting = false;
 
@@ -36,7 +38,8 @@ angular.module('just.common')
             this.signin = function () {
                 var path = $location.path();
                 flow.redirect(routes.user.signin.url, function () {
-                    flow.reload(path);
+                    flow.redirect(path);
+                    that.getUser();
                 });
                 this.menu(0);
             };
@@ -64,12 +67,26 @@ angular.module('just.common')
                 routes.global.isMainMenuOpen = show;
             };
 
-            if (this.signedIn()) {
-                that.user = Resources.user.get({
-                    id: authService.userId().id,
-                    "include": "user-images"
-                });
-            }
+            this.getUser = function () {
+                if (that.signedIn()) {
+                    that.user = Resources.user.get({
+                        id: authService.userId().id,
+                        "include": "user-images"
+                    }, function (response) {
+                        that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                        if(response.data.relationships["user-images"].data.length > 0){
+                            var found_img = $filter('filter')(response.included, {
+                                type: response.data.relationships["user-images"].data[0].type
+                            }, true);
+                            if (found_img.length > 0) {
+                                that.user.data.attributes.user_image  = found_img[0].attributes["image-url-small"];
+                            }
+                        }
+                    });
+                }
+            };
+
+            this.getUser();
 
             this.updateLanguage();
         }]

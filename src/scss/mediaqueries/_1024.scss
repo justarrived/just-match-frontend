@@ -51,9 +51,18 @@ button.map-zoom-in {
 .job-body-description,
 .job-comment-list,
 .job-body-heading,
+.faq,
+.user-job-comments .main-content > div,
+.candidate-chat > div ul,
+.candidate-chat form > div,
+.candidate-chat .translate,
 .setting-page form {
   width: 70%;
   margin: 0 auto;
+}
+.faq-wrapper {
+  height: 100%;
+  background: $lightGrey;
 }
 .job-body-heading {
   display: table;

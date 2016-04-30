@@ -11,7 +11,7 @@ angular.module('just.service')
 
         this.signinModel = {};
         this.signinMessage = {};
-        this.isCompanyRegister = 0;
+        this.isCompanyRegister = -1;
         this.isCompany = -1;
 
 
@@ -23,9 +23,13 @@ angular.module('just.service')
                     }
                     if (that.isCompanyRegister === 1) {
                         // Go to job new if register user from company register page
+                        that.isCompanyRegister = -1;
                         flow.completed(routes.job.create.url, ok);
-                    } else {
+                    } else if (that.isCompanyRegister === 0) {
+                        that.isCompanyRegister = -1;
                         flow.completed(routes.user.user.url, ok);
+                    } else {
+                        flow.completed();
                     }
 
                 }, function (error) {
@@ -67,10 +71,13 @@ angular.module('just.service')
         this.userModel = function () {
             if (angular.isUndefined(that.user)) {
 
-                that.user = Resources.user.get({id: authService.userId().id,"include": "language,languages,user-images"},function(){
-                    if(that.user.data.relationships.company.data !== null){
+                that.user = Resources.user.get({
+                    id: authService.userId().id,
+                    "include": "language,languages,user-images"
+                }, function () {
+                    if (that.user.data.relationships.company.data !== null) {
                         storage.set("company_id", that.user.data.relationships.company.data.id);
-                    }else{
+                    } else {
                         storage.set("company_id", null);
                     }
                 });

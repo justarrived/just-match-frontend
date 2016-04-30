@@ -87,6 +87,8 @@
     display: table;
     width: 100%;
     color: $white;
+    line-height: 1.2em;
+
     > div {
       display: table-cell;
       vertical-align: middle;
@@ -103,7 +105,7 @@
       font-size: 1.45em;
     }
     a {
-      color: $brightBlue;
+      color: $white;
     }
     .user-info-image {
       margin-right: 10px;

@@ -1,56 +1,62 @@
 <section>
     <user-header></user-header>
     <div class="user-job-candidate-topmenu">
-        <a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">PROFIL</a> |
-        <a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">REFERENSER</a> |
-        <a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">SKICKA MEDDELANDE</a>
+        <div>
+            <a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">Skicka Meddelande</a>
+        </div>
+        <ul>
+            <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">Profil</a></li>
+            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">Referenser</a></li>
+        </ul>
+
     </div>
-    <hr/>
     <div class="user-job-status">
-        <div class="user-job-status-title">Amir har sokt uppdraget</div>
-        <div><a href="" ng-click="modalShow = true">Anlita</a></div>
+        <div>
+            <div class="user-job-status-title">{{job_status_title}}</div>
+            <div ng-hide="isAccepted"><a href="" ng-click="modalShow = true">Anlita</a></div>
+        </div>
     </div>
-    <hr/>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
-            <h3>{{"user.presentation.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-paper"></i>{{"user.presentation.label" | translate}}</h3>
             <p>{{ctrl.candidate_model.description}}</p>
         </div>
         <div>
-            <h3>{{"user.job-experience.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-star"></i>{{"user.job-experience.label" | translate}}</h3>
             <p>{{ctrl.candidate_model["job-experience"]}}</p>
         </div>
         <div>
-            <h3>{{"user.education.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-education"></i>{{"user.education.label" | translate}}</h3>
             <p>{{ctrl.candidate_model["education"]}}</p>
         </div>
         <div>
-            <h3>{{"user.skills.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-tool"></i>{{"user.skills.label" | translate}}</h3>
             <p></p>
         </div>
         <div>
-            <h3>{{"user.language-skills.label" | translate}}</h3>
-            <p>
+            <h3><i class="demo-icon icon-ic-user3"></i>{{"user.language-skills.label" | translate}}</h3>
             <ul>
                 <li>Swedish</li>
                 <li>English</li>
             </ul>
-            </p>
         </div>
     </div>
 
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
-            <li class="clearfix">
-                <div class="col-xs-8">
+            <li>
+                <div><span class="user-info-image"
+                           style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
+                <div>
                     <h4>Kontainerstadning</h4>
-                    <div>Elgiganten</div>
-                    <div class="rating">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
-                    <div>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</div>
+                    <p>Elgiganten</p>
+                    <p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
+                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>
+                    <p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>
                 </div>
-                <div class="col-xs-4">
+                <div>
                     JAN<br/>
-                    01
+                    <span>01</span>
                 </div>
             </li>
         </ul>
@@ -58,37 +64,58 @@
 
     <div class="candidate-chat" ng-show="currTab === 3">
         <h3>Meddelanden</h3>
-        <ul>
-            <li>
-                <div>Amir Khermand</div>
-                <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
-            </li>
-            <li>
-                <div>Ove Martinnson</div>
-                <div>Ja, det blir perfekt. Valkommen</div>
-            </li>
-        </ul>
-        <form name="form" ng-submit="ctr.submitChat()">
-            <input type="text" required/>
-            <input type="submit" value="skicka">
-        </form>
-    </div>
-
-    <div class="modal-assign-job" ng-show="modalShow" style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#fff;">
-        <a href="" ng-click="modalShow = false">X</a>
-        <h3>Du skickar en forfragan till</h3>
-        <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
-        <p>
-            {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
-            {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar valja en
-            annan kandidat.
-        </p>
         <div>
-            <a href="" ng-click="modalShow = false">Avbryt</a>
-            <a href="">Skicka</a>
+
+
+            <ul>
+                <li>
+                    <div class="bubble">
+                        <div>Amir Khermand</div>
+                        <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
+                    </div>
+                    <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
+                    </div>
+                </li>
+                <li class="right">
+                    <div class="bubble">
+                        <div>Ove Martinnson</div>
+                        <div>Ja, det blir perfekt. Valkommen</div>
+                    </div>
+                    <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
+                    </div>
+                </li>
+            </ul>
+            <form name="form" ng-submit="ctr.submitChat()">
+                <div>
+                    <div><input type="text" required/></div>
+                    <div><input type="submit" value="skicka"></div>
+                </div>
+            </form>
+            <div class="translate"><span>Översätt från svenska</span></div>
         </div>
     </div>
 
-    <p>{{ctrl.model | json}}</p>
-    <p>{{ctrl.candidate_model | json}}</p>
+    <div class="modal-assign-job" ng-show="modalShow">
+        <div>
+            <div>
+                <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
+                <h3>Du skickar en forfragan till</h3>
+                <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
+                <p>
+                    {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
+                    {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar
+                    valja en
+                    annan kandidat.
+                </p>
+                <p>
+                    <a class="button dark" href="" ng-click="modalShow = false">Avbryt</a>
+                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">Skicka</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="data-generate">
+        <p>{{ctrl.model | json}}</p>
+        <p>{{ctrl.candidate_model | json}}</p>
+    </div>
 </section>
