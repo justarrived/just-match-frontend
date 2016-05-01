@@ -21,6 +21,10 @@ angular.module('just.service')
                 if (fn) {
                     fn(1);
                 }
+            }, function (error) {
+                if (fn) {
+                    fn(0);
+                }
             });
         };
 

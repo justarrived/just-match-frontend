@@ -12,14 +12,19 @@ angular.module('just.service')
             this.rates = function () {
                 return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
+
             this.jobModel = {
                 data: {
-                    attributes: {"language-id": i18nService.getLanguage().$$state.value.id, "max_rate": "80"}
+                    attributes: {"language-id": "", "max_rate": "80"}
                 }
             };
             this.jobMessage = {};
+
             this.getJob = function (id) {
                 return Resources.job.get({id: id, "include": "owner,company,hourly-pay"});
+            };
+            this.getJob = function (id, include) {
+                return Resources.job.get({id: id, "include": include});
             };
             this.getJobs = function () {
                 return Resources.jobs.get();
