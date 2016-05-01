@@ -798,6 +798,10 @@ job-body, job-comment {
   .stars {
     font-size: 24px;
   }
+  .user-info-image {
+    @include circle(35px);
+    margin-top: 5px;
+  }
 }
 
 .user-job-wrapper {

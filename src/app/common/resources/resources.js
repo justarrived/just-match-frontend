@@ -62,6 +62,8 @@ angular.module('just.common')
                 userJobs: crud("users/:user_id/jobs"), //for user
                 userOwnedJobs: crud("users/:user_id/owned-jobs"),  //for owner
                 userImage: crud("users/images"),
+                userImageId: crud("users/:user_id/images/:id"),
+
                 userLanguages: crud("users/:user_id/languages"),
 
                 chatMessage: crud("chats/:id/messages"),

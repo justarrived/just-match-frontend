@@ -202,7 +202,7 @@ angular.module('just.common')
                     $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
                 } else {
                     that.isCompany = 0;
-                    $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
+                    $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user,job-users");
                 }
 
                 $scope.jobs.$promise.then(function (response) {
@@ -221,7 +221,7 @@ angular.module('just.common')
                                             var found_i = $filter('filter')(response.included, {
                                                 id: "" + obj2.id,
                                                 type: "job-users",
-                                                attributes:{
+                                                attributes: {
                                                     performed: true
                                                 },
                                                 relationships: {
@@ -236,7 +236,7 @@ angular.module('just.common')
                                                 Resources.jobUser.get({
                                                     job_id: obj.id,
                                                     id: found_i[0].id,
-                                                    'include': 'user,user-images'
+                                                    'include': 'user,user.user-images'
                                                 }, function (result) {
                                                     var found_s = $filter('filter')(result.included, {
                                                         id: "" + result.data.relationships.user.data.id,
@@ -246,6 +246,17 @@ angular.module('just.common')
                                                     if (found_s.length > 0) {
                                                         obj.attributes["first-name"] = found_s[0].attributes["first-name"];
                                                         obj.attributes["last-name"] = found_s[0].attributes["last-name"];
+                                                        obj.attributes["image-url-small"] = "assets/images/content/hero.png";
+
+                                                        if(found_s[0].relationships["user-images"].data !== null){
+                                                            var found_img = $filter('filter')(result.included, {
+                                                                id: "" + found_s[0].relationships["user-images"].data[0].id,
+                                                                type: "user-images"
+                                                            }, true);
+                                                            if (found_img.length > 0) {
+                                                                obj.attributes["image-url-small"] = found_img[0].attributes["image-url-small"];
+                                                            }
+                                                        }
                                                     }
                                                     $scope.jobs_invoice.push(obj);
                                                 });
@@ -448,7 +459,7 @@ angular.module('just.common')
 
 
                 } else {
-                    $scope.job = jobService.getJob($routeParams.id,'job-users');
+                    $scope.job = jobService.getJob($routeParams.id, 'job-users');
                     $scope.job.$promise.then(function (response) {
                         var deferd = $q.defer();
 
