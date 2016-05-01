@@ -315,10 +315,14 @@ angular.module('just.common')
                                 }, true);
 
                                 that.user_apply = found_user[0];
-                                that.calcRemainTime();
+
                             }
                             if (obj.attributes["will-perform"]) {
                                 that.will_perform = true;
+                            } else {
+                                if (that.accepted) {
+                                    that.calcRemainTime();
+                                }
                             }
                             if (obj.attributes.performed) {
                                 that.performed = true;
@@ -374,15 +378,26 @@ angular.module('just.common')
                 }
             };
 
+
+            // USER Accept to do a job
             this.userWillPerform = function () {
+                // 259 is job_user_id have to find it
                 //jobService.userWillPerformJob($routeParams.id, 259, that.fn);
             };
+
+            // USER report job finish
+            this.userPerformed = function () {
+                // 259 is job_user_id have to find it
+                jobService.userPerformedJob($routeParams.id, 259, that.fn);
+            };
+
             this.fn = function (result) {
                 if (result === 1) {
                     that.getJobData();
                 }
-                $scope.isWillPerform=false;
-                $scope.modalWillPerformShow=false;
+                $scope.isWillPerform = false;
+                $scope.modalWillPerformShow = false;
+                $scope.modalUserPerformedShow = false;
             };
         }])
     .controller('UserJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
@@ -494,8 +509,8 @@ angular.module('just.common')
 
             });
         }])
-    .controller('UserJobsCandidateCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, MyDate) {
+    .controller('UserJobsCandidateCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -544,14 +559,27 @@ angular.module('just.common')
                         //that.job_user_id = response.data.id;
                         that.accepted = true;
                         that.accepted_at = response.data[0].attributes["accepted-at"];
-
-                        that.calcRemainTime();
                     }
                     if (response.data[0].attributes["will-perform"]) {
                         that.will_perform = true;
+                    } else {
+                        if (that.accepted) {
+                            that.calcRemainTime();
+                        }
                     }
                     if (response.data[0].attributes.performed) {
                         that.performed = true;
+                    }
+
+                    //Calculate remain time
+                    if (that.accepted && !that.will_perform) {
+                        if (that.calcRemainTime() > 0) {
+                            var interval = $interval(function () {
+                                if (that.calcRemainTime() <= 0) {
+                                    $interval.cancel(interval);
+                                }
+                            }, 6000);
+                        }
                     }
 
                     deferd.resolve(that.candidate_model);

@@ -45,6 +45,15 @@
             <div ng-show="true">
                 <a class="button" href="" ng-click="modalWillPerformShow=true">Ge besked</a>
             </div>
+
+            <!-- Job finish report your boss -->
+            <div ng-show="true">
+                <h2>Är uppdraget utfort?</h2>
+            </div>
+            <div ng-show="true">
+                <a class="button" href="" ng-click="modalUserPerformedShow=true">Ja</a>
+            </div>
+
         </div>
     </div>
     <div class="main-content">
@@ -55,6 +64,8 @@
         </ul>
 
     </div>
+
+    <!-- USER modal form will-perform -->
     <div class="modal-performed-job" ng-show="modalWillPerformShow">
         <div>
             <div>
@@ -90,7 +101,30 @@
             </div>
         </div>
     </div>
+
+    <!-- USER modal form performed -->
+    <div class="modal-performed-job" ng-show="modalUserPerformedShow">
+        <div>
+            <div>
+                <section>
+                    <h4>
+                        Bra jobbat!<br/>
+                        {{company_name}} har godkant utforandet av uppdraget.
+                    </h4>
+                    <p>Godkann for att fa ersattningen</p>
+                    <div>
+                        <a class="button pink" href="" ng-click="ctrl.userPerformed()">Ja</a>
+                        <a class="button dark" href="" ng-click="modalUserPerformedShow=false">Nej</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- OWNER modal form performed to create invoice -->
     <user-job-perform></user-job-perform>
+
+
     <div class="data-generate">
         {{job | json}}
     </div>
