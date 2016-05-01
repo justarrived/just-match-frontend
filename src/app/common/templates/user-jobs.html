@@ -22,7 +22,7 @@
                 </li>
             </ul>
         </div>
-        <div class="wait-rating" ng-show="ctrl.isCompany === 1">
+        <div class="wait-rating" ng-show="ctrl.isCompany === 1 && false">
             <h2>SAKNAR BEDÖMNING</h2>
             <ul>
                 <li>
@@ -44,12 +44,5 @@
             </ul>
         </div>
     </div>
-    <div class="data-generate">
-        <p>{{ctrl.model | json}}</p>
-        <p>{{ctrl.message | json}}</p>
-        <p>{{jobs | json}}</p>
-    </div>
-
-
 </section>
 
