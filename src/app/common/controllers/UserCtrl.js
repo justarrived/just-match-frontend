@@ -381,23 +381,35 @@ angular.module('just.common')
 
             // USER Accept to do a job
             this.userWillPerform = function () {
-                // 259 is job_user_id have to find it
+                // 259 is job_user_id have to find it in USER section
                 //jobService.userWillPerformJob($routeParams.id, 259, that.fn);
             };
 
             // USER report job finish
             this.userPerformed = function () {
-                // 259 is job_user_id have to find it
+                // 259 is job_user_id have to find it in USER section
                 jobService.userPerformedJob($routeParams.id, 259, that.fn);
+            };
+
+            this.ownerCancelPerformed = function(){
+                jobService.userCancelPerformedJob($routeParams.id, that.job_user_id, that.fn);
             };
 
             this.fn = function (result) {
                 if (result === 1) {
                     that.getJobData();
                 }
+
+                // clear user accept job
                 $scope.isWillPerform = false;
                 $scope.modalWillPerformShow = false;
+
+                // clear user finish job
                 $scope.modalUserPerformedShow = false;
+
+                // clear owner create invoice
+                $scope.isPerformed=false;
+                $scope.modalPerformShow = false;
             };
         }])
     .controller('UserJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
@@ -522,7 +534,6 @@ angular.module('just.common')
             this.isCompany = -1;
 
             this.maxWaitMinutes = 720; //12 hours
-            this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
@@ -543,7 +554,7 @@ angular.module('just.common')
 
                     that.candidate_model = {};
                     var found = $filter('filter')(response.included, {
-                        id: "" + response.data[0].relationships.user.data.id,
+                        id: "" + response.data.relationships.user.data.id,
                         type: "users"
                     }, true);
 
@@ -555,19 +566,18 @@ angular.module('just.common')
                         this.isCompany = 1;
                     }
 
-                    if (response.data[0].attributes.accepted) {
-                        //that.job_user_id = response.data.id;
+                    if (response.data.attributes.accepted) {
                         that.accepted = true;
-                        that.accepted_at = response.data[0].attributes["accepted-at"];
+                        that.accepted_at = response.data.attributes["accepted-at"];
                     }
-                    if (response.data[0].attributes["will-perform"]) {
+                    if (response.data.attributes["will-perform"]) {
                         that.will_perform = true;
                     } else {
                         if (that.accepted) {
                             that.calcRemainTime();
                         }
                     }
-                    if (response.data[0].attributes.performed) {
+                    if (response.data.attributes.performed) {
                         that.performed = true;
                     }
 
@@ -593,11 +603,17 @@ angular.module('just.common')
             this.acceptJob = function () {
                 jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
             };
+
+            this.ownerCancelPerformed = function(){
+                jobService.userCancelPerformedJob(that.job_id, that.job_user_id, that.fn);
+            };
+
             this.fn = function (result) {
                 if (result === 1) {
                     that.getJobData();
                 }
                 $scope.modalShow = false;
+                $scope.modalPerformShow = false;
             };
 
             this.calcRemainTime = function () {
@@ -610,7 +626,6 @@ angular.module('just.common')
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 if (remainTime <= 0) {
-                    //that.job_user_id = null;
                     that.accepted = false;
                     that.accepted_at = null;
                 }

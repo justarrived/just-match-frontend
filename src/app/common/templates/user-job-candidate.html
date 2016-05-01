@@ -27,7 +27,7 @@
             </div>
 
             <!-- Job ongoing -->
-            <div class="user-job-status-title" ng-show="ctrl.will_perform">
+            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
                 {{ctrl.candidate_model["first-name"]}} kommer utföra uppdraget
             </div>
 
@@ -36,7 +36,7 @@
                 Ar uppdraget utfört?
             </div>
             <div class="buttons" ng-show="ctrl.performed">
-                <a class="button" href="" style="min-width:80px;">Nej</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
                 <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
             </div>
         </div>
@@ -137,7 +137,10 @@
             </div>
         </div>
     </div>
+
+    <!-- OWNER modal form performed to create invoice -->
     <user-job-perform></user-job-perform>
+
     <div class="data-generate">
         <p>{{ctrl.model | json}}</p>
         <p>{{ctrl.candidate_model | json}}</p>

@@ -125,4 +125,19 @@ angular.module('just.service')
                     }
                 });
             };
+            this.userCancelPerformedJob = function (job_id, job_user_id, fn) {
+                var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
+                var data = {data: {attributes: {"performed": false}}};
+                $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
+                    if (fn) {
+                        fn(1);
+                    }
+                }, function (response) {
+                    that.jobMessage = response;
+                    if (fn) {
+                        fn(0);
+                    }
+                });
+            };
+
         }]);

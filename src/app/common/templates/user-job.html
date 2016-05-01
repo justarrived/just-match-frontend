@@ -18,7 +18,7 @@
             </div>
 
             <!-- Job ongoing -->
-            <div ng-show="ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
+            <div ng-show="ctrl.will_perform && !ctrl.performed" ng-click="ctrl.gotoAcceptedCandidate()">
                 <h2>{{ctrl.user_apply.attributes["first-name"]}} kommer utföra uppdraget</h2>
             </div>
 
@@ -27,7 +27,7 @@
                 <h2>Ar uppdraget utfört?</h2>
             </div>
             <div class="buttons" ng-show="ctrl.performed">
-                <a class="button" href="">Nej</a>
+                <a class="button" href="" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
                 <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
             </div>
 
