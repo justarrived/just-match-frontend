@@ -60,7 +60,7 @@ angular.module('just.common')
                 user: crud("users/:id"),
 
                 userJobs: crud("users/:user_id/jobs"), //for user
-                userOwnedJobs: crud("users/:user_id/owned-job"),  //for owner
+                userOwnedJobs: crud("users/:user_id/owned-jobs"),  //for owner
                 userImage: crud("users/images"),
                 userLanguages: crud("users/:user_id/languages"),
 
@@ -93,7 +93,10 @@ angular.module('just.common')
                 companies: crud("companies"),
                 company: crud("companies/:company_id"),
 
-                hourly_pays: crud("hourly-pays")
+                hourly_pays: crud("hourly-pays"),
+
+                rating: crud("jobs/:job_id/ratings"),
+                invoice: crud("jobs/:job_id/users/:job_user_id/invoices")
 
             };
         }

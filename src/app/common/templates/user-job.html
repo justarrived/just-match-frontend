@@ -1,7 +1,7 @@
 <section class="user-job-wrapper">
     <user-job-header></user-job-header>
-    <div class="main-title pink">
-        <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
+    <div class="main-title pink" ng-show="!ctrl.hasInvoice && ctrl.isCompany === 1">
+        <div class="job-owner-header">
 
             <!-- Choose candidate -->
             <div ng-show="!ctrl.accepted">
@@ -32,7 +32,9 @@
             </div>
 
         </div>
-        <div class="job-owner-header" ng-show="ctrl.isCompany === 0">
+    </div>
+    <div class="main-title pink" ng-show="ctrl.isCompany === 0">
+        <div class="job-owner-header">
             <!-- Wait owner choose candidate -->
             <div ng-show="true">
                 <h2>Du har sökt uppdraget</h2>

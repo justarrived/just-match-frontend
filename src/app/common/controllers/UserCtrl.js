@@ -195,8 +195,8 @@ angular.module('just.common')
             that.model = response;
             if (response.data.relationships.company.data !== null) {
                 that.isCompany = 1;
-                $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
-                //$scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user");
+                //$scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
+                $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user");
             } else {
                 that.isCompany = 0;
                 $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
@@ -207,7 +207,10 @@ angular.module('just.common')
                 $scope.jobs = [];
                 if (that.isCompany === 1) {
                     angular.forEach(response.data, function (obj, key) {
-                        if (obj.relationships.owner.data.id === authService.userId().id) {
+                        /*if (obj.relationships.owner.data.id === authService.userId().id) {
+                            $scope.jobs.push(obj);
+                        }*/
+                        if (obj.type === 'jobs') {
                             $scope.jobs.push(obj);
                         }
                     });
@@ -231,8 +234,8 @@ angular.module('just.common')
             flow.redirect(routes.user.job_manage.resolve(obj));
         };
     }])
-    .controller('UserJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('UserJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -243,8 +246,11 @@ angular.module('just.common')
             this.user_apply = {};
             this.remainHours = 12;
             this.remainMinutes = 0;
+            this.hasInvoice = false;
 
             $scope.job_obj = {id: $routeParams.id};
+            this.ratingModel = ratingService.ratingModel;
+
 
             if (userService.isCompany === -1) {
                 this.model = userService.userModel();
@@ -315,6 +321,8 @@ angular.module('just.common')
                                 }, true);
 
                                 that.user_apply = found_user[0];
+                                that.ratingModel.data.attributes["job-user"] = parseInt(this.job_user_id);
+                                that.ratingModel.data.attributes["to-user"] = obj.relationships.user.data.id;
 
                             }
                             if (obj.attributes["will-perform"]) {
@@ -326,8 +334,16 @@ angular.module('just.common')
                             }
                             if (obj.attributes.performed) {
                                 that.performed = true;
+
+                                if (obj.relationships.invoice.data !== null) {
+                                    that.hasInvoice = true;
+                                } else {
+                                    that.hasInvoice = false;
+                                }
                             }
+
                         });
+
 
                         //Calculate remain time
                         if (that.accepted && !that.will_perform) {
@@ -391,8 +407,16 @@ angular.module('just.common')
                 jobService.userPerformedJob($routeParams.id, 259, that.fn);
             };
 
-            this.ownerCancelPerformed = function(){
+            this.ownerCancelPerformed = function () {
                 jobService.userCancelPerformedJob($routeParams.id, that.job_user_id, that.fn);
+            };
+
+            this.createInvoice = function () {
+                invoiceService.createInvoice($routeParams.id, that.job_user_id, that.submitJobRating);
+            };
+
+            this.submitJobRating = function () {
+                ratingService.submitRating($routeParams.id, that.ratingModel, that.fn);
             };
 
             this.fn = function (result) {
@@ -408,7 +432,7 @@ angular.module('just.common')
                 $scope.modalUserPerformedShow = false;
 
                 // clear owner create invoice
-                $scope.isPerformed=false;
+                $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
         }])
@@ -521,8 +545,8 @@ angular.module('just.common')
 
             });
         }])
-    .controller('UserJobsCandidateCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('UserJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, invoiceService, ratingService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -540,6 +564,10 @@ angular.module('just.common')
             this.performed = false; // work end
             this.remainHours = 12;
             this.remainMinutes = 0;
+            this.hasInvoice = false;
+
+            this.ratingModel = ratingService.ratingModel;
+            this.ratingModel.data.attributes["job-user"] = parseInt(this.job_user_id);
 
 
             if (userService.companyId()) {
@@ -560,6 +588,7 @@ angular.module('just.common')
 
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
+                        that.ratingModel.data.attributes["to-user"] = parseInt(found[0].id);
                     }
 
                     if (userService.companyId()) {
@@ -579,6 +608,12 @@ angular.module('just.common')
                     }
                     if (response.data.attributes.performed) {
                         that.performed = true;
+                    }
+
+                    if (response.data.relationships.invoice.data !== null) {
+                        that.hasInvoice = true;
+                    } else {
+                        that.hasInvoice = false;
                     }
 
                     //Calculate remain time
@@ -604,8 +639,16 @@ angular.module('just.common')
                 jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
             };
 
-            this.ownerCancelPerformed = function(){
+            this.ownerCancelPerformed = function () {
                 jobService.userCancelPerformedJob(that.job_id, that.job_user_id, that.fn);
+            };
+
+            this.createInvoice = function () {
+                invoiceService.createInvoice(that.job_id, that.job_user_id, that.submitJobRating);
+            };
+
+            this.submitJobRating = function () {
+                ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
             };
 
             this.fn = function (result) {
@@ -613,6 +656,9 @@ angular.module('just.common')
                     that.getJobData();
                 }
                 $scope.modalShow = false;
+
+                // clear owner create invoice
+                $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
 
