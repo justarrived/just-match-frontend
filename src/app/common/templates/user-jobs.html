@@ -7,8 +7,23 @@
         </ul>
     </div>
     <div class="user-job-content">
+        <div ng-show="ctrl.isCompany === 1">
+            <h2>Pågående Uppdrag</h2>
+            <ul>
+                <li ng-repeat="job in jobs_accepted" ng-click="ctrl.gotoUserJobPage(job)">
+                    <div>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                    </div>
+                    <div>
+                        <h3>{{job.attributes["name"]}}</h3>
+                        <p><em>{{job.relationships.comments.data.length}} kommentarer & {{job.relationships["job-users"].data.length}} ansökningar</em></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <div>
-            <h2 ng-show="ctrl.isCompany === 1">Senaste Aktivitet<i class="demo-icon icon-ic-arrow-bottom"></i></h2>
+            <h2 ng-show="ctrl.isCompany === 1">Senaste Aktivitet</h2>
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -17,7 +32,7 @@
                     </div>
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
-                        <p><em>{{job.relationships.comments.data.length}} kommentarer & xx ansökningar</em></p>
+                        <p><em>{{job.relationships.comments.data.length}} kommentarer & {{job.relationships["job-users"].data.length}} ansökningar</em></p>
                     </div>
                 </li>
             </ul>
@@ -25,31 +40,28 @@
         <div class="wait-rating" ng-show="ctrl.isCompany === 1">
             <h2>SAKNAR BEDÖMNING</h2>
             <ul>
-                <li>
+                <li ng-repeat="job in jobs_invoice">
                     <div>
-                        JAN<br/>
-                        <span>07</span>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
                     </div>
                     <div>
-                        <h3>Satta ihop 5 hyllor</h3>
-                        <p><em>Du anlitade Amir Kheirmand</em></p>
+                        <h3>{{job.attributes.name}}</h3>
+                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
 
                         <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
                     </div>
                     <div>
-                        <div class="user-info-image"
-                             style="background-image: url(assets/images/content/hero.png)"></div>
+                        <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="data-generate">
-        <p>{{ctrl.model | json}}</p>
-        <p>{{ctrl.message | json}}</p>
+    <!--<div class="data-generate">
+        <p>{{jobs_accepted | json}}</p>
         <p>{{jobs | json}}</p>
-    </div>
-
-
+        <p>{{jobs_invoice | json}}</p>
+    </div>-->
 </section>
 

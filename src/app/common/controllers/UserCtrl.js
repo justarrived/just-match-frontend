@@ -93,7 +93,7 @@ angular.module('just.common')
                 }
 
                 var found_img = $filter('filter')(response.included, {
-                    type: response.data.relationships["user-images"].data[0].type
+                    type: 'user-images'
                 }, true);
                 if (found_img.length > 0) {
                     that.user_image = found_img[0].attributes["image-url-small"];
@@ -180,60 +180,143 @@ angular.module('just.common')
 
             };
         }])
-    .controller('UserJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', function (authService, flow, routes, userService, jobService, $scope, $q) {
-        var that = this;
+    .controller('UserJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources',
+        function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
+            var that = this;
 
-        this.model = userService.userModel();
-        this.message = userService.userMessage;
-        $scope.jobs = {};
+            this.model = userService.userModel();
+            this.message = userService.userMessage;
+            $scope.jobs = {};
 
-        this.isCompany = -1;
+            $scope.jobs_accepted = []; //for owner part
+            $scope.jobs_invoice = []; //for owner part
 
-        this.model.$promise.then(function (response) {
-            var deferd = $q.defer();
+            this.isCompany = -1;
 
-            that.model = response;
-            if (response.data.relationships.company.data !== null) {
-                that.isCompany = 1;
-                $scope.jobs = jobService.getJobsPage({'page[number]': 1, 'page[size]': 50});
-                //$scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user");
-            } else {
-                that.isCompany = 0;
-                $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user");
-            }
-
-            $scope.jobs.$promise.then(function (response) {
+            this.model.$promise.then(function (response) {
                 var deferd = $q.defer();
-                $scope.jobs = [];
-                if (that.isCompany === 1) {
-                    angular.forEach(response.data, function (obj, key) {
-                        if (obj.relationships.owner.data.id === authService.userId().id) {
-                            $scope.jobs.push(obj);
-                        }
-                    });
+
+                that.model = response;
+                if (response.data.relationships.company.data !== null) {
+                    that.isCompany = 1;
+                    $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
                 } else {
-                    angular.forEach(response.included, function (obj, key) {
-                        if (obj.type === 'jobs') {
-                            $scope.jobs.push(obj);
-                        }
-                    });
+                    that.isCompany = 0;
+                    $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user,job-users");
                 }
-                //console.log($scope.jobs);
-                deferd.resolve($scope.jobs);
+
+                $scope.jobs.$promise.then(function (response) {
+                    var deferd = $q.defer();
+                    $scope.jobs = [];
+                    if (that.isCompany === 1) {
+                        angular.forEach(response.data, function (obj, key) {
+                            if (obj.type === 'jobs') {
+                                if (obj.relationships["job-users"].data.length === 0) {
+                                    $scope.jobs.push(obj);
+                                } else {
+                                    var keepGoing = true;
+                                    angular.forEach(obj.relationships["job-users"].data, function (obj2, key) {
+                                        if (keepGoing) {
+                                            // has invoice
+                                            var found_i = $filter('filter')(response.included, {
+                                                id: "" + obj2.id,
+                                                type: "job-users",
+                                                attributes: {
+                                                    performed: true
+                                                },
+                                                relationships: {
+                                                    invoice: {
+                                                        data: '!null'
+                                                    }
+                                                }
+                                            }, true);
+                                            if (found_i.length > 0) {
+
+                                                keepGoing = false;
+                                                Resources.jobUser.get({
+                                                    job_id: obj.id,
+                                                    id: found_i[0].id,
+                                                    'include': 'user,user.user-images'
+                                                }, function (result) {
+                                                    var found_s = $filter('filter')(result.included, {
+                                                        id: "" + result.data.relationships.user.data.id,
+                                                        type: "users"
+                                                    }, true);
+
+                                                    if (found_s.length > 0) {
+                                                        obj.attributes["first-name"] = found_s[0].attributes["first-name"];
+                                                        obj.attributes["last-name"] = found_s[0].attributes["last-name"];
+                                                        obj.attributes["image-url-small"] = "assets/images/content/hero.png";
+
+                                                        if(found_s[0].relationships["user-images"].data !== null){
+                                                            var found_img = $filter('filter')(result.included, {
+                                                                id: "" + found_s[0].relationships["user-images"].data[0].id,
+                                                                type: "user-images"
+                                                            }, true);
+                                                            if (found_img.length > 0) {
+                                                                obj.attributes["image-url-small"] = found_img[0].attributes["image-url-small"];
+                                                            }
+                                                        }
+                                                    }
+                                                    $scope.jobs_invoice.push(obj);
+                                                });
+                                            }
+                                        }
+                                        if (keepGoing) {
+                                            // ongoing
+                                            var found = $filter('filter')(response.included, {
+                                                id: "" + obj2.id,
+                                                type: "job-users",
+                                                attributes: {
+                                                    accepted: true,
+                                                    "will-perform": true,
+                                                },
+                                                relationships: {
+                                                    invoice: {
+                                                        data: null
+                                                    }
+                                                }
+                                            }, true);
+                                            if (found.length > 0) {
+                                                $scope.jobs_accepted.push(obj);
+                                                keepGoing = false;
+                                            }
+                                        }
+                                        if (keepGoing) {
+                                            // wait owner
+                                            $scope.jobs.push(obj);
+                                            keepGoing = false;
+                                        }
+
+
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        angular.forEach(response.included, function (obj, key) {
+                            if (obj.type === 'jobs') {
+                                $scope.jobs.push(obj);
+                            }
+                        });
+                    }
+                    //console.log($scope.jobs);
+                    deferd.resolve($scope.jobs);
+                    return deferd.promise;
+                });
+
+                deferd.resolve(that.model);
                 return deferd.promise;
             });
 
-            deferd.resolve(that.model);
-            return deferd.promise;
-        });
-
-        this.gotoUserJobPage = function (obj) {
-            flow.redirect(routes.user.job_manage.resolve(obj));
-        };
-    }])
-    .controller('UserJobsManageCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+            this.gotoUserJobPage = function (obj) {
+                flow.redirect(routes.user.job_manage.resolve(obj));
+            };
+        }])
+    .controller('UserJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
+            this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
@@ -242,8 +325,11 @@ angular.module('just.common')
             this.user_apply = {};
             this.remainHours = 12;
             this.remainMinutes = 0;
+            this.hasInvoice = false;
 
             $scope.job_obj = {id: $routeParams.id};
+            this.ratingModel = ratingService.ratingModel;
+
 
             if (userService.isCompany === -1) {
                 this.model = userService.userModel();
@@ -269,13 +355,17 @@ angular.module('just.common')
                 this.getJobData();
             }
 
+            this.gotoAcceptedCandidate = function () {
+                flow.redirect(routes.user.job_candidate.resolve($routeParams.id, that.job_user_id));
+            };
+
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
                 var nowDate = new Date();
                 var diffMs = (nowDate - acceptedDate.date);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = 720 - diffMins;
+                var remainTime = that.maxWaitMinutes - diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 if (remainTime <= 0) {
@@ -284,7 +374,6 @@ angular.module('just.common')
                     that.accepted_at = null;
                     that.user_apply = {};
                 }
-
                 return remainTime;
             };
 
@@ -301,7 +390,7 @@ angular.module('just.common')
 
                         angular.forEach(response.data, function (obj, idx) {
                             if (obj.attributes.accepted) {
-
+                                that.job_user_id = obj.id;
                                 that.accepted = true;
                                 that.accepted_at = obj.attributes["accepted-at"];
 
@@ -311,15 +400,28 @@ angular.module('just.common')
                                 }, true);
 
                                 that.user_apply = found_user[0];
-                                that.calcRemainTime();
+                                that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
+
                             }
                             if (obj.attributes["will-perform"]) {
                                 that.will_perform = true;
+                            } else {
+                                if (that.accepted) {
+                                    that.calcRemainTime();
+                                }
                             }
                             if (obj.attributes.performed) {
                                 that.performed = true;
+
+                                if (obj.relationships.invoice.data !== null) {
+                                    that.hasInvoice = true;
+                                } else {
+                                    that.hasInvoice = false;
+                                }
                             }
+
                         });
+
 
                         //Calculate remain time
                         if (that.accepted && !that.will_perform) {
@@ -332,9 +434,23 @@ angular.module('just.common')
                             }
                         }
 
-                        if (found.length > 0) {
-                            $scope.job = found[0];
+                        if (found) {
+                            if (found.length > 0) {
+                                $scope.job = found[0];
+                            }
+                        } else {
+                            $scope.job = jobService.getJob($routeParams.id);
+                            $scope.job.$promise.then(function (response) {
+                                var deferd = $q.defer();
+
+                                $scope.job = response.data;
+
+                                deferd.resolve($scope.job);
+                                return deferd.promise;
+
+                            });
                         }
+
 
                         deferd.resolve($scope.job);
                         return deferd.promise;
@@ -343,7 +459,7 @@ angular.module('just.common')
 
 
                 } else {
-                    $scope.job = jobService.getJob($routeParams.id);
+                    $scope.job = jobService.getJob($routeParams.id, 'job-users');
                     $scope.job.$promise.then(function (response) {
                         var deferd = $q.defer();
 
@@ -356,9 +472,50 @@ angular.module('just.common')
                 }
             };
 
+
+            // USER Accept to do a job
+            this.userWillPerform = function () {
+                // 259 is job_user_id have to find it in USER section
+                jobService.userWillPerformJob($routeParams.id, 260, that.fn);
+            };
+
+            // USER report job finish
+            this.userPerformed = function () {
+                // 259 is job_user_id have to find it in USER section
+                jobService.userPerformedJob($routeParams.id, 260, that.fn);
+            };
+
+            this.ownerCancelPerformed = function () {
+                jobService.userCancelPerformedJob($routeParams.id, that.job_user_id, that.fn);
+            };
+
+            this.createInvoice = function () {
+                invoiceService.createInvoice($routeParams.id, that.job_user_id, that.submitJobRating);
+            };
+
+            this.submitJobRating = function () {
+                ratingService.submitRating($routeParams.id, that.ratingModel, that.fn);
+            };
+
+            this.fn = function (result) {
+                if (result === 1) {
+                    that.getJobData();
+                }
+
+                // clear user accept job
+                $scope.isWillPerform = false;
+                $scope.modalWillPerformShow = false;
+
+                // clear user finish job
+                $scope.modalUserPerformedShow = false;
+
+                // clear owner create invoice
+                $scope.isPerformed = false;
+                $scope.modalPerformShow = false;
+            };
         }])
-    .controller('UserJobsCommentsCtrl', ['jobService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
-        function (jobService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
+    .controller('UserJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
+        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -375,11 +532,11 @@ angular.module('just.common')
             });
 
             this.getComments = function (job_id) {
-                $scope.comments = commentService.getComments('jobs', job_id, 'owner');
+                $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
                 $scope.comments.$promise.then(function (response) {
                     var deferd = $q.defer();
-
                     $scope.comments = [];
+                    var curr_user_id = '0';
                     angular.forEach(response.data, function (obj, key) {
                         var found = $filter('filter')(response.included, {
                             id: "" + obj.relationships.owner.data.id,
@@ -389,9 +546,22 @@ angular.module('just.common')
                             obj.attributes["first-name"] = found[0].attributes["first-name"];
                             obj.attributes["last-name"] = found[0].attributes["last-name"];
                         }
+                        if (authService.userId().id === obj.relationships.owner.data.id) {
+                            obj.attributes.isOwner = 1;
+                        } else {
+                            obj.attributes.isOwner = 0;
+                        }
+
+                        /*if (curr_user_id === obj.relationships.owner.data.id) {
+                         $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
+                         } else {
+                         curr_user_id = obj.relationships.owner.data.id;
+                         $scope.comments.push(obj);
+                         }*/
+
                         $scope.comments.push(obj);
+
                     });
-                    //console.log($scope.comments);
                     deferd.resolve($scope.comments);
                     return deferd.promise;
                 });
@@ -401,7 +571,7 @@ angular.module('just.common')
 
             this.submit = function () {
                 if (!that.model.data.attributes["language-id"]) {
-                    console.log(i18nService.getLanguage().id);
+                    //console.log(i18nService.getLanguage().id);
                     that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
                 }
                 Resources.comments.create({
@@ -437,8 +607,6 @@ angular.module('just.common')
                     }
 
                     $scope.job_users.push(obj);
-
-
                 });
 
                 var found1 = $filter('filter')(response.included, {
@@ -455,45 +623,138 @@ angular.module('just.common')
 
             });
         }])
-    .controller('UserJobsCandidateCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
+    .controller('UserJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, invoiceService, ratingService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
             this.candidate_model = {};
             $scope.currTab = 1;
             $scope.modalShow = false;
-            $scope.job_status_title = "Amir har sokt uppdraget";
-            $scope.isAccepted = false;
+            //$scope.job_status_title = "Amir har sokt uppdraget";
+            //$scope.isAccepted = false;
+            this.isCompany = -1;
 
-            this.model = jobService.getJobUser(this.job_id, this.job_user_id, 'job,user,user.user-images');
-            this.model.$promise.then(function (response) {
-                var deferd = $q.defer();
+            this.maxWaitMinutes = 720; //12 hours
+            this.accepted = false; //owner choosed
+            this.accepted_at = null; // datetime owner choosed
+            this.will_perform = false; //wait user confirm start work
+            this.performed = false; // work end
+            this.remainHours = 12;
+            this.remainMinutes = 0;
+            this.hasInvoice = false;
 
-                this.candidate_model = {};
-                var found = $filter('filter')(response.included, {
-                    id: "" + response.data.relationships.user.data.id,
-                    type: "users"
-                }, true);
+            this.ratingModel = ratingService.ratingModel;
 
-                if (found.length > 0) {
-                    that.candidate_model = found[0].attributes;
-                }
 
-                deferd.resolve(that.candidate_model);
-                return deferd.promise;
-            });
+            if (userService.companyId()) {
+                this.isCompany = 1;
+            }
+
+
+            this.getJobData = function () {
+                that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images');
+                that.model.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    that.candidate_model = {};
+                    var found = $filter('filter')(response.included, {
+                        id: "" + response.data.relationships.user.data.id,
+                        type: "users"
+                    }, true);
+
+                    if (found.length > 0) {
+                        that.candidate_model = found[0].attributes;
+                        that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
+                    }
+
+                    if (userService.companyId()) {
+                        this.isCompany = 1;
+                    }
+
+                    if (response.data.attributes.accepted) {
+                        that.accepted = true;
+                        that.accepted_at = response.data.attributes["accepted-at"];
+                    }
+                    if (response.data.attributes["will-perform"]) {
+                        that.will_perform = true;
+                    } else {
+                        if (that.accepted) {
+                            that.calcRemainTime();
+                        }
+                    }
+                    if (response.data.attributes.performed) {
+                        that.performed = true;
+                    }
+
+                    if (response.data.relationships.invoice.data !== null) {
+                        that.hasInvoice = true;
+                    } else {
+                        that.hasInvoice = false;
+                    }
+
+                    //Calculate remain time
+                    if (that.accepted && !that.will_perform) {
+                        if (that.calcRemainTime() > 0) {
+                            var interval = $interval(function () {
+                                if (that.calcRemainTime() <= 0) {
+                                    $interval.cancel(interval);
+                                }
+                            }, 6000);
+                        }
+                    }
+
+                    deferd.resolve(that.candidate_model);
+                    return deferd.promise;
+                });
+            };
+
+            this.getJobData();
+
 
             this.acceptJob = function () {
-                jobService.ownerAcceptJob(that.job_id, that.job_user_id, this.fn);
+                jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
             };
+
+            this.ownerCancelPerformed = function () {
+                jobService.userCancelPerformedJob(that.job_id, that.job_user_id, that.fn);
+            };
+
+            this.createInvoice = function () {
+                invoiceService.createInvoice(that.job_id, that.job_user_id, that.submitJobRating);
+            };
+
+            this.submitJobRating = function () {
+                ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
+            };
+
             this.fn = function (result) {
                 if (result === 1) {
-                    $scope.isAccepted = true;
-                    //set time interval 60000 calculate hour and min from start
-                    $scope.job_status_title = "Amir har 11h 59min pa sig att acceptera uppdraget.";
+                    that.getJobData();
                 }
                 $scope.modalShow = false;
+
+                // clear owner create invoice
+                $scope.isPerformed = false;
+                $scope.modalPerformShow = false;
             };
+
+            this.calcRemainTime = function () {
+                var acceptedDate = new MyDate(new Date());
+                acceptedDate.setISO8601(that.accepted_at);
+                var nowDate = new Date();
+                var diffMs = (nowDate - acceptedDate.date);
+                var diffMins = Math.round(diffMs / 60000); // minutes
+                var remainTime = that.maxWaitMinutes - diffMins;
+                that.remainHours = Math.floor((remainTime) / 60);
+                that.remainMinutes = remainTime - (that.remainHours * 60);
+                if (remainTime <= 0) {
+                    that.accepted = false;
+                    that.accepted_at = null;
+                }
+                return remainTime;
+            };
+
+
         }]);
 

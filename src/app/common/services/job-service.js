@@ -12,14 +12,19 @@ angular.module('just.service')
             this.rates = function () {
                 return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
             };
+
             this.jobModel = {
                 data: {
-                    attributes: {"language-id": i18nService.getLanguage().$$state.value.id, "max_rate": "80"}
+                    attributes: {"language-id": "", "max_rate": "80"}
                 }
             };
             this.jobMessage = {};
+
             this.getJob = function (id) {
                 return Resources.job.get({id: id, "include": "owner,company,hourly-pay"});
+            };
+            this.getJob = function (id, include) {
+                return Resources.job.get({id: id, "include": include});
             };
             this.getJobs = function () {
                 return Resources.jobs.get();
@@ -37,9 +42,9 @@ angular.module('just.service')
                 return Resources.userOwnedJobs.get({user_id: user_id, 'include': include});
             };
             this.getJobUsers = function (job_id, include) {
-                return Resources.jobUsers.get({job_id: job_id, 'include': include},function(response){
+                return Resources.jobUsers.get({job_id: job_id, 'include': include}, function (response) {
                     // Success
-                }, function(error) {
+                }, function (error) {
                     flow.redirect(routes.user.jobs.url);
                 });
             };
@@ -97,4 +102,47 @@ angular.module('just.service')
                     }
                 });
             };
+            this.userWillPerformJob = function (job_id, job_user_id, fn) {
+                var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
+                var data = {data: {attributes: {"will-perform": true}}};
+                $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
+                    if (fn) {
+                        fn(1);
+                    }
+                }, function (response) {
+                    that.jobMessage = response;
+                    if (fn) {
+                        fn(0);
+                    }
+                });
+            };
+            this.userPerformedJob = function (job_id, job_user_id, fn) {
+                var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
+                var data = {data: {attributes: {"performed": true}}};
+                $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
+                    if (fn) {
+                        fn(1);
+                    }
+                }, function (response) {
+                    that.jobMessage = response;
+                    if (fn) {
+                        fn(0);
+                    }
+                });
+            };
+            this.userCancelPerformedJob = function (job_id, job_user_id, fn) {
+                var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
+                var data = {data: {attributes: {"performed": false}}};
+                $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
+                    if (fn) {
+                        fn(1);
+                    }
+                }, function (response) {
+                    that.jobMessage = response;
+                    if (fn) {
+                        fn(0);
+                    }
+                });
+            };
+
         }]);

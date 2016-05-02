@@ -1,40 +1,61 @@
 <section class="user-job-wrapper">
     <user-job-header></user-job-header>
-    <div class="main-title pink">
-        <div class="job-owner-header" ng-show="ctrl.isCompany === 1">
+    <div class="main-title pink" ng-show="!ctrl.hasInvoice && ctrl.isCompany === 1">
+        <div class="job-owner-header">
 
             <!-- Choose candidate -->
             <div ng-show="!ctrl.accepted">
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
-            <div ng-show="!ctrl.accepted">
+            <div ng-show="!ctrl.accepted && job_user.data.length > 0">
                 <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
 
             <!-- Wait user accepted -->
-            <div ng-show="ctrl.accepted && !ctrl.will_perform">
-                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min på
-                    sig att acceptera uppdraget.</h2>
+            <div ng-show="ctrl.accepted && !ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min<br/>
+                    på sig att acceptera uppdraget.</h2>
             </div>
 
             <!-- Job ongoing -->
-            <div ng-show="ctrl.will_perform">
+            <div ng-show="ctrl.will_perform && !ctrl.performed" ng-click="ctrl.gotoAcceptedCandidate()">
                 <h2>{{ctrl.user_apply.attributes["first-name"]}} kommer utföra uppdraget</h2>
             </div>
 
             <!-- Job performed confirmation -->
-            <div ng-show="ctrl.will_perform">
+            <div ng-show="ctrl.performed">
                 <h2>Ar uppdraget utfört?</h2>
             </div>
-
-            <!-- temporary force show button for design -->
-            <div class="buttons" ng-show="ctrl.performed || true">
-                <a class="button" href="">Nej</a>
-                <a class="button" href="" ng-click="modalShow=true; isPerformed=false;">Ja</a>
+            <div class="buttons" ng-show="ctrl.performed">
+                <a class="button" href="" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
+                <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
             </div>
+
         </div>
-        <div class="job-user-header" ng-show="ctrl.isCompany === 0">
-            <h2>Du har sökt uppdraget</h2>
+    </div>
+    <div class="main-title pink" ng-show="ctrl.isCompany === 0">
+        <div class="job-owner-header">
+            <!-- Wait owner choose candidate -->
+            <div ng-show="true">
+                <h2>Du har sökt uppdraget</h2>
+            </div>
+
+            <!-- Owner choose you -->
+            <div ng-show="true">
+                <h2>Vi vill anlita dig svara inom 12h 0min</h2>
+            </div>
+            <div ng-show="true">
+                <a class="button" href="" ng-click="modalWillPerformShow=true">Ge besked</a>
+            </div>
+
+            <!-- Job finish report your boss -->
+            <div ng-show="true">
+                <h2>Är uppdraget utfort?</h2>
+            </div>
+            <div ng-show="true">
+                <a class="button" href="" ng-click="modalUserPerformedShow=true">Ja</a>
+            </div>
+
         </div>
     </div>
     <div class="main-content">
@@ -45,55 +66,64 @@
         </ul>
 
     </div>
-    <div class="modal-performed-job" ng-show="modalShow">
+
+    <!-- USER modal form will-perform -->
+    <div class="modal-performed-job" ng-show="modalWillPerformShow">
         <div>
             <div>
-                <section ng-show="!isPerformed">
+                <section ng-show="!isWillPerform">
                     <h3><span class="user-info-image"
                               style="background-image: url(assets/images/content/hero.png)"></span></h3>
-                    <h3>Ar uppdraget utfort?</h3>
-                    <p>Perioden for uppdraget har passerats. For att fakturering ska goras och ersattningen ska betalas
-                        ut maste
-                        bade du och Amir godkanna uppdraget nar det har utforts.</p>
+
                     <h4>
-                        <span>Containerstadning</span>
-                        <span>5h 100 SEK</span>
+                        Grattis!<br/>
+                        {{company_name}} vill garna att du utfor uppdraget
                     </h4>
-                    <h4>
-                        Totalkonstnad 500 SEK inkl. moms
-                    </h4>
+                    <p>Vill du fortfalande ta uppdraget</p>
                     <div>
-                        <a class="button pink" href="" ng-click="isPerformed=true">Ja</a>
-                        <a class="button dark" href="" ng-click="modalShow=false">Nej</a>
+                        <a class="button pink" href="" ng-click="isWillPerform=true">Ja</a>
+                        <a class="button dark" href="" ng-click="modalWillPerformShow=false">Nej</a>
                     </div>
                 </section>
-                <section ng-show="isPerformed">
-                    <h3><span class="user-info-image"
-                              style="background-image: url(assets/images/content/hero.png)"></span></h3>
-                    <h3>Tack!</h3>
-                    <p>Hur tyckte du att Amir utforde uppdraget? Ge antal stjanor (1-5) och skriv en recension som laggs
-                        till
-                        Amits profil</p>
-                    <div><span class="rating"><span class="select">&#9733;</span>&#9734;&#9734;&#9734;&#9734;</div>
-                    <div>
+                <section ng-show="isWillPerform">
+                    <h3>Kontuppgifter</h3>
+                    <p>Var vill du atr vi satter in ersattingen nar du utfort uppdraget?</p>
+                    <div class="material-input">
 
-                        <div class="material-input">
-                            <validation form="form" field="comment" errormsg="">
-                                <div class="group">
-                                    <input name="comment" type="text" required
-                                           ng-model="ctrl.data.comment">
-                                    <label>Skriv en rekommendation</label>
-                                </div>
-                            </validation>
-                        </div>
-
-                        <a class="button submit pink" href="" ng-click="modalShow=false; isPerformed=false;">Skicka</a>
+                        <form name="form" ng-submit="ctrl.userWillPerform()">
+                            <div class="group">
+                                <input type="text" ng-model="model.data.attributes.bank"/>
+                                <label>Bank</label>
+                            </div>
+                            <input type="submit" value="Spara"/>
+                            <!--<a class="button submit pink" href="" ng-click="modalPerformShow=false; isPerformed=false;">Skicka</a>-->
+                        </form>
                     </div>
                 </section>
             </div>
         </div>
     </div>
-    <div class="data-generate">
-        {{job | json}}
+
+    <!-- USER modal form performed -->
+    <div class="modal-performed-job" ng-show="modalUserPerformedShow">
+        <div>
+            <div>
+                <section>
+                    <h4>
+                        Bra jobbat!<br/>
+                        {{company_name}} har godkant utforandet av uppdraget.
+                    </h4>
+                    <p>Godkann for att fa ersattningen</p>
+                    <div>
+                        <a class="button pink" href="" ng-click="ctrl.userPerformed()">Ja</a>
+                        <a class="button dark" href="" ng-click="modalUserPerformedShow=false">Nej</a>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
+
+    <!-- OWNER modal form performed to create invoice -->
+    <user-job-perform></user-job-perform>
+
 </section>

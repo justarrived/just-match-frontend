@@ -10,10 +10,35 @@
         </ul>
 
     </div>
-    <div class="user-job-status">
-        <div>
-            <div class="user-job-status-title">{{job_status_title}}</div>
-            <div ng-hide="isAccepted"><a href="" ng-click="modalShow = true">Anlita</a></div>
+    <div class="user-job-status" ng-hide="ctrl.hasInvoice">
+        <div ng-show="ctrl.isCompany === 1">
+            <!-- Choose candidate -->
+            <div class="user-job-status-title" ng-show="!ctrl.accepted">
+                {{ctrl.candidate_model["first-name"]}} har sokt uppdraget
+            </div>
+            <div ng-show="!ctrl.accepted">
+                <a href="" ng-click="modalShow = true">Anlita</a>
+            </div>
+
+            <!-- Wait user accepted -->
+            <div class="user-job-status-title" ng-show="ctrl.accepted && !ctrl.will_perform">
+                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min<br/>
+                på sig att acceptera uppdraget.
+            </div>
+
+            <!-- Job ongoing -->
+            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
+                {{ctrl.candidate_model["first-name"]}} kommer utföra uppdraget
+            </div>
+
+            <!-- Job performed confirmation -->
+            <div class="user-job-status-title" ng-show="ctrl.performed">
+                Ar uppdraget utfört?
+            </div>
+            <div class="buttons" ng-show="ctrl.performed">
+                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
+            </div>
         </div>
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
@@ -65,8 +90,6 @@
     <div class="candidate-chat" ng-show="currTab === 3">
         <h3>Meddelanden</h3>
         <div>
-
-
             <ul>
                 <li>
                     <div class="bubble">
@@ -114,8 +137,8 @@
             </div>
         </div>
     </div>
-    <div class="data-generate">
-        <p>{{ctrl.model | json}}</p>
-        <p>{{ctrl.candidate_model | json}}</p>
-    </div>
+
+    <!-- OWNER modal form performed to create invoice -->
+    <user-job-perform></user-job-perform>
+
 </section>

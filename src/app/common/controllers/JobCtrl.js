@@ -64,6 +64,7 @@
             };
 
             this.save = function () {
+                that.model.data.attributes["language-id"] = i18nService.current_language.id;
                 jobService.create(that.model);
             };
         }])
