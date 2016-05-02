@@ -248,7 +248,7 @@ angular.module('just.common')
                                                         obj.attributes["last-name"] = found_s[0].attributes["last-name"];
                                                         obj.attributes["image-url-small"] = "assets/images/content/hero.png";
 
-                                                        if(found_s[0].relationships["user-images"].data !== null){
+                                                        if (found_s[0].relationships["user-images"].data !== null) {
                                                             var found_img = $filter('filter')(result.included, {
                                                                 id: "" + found_s[0].relationships["user-images"].data[0].id,
                                                                 type: "user-images"
@@ -282,14 +282,12 @@ angular.module('just.common')
                                                 keepGoing = false;
                                             }
                                         }
-                                        if (keepGoing) {
-                                            // wait owner
-                                            $scope.jobs.push(obj);
-                                            keepGoing = false;
-                                        }
-
-
                                     });
+                                    if (keepGoing) {
+                                        // wait owner
+                                        $scope.jobs.push(obj);
+                                        keepGoing = false;
+                                    }
                                 }
                             }
                         });

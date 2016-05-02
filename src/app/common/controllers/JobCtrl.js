@@ -285,19 +285,6 @@
 
                 $scope.isSignIn = this.signedIn();
 
-
-
-                /*$scope.job = jobService.getJob($routeParams.id);
-                $scope.job.$promise.then(function (result) {
-                    $scope.job = result.data;
-                    console.log(result);
-                    $scope.job.owner = result.included[0];
-                    $scope.job.company = result.included[1];
-                    $scope.job.max_rate = result.included[2].attributes.rate;
-                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
-                    $scope.job.currency = result.included[2].attributes.currency;
-                });*/
-
                 Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"},function(result){
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
@@ -306,8 +293,6 @@
                     $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                     $scope.job.currency = result.included[2].attributes.currency;
                 });
-
-
 
                 $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
                 $scope.comments_quantity = 5;
