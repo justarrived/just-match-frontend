@@ -828,7 +828,7 @@ job-body, job-comment {
   }
 
   .main-content {
-    padding: 20px 20px 0;
+    padding: 20px;
 
     ul {
       display: block;
@@ -857,6 +857,11 @@ job-body, job-comment {
             font-weight: 700;
             color: $dark;
           }
+        }
+      }
+      li:last-child {
+        > a {
+          margin-bottom: 0;
         }
       }
     }
@@ -981,7 +986,7 @@ job-body, job-comment {
         @include button-pink;
         max-width: 115px;
         margin: 35px 5px 0;
-        &:disabled{
+        &:disabled {
           opacity: $btnOpacityDisabled;
         }
       }
@@ -996,42 +1001,134 @@ job-body, job-comment {
       }
       .rating {
         font-size: 35px;
-        > span{
-          cursor:pointer;
+        > span {
+          cursor: pointer;
         }
         > span::before {
           content: '\2606'; //2605
         }
-        &.score1{
-          > span:nth-child(1)::before { content: '\2605'; color: $pink;}
+        &.score1 {
+          > span:nth-child(1)::before {
+            content: '\2605';
+            color: $pink;
+          }
         }
-        &.score2{
-          > span:nth-child(1)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(2)::before { content: '\2605'; color: $pink;}
+        &.score2 {
+          > span:nth-child(1)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(2)::before {
+            content: '\2605';
+            color: $pink;
+          }
         }
-        &.score3{
-          > span:nth-child(1)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(2)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(3)::before { content: '\2605'; color: $pink;}
+        &.score3 {
+          > span:nth-child(1)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(2)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(3)::before {
+            content: '\2605';
+            color: $pink;
+          }
         }
-        &.score4{
-          > span:nth-child(1)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(2)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(3)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(4)::before { content: '\2605'; color: $pink;}
+        &.score4 {
+          > span:nth-child(1)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(2)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(3)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(4)::before {
+            content: '\2605';
+            color: $pink;
+          }
         }
-        &.score5{
-          > span:nth-child(1)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(2)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(3)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(4)::before { content: '\2605'; color: $pink;}
-          > span:nth-child(5)::before { content: '\2605'; color: $pink;}
+        &.score5 {
+          > span:nth-child(1)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(2)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(3)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(4)::before {
+            content: '\2605';
+            color: $pink;
+          }
+          > span:nth-child(5)::before {
+            content: '\2605';
+            color: $pink;
+          }
         }
       }
       input[type="text"] {
         margin-top: 5px;
       }
     }
+  }
+}
+
+.user-modal-perform-show {
+  text-align: center;
+  background: $white;
+  height: calc(100% - 100px);
+
+  h3 {
+    font-weight: 600;
+    font-size: 1.4em;
+    line-height: 1.4em;
+    margin: 5px 0px;
+  }
+  h4 {
+    font-size: 1.2em;
+    margin: 5px 0px;
+    line-height: 1.4em;
+  }
+  p {
+    margin: 15px 0;
+  }
+  .material-input {
+    max-width: 500px;
+    padding: 0 5px;
+    margin: 25px auto;
+  }
+  .button.pink {
+    @include button-pink;
+    max-width: 115px;
+    margin: 15px 5px;
+    &:disabled {
+      opacity: $btnOpacityDisabled;
+    }
+  }
+  .button.dark {
+    @include button-dark;
+    max-width: 115px;
+    margin: 15px 5px;
+  }
+  .button.submit {
+    min-width: 200px;
+    margin-top: 10px;
+  }
+  input[type="submit"] {
+    @include button-pink;
+    max-width: 250px;
   }
 }
 
