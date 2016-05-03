@@ -184,126 +184,129 @@ angular.module('just.common')
         function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
             var that = this;
 
-            this.model = userService.userModel();
-            this.message = userService.userMessage;
             $scope.jobs = {};
+            $scope.jobs_accepted = [];
+            $scope.jobs_invoice = [];
 
-            $scope.jobs_accepted = []; //for owner part
-            $scope.jobs_invoice = []; //for owner part
+            that.isCompany = 1;
+            $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
 
-            this.isCompany = -1;
 
-            this.model.$promise.then(function (response) {
+            $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
+                $scope.jobs = [];
 
-                that.model = response;
-                if (response.data.relationships.company.data !== null) {
-                    that.isCompany = 1;
-                    $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
-                } else {
-                    that.isCompany = 0;
-                    $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user,job-users");
-                }
+                angular.forEach(response.data, function (obj, key) {
+                    if (obj.type === 'jobs') {
+                        if (obj.relationships["job-users"].data.length === 0) {
+                            $scope.jobs.push(obj);
+                        } else {
+                            var keepGoing = true;
+                            angular.forEach(obj.relationships["job-users"].data, function (obj2, key) {
+                                if (keepGoing) {
+                                    // has invoice
+                                    var found_i = $filter('filter')(response.included, {
+                                        id: "" + obj2.id,
+                                        type: "job-users",
+                                        attributes: {
+                                            performed: true
+                                        },
+                                        relationships: {
+                                            invoice: {
+                                                data: '!null'
+                                            }
+                                        }
+                                    }, true);
+                                    if (found_i.length > 0) {
 
-                $scope.jobs.$promise.then(function (response) {
-                    var deferd = $q.defer();
-                    $scope.jobs = [];
-                    if (that.isCompany === 1) {
-                        angular.forEach(response.data, function (obj, key) {
-                            if (obj.type === 'jobs') {
-                                if (obj.relationships["job-users"].data.length === 0) {
-                                    $scope.jobs.push(obj);
-                                } else {
-                                    var keepGoing = true;
-                                    angular.forEach(obj.relationships["job-users"].data, function (obj2, key) {
-                                        if (keepGoing) {
-                                            // has invoice
-                                            var found_i = $filter('filter')(response.included, {
-                                                id: "" + obj2.id,
-                                                type: "job-users",
-                                                attributes: {
-                                                    performed: true
-                                                },
-                                                relationships: {
-                                                    invoice: {
-                                                        data: '!null'
-                                                    }
-                                                }
+                                        keepGoing = false;
+                                        Resources.jobUser.get({
+                                            job_id: obj.id,
+                                            id: found_i[0].id,
+                                            'include': 'user,user.user-images'
+                                        }, function (result) {
+                                            var found_s = $filter('filter')(result.included, {
+                                                id: "" + result.data.relationships.user.data.id,
+                                                type: "users"
                                             }, true);
-                                            if (found_i.length > 0) {
 
-                                                keepGoing = false;
-                                                Resources.jobUser.get({
-                                                    job_id: obj.id,
-                                                    id: found_i[0].id,
-                                                    'include': 'user,user.user-images'
-                                                }, function (result) {
-                                                    var found_s = $filter('filter')(result.included, {
-                                                        id: "" + result.data.relationships.user.data.id,
-                                                        type: "users"
+                                            if (found_s.length > 0) {
+                                                obj.attributes["first-name"] = found_s[0].attributes["first-name"];
+                                                obj.attributes["last-name"] = found_s[0].attributes["last-name"];
+                                                obj.attributes["image-url-small"] = "assets/images/content/hero.png";
+
+                                                if (found_s[0].relationships["user-images"].data !== null) {
+                                                    var found_img = $filter('filter')(result.included, {
+                                                        id: "" + found_s[0].relationships["user-images"].data[0].id,
+                                                        type: "user-images"
                                                     }, true);
-
-                                                    if (found_s.length > 0) {
-                                                        obj.attributes["first-name"] = found_s[0].attributes["first-name"];
-                                                        obj.attributes["last-name"] = found_s[0].attributes["last-name"];
-                                                        obj.attributes["image-url-small"] = "assets/images/content/hero.png";
-
-                                                        if (found_s[0].relationships["user-images"].data !== null) {
-                                                            var found_img = $filter('filter')(result.included, {
-                                                                id: "" + found_s[0].relationships["user-images"].data[0].id,
-                                                                type: "user-images"
-                                                            }, true);
-                                                            if (found_img.length > 0) {
-                                                                obj.attributes["image-url-small"] = found_img[0].attributes["image-url-small"];
-                                                            }
-                                                        }
-                                                    }
-                                                    $scope.jobs_invoice.push(obj);
-                                                });
-                                            }
-                                        }
-                                        if (keepGoing) {
-                                            // ongoing
-                                            var found = $filter('filter')(response.included, {
-                                                id: "" + obj2.id,
-                                                type: "job-users",
-                                                attributes: {
-                                                    accepted: true,
-                                                    "will-perform": true,
-                                                },
-                                                relationships: {
-                                                    invoice: {
-                                                        data: null
+                                                    if (found_img.length > 0) {
+                                                        obj.attributes["image-url-small"] = found_img[0].attributes["image-url-small"];
                                                     }
                                                 }
-                                            }, true);
-                                            if (found.length > 0) {
-                                                $scope.jobs_accepted.push(obj);
-                                                keepGoing = false;
+                                            }
+                                            $scope.jobs_invoice.push(obj);
+                                        });
+                                    }
+                                }
+                                if (keepGoing) {
+                                    // ongoing
+                                    var found = $filter('filter')(response.included, {
+                                        id: "" + obj2.id,
+                                        type: "job-users",
+                                        attributes: {
+                                            accepted: true,
+                                            "will-perform": true,
+                                        },
+                                        relationships: {
+                                            invoice: {
+                                                data: null
                                             }
                                         }
-                                    });
-                                    if (keepGoing) {
-                                        // wait owner
-                                        $scope.jobs.push(obj);
+                                    }, true);
+                                    if (found.length > 0) {
+                                        $scope.jobs_accepted.push(obj);
                                         keepGoing = false;
                                     }
                                 }
-                            }
-                        });
-                    } else {
-                        angular.forEach(response.included, function (obj, key) {
-                            if (obj.type === 'jobs') {
+                            });
+                            if (keepGoing) {
+                                // wait owner
                                 $scope.jobs.push(obj);
+                                keepGoing = false;
                             }
-                        });
+                        }
                     }
-                    //console.log($scope.jobs);
-                    deferd.resolve($scope.jobs);
-                    return deferd.promise;
                 });
 
-                deferd.resolve(that.model);
+                deferd.resolve($scope.jobs);
+                return deferd.promise;
+            });
+
+            this.gotoUserJobPage = function (obj) {
+                flow.redirect(routes.user.job_manage.resolve(obj));
+            };
+        }])
+    .controller('UserJobsArriverCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources',
+        function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
+            var that = this;
+
+            $scope.jobs = {};
+
+            that.isCompany = 0;
+            $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user,job-users");
+
+            $scope.jobs.$promise.then(function (response) {
+                var deferd = $q.defer();
+                $scope.jobs = [];
+
+                angular.forEach(response.included, function (obj, key) {
+                    if (obj.type === 'jobs') {
+                        $scope.jobs.push(obj);
+                    }
+                });
+
+                deferd.resolve($scope.jobs);
                 return deferd.promise;
             });
 
