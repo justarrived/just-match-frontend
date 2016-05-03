@@ -22,8 +22,8 @@ angular.module('just.common')
         };
     })
 
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService',
-        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService) {
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q) {
             var that = this;
             this.showSetting = false;
             that.isCompany = -1;
@@ -69,27 +69,52 @@ angular.module('just.common')
                 routes.global.isMainMenuOpen = show;
             };
 
+            this.setProfile = function(){
+                $scope.$broadcast('onSignin', that.user);
+            };
+
             this.getUser = function () {
                 if (that.signedIn()) {
-                    that.user = Resources.user.get({
-                        id: authService.userId().id,
-                        "include": "user-images"
-                    }, function (response) {
-                        that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                    /*that.user = Resources.user.get({
+                     id: authService.userId().id,
+                     "include": "user-images"
+                     }, function (response) {
+                     that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                     if (that.user.data.relationships.company.data !== null) {
+                     that.isCompany = 1;
+                     } else {
+                     that.isCompany = 0;
+                     }
+                     if (response.data.relationships["user-images"].data.length > 0) {
+                     var found_img = $filter('filter')(response.included, {
+                     type: response.data.relationships["user-images"].data[0].type
+                     }, true);
+                     if (found_img.length > 0) {
+                     that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
+                     }
+                     }
+                     });*/
+
+                    that.user = userService.userModel();
+                    if (that.user.$promise) {
+                        that.user.$promise.then(function (response) {
+                            var deferd = $q.defer();
+                            that.user = response;
+                            if (response.data.relationships.company.data !== null) {
+                                that.isCompany = 1;
+                            } else {
+                                that.isCompany = 0;
+                            }
+                            deferd.resolve(that.user);
+                            return deferd.promise;
+                        });
+                    } else {
                         if (that.user.data.relationships.company.data !== null) {
                             that.isCompany = 1;
                         } else {
                             that.isCompany = 0;
                         }
-                        if (response.data.relationships["user-images"].data.length > 0) {
-                            var found_img = $filter('filter')(response.included, {
-                                type: response.data.relationships["user-images"].data[0].type
-                            }, true);
-                            if (found_img.length > 0) {
-                                that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
-                            }
-                        }
-                    });
+                    }
                 }
             };
 
