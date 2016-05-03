@@ -36,6 +36,11 @@
     }
   }
 }
+.user-modal-perform-show {
+  .button.pink, .button.dark {
+    max-width: 160px;
+  }
+}
 .user-job-candidate-topmenu > div:first-child a {
   padding: 5px 35px;
 }
