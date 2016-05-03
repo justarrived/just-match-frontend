@@ -1,0 +1,30 @@
+<section>
+    <div class="main-title user-job-header">
+        <h1>{{ "menu.assignment.list" | translate }}</h1>
+        <ul>
+            <li><a href="#{{routes.user.jobs.url}}">{{"user-jobs.job.label" | translate}}</a></li>
+            <li><a href="">ARKIV</a></li>
+        </ul>
+    </div>
+    <div class="user-job-content">
+        <div>
+            <ul>
+                <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
+                    <div>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                    </div>
+                    <div>
+                        <h3>{{job.attributes["name"]}}</h3>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="data-generate">
+        <p>{{jobs_accepted | json}}</p>
+        <p>{{jobs | json}}</p>
+        <p>{{jobs_invoice | json}}</p>
+    </div>-->
+</section>
+

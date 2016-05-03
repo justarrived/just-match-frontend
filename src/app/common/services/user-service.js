@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q',
-        function (flow, authService, i18nService, routes, Resources, storage, $q) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $location) {
             var that = this;
 
             this.signinModel = {};
@@ -78,8 +78,10 @@ angular.module('just.service')
                         "include": "language,languages,user-images"
                     }, function () {
                         if (that.user.data.relationships.company.data !== null) {
+                            that.isCompany = 1;
                             storage.set("company_id", that.user.data.relationships.company.data.id);
-                        }else{
+                        } else {
+                            that.isCompany = 0;
                             storage.set("company_id", null);
                         }
                     });
@@ -92,10 +94,20 @@ angular.module('just.service')
                 storage.set("company_id", null);
             };
 
+            this.needSignin = function () {
+                if (!authService.isAuthenticated()) {
+                    var path = $location.path();
+                    flow.redirect(routes.user.select.url, function () {
+                        flow.redirect(path);
+                    });
+                }
+            };
+
             this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
+                    var path = $location.path();
                     flow.redirect(routes.user.selectCompany.url, function () {
-                        flow.redirect(routes.job.create.url);
+                        flow.redirect(path);
                     });
                 } else {
                     var warning = {

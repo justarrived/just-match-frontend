@@ -11,7 +11,7 @@
                     submit: 'assignment.new.form.next'
                 };
 
-                userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url);
+                userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;

@@ -26,6 +26,7 @@ angular.module('just.common')
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService) {
             var that = this;
             this.showSetting = false;
+            that.isCompany = -1;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
@@ -75,6 +76,11 @@ angular.module('just.common')
                         "include": "user-images"
                     }, function (response) {
                         that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                        if (that.user.data.relationships.company.data !== null) {
+                            that.isCompany = 1;
+                        } else {
+                            that.isCompany = 0;
+                        }
                         if (response.data.relationships["user-images"].data.length > 0) {
                             var found_img = $filter('filter')(response.included, {
                                 type: response.data.relationships["user-images"].data[0].type
