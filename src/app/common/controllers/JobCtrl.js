@@ -257,8 +257,8 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes',
-            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes) {
+        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes','Resources',
+            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes,Resources) {
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
@@ -285,9 +285,7 @@
 
                 $scope.isSignIn = this.signedIn();
 
-
-                $scope.job = jobService.getJob($routeParams.id);
-                $scope.job.$promise.then(function (result) {
+                Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"},function(result){
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
                     $scope.job.company = result.included[1];
