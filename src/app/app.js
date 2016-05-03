@@ -51,6 +51,13 @@ angular.module('just', [
                     templateUrl: 'common/templates/faq.html',
                     controller: 'FAQCtrl as ctrl'
                 }
+            },
+            warning: {
+                url: '/warning',
+                handler: {
+                    templateUrl: 'common/templates/warning.html',
+                    controller: 'WarningCtrl as ctrl'
+                }
             }
         },
         user: {
@@ -58,6 +65,12 @@ angular.module('just', [
                 url: '/user/select',
                 handler: {
                     templateUrl: 'common/templates/select-login.html'
+                }
+            },
+            selectCompany: {
+                url: '/user/select-company',
+                handler: {
+                    templateUrl: 'common/templates/select-login-company.html'
                 }
             },
             register: {
