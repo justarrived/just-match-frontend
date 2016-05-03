@@ -1,9 +1,11 @@
 <section>
 
-    <div class="new-job-form">
-
+    <div class="new-job-form-header">
         <h1>{{ ctrl.text.title | translate }}</h1>
-
+        <p>En hjälptext om vilka typer av användarkonton skulle kunna vara ungefär såhär lång. Har vi mycket att orda om
+            kan den krypa ned hit.</p>
+    </div>
+    <div class="new-job-form">
         <form name="form" novalidate ng-submit="ctrl.save()">
             <div class="material-input">
                 <validation form="form" field="title" errormsg="assignment.new.form.job-title.validation_error">
