@@ -262,8 +262,11 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources',
-            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources) {
+        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter',
+            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter) {
+                var that = this;
+
+                this.commentForm = commentService.getModel('jobs', $routeParams.id);
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
@@ -299,8 +302,57 @@
                     $scope.job.currency = result.included[2].attributes.currency;
                 });
 
-                $scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
-                $scope.comments_quantity = 5;
+                /*$scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
+                 $scope.comments_quantity = 5;*/
+
+                this.getComments = function (job_id) {
+                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
+                    $scope.comments.$promise.then(function (response) {
+                        var deferd = $q.defer();
+                        $scope.comments = [];
+                        var curr_user_id = '0';
+                        angular.forEach(response.data, function (obj, key) {
+                            var found = $filter('filter')(response.included, {
+                                id: "" + obj.relationships.owner.data.id,
+                                type: "users"
+                            }, true);
+                            if (found.length > 0) {
+                                obj.attributes["first-name"] = found[0].attributes["first-name"];
+                                obj.attributes["last-name"] = found[0].attributes["last-name"];
+                            }
+                            if (authService.userId().id === obj.relationships.owner.data.id) {
+                                obj.attributes.isOwner = 1;
+                            } else {
+                                obj.attributes.isOwner = 0;
+                            }
+
+                            /*if (curr_user_id === obj.relationships.owner.data.id) {
+                             $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
+                             } else {
+                             curr_user_id = obj.relationships.owner.data.id;
+                             $scope.comments.push(obj);
+                             }*/
+                            $scope.comments.push(obj);
+                        });
+                        deferd.resolve($scope.comments);
+                        return deferd.promise;
+                    });
+                };
+
+                this.getComments($routeParams.id);
+
+                this.submitComment = function () {
+                    if (!that.commentForm.data.attributes["language-id"]) {
+                        that.commentForm.data.attributes["language-id"] = i18nService.getLanguage().id;
+                    }
+                    Resources.comments.create({
+                        resource_name: "jobs",
+                        resource_id: $routeParams.id
+                    }, that.commentForm, function (response) {
+                        that.commentForm.data.attributes.body = "";
+                        that.getComments($routeParams.id);
+                    });
+                };
 
                 $scope.getJobsPage = function (mode) {
                     var url;
