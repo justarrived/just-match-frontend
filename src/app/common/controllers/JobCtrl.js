@@ -3,71 +3,74 @@
 
     angular
         .module('just.common')
-        .controller('CreateJobCtrl', ['jobService', 'i18nService', '$scope', '$q', 'Resources', function (jobService, i18nService, $scope, $q, Resources) {
-            var that = this;
-            this.text = {
-                title: 'assignment.new.title',
-                submit: 'assignment.new.form.next'
-            };
+        .controller('CreateJobCtrl', ['jobService', 'authService', 'i18nService', 'justFlowService', 'justRoutes', 'userService', '$scope', '$q', 'Resources',
+            function (jobService, authService, i18nService, flow, routes, userService, $scope, $q, Resources) {
+                var that = this;
+                this.text = {
+                    title: 'assignment.new.title',
+                    submit: 'assignment.new.form.next'
+                };
 
-            this.model = jobService.jobModel;
-            this.message = jobService.jobMessage;
-            this.model.data.attributes.hours = 2;
+                userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
 
-            this.rates = {};
-            $scope.getRate = function (hp_id) {
-                that.rates = jobService.rates();
-                var deferd = $q.defer();
-                that.rates.$promise.then(function (response) {
-                    that.rates = response;
-                    that.model.data.attributes['hourly-pay-id'] = ((!hp_id) ? response.data[0].id : hp_id );
-                    deferd.resolve(that.rates);
-                });
-                return deferd.promise;
-            };
+                this.model = jobService.jobModel;
+                this.message = jobService.jobMessage;
+                this.model.data.attributes.hours = 2;
 
-            $scope.getRate(this.model.data.attributes['hourly-pay-id']);
-
-            $scope.categoryOptions = {
-                async: true,
-                onSelect: function (item) {
-                    that.model.data.attributes['category-id'] = item.id;
-                    that.model.data.attributes.category_name = item.name;
-                }
-            };
-
-            $scope.searchAsync = function (term) {
-                // No search term: return initial items
-                if (!term) {
-                    term = '';
-                }
-
-                var deferd = $q.defer();
-                $scope.categories = Resources.categories.get({
-                    'page[number]': 1,
-                    'page[size]': 100,
-                    'filter[name]': term
-                });
-
-                $scope.categories.$promise.then(function (response) {
-                    $scope.categories = response;
-                    var result = [];
-                    angular.forEach(response.data, function (obj, key) {
-                        result.push({
-                            id: obj.id,
-                            name: obj.attributes.name
-                        });
+                this.rates = {};
+                $scope.getRate = function (hp_id) {
+                    that.rates = jobService.rates();
+                    var deferd = $q.defer();
+                    that.rates.$promise.then(function (response) {
+                        that.rates = response;
+                        that.model.data.attributes['hourly-pay-id'] = ((!hp_id) ? response.data[0].id : hp_id );
+                        deferd.resolve(that.rates);
                     });
-                    deferd.resolve(result);
-                });
-                return deferd.promise;
-            };
+                    return deferd.promise;
+                };
 
-            this.save = function () {
-                that.model.data.attributes["language-id"] = i18nService.current_language.id;
-                jobService.create(that.model);
-            };
-        }])
+                $scope.getRate(this.model.data.attributes['hourly-pay-id']);
+
+                $scope.categoryOptions = {
+                    async: true,
+                    onSelect: function (item) {
+                        that.model.data.attributes['category-id'] = item.id;
+                        that.model.data.attributes.category_name = item.name;
+                    }
+                };
+
+                $scope.searchAsync = function (term) {
+                    // No search term: return initial items
+                    if (!term) {
+                        term = '';
+                    }
+
+                    var deferd = $q.defer();
+                    $scope.categories = Resources.categories.get({
+                        'page[number]': 1,
+                        'page[size]': 100,
+                        'filter[name]': term
+                    });
+
+                    $scope.categories.$promise.then(function (response) {
+                        $scope.categories = response;
+                        var result = [];
+                        angular.forEach(response.data, function (obj, key) {
+                            result.push({
+                                id: obj.id,
+                                name: obj.attributes.name
+                            });
+                        });
+                        deferd.resolve(result);
+                    });
+                    return deferd.promise;
+                };
+
+                this.save = function () {
+                    that.model.data.attributes["language-id"] = i18nService.current_language.id;
+                    jobService.create(that.model);
+                };
+            }])
         .controller('EditJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
             var that = this;
             this.text = {
@@ -87,8 +90,10 @@
 
             };
         }])
-        .controller('ApproveJobCtrl', ['jobService', '$scope', '$q', function (jobService, $scope, $q) {
+        .controller('ApproveJobCtrl', ['jobService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, userService, routes, $scope, $q) {
             var that = this;
+
+            userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url);
 
             this.model = jobService.jobModel;
             $scope.job = jobService.jobModel.data;
@@ -257,8 +262,8 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes','Resources',
-            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes,Resources) {
+        .controller('ViewJobCtrl', ['authService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources',
+            function (authService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources) {
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
@@ -285,7 +290,7 @@
 
                 $scope.isSignIn = this.signedIn();
 
-                Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"},function(result){
+                Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
                     $scope.job.company = result.included[1];
@@ -366,10 +371,10 @@
             }])
         .controller('AcceptedJobCtrl', ['justFlowService', 'justRoutes', function (flow, routes) {
 
-            this.gotoJobDetail = function(){
+            this.gotoJobDetail = function () {
                 if (flow.next_data) {
                     flow.redirect(routes.job.get.resolve({id: flow.next_data}));
-                }else{
+                } else {
                     flow.redirect(routes.job.list.url);
                 }
             };

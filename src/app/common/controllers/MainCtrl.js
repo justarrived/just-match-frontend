@@ -22,17 +22,18 @@ angular.module('just.common')
         };
     })
 
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter',
-        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter) {
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService) {
             var that = this;
             this.showSetting = false;
-            var isComapany = -1;
+            that.isCompany = -1;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
             };
             this.signout = function () {
                 authService.logout();
+                userService.clearUserModel();
                 flow.completed(routes.global.start.url);
                 this.menu(0);
             };
@@ -75,17 +76,17 @@ angular.module('just.common')
                         "include": "user-images"
                     }, function (response) {
                         that.user.data.attributes.user_image = 'assets/images/content/hero.png';
-                        if(that.user.data.relationships.company.data !== null){
+                        if (that.user.data.relationships.company.data !== null) {
                             that.isCompany = 1;
-                        }else{
+                        } else {
                             that.isCompany = 0;
                         }
-                        if(response.data.relationships["user-images"].data.length > 0){
+                        if (response.data.relationships["user-images"].data.length > 0) {
                             var found_img = $filter('filter')(response.included, {
                                 type: response.data.relationships["user-images"].data[0].type
                             }, true);
                             if (found_img.length > 0) {
-                                that.user.data.attributes.user_image  = found_img[0].attributes["image-url-small"];
+                                that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
                             }
                         }
                     });
