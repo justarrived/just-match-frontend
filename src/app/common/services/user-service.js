@@ -14,6 +14,7 @@ angular.module('just.service')
             this.signinMessage = {};
             this.isCompanyRegister = -1;
             this.isCompany = -1;
+            this.user = undefined;
 
 
             this.signin = function (attributes, completeCb) {
@@ -72,27 +73,38 @@ angular.module('just.service')
             };
 
             this.userModel = function () {
-                if (angular.isUndefined(that.user)) {
-                    that.user = Resources.user.get({
-                        id: authService.userId().id,
-                        "include": "language,languages,user-images"
-                    }, function () {
-                        if (that.user.data.relationships.company.data !== null) {
-                            var found = $filter('filter')(that.user.included, {
-                                id: "" + that.user.data.relationships.company.data.id,
-                                type: "companies"
-                            }, true);
-                            if (found.length > 0) {
-                                that.user.data.attributes["company-name"] = found[0].attributes.name;
+                if(authService.isAuthenticated()){
+                    if (angular.isUndefined(that.user)) {
+                        that.user = Resources.user.get({
+                            id: authService.userId().id,
+                            "include": "company,language,languages,user-images"
+                        }, function () {
+                            if (that.user.data.relationships.company.data !== null) {
+                                var found = $filter('filter')(that.user.included, {
+                                    id: "" + that.user.data.relationships.company.data.id,
+                                    type: "companies"
+                                }, true);
+                                if (found.length > 0) {
+                                    that.user.data.attributes["company-name"] = found[0].attributes.name;
+                                }
+                                storage.set("company_id", that.user.data.relationships.company.data.id);
+                                that.isCompany = 1;
+                                storage.set("company_id", that.user.data.relationships.company.data.id);
+                            } else {
+                                that.isCompany = 0;
+                                storage.set("company_id", null);
                             }
-                            storage.set("company_id", that.user.data.relationships.company.data.id);
-                            that.isCompany = 1;
-                            storage.set("company_id", that.user.data.relationships.company.data.id);
-                        } else {
-                            that.isCompany = 0;
-                            storage.set("company_id", null);
-                        }
-                    });
+                            that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                            if (that.user.data.relationships["user-images"].data.length > 0) {
+                                var found_img = $filter('filter')(that.user.included, {
+                                    type: that.user.data.relationships["user-images"].data[0].type
+                                }, true);
+                                if (found_img.length > 0) {
+                                    that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
+                                }
+                            }
+                        });
+                    }
                 }
                 return that.user;
             };
