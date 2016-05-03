@@ -9,10 +9,11 @@ angular.module('just.service')
     .service('companyService', ['$q', 'justFlowService', 'authService', 'Resources', 'justRoutes', 'i18nService', '$timeout', function ($q, flow, authService, Resources, routes, i18nService, $timeout) {
         var that = this;
 
-        this.registerModel = {language_id: i18nService.getLanguage().$$state.value.id};
+        this.registerModel = {};
         this.registerMessage = {};
 
         this.register = function (attributes) {
+            attributes.language_id = i18nService.getLanguage().$$state.value.id;
             that.registerModel = attributes;
             Resources.companies.create({data: {attributes: attributes}}, function (data) {
                 flow.next(routes.user.register.url, data);

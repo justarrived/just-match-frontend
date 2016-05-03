@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q',
-        function (flow, authService, i18nService, routes, Resources, storage, $q) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$filter',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $filter) {
             var that = this;
 
             this.signinModel = {};
@@ -74,15 +74,23 @@ angular.module('just.service')
             this.userModel = function () {
                 if (angular.isUndefined(that.user)) {
                     that.user = Resources.user.get({
-                        id: authService.userId().id,
-                        "include": "language,languages,user-images"
-                    }, function () {
-                        if (that.user.data.relationships.company.data !== null) {
-                            storage.set("company_id", that.user.data.relationships.company.data.id);
-                        }else{
-                            storage.set("company_id", null);
+                            id: authService.userId().id,
+                            "include": "language,languages,user-images"
+                        }, function () {
+                            if (that.user.data.relationships.company.data !== null) {
+                                var found = $filter('filter')(that.user.included, {
+                                    id: "" + that.user.data.relationships.company.data.id,
+                                    type: "companies"
+                                }, true);
+                                if (found.length > 0) {
+                                    that.user.data.attributes["company-name"] = found[0].attributes.name;
+                                }
+                                storage.set("company_id", that.user.data.relationships.company.data.id);
+                            } else {
+                                storage.set("company_id", null);
+                            }
                         }
-                    });
+                    );
                 }
                 return that.user;
             };
