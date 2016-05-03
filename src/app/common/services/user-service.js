@@ -78,8 +78,10 @@ angular.module('just.service')
                         "include": "language,languages,user-images"
                     }, function () {
                         if (that.user.data.relationships.company.data !== null) {
+                            that.isCompany = 1;
                             storage.set("company_id", that.user.data.relationships.company.data.id);
                         } else {
+                            that.isCompany = 0;
                             storage.set("company_id", null);
                         }
                     });
@@ -90,6 +92,15 @@ angular.module('just.service')
             this.clearUserModel = function () {
                 that.user = undefined;
                 storage.set("company_id", null);
+            };
+
+            this.needSignin = function () {
+                if (!authService.isAuthenticated()) {
+                    var path = $location.path();
+                    flow.redirect(routes.user.select.url, function () {
+                        flow.redirect(path);
+                    });
+                }
             };
 
             this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
