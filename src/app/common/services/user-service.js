@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location',
-        function (flow, authService, i18nService, routes, Resources, storage, $q, $location) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter) {
             var that = this;
 
             this.signinModel = {};
