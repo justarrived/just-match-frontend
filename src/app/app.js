@@ -105,6 +105,13 @@ angular.module('just', [
                     controller: 'UserJobsCtrl as ctrl'
                 }
             },
+            jobs_arriver: {
+                url: '/user-arriver/jobs',
+                handler: {
+                    templateUrl: 'common/templates/user-jobs-arriver.html',
+                    controller: 'UserJobsArriverCtrl as ctrl'
+                }
+            },
             job_manage: {
                 url: '/user/job/:id',
                 resolve: function (obj) {
@@ -115,6 +122,16 @@ angular.module('just', [
                     controller: 'UserJobsManageCtrl as ctrl'
                 }
             },
+            job_manage_arriver: {
+                url: '/user-arriver/job/:id',
+                resolve: function (obj) {
+                    return '/user-arriver/job/' + obj.id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job-arriver.html',
+                    controller: 'UserJobsManageArriverCtrl as ctrl'
+                }
+            },
             job_comments: {
                 url: '/user/job/:id/comments',
                 resolve: function (obj) {
@@ -123,6 +140,16 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/user-job-comments.html',
                     controller: 'UserJobsCommentsCtrl as ctrl'
+                }
+            },
+            job_comments_arriver: {
+                url: '/user-arriver/job/:id/comments',
+                resolve: function (obj) {
+                    return '/user-arriver/job/' + obj.id + '/comments';
+                },
+                handler: {
+                    templateUrl: 'common/templates/user-job-comments-arriver.html',
+                    controller: 'UserJobsCommentsArriverCtrl as ctrl'
                 }
             },
             job_candidates: {
