@@ -226,6 +226,7 @@ oi-select .select-search {
   width: 85%;
   max-width: 500px;
   margin: 0 auto;
+  padding: 30px 0;
   .custom-select > a.dropdown-toggle {
     border: 1px solid $lightBlue;
     padding: 6px 10px;
@@ -444,14 +445,14 @@ oi-select .select-search {
 .job-approve {
 
   .main-content {
-    padding: 35px 20px 0;
+    padding: 30px 20px;
   }
   .job-review {
     display: none;
   }
   .buttons {
     text-align: center;
-    margin: 30px auto 0;
+    margin: 15px auto 10px;
 
     button:first-child {
       @include button-dark;
@@ -531,4 +532,21 @@ input:invalid {
 }
 textarea:focus, input:focus{
   outline: none;
+}
+.new-job-form-header {
+  padding: 30px;
+  background: $lightBlue;
+  color: $white;
+
+  h1 {
+    font-size: 1.4em;
+    text-transform: uppercase;
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+  }
+  p {
+    margin: 15px 0 0;
+    text-align: center;
+  }
 }
