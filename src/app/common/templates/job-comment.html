@@ -1,9 +1,10 @@
 <div class="job-comment-list">
     <h3>{{"job-body.comment.title" | translate}}</h3>
     <ul>
-        <li ng-repeat="comment in comments.data | limitTo: comments_quantity">
+        <li ng-repeat="comment in comments" ng-class="{'right': comment.attributes.isOwner===1}">
             <div class="bubble">{{comment.attributes.body}}
-                <span class="comment-owner" ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}">
+                <span class="comment-owner"
+                      ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}">
                     {{ owner.attributes["first-name"] }}
                 </span>
             </div>
@@ -12,5 +13,12 @@
             </div>
         </li>
     </ul>
-    <div ng-show="isSignIn"><input type="text" name="add_comment" placeholder="{{'job-body.comment.write' | translate}}"/></div>
+    <div ng-show="isSignIn">
+        <form name="form" ng-submit="ctrl.submitComment()">
+            <div class="form-group">
+                <input type="text" name="comment_text" required placeholder="{{'job-body.comment.write' | translate}}"
+                       ng-model="ctrl.commentForm.data.attributes['body']"/>
+            </div>
+        </form>
+    </div>
 </div>

@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$filter',
-        function (flow, authService, i18nService, routes, Resources, storage, $q, $filter) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $location) {
             var that = this;
 
             this.signinModel = {};
@@ -74,23 +74,25 @@ angular.module('just.service')
             this.userModel = function () {
                 if (angular.isUndefined(that.user)) {
                     that.user = Resources.user.get({
-                            id: authService.userId().id,
-                            "include": "language,languages,user-images"
-                        }, function () {
-                            if (that.user.data.relationships.company.data !== null) {
-                                var found = $filter('filter')(that.user.included, {
-                                    id: "" + that.user.data.relationships.company.data.id,
-                                    type: "companies"
-                                }, true);
-                                if (found.length > 0) {
-                                    that.user.data.attributes["company-name"] = found[0].attributes.name;
-                                }
-                                storage.set("company_id", that.user.data.relationships.company.data.id);
-                            } else {
-                                storage.set("company_id", null);
+                        id: authService.userId().id,
+                        "include": "language,languages,user-images"
+                    }, function () {
+                        if (that.user.data.relationships.company.data !== null) {
+                            var found = $filter('filter')(that.user.included, {
+                                id: "" + that.user.data.relationships.company.data.id,
+                                type: "companies"
+                            }, true);
+                            if (found.length > 0) {
+                                that.user.data.attributes["company-name"] = found[0].attributes.name;
                             }
+                            storage.set("company_id", that.user.data.relationships.company.data.id);
+                            that.isCompany = 1;
+                            storage.set("company_id", that.user.data.relationships.company.data.id);
+                        } else {
+                            that.isCompany = 0;
+                            storage.set("company_id", null);
                         }
-                    );
+                    });
                 }
                 return that.user;
             };
@@ -100,10 +102,20 @@ angular.module('just.service')
                 storage.set("company_id", null);
             };
 
+            this.needSignin = function () {
+                if (!authService.isAuthenticated()) {
+                    var path = $location.path();
+                    flow.redirect(routes.user.select.url, function () {
+                        flow.redirect(path);
+                    });
+                }
+            };
+
             this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
+                    var path = $location.path();
                     flow.redirect(routes.user.selectCompany.url, function () {
-                        flow.redirect(routes.job.create.url);
+                        flow.redirect(path);
                     });
                 } else {
                     var warning = {

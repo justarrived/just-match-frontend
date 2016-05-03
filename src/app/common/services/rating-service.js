@@ -10,13 +10,10 @@ angular.module('just.service')
 
         var that = this;
 
-        this.ratingModel = {
-            data: {
-                attributes: {"language-id": parseInt(i18nService.getLanguage().$$state.value.id)}
-            }
-        };
+        this.ratingModel = {data: {attributes: {}}};
 
         this.submitRating = function (job_id, data, fn) {
+            data.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
             Resources.rating.create({job_id: job_id}, data, function (response) {
                 if (fn) {
                     fn(1);
