@@ -5,7 +5,7 @@
     <div class="main-content faq">
         <div class="well well-lg" ng-repeat="n in ctrl.faqs track by $index" ng-click="ctrl.toggle($index)">
             <div class="question" id="faq_{{$index}}">{{ n.question }}</div>
-            <div class="answer" ng-show="n.visible"><strong>Answer:</strong><br>{{ n.answer }}</div>
+            <div class="answer" ng-show="n.visible"><strong>{{ 'faq.answer' | translate }}:</strong><br>{{ n.answer }}</div>
         </div>
     </div>
 </section>
