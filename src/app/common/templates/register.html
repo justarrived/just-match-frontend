@@ -1,8 +1,9 @@
 <section>
-
-    <div class="register-form">
-
+    <div class="grey-header">
         <h1>{{ 'register.title' | translate }}</h1>
+        <p>Description</p>
+    </div>
+    <div class="register-form">
 
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
@@ -77,8 +78,9 @@
                 </div>
             </div>
         </form>
+        <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
     </div>
-    <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
+
     <div class="data-generate">
         <p>
             {{ctrl.data}}
