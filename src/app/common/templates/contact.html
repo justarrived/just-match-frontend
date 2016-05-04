@@ -19,7 +19,7 @@
 
                 <validation form="form" field="email" errormsg="contact.form.email.validation_error">
                     <div class="group">
-                        <input type="email" name="email" required ng-model="ctrl.data.email">
+                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
                         <label>{{'contact.form.email' | translate}}</label>
                     </div>
                 </validation>

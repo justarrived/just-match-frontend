@@ -40,7 +40,7 @@
                 <validation form="form" field="email" errormsg="register.form.email.validation_error">
                     <div class="group">
                         <input name="email" type="email" required
-                               pattern="[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,10}" ng-model="ctrl.data.email">
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" ng-model="ctrl.data.email">
                         <label>{{ 'register.form.email' | translate }}</label>
                     </div>
                 </validation>
@@ -81,12 +81,4 @@
         <p class="error-message">{{ctrl.message.data.errors[0].detail}}</p>
     </div>
 
-    <div class="data-generate">
-        <p>
-            {{ctrl.data}}
-        </p>
-        <p>
-            <i>{{ctrl.message}}</i>
-        </p>
-    </div>
 </section>
