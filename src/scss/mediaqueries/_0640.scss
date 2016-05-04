@@ -57,3 +57,22 @@
     }
   }
 }
+.job-list-title {
+  display: table;
+  width: 100%;
+  margin-bottom: 0;
+
+  h1 {
+    text-align: left;
+    margin: -5px 0 0;
+  }
+
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  vertical-align: middle;
+  > div:last-child {
+    text-align: right;
+  }
+}
