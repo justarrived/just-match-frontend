@@ -38,6 +38,9 @@ angular.module('just.service')
             this.getUserJobs = function (user_id, include) {
                 return Resources.userJobs.get({user_id: user_id, 'include': include, 'sort': 'updated-at,created-at'});
             };
+            this.getUserJobs = function (obj) {
+                return Resources.userJobs.get(obj);
+            };
             this.getOwnedJobs = function (user_id, include) {
                 return Resources.userOwnedJobs.get({user_id: user_id, 'include': include});
             };

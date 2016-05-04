@@ -97,34 +97,6 @@ angular.module('just', [
                     templateUrl: 'common/templates/user.html',
                     controller: 'UserCtrl as ctrl'
                 }
-            },
-            jobs_arriver: {
-                url: '/user-arriver/jobs',
-                handler: {
-                    templateUrl: 'common/templates/user-jobs-arriver.html',
-                    controller: 'UserJobsArriverCtrl as ctrl'
-                }
-            },
-
-            job_manage_arriver: {
-                url: '/user-arriver/job/:id',
-                resolve: function (obj) {
-                    return '/user-arriver/job/' + obj.id;
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job-arriver.html',
-                    controller: 'UserJobsManageArriverCtrl as ctrl'
-                }
-            },
-            job_comments_arriver: {
-                url: '/user-arriver/job/:id/comments',
-                resolve: function (obj) {
-                    return '/user-arriver/job/' + obj.id + '/comments';
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job-comments-arriver.html',
-                    controller: 'UserJobsCommentsArriverCtrl as ctrl'
-                }
             }
         },
         job: {
@@ -197,6 +169,35 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/contact-completed.html',
                     controller: 'ContactCtrl as ctrl'
+                }
+            }
+        },
+        arriver:{
+            jobs: {
+                url: '/arriver/jobs',
+                handler: {
+                    templateUrl: 'common/templates/arriver-jobs.html',
+                    controller: 'ArriverJobsCtrl as ctrl'
+                }
+            },
+            job_manage: {
+                url: '/arriver/job/:id',
+                resolve: function (obj) {
+                    return '/arriver/job/' + obj.id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/arriver-job.html',
+                    controller: 'ArriverJobsManageCtrl as ctrl'
+                }
+            },
+            job_comments: {
+                url: '/arriver/job/:id/comments',
+                resolve: function (obj) {
+                    return '/arriver/job/' + obj.id + '/comments';
+                },
+                handler: {
+                    templateUrl: 'common/templates/arriver-job-comments.html',
+                    controller: 'ArriverJobsCommentsCtrl as ctrl'
                 }
             }
         },
