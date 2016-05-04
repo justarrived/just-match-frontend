@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter',
-        function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter', '$rootScope',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter, $rootScope) {
             var that = this;
 
             this.signinModel = {};
@@ -20,6 +20,9 @@ angular.module('just.service')
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
                     .then(function (ok) {
+
+                        $rootScope.$broadcast('onSigninSetmenu');
+
                         if (angular.isFunction(completeCb)) {
                             completeCb();
                         }
@@ -73,7 +76,7 @@ angular.module('just.service')
             };
 
             this.userModel = function () {
-                if(authService.isAuthenticated()){
+                if (authService.isAuthenticated()) {
                     if (angular.isUndefined(that.user)) {
                         that.user = Resources.user.get({
                             id: authService.userId().id,

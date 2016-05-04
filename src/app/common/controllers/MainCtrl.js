@@ -127,8 +127,13 @@ angular.module('just.common')
             };
 
             this.setProfile = function(){
-                $scope.$broadcast('onSignin', that.user);
+                $scope.$broadcast('onSignin');
             };
+
+            $scope.$on('onSigninSetmenu', function(event) {
+                that.getUser();
+                that.setProfile();
+            });
 
             this.getUser = function () {
                 if (that.signedIn()) {

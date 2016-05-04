@@ -4,7 +4,7 @@ angular.module('just.common')
 
         $scope.model = userService.userModel();
 
-        $scope.$on('onSignin', function(event, obj) {
+        $scope.$on('onSignin', function(event) {
             $scope.model = userService.userModel();
         });
 
