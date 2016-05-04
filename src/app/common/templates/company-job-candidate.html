@@ -13,10 +13,10 @@
     <div class="user-job-status" ng-hide="ctrl.hasInvoice">
         <div ng-show="ctrl.isCompany === 1">
             <!-- Choose candidate -->
-            <div class="user-job-status-title" ng-show="!ctrl.accepted">
+            <div class="user-job-status-title" ng-show="!ctrl.accepted && !ctrl.will_perform">
                 {{ctrl.candidate_model["first-name"]}} har sokt uppdraget
             </div>
-            <div ng-show="!ctrl.accepted">
+            <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <a href="" ng-click="modalShow = true">Anlita</a>
             </div>
 
