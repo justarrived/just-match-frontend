@@ -19,9 +19,8 @@ header {
     padding-top: 10px;
     padding-bottom: 10px;
     vertical-align: middle;
-    padding-left: 17px;
+    padding-left: 10px;
     text-align: right;
-    min-width: 50px;
     button {
       background: none;
       border: 0;
@@ -71,9 +70,27 @@ header {
   > div:last-child {
     padding-right: 17px;
   }
-  > div:first-child {
+  > .top-logo {
     text-align: left;
     width: 100%;
+    padding-left: 15px;
 
+  }
+  .back-button {
+    text-align: left;
+    font-size: 25px;
+    padding-left: 3px;
+    vertical-align: middle;
+
+    .icon-ic-arrow-left {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: -13px;
+      margin-bottom: 3px;
+    }
+
+    a {
+      color: $white;
+    }
   }
 }
