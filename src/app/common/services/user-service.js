@@ -126,6 +126,39 @@ angular.module('just.service')
                 }
             };
 
+            this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
+                if (!authService.isAuthenticated()) {
+                    var path = $location.path();
+                    flow.redirect(routes.user.select.url, function () {
+                        flow.redirect(path);
+                    });
+                } else {
+                    var warning = {
+                        text: warningText,
+                        redirect: {
+                            title: warningLabel,
+                            url: warningUrl
+                        }
+                    };
+
+                    that.user = that.userModel();
+
+                    if (that.user.$promise) {
+                        that.user.$promise.then(function (response) {
+                            var deferd = $q.defer();
+                            if (that.companyId() !== null) {
+                                flow.next(routes.global.warning.url, warning);
+                            }
+                            return deferd.promise;
+                        });
+                    } else {
+                        if (that.companyId() !== null) {
+                            flow.next(routes.global.warning.url, warning);
+                        }
+                    }
+                }
+            };
+
             this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();

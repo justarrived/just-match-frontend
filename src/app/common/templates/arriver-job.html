@@ -1,6 +1,6 @@
 <section class="user-job-wrapper">
     <user-job-header></user-job-header>
-    <div class="main-title pink">
+    <div class="main-title pink" ng-show="ctrl.showStatus">
         <div class="job-owner-header">
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <!-- Wait owner choose candidate -->
@@ -11,7 +11,7 @@
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
                 <div>
-                    <h2>Vi vill anlita dig svara inom 12h 0min</h2>
+                    <h2>Vi vill anlita dig svara inom {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow=1">Ge besked</a>
@@ -19,10 +19,13 @@
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
-                <div ng-show="true">
+                <div ng-show="!that.canPerformed">
+                    <h2>Du är anlitad</h2>
+                </div>
+                <div ng-show="that.canPerformed">
                     <h2>Är uppdraget utfort?</h2>
                 </div>
-                <div ng-show="true">
+                <div ng-show="that.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
                 </div>
             </div>
@@ -55,7 +58,7 @@
                 </div>
                 <h3>Var god ge ett besked<br>
                     inom:<br>
-                    11 h 59 min</h3>
+                    {{ctrl.remainHours}} h {{ctrl.remainMinutes}} min</h3>
             </section>
             <section ng-show="isWillPerform">
                 <h3>Kontuppgifter</h3>

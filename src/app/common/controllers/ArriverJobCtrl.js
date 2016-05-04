@@ -8,14 +8,22 @@ angular.module('just.common')
             $scope.jobs = {};
 
             that.isCompany = 0;
-            $scope.jobs = jobService.getUserJobs({user_id:authService.userId().id,"include":"job,user,job-users"});
+
+            userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+
+            $scope.jobs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job"});
 
             $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
                 $scope.jobs = [];
 
                 angular.forEach(response.included, function (obj, key) {
-                    if (obj.type === 'jobs') {
+                    var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                    if (found.length > 0) {
+                        obj["job-users"] = found[0];
+                        if(!found[0].attributes.accepted && !found[0].attributes["will-perform"]){
+                            obj.attributes.text_status = "Du har sökt uppdraget";
+                        }
                         $scope.jobs.push(obj);
                     }
                 });
@@ -29,8 +37,8 @@ angular.module('just.common')
             };
         }])
 
-    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q',
-        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q) {
+    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
+        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -42,7 +50,9 @@ angular.module('just.common')
             this.remainHours = 12;
             this.remainMinutes = 0;
             this.hasInvoice = false;
-            that.isCompany = 0;
+            this.isCompany = 0;
+            this.canPerformed = false;
+            this.showStatus = false;
 
             $scope.job_obj = {id: $routeParams.id};
 
@@ -61,12 +71,44 @@ angular.module('just.common')
                 that.getJobData();
             }
 
+            this.calcRemainTime = function () {
+                var acceptedDate = new MyDate(new Date());
+                acceptedDate.setISO8601(that.accepted_at);
+                var nowDate = new Date();
+                var diffMs = (nowDate - acceptedDate.date);
+                var diffMins = Math.round(diffMs / 60000); // minutes
+                var remainTime = that.maxWaitMinutes - diffMins;
+                that.remainHours = Math.floor((remainTime) / 60);
+                that.remainMinutes = remainTime - (that.remainHours * 60);
+                /*if (remainTime <= 0) {
+                 jobService.ownerCancelAcceptJob($routeParams.id, that.job_user_id);
+                 that.job_user_id = null;
+                 that.accepted = false;
+                 that.accepted_at = null;
+                 that.user_apply = {};
+                 }*/
+                return remainTime;
+            };
+
+            this.checkJobDate = function(job_date) {
+                var jobDate = new MyDate(new Date());
+                jobDate.setISO8601(job_date);
+                var nowDate = new Date();
+                if(nowDate<jobDate.date){
+                    return false;
+                }else{
+                    return true;
+                }
+            };
+
             this.getJobData = function () {
-                $scope.job = jobService.getJob($routeParams.id, 'job-users');
+                $scope.job = jobService.getJob($routeParams.id, 'company');
                 $scope.job.$promise.then(function (response) {
                     var deferd = $q.defer();
 
                     $scope.job = response.data;
+                    $scope.job.company = response.included[0];
+                    that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
 
                     deferd.resolve($scope.job);
                     return deferd.promise;
@@ -78,15 +120,39 @@ angular.module('just.common')
                     'include': "job,user,job-users"
                 });
 
-                $scope.userJob.$promise.then(function(response){
+                $scope.userJob.$promise.then(function (response) {
                     var deferd = $q.defer();
-                    if(response.data.length>0){
+                    if (response.data.length > 0) {
                         that.job_user_id = response.data[0].id;
                         that.accepted = response.data[0].attributes.accepted;
                         that.accepted_at = response.data[0].attributes["accepted-at"];
                         that.will_perform = response.data[0].attributes["will-perform"];
                         that.performed = response.data[0].attributes.performed;
+                        
+                        if(!that.will_perform && that.accepted){
+                            that.calcRemainTime();
+                        }
+
+                        if (that.performed) {
+                            if (response.data[0].relationships.invoice.data !== null) {
+                                that.hasInvoice = true;
+                            } else {
+                                that.hasInvoice = false;
+                            }
+                        }
                     }
+                    //Calculate remain time
+                    if (that.accepted && !that.will_perform) {
+                        if (that.calcRemainTime() > 0) {
+                            var interval = $interval(function () {
+                                if (that.calcRemainTime() <= 0) {
+                                    console.log("remain time < 0");
+                                    //$interval.cancel(interval);
+                                }
+                            }, 6000);
+                        }
+                    }
+                    that.showStatus = true;
                     return deferd.promise;
                 });
             };

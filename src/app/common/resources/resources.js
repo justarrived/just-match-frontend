@@ -98,6 +98,9 @@ angular.module('just.common')
                 hourly_pays: crud("hourly-pays"),
 
                 rating: crud("jobs/:job_id/ratings"),
+                userRating: crud("users/:id/ratings"),
+
+
                 invoice: crud("jobs/:job_id/users/:job_user_id/invoices")
 
             };
