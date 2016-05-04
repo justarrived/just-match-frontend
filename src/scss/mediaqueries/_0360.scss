@@ -10,14 +10,17 @@
     }
   }
 }
+
 .user-modal-perform-show {
   .button.pink, .button.dark {
     max-width: 135px;
   }
 }
+
 .user-header > div > div:first-child {
   width: 85px;
 }
+
 .user-job-candidate-topmenu > div:first-child {
   padding-left: 110px;
 }
@@ -44,3 +47,23 @@
     }
   }
 }
+
+.top-bar {
+  > div {
+    padding-left: 17px;
+  }
+  > div:last-child {
+    padding-right: 22px;
+  }
+  > .back-button {
+    padding-left: 10px;
+
+    .icon-ic-arrow-left {
+      margin-right: -10px;
+    }
+  }
+  > .top-logo {
+    padding-left: 17px;
+  }
+}
+
