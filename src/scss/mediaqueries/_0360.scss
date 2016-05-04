@@ -32,4 +32,15 @@
   .group {
     margin-bottom: 30px;
   }
+  input[type="email"], input[type="password"], input[type="text"], input[type="number"], textarea, select {
+    padding: 10px;
+  }
+  .name-group {
+    input:first-child {
+      padding-bottom: 2px;
+    }
+    input:last-child {
+      padding-top: 2px;
+    }
+  }
 }
