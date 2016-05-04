@@ -1,6 +1,10 @@
 <section>
-    <div class="contact-form">
+    <div class="grey-header">
         <h1>{{ 'contact.title' | translate }}</h1>
+        <p>Description</p>
+    </div>
+    <div class="contact-form">
+
         <p>{{ 'contact.instructions' | translate }}<br><i class="demo-icon icon-ic-envelope"></i></p>
 
         <form name="form" novalidate ng-submit="ctrl.process()">
