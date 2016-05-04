@@ -490,6 +490,9 @@ oi-select .select-search {
     font-size: 1.5em;
     line-height: 1.5em;
     font-weight: 400;
+    text-transform: capitalize;
+    margin-top: 0;
+    padding: 0 20px;
   }
 
   a.button {
@@ -500,7 +503,7 @@ oi-select .select-search {
   .icon-ic-envelope {
     font-size: 55px;
     display: inline-block;
-    margin: 35px 15px 35px 0;
+    margin: 35px 15px 0 0;
   }
 
   > div {
