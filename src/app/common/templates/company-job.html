@@ -4,10 +4,10 @@
         <div class="job-owner-header">
 
             <!-- Choose candidate -->
-            <div ng-show="!ctrl.accepted">
+            <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
-            <div ng-show="!ctrl.accepted && job_user.data.length > 0">
+            <div ng-show="!ctrl.accepted && !ctrl.will_perform && job_user.data.length > 0">
                 <a class="button" href="#{{routes.company.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
 
