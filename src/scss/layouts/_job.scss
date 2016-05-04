@@ -213,7 +213,6 @@ button.map-zoom-in {
 
 .job-list-title {
 
-
   .custom-select {
     width: 90%;
     max-width: 180px;
@@ -1303,6 +1302,14 @@ job-body, job-comment {
   }
   .rating {
     font-size: 1.5em;
+    > span {
+      &::before {
+        content: '\2606';
+      }
+      &.select::before {
+        content: '\2605';
+      }
+    }
   }
   .user-info-image {
     @include circle(35px);

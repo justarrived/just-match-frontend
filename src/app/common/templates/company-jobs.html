@@ -7,7 +7,7 @@
         </ul>
     </div>
     <div class="user-job-content">
-        <div ng-show="ctrl.isCompany === 1">
+        <div>
             <h2>Pågående Uppdrag</h2>
             <ul>
                 <li ng-repeat="job in jobs_accepted" ng-click="ctrl.gotoUserJobPage(job)">
@@ -23,7 +23,7 @@
             </ul>
         </div>
         <div>
-            <h2 ng-show="ctrl.isCompany === 1">Senaste Aktivitet</h2>
+            <h2>Senaste Aktivitet</h2>
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -37,7 +37,7 @@
                 </li>
             </ul>
         </div>
-        <div class="wait-rating" ng-show="ctrl.isCompany === 1">
+        <div class="wait-rating">
             <h2>SAKNAR BEDÖMNING</h2>
             <ul>
                 <li ng-repeat="job in jobs_invoice">

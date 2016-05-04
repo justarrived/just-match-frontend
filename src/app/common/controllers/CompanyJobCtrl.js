@@ -7,9 +7,9 @@ angular.module('just.common')
             $scope.jobs_accepted = [];
             $scope.jobs_invoice = [];
 
-            that.isCompany = 1;
-            $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
+            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
 
+            $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
 
             $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
@@ -119,7 +119,7 @@ angular.module('just.common')
             this.remainHours = 12;
             this.remainMinutes = 0;
             this.hasInvoice = false;
-            that.isCompany = -1;
+            this.showStatus = false;
 
             $scope.job_obj = {id: $routeParams.id};
             this.ratingModel = ratingService.ratingModel;
@@ -130,27 +130,12 @@ angular.module('just.common')
             if (this.model.$promise) {
                 this.model.$promise.then(function (response) {
                     var deferd = $q.defer();
-
                     that.model = response;
-
-                    if (response.data.relationships.company.data !== null) {
-                        that.isCompany = 1;
-                    } else {
-                        that.isCompany = 0;
-                    }
-
                     that.getJobData();
-
                     deferd.resolve(that.model);
                     return deferd.promise;
-
                 });
             } else {
-                if (userService.companyId() !== null) {
-                    that.isCompany = 1;
-                } else {
-                    that.isCompany = 0;
-                }
                 that.getJobData();
             }
 
@@ -168,25 +153,31 @@ angular.module('just.common')
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
-                    jobService.ownerCancelAcceptJob($routeParams.id, that.job_user_id);
-                    that.job_user_id = null;
-                    that.accepted = false;
-                    that.accepted_at = null;
-                    that.user_apply = {};
-                }*/
+                 jobService.ownerCancelAcceptJob($routeParams.id, that.job_user_id);
+                 that.job_user_id = null;
+                 that.accepted = false;
+                 that.accepted_at = null;
+                 that.user_apply = {};
+                 }*/
                 return remainTime;
             };
 
             this.getJobData = function () {
+
+                $scope.job = jobService.getJob($routeParams.id, 'company');
+                $scope.job.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    $scope.job = response.data;
+                    $scope.job.company = response.included[0];
+
+                    deferd.resolve($scope.job);
+                    return deferd.promise;
+                });
+
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
                 $scope.job_user.$promise.then(function (response) {
                     var deferd = $q.defer();
-
-                    var found = $filter('filter')(response.included, {
-                        id: "" + $routeParams.id,
-                        type: "jobs"
-                    }, true);
-
                     angular.forEach(response.data, function (obj, idx) {
                         if (obj.attributes.accepted) {
                             that.job_user_id = obj.id;
@@ -230,24 +221,7 @@ angular.module('just.common')
                             }, 6000);
                         }
                     }
-
-                    if (found) {
-                        if (found.length > 0) {
-                            $scope.job = found[0];
-                        }
-                    } else {
-                        $scope.job = jobService.getJob($routeParams.id);
-                        $scope.job.$promise.then(function (response) {
-                            var deferd = $q.defer();
-
-                            $scope.job = response.data;
-
-                            deferd.resolve($scope.job);
-                            return deferd.promise;
-
-                        });
-                    }
-                    deferd.resolve($scope.job);
+                    that.showStatus = true;
                     return deferd.promise;
                 });
 
@@ -385,17 +359,14 @@ angular.module('just.common')
 
             });
         }])
-    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, invoiceService, ratingService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
+        function (jobService, invoiceService, ratingService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
             this.candidate_model = {};
             $scope.currTab = 1;
             $scope.modalShow = false;
-            //$scope.job_status_title = "Amir har sokt uppdraget";
-            //$scope.isAccepted = false;
-            this.isCompany = -1;
 
             this.maxWaitMinutes = 720; //12 hours
             this.accepted = false; //owner choosed
@@ -408,10 +379,44 @@ angular.module('just.common')
 
             this.ratingModel = ratingService.ratingModel;
 
+            $scope.getNumber = function(num) {
+                return new Array(parseInt(num));
+            };
 
-            if (userService.companyId()) {
-                this.isCompany = 1;
-            }
+            this.getUserRating = function (user_id) {
+                Resources.userRating.get({id: user_id, 'include': 'comment'});
+            };
+
+            this.getUserRating($routeParams.job_id);
+
+            this.getUserPerformedJobs = function (user_id) {
+                $scope.userPerformedJobs = jobService.getUserJobs({
+                    user_id: user_id,
+                    "include": "job",
+                    "filter[performed]": true
+                });
+
+                $scope.userPerformedJobs.$promise.then(function (response) {
+                    var deferd = $q.defer();
+
+                    $scope.userPerformedJobs = [];
+                    var found = $filter('filter')(response.included, {type: 'jobs'}, true);
+
+                    if (found.length > 0) {
+                        Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
+                            angular.forEach(found, function (obj, idx) {
+                                var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                                if (found_rating.length > 0) {
+                                    found[idx].rating = found_rating[0];
+                                }
+                                $scope.userPerformedJobs.push(found[idx]);
+                            });
+                            deferd.resolve($scope.userPerformedJobs);
+                            return deferd.promise;
+                        });
+                    }
+                });
+            };
 
 
             this.getJobData = function () {
@@ -428,15 +433,12 @@ angular.module('just.common')
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
+                        that.getUserPerformedJobs(parseInt(found[0].id));
                     }
 
-                    if (userService.companyId()) {
-                        that.isCompany = 1;
-                    }
                     if (response.data.attributes.accepted) {
                         that.accepted = true;
                         that.accepted_at = response.data.attributes["accepted-at"];
-
                     }
 
                     if (response.data.attributes["will-perform"]) {
@@ -516,7 +518,7 @@ angular.module('just.common')
                 if (remainTime <= 0) {
                     console.log("remainTime < 0");
                     /*that.accepted = false;
-                    that.accepted_at = null;*/
+                     that.accepted_at = null;*/
                 }
                 return remainTime;
             };

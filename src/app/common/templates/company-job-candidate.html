@@ -69,7 +69,31 @@
 
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
-            <li>
+            <li ng-repeat="job in userPerformedJobs">
+                <div><span class="user-info-image"
+                           style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
+                <div>
+                    <h4>{{job.attributes.name}}</h4>
+                    <p>{{job.company.attributes.name}}</p>
+
+                    <p class="rating">
+                        <span ng-class="{select:job.rating.attributes.score>=1}"></span>
+                        <span ng-class="{select:job.rating.attributes.score>=2}"></span>
+                        <span ng-class="{select:job.rating.attributes.score>=3}"></span>
+                        <span ng-class="{select:job.rating.attributes.score>=4}"></span>
+                        <span ng-class="{select:job.rating.attributes.score>=5}"></span>
+                    </p>
+
+                    <!--<p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
+                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>-->
+                    <!--<p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>-->
+                </div>
+                <div>
+                    {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                    <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                </div>
+            </li>
+            <!--<li>
                 <div><span class="user-info-image"
                            style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
                 <div>
@@ -83,7 +107,7 @@
                     JAN<br/>
                     <span>01</span>
                 </div>
-            </li>
+            </li>-->
         </ul>
     </div>
 
