@@ -71,31 +71,42 @@ angular.module('just.common')
                     deferd.resolve($scope.job);
                     return deferd.promise;
                 });
+
+                $scope.userJob = jobService.getUserJobs({
+                    user_id: authService.userId().id,
+                    'filter[job-id]': $routeParams.id,
+                    'include': "job,user,job-users"
+                });
+
+                $scope.userJob.$promise.then(function(response){
+                    var deferd = $q.defer();
+                    if(response.data.length>0){
+                        that.job_user_id = response.data[0].id;
+                        that.accepted = response.data[0].attributes.accepted;
+                        that.accepted_at = response.data[0].attributes["accepted-at"];
+                        that.will_perform = response.data[0].attributes["will-perform"];
+                        that.performed = response.data[0].attributes.performed;
+                    }
+                    return deferd.promise;
+                });
             };
 
             // USER Accept to do a job
             this.userWillPerform = function () {
-                // 260 is job_user_id have to find it in USER section
-                jobService.userWillPerformJob($routeParams.id, 260, that.fn);
+                jobService.userWillPerformJob($routeParams.id, that.job_user_id, that.fn);
             };
 
             // USER report job finish
             this.userPerformed = function () {
-                // 260 is job_user_id have to find it in USER section
-                jobService.userPerformedJob($routeParams.id, 260, that.fn);
+                jobService.userPerformedJob($routeParams.id, that.job_user_id, that.fn);
             };
 
             this.fn = function (result) {
                 if (result === 1) {
                     that.getJobData();
                 }
-
-                // clear user accept job
                 $scope.isWillPerform = false;
-                $scope.modalWillPerformShow = false;
-
-                // clear user finish job
-                $scope.modalUserPerformedShow = false;
+                $scope.userModalPerformShow = false;
             };
         }])
     .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
