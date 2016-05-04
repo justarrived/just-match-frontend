@@ -8,7 +8,7 @@ angular.module('just.common')
             $scope.jobs = {};
 
             that.isCompany = 0;
-            $scope.jobs = jobService.getUserJobs(authService.userId().id, "job,user,job-users");
+            $scope.jobs = jobService.getUserJobs({user_id:authService.userId().id,"include":"job,user,job-users"});
 
             $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
