@@ -45,7 +45,7 @@
                 </validation>
                 <validation form="form" field="email" errormsg="company-register.form.email.validation_error">
                     <div class="group">
-                        <input type="email" name="email" ng-model="ctrl.data.email" ng-disabled="disableInput">
+                        <input type="email" name="email" ng-model="ctrl.data.email" ng-disabled="disableInput" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
                         <label>{{'company-register.email.label' | translate}}</label>
                     </div>
                 </validation>
