@@ -98,13 +98,6 @@ angular.module('just', [
                     controller: 'UserCtrl as ctrl'
                 }
             },
-            jobs: {
-                url: '/user/jobs',
-                handler: {
-                    templateUrl: 'common/templates/user-jobs.html',
-                    controller: 'UserJobsCtrl as ctrl'
-                }
-            },
             jobs_arriver: {
                 url: '/user-arriver/jobs',
                 handler: {
@@ -112,16 +105,7 @@ angular.module('just', [
                     controller: 'UserJobsArriverCtrl as ctrl'
                 }
             },
-            job_manage: {
-                url: '/user/job/:id',
-                resolve: function (obj) {
-                    return '/user/job/' + obj.id;
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job.html',
-                    controller: 'UserJobsManageCtrl as ctrl'
-                }
-            },
+
             job_manage_arriver: {
                 url: '/user-arriver/job/:id',
                 resolve: function (obj) {
@@ -132,16 +116,6 @@ angular.module('just', [
                     controller: 'UserJobsManageArriverCtrl as ctrl'
                 }
             },
-            job_comments: {
-                url: '/user/job/:id/comments',
-                resolve: function (obj) {
-                    return '/user/job/' + obj.id + '/comments';
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job-comments.html',
-                    controller: 'UserJobsCommentsCtrl as ctrl'
-                }
-            },
             job_comments_arriver: {
                 url: '/user-arriver/job/:id/comments',
                 resolve: function (obj) {
@@ -150,26 +124,6 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/user-job-comments-arriver.html',
                     controller: 'UserJobsCommentsArriverCtrl as ctrl'
-                }
-            },
-            job_candidates: {
-                url: '/user/job/:id/candidates',
-                resolve: function (obj) {
-                    return '/user/job/' + obj.id + '/candidates';
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job-candidates.html',
-                    controller: 'UserJobsCandidatesCtrl as ctrl'
-                }
-            },
-            job_candidate: {
-                url: '/user/job/:job_id/candidate/:job_user_id',
-                resolve: function (job_id, job_user_id) {
-                    return '/user/job/' + job_id + '/candidate/' + job_user_id;
-                },
-                handler: {
-                    templateUrl: 'common/templates/user-job-candidate.html',
-                    controller: 'UserJobsCandidateCtrl as ctrl'
                 }
             }
         },
@@ -252,6 +206,53 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/register-company-user.html',
                     controller: 'RegisterCompanyCtrl as ctrl'
+                }
+            },
+            jobs: {
+                url: '/company/jobs',
+                handler: {
+                    templateUrl: 'common/templates/company-jobs.html',
+                    controller: 'CompanyJobsCtrl as ctrl'
+                }
+            },
+            job_manage: {
+                url: '/company/job/:id',
+                resolve: function (obj) {
+                    return '/company/job/' + obj.id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/company-job.html',
+                    controller: 'CompanyJobsManageCtrl as ctrl'
+                }
+            },
+            job_comments: {
+                url: '/company/job/:id/comments',
+                resolve: function (obj) {
+                    return '/company/job/' + obj.id + '/comments';
+                },
+                handler: {
+                    templateUrl: 'common/templates/company-job-comments.html',
+                    controller: 'CompanyJobsCommentsCtrl as ctrl'
+                }
+            },
+            job_candidates: {
+                url: '/company/job/:id/candidates',
+                resolve: function (obj) {
+                    return '/company/job/' + obj.id + '/candidates';
+                },
+                handler: {
+                    templateUrl: 'common/templates/company-job-candidates.html',
+                    controller: 'CompanyJobsCandidatesCtrl as ctrl'
+                }
+            },
+            job_candidate: {
+                url: '/company/job/:job_id/candidate/:job_user_id',
+                resolve: function (job_id, job_user_id) {
+                    return '/company/job/' + job_id + '/candidate/' + job_user_id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/company-job-candidate.html',
+                    controller: 'CompanyJobsCandidateCtrl as ctrl'
                 }
             }
         }
