@@ -106,9 +106,17 @@
     }
     a {
       color: $white;
-    }
-    .user-info-image {
+      display: table;
       margin-right: 10px;
+
+      > span {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+
+    .user-info-image {
+      margin-right: 15px;
       @include circle(35px);
 
       img {
