@@ -1,7 +1,8 @@
 <section>
-    <div class="company-register-form">
+    <div class="company-register-header">
         <h1>SKAPA KONTO</h1>
-
+    </div>
+    <div class="company-register-form">
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
                 <div custom-select="company.id as company.attributes.name for company in searchAsync($searchTerm)"

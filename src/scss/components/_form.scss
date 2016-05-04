@@ -536,7 +536,8 @@ input:invalid {
 textarea:focus, input:focus{
   outline: none;
 }
-.new-job-form-header {
+.new-job-form-header,
+.company-register-header {
   padding: 30px;
   background: $lightBlue;
   color: $white;

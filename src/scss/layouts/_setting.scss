@@ -126,4 +126,16 @@
       opacity: 1;
     }
   }
+  input[type="email"], input[type="password"], input[type="text"], input[type="number"], textarea, select {
+    padding: 8px 10px;
+  }
+}
+
+.name-group {
+  input:first-child {
+    padding-bottom: 0;
+  }
+  input:last-child {
+    padding-top: 0;
+  }
 }
