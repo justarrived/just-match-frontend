@@ -212,7 +212,7 @@ button.map-zoom-in {
 }
 
 .job-list-title {
-  margin-bottom: 12px;
+
 
   .custom-select {
     width: 90%;
@@ -220,12 +220,9 @@ button.map-zoom-in {
   }
 
   h1 {
-    margin: 8px 0 10px;
+    margin: -5px auto 20px;
   }
 
-  > div {
-    padding-bottom: 5px;
-  }
   .custom-select > a.dropdown-toggle > b::before {
     font-size: 7px;
     margin-left: 0;
@@ -655,6 +652,7 @@ job-body, job-comment {
     font-size: 1.3em;
     text-transform: uppercase;
     display: block;
+    text-decoration: none;
   }
 
   #map_canvas {

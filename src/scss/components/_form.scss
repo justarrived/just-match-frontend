@@ -25,6 +25,7 @@ label {
 .data-generate {
   overflow: auto;
   margin: 0 30px 30px;
+  display: none;
 }
 
 .text-danger {
@@ -226,7 +227,7 @@ oi-select .select-search {
   width: 85%;
   max-width: 500px;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 35px 0;
   .custom-select > a.dropdown-toggle {
     border: 1px solid $lightBlue;
     padding: 6px 10px;
@@ -237,7 +238,7 @@ oi-select .select-search {
   button.form-control {
     font-size: 1.4em;
     max-width: 180px;
-    margin: 40px auto 0;
+    margin: 30px auto 0;
     display: inherit;
   }
 
@@ -305,7 +306,7 @@ oi-select .select-search {
     margin: 0 auto;
     > div {
       display: table-cell;
-      padding-bottom: 20px;
+      padding-top: 10px;
       vertical-align: middle;
       text-align: center;
       font-size: 1.2em;
@@ -489,6 +490,9 @@ oi-select .select-search {
     font-size: 1.5em;
     line-height: 1.5em;
     font-weight: 400;
+    text-transform: capitalize;
+    margin-top: 0;
+    padding: 0 20px;
   }
 
   a.button {
@@ -499,7 +503,7 @@ oi-select .select-search {
   .icon-ic-envelope {
     font-size: 55px;
     display: inline-block;
-    margin: 35px 15px 35px 0;
+    margin: 35px 15px 0 0;
   }
 
   > div {

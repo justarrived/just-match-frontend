@@ -2,22 +2,22 @@
     <user-job-header></user-job-header>
     <div class="main-title pink">
         <div class="job-owner-header">
-            <div>
+            <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <!-- Wait owner choose candidate -->
-                <div ng-show="true">
+                <div>
                     <h2>Du har sökt uppdraget</h2>
                 </div>
             </div>
-            <div>
+            <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
-                <div ng-show="true">
+                <div>
                     <h2>Vi vill anlita dig svara inom 12h 0min</h2>
                 </div>
-                <div ng-show="true">
+                <div>
                     <a class="button" href="" ng-click="userModalPerformShow=1">Ge besked</a>
                 </div>
             </div>
-            <div>
+            <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
                 <div ng-show="true">
                     <h2>Är uppdraget utfort?</h2>
