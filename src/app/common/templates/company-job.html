@@ -8,7 +8,7 @@
                 <h2>Du har {{job_user.data.length}} ansökningar</h2>
             </div>
             <div ng-show="!ctrl.accepted && job_user.data.length > 0">
-                <a class="button" href="#{{routes.user.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
+                <a class="button" href="#{{routes.company.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
             </div>
 
             <!-- Wait user accepted -->
@@ -37,7 +37,7 @@
 
     <div class="main-content" ng-hide="userModalPerformShow">
         <ul>
-            <li class="select"><a href="#{{routes.user.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två
+            <li class="select"><a href="#{{routes.company.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två
                 kommentarer</a></li>
             <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
         </ul>
@@ -45,6 +45,6 @@
     </div>
 
     <!-- OWNER modal form performed to create invoice -->
-    <user-job-perform></user-job-perform>
+    <company-job-perform></company-job-perform>
 
 </section>

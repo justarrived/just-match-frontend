@@ -1,9 +1,9 @@
 angular
     .module('just.common')
-    .directive('userHeader', function () {
+    .directive('companyJobPerform', function () {
         return {
             restrict: 'E',
             // scope: { model: '=model' },
-            templateUrl: 'common/templates/user-header.html'
+            templateUrl: 'common/templates/company-job-perform.html'
         };
     });
