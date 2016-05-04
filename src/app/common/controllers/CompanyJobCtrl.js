@@ -219,7 +219,6 @@ angular.module('just.common')
                             }
                         }
                     });
-                    console.log("zz");
                     //Calculate remain time
                     if (that.accepted && !that.will_perform) {
                         if (that.calcRemainTime() > 0) {
@@ -248,7 +247,6 @@ angular.module('just.common')
 
                         });
                     }
-                    console.log(that);
                     deferd.resolve($scope.job);
                     return deferd.promise;
                 });
