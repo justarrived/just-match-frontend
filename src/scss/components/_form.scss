@@ -24,7 +24,7 @@ label {
 
 .data-generate {
   overflow: auto;
-  margin: 30px;
+  margin: 0 30px 30px;
 }
 
 .text-danger {
@@ -533,8 +533,7 @@ input:invalid {
 textarea:focus, input:focus{
   outline: none;
 }
-.new-job-form-header,
-.company-register-header {
+.grey-header {
   padding: 30px;
   background: $lightBlue;
   color: $white;
