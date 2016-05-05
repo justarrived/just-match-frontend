@@ -284,6 +284,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
     .job-desc {
       position: relative;
+      padding-left: 5px;
 
       h3 {
         font-weight: 600;
@@ -343,7 +344,6 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         color: $pink;
         font-weight: 600;
         font-size: 1.3em;
-        letter-spacing: 0.1em;
       }
       span:after {
         content: ':-';
