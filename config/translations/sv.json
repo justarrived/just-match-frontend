@@ -13,6 +13,7 @@
   "register.form.street": "Gata",
   "register.form.zip": "Postnummer",
   "register.form.password": "Lösenord",
+  "register.form.picture": "Profilbild",
 
   "register.form.first_name.validation_error": "Du måste ange förnamn",
   "register.form.ssn.validation_error": "Ange personnummer i formen ÅÅMMDDXXXX",
@@ -116,6 +117,7 @@
   "company-register.email.label": "mailadress",
   "company-register.telephone.label": "telefonnummer",
   "company-register.password.label": "lösenord",
+  "company-register.logo.label": "Företagets logotyp",
   "company-register.street.label": "gata",
   "company-register.zip.label": "postnummer",
   "company-register.city.label": "stad",

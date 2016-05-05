@@ -173,7 +173,7 @@ label {
   }
   input[disabled] ~ label,
   textarea[disabled] ~ label {
-    color: $grey;
+    color: $grey !important;
   }
 
   label {
@@ -251,65 +251,29 @@ oi-select .select-search {
     margin-top: 0;
   }
 }
-.company-register-image {
-  display: table;
-  margin: 5px auto 32px;
-  width: 100%;
 
-  > div {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
+.register-image {
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+
+  input {
+    padding-top: 9px;
+    padding-bottom: 8px;
+    background: none;
+    border: 1px solid $lightBlue;
   }
-  .show-image {
-    width: calc(100% - 120px);
-    max-width: 200px;
-    display: inline-block;
-    > img {
-      width: 100%;
-      height: auto;
-    }
+  label {
+    top: -4px !important;
+    background: $white;
+    padding: 0px 5px;
+    line-height: 5px;
   }
-  .upload-image {
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    vertical-align: middle;
-
-    input[type="file"] {
-      width: 50px;
-      height: 50px;
-      display: block;
-      opacity: 0;
-      margin-left: 20px;
-      cursor: pointer;
-    }
-    input[type="file"]:disabled,
-    input[type="file"]:disabled ~ .icon-ic-camera {
-      display: none;
-    }
-    .icon-ic-camera {
-      color: $lightBlue;
-      position: absolute;
-      font-family: 'fontello';
-      content: '\e822';
-      font-size: 30px;
-      top: 3px;
-      left: 1px;
-      -webkit-transition: all .2s;
-      transition: all .2s;
-      pointer-events: none;
-      margin-left: 20px;
-      opacity: 0.8;
-    }
-
-
+  input[type="file"]:disabled {
+    opacity: 0.4;
   }
-  .upload-image:hover .icon-ic-camera {
-    opacity: 1;
-  }
-
 }
+
 
 .user-form {
   padding-top: 35px;
