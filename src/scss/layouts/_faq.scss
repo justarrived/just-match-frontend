@@ -5,6 +5,9 @@
     border: 1px solid $grey;
     padding: 20px 15px;
   }
+  .well:last-child {
+    margin-bottom: 0;
+  }
   .question {
     position: relative;
     padding-right: 40px;
