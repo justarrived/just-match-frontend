@@ -7,6 +7,9 @@
 
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
+
+                <input type="file" id="file_upload" name="file">
+
                 <validation form="form" field="ssn" errormsg="register.form.ssn.validation_error">
                     <div class="group">
                         <input name="ssn" type="text" required ng-minlength="10"

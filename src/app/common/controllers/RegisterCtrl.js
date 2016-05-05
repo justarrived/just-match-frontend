@@ -10,6 +10,15 @@ angular.module('just.common')
         }
 
         this.process = function () {
-            userService.register(that.data);
+            var element0 = angular.element("#file_upload");
+            if (element0[0].files[0]) {
+                var formData = new FormData();
+                var element = angular.element("#file_upload");
+                formData.append("image", element[0].files[0]);
+                userService.register(that.data, formData);
+            } else {
+                userService.register(that.data);
+            }
+
         };
     }]);
