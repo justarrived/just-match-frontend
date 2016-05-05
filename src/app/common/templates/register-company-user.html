@@ -6,9 +6,13 @@
     <div class="company-register-form">
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
-                <div custom-select="company.id as company.attributes.name for company in searchAsync($searchTerm)"
+                <div custom-select="company.id as company.attributes.name_cin for company in searchAsync($searchTerm)"
                      custom-select-options="companyOptions" ng-model="companySelected"></div>
                 <input type="hidden" name="id" ng-model="ctrl.data.id"/>
+
+                <img ng-src="{{ctrl.company_image}}" style="width:150px;"/>
+                <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
+
                 <validation form="form" field="cin" errormsg="company-register.form.cin.validation_error"
                             ng-show="isAddNewCIN">
                     <div class="group">
@@ -17,47 +21,74 @@
                         <label>{{'company-register.cin.label' | translate}}</label>
                     </div>
                 </validation>
+
                 <validation form="form" field="name" errormsg="company-register.form.name.validation_error">
                     <div class="group">
                         <input type="text" name="name" required ng-model="ctrl.data.name" ng-disabled="disableInput">
                         <label>{{'company-register.name.label' | translate}}</label>
                     </div>
                 </validation>
+
                 <validation form="form" field="website" errormsg="company-register.form.website.validation_error">
                     <div class="group">
-                        <input type="text" name="website" ng-model="ctrl.data.website" ng-disabled="disableInput">
+                        <input type="text" name="website" required ng-model="ctrl.data.website" ng-disabled="disableInput">
                         <label>{{'company-register.website.label' | translate}}</label>
                     </div>
                 </validation>
-                <validation form="form" field="firstname"
+
+                <!--<validation form="form" field="firstname"
                             errormsg="company-register.form.contact-firstname.validation_error">
                     <div class="group">
                         <input type="text" name="firstname" ng-model="ctrl.data.firstname" ng-disabled="disableInput">
                         <label>{{'company-register.contact-firstname.label' | translate}}</label>
                     </div>
                 </validation>
+
                 <validation form="form" field="lastname"
                             errormsg="company-register.form.contact-lastname.validation_error">
                     <div class="group">
                         <input type="text" name="lastname" ng-model="ctrl.data.lastname" ng-disabled="disableInput">
                         <label>{{'company-register.contact-lastname.label' | translate}}</label>
                     </div>
-                </validation>
+                </validation>-->
+
                 <validation form="form" field="email" errormsg="company-register.form.email.validation_error">
                     <div class="group">
-                        <input type="email" name="email" ng-model="ctrl.data.email" ng-disabled="disableInput" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
+                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-disabled="disableInput" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
                         <label>{{'company-register.email.label' | translate}}</label>
                     </div>
                 </validation>
+
                 <validation form="form" field="phone" errormsg="company-register.form.phone.validation_error">
                     <div class="group">
-                        <input type="text" name="phone" ng-model="ctrl.data.phone" ng-disabled="disableInput">
+                        <input type="text" name="phone" required ng-model="ctrl.data.phone" ng-disabled="disableInput">
                         <label>{{'company-register.telephone.label' | translate}}</label>
                     </div>
                 </validation>
 
+                <validation form="form" field="street" errormsg="company-register.form.street.validation_error">
+                    <div class="group">
+                        <input type="text" name="street" required ng-model="ctrl.data.street" ng-disabled="disableInput">
+                        <label>{{'company-register.street.label' | translate}}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="zip" errormsg="company-register.form.zip.validation_error">
+                    <div class="group">
+                        <input type="text" name="zip" required ng-model="ctrl.data.zip" ng-disabled="disableInput">
+                        <label>{{'company-register.zip.label' | translate}}</label>
+                    </div>
+                </validation>
+
+                <validation form="form" field="city" errormsg="company-register.form.city.validation_error">
+                    <div class="group">
+                        <input type="text" name="city" required ng-model="ctrl.data.city" ng-disabled="disableInput">
+                        <label>{{'company-register.city.label' | translate}}</label>
+                    </div>
+                </validation>
+
                 <div class="form-group">
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid && isNew!==0">Fortsätt</button>
                 </div>
             </div>
         </form>

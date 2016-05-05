@@ -116,6 +116,9 @@
   "company-register.email.label": "mailadress",
   "company-register.telephone.label": "telefonnummer",
   "company-register.password.label": "lösenord",
+  "company-register.street.label": "gata",
+  "company-register.zip.label": "postnummer",
+  "company-register.city.label": "stad",
 
   "company-register.form.cin.validation_error": "Ange organisationsnummer i formen ÅÅMMDDXXXX",
   "company-register.form.name.validation_error": "Du måste ange namn",
@@ -124,7 +127,9 @@
   "company-register.form.contact-lastname.validation_error": "Du måste ange efternamn",
   "company-register.form.email.validation_error": "Du måste ange en giltig email",
   "company-register.form.phone.validation_error": "Ange telefon",
-  "company-register.form.zip.validation_error": "Du måste ange zip",
+  "company-register.form.street.validation_error": "Du måste ange gata",
+  "company-register.form.zip.validation_error": "Du måste ange postnummer",
+  "company-register.form.city.validation_error": "Du måste ange stad",
 
   "user.title": "Skapa profil",
   "user.presentation.label": "Presentation",
