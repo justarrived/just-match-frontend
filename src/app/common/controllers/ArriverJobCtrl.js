@@ -11,10 +11,8 @@ angular.module('just.common')
 
             userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
 
-            $scope.jobs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job"});
-
-            $scope.jobs.$promise.then(function (response) {
-                var deferd = $q.defer();
+            $scope.jobbs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job"});
+            $scope.jobbs.$promise.then(function (response) {
                 $scope.jobs = [];
 
                 angular.forEach(response.included, function (obj, key) {
@@ -24,12 +22,12 @@ angular.module('just.common')
                         if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
                             obj.attributes.text_status = "Du har sökt uppdraget";
                         }
+                        if(found[0].attributes.accepted && !found[0].attributes["will-perform"]){
+                            obj.attributes.text_status = "vill anlita dig";
+                        }
                         $scope.jobs.push(obj);
                     }
                 });
-
-                deferd.resolve($scope.jobs);
-                return deferd.promise;
             });
 
             this.gotoUserJobPage = function (obj) {
