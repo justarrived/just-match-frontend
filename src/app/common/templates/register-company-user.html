@@ -10,16 +10,6 @@
                      custom-select-options="companyOptions" ng-model="companySelected"></div>
                 <input type="hidden" name="id" ng-model="ctrl.data.id"/>
 
-                <div class="company-register-image">
-                    <div>
-                        <div class="show-image"><img ng-src="{{ctrl.company_image}}"/></div>
-                        <div class="upload-image">
-                            <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
-                            <i class="demo-icon icon-ic-camera"></i>
-                        </div>
-                    </div>
-                </div>
-
                 <validation form="form" field="cin" errormsg="company-register.form.cin.validation_error"
                             ng-show="isAddNewCIN">
                     <div class="group">
@@ -29,12 +19,19 @@
                     </div>
                 </validation>
 
+
                 <validation form="form" field="name" errormsg="company-register.form.name.validation_error">
                     <div class="group">
                         <input type="text" name="name" required ng-model="ctrl.data.name" ng-disabled="disableInput">
                         <label>{{'company-register.name.label' | translate}}</label>
                     </div>
                 </validation>
+
+                <div class="group register-image">
+                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
+                    <!--<div class="show-image"><img ng-src="{{ctrl.company_image}}"/></div>-->
+                    <label>{{ 'company-register.logo.label' | translate }}</label>
+                </div>
 
                 <validation form="form" field="website" errormsg="company-register.form.website.validation_error">
                     <div class="group">

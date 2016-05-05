@@ -14,6 +14,7 @@
   "register.form.street": "Street",
   "register.form.zip": "Zip",
   "register.form.password": "Password",
+  "register.form.picture": "Profile picture",
 
   "register.form.ssn.validation_error": "Person number",
   "register.form.first_name.validation_error": "First name",
@@ -101,6 +102,7 @@
   "company-register.email.label": "Email",
   "company-register.telephone.label": "Telephone",
   "company-register.password.label": "Password",
+  "company-register.logo.label": "Company logo",
 
   "company-register.form.cin.validation_error": "Company id",
   "company-register.form.name.validation_error": "Company name",
