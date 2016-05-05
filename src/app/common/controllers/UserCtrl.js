@@ -18,7 +18,7 @@ angular.module('just.common')
             this.model = userService.userModel();
             this.message = userService.userMessage;
 
-            this.user_image = 'assets/images/content/hero.png';
+            this.user_image = 'assets/images/content/placeholder-profile-image.png';
 
 
             this.model.$promise.then(function (response) {

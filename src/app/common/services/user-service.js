@@ -6,8 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter', '$rootScope',
-        function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter, $rootScope) {
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter', '$rootScope', 'httpPostFactory', 'settings',
+        function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter, $rootScope, httpPostFactory, settings) {
             var that = this;
 
             this.signinModel = {};
@@ -46,7 +46,22 @@ angular.module('just.service')
             this.registerModel = {};
             this.registerMessage = {};
 
-            this.register = function (attributes) {
+            this.register = function (attributes, formData) {
+                if (formData) {
+                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
+                        var image_token = {};
+                        image_token.data = {};
+                        image_token.data.attributes = {};
+                        image_token.data.attributes["user-image-one-time-token"] = callback.data.attributes["one-time-token"];
+                        attributes["user-image-one-time-token"] = image_token.data.attributes["user-image-one-time-token"];
+                        that.registerConfirm(attributes);
+                    });
+                } else {
+                    that.registerConfirm(attributes);
+                }
+            };
+
+            this.registerConfirm = function (attributes) {
 
                 attributes.language_id = parseInt(i18nService.getLanguage().$$state.value.id);
                 attributes.language_ids = [parseInt(i18nService.getLanguage().$$state.value.id)];

@@ -21,7 +21,7 @@ angular.module('just.common')
                     var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
                     if (found.length > 0) {
                         obj["job-users"] = found[0];
-                        if(!found[0].attributes.accepted && !found[0].attributes["will-perform"]){
+                        if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
                             obj.attributes.text_status = "Du har sökt uppdraget";
                         }
                         $scope.jobs.push(obj);
@@ -37,8 +37,9 @@ angular.module('just.common')
             };
         }])
 
-    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
+        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -90,28 +91,34 @@ angular.module('just.common')
                 return remainTime;
             };
 
-            this.checkJobDate = function(job_date) {
+            this.checkJobDate = function (job_date) {
                 var jobDate = new MyDate(new Date());
                 jobDate.setISO8601(job_date);
                 var nowDate = new Date();
-                if(nowDate<jobDate.date){
+                if (nowDate < jobDate.date) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             };
 
             this.getJobData = function () {
-                $scope.job = jobService.getJob($routeParams.id, 'company');
-                $scope.job.$promise.then(function (response) {
-                    var deferd = $q.defer();
-
+                $scope.jobb = jobService.getJob($routeParams.id, 'company');
+                $scope.jobb.$promise.then(function (response) {
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
                     that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
+                    $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
-                    deferd.resolve($scope.job);
-                    return deferd.promise;
+                    var company_image_arr = response.included[0].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        Resources.companyImage.get({
+                            company_id: "" + response.included[0].id,
+                            id: company_image_arr[0].id
+                        }, function (resultImage) {
+                            $scope.job.company_image = resultImage.data.attributes["image-url-small"];
+                        });
+                    }
                 });
 
                 $scope.userJob = jobService.getUserJobs({
@@ -128,8 +135,8 @@ angular.module('just.common')
                         that.accepted_at = response.data[0].attributes["accepted-at"];
                         that.will_perform = response.data[0].attributes["will-perform"];
                         that.performed = response.data[0].attributes.performed;
-                        
-                        if(!that.will_perform && that.accepted){
+
+                        if (!that.will_perform && that.accepted) {
                             that.calcRemainTime();
                         }
 

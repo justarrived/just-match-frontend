@@ -7,6 +7,8 @@
 
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
+
+
                 <validation form="form" field="ssn" errormsg="register.form.ssn.validation_error">
                     <div class="group">
                         <input name="ssn" type="text" required ng-minlength="10"
@@ -23,6 +25,12 @@
                     </div>
                 </validation>
 
+                <div class="group register-image">
+                    <input type="file" id="file_upload" name="file">
+                    <label>{{ 'register.form.picture' | translate }}</label>
+                </div>
+
+
                 <validation form="form" field="last_name" errormsg="register.form.last_name.validation_error">
                     <div class="group">
                         <input name="last_name" type="text" required ng-model="ctrl.data.last_name">
@@ -30,9 +38,11 @@
                     </div>
                 </validation>
 
-                <validation form="form" field="description" errormsg="register.form.description.validation_error" ng-hide="!ctrl.data.company_id">
+                <validation form="form" field="description" errormsg="register.form.description.validation_error"
+                            ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                    <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.description"></textarea>
+                        <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5"
+                                  ng-model="ctrl.data.description"></textarea>
                         <label>{{ 'register.form.description' | translate }}</label>
                     </div>
                 </validation>
@@ -40,7 +50,8 @@
                 <validation form="form" field="email" errormsg="register.form.email.validation_error">
                     <div class="group">
                         <input name="email" type="email" required
-                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" ng-model="ctrl.data.email">
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                               ng-model="ctrl.data.email">
                         <label>{{ 'register.form.email' | translate }}</label>
                     </div>
                 </validation>
@@ -52,16 +63,20 @@
                     </div>
                 </validation>
 
-                <validation form="form" field="street" errormsg="register.form.street.validation_error" ng-hide="!ctrl.data.company_id">
+                <validation form="form" field="street" errormsg="register.form.street.validation_error"
+                            ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <input name="street" type="text" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.street">
+                        <input name="street" type="text" ng-required='ctrl.data.company_id' ng-minlength="5"
+                               ng-model="ctrl.data.street">
                         <label>{{ 'register.form.street' | translate }}</label>
                     </div>
                 </validation>
 
-                <validation form="form" field="zip" errormsg="register.form.zip.validation_error" ng-hide="!ctrl.data.company_id">
+                <validation form="form" field="zip" errormsg="register.form.zip.validation_error"
+                            ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <input name="zip" type="text" ng-required='ctrl.data.company_id' ng-minlength="5" ng-model="ctrl.data.zip">
+                        <input name="zip" type="text" ng-required='ctrl.data.company_id' ng-minlength="5"
+                               ng-model="ctrl.data.zip">
                         <label>{{ 'register.form.zip' | translate }}</label>
                     </div>
                 </validation>

@@ -319,7 +319,7 @@
 
                 $scope.isSignIn = this.signedIn();
 
-                $scope.company_image = "assets/images/content/antrop-logo.png";
+                $scope.company_image = "assets/images/content/placeholder-logo.png";
 
                 Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
                     $scope.job = result.data;
@@ -418,7 +418,23 @@
                     $scope.jobs_more.$promise.then(function (result) {
                         i = 0;
 
+                        angular.forEach(result.data, function (obj, idx) {
+                            $scope.jobs_more.data[idx].company_image = "assets/images/content/placeholder-logo.png";
+                        });
+
                         angular.forEach(result.data, function (obj, key) {
+                            var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
+                            if (found.length > 0) {
+                                if (found[0].relationships["company-images"].data.length > 0) {
+                                    Resources.companyImage.get({
+                                        company_id: found[0].id,
+                                        id: found[0].relationships["company-images"].data[0].id
+                                    }, function (result0) {
+                                        $scope.jobs_more.data[key].company_image = result0.data.attributes["image-url-small"];
+                                    });
+                                }
+                            }
+
                             var value = obj.attributes;
                             if (value["zip-latitude"] !== null && value["zip-longitude"] !== null) {
                                 $scope.markers.push({
