@@ -106,8 +106,9 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_manage.resolve(obj));
             };
         }])
-    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval',
-        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval) {
+    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
+        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -164,15 +165,21 @@ angular.module('just.common')
 
             this.getJobData = function () {
 
-                $scope.job = jobService.getJob($routeParams.id, 'company');
-                $scope.job.$promise.then(function (response) {
-                    var deferd = $q.defer();
-
+                $scope.jobb = jobService.getJob($routeParams.id, 'company');
+                $scope.jobb.$promise.then(function (response) {
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
+                    $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
-                    deferd.resolve($scope.job);
-                    return deferd.promise;
+                    var company_image_arr = response.included[0].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        Resources.companyImage.get({
+                            company_id: "" + response.included[0].id,
+                            id: company_image_arr[0].id
+                        }, function (resultImage) {
+                            $scope.job.company_image = resultImage.data.attributes["image-url-small"];
+                        });
+                    }
                 });
 
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
@@ -379,7 +386,7 @@ angular.module('just.common')
 
             this.ratingModel = ratingService.ratingModel;
 
-            $scope.getNumber = function(num) {
+            $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
 
