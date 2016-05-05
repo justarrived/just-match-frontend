@@ -94,6 +94,7 @@ angular.module('just.common')
 
                 companies: crud("companies"),
                 company: crud("companies/:company_id"),
+                companyImage: crud("companies/:company_id/images/:id"),
 
                 hourly_pays: crud("hourly-pays"),
 

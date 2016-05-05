@@ -301,6 +301,8 @@
 
                 $scope.isSignIn = this.signedIn();
 
+                $scope.company_image = "assets/images/content/antrop-logo.png";
+
                 Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
@@ -308,10 +310,17 @@
                     $scope.job.max_rate = result.included[2].attributes.rate;
                     $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                     $scope.job.currency = result.included[2].attributes.currency;
-                });
+                    var company_image_arr = result.included[1].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        Resources.companyImage.get({
+                            company_id: result.data.relationships.company.data.id,
+                            id: company_image_arr[0].id
+                        }, function (resultImage) {
+                            $scope.company_image = resultImage.data.attributes["image-url-small"];
+                        });
 
-                /*$scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
-                 $scope.comments_quantity = 5;*/
+                    }
+                });
 
                 this.getComments = function (job_id) {
                     $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
