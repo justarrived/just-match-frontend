@@ -97,7 +97,15 @@
     > div:first-child {
       text-align: left;
       padding-left: 25px;
-      //width: 80px;
+      a {
+        display: table;
+        margin-right: 10px;
+
+        > span {
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
     }
     > div:last-child {
       text-align: right;
@@ -106,13 +114,6 @@
     }
     a {
       color: $white;
-      display: table;
-      margin-right: 10px;
-
-      > span {
-        display: table-cell;
-        vertical-align: middle;
-      }
     }
 
     .user-info-image {
