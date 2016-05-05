@@ -172,7 +172,7 @@ angular.module('just', [
                 }
             }
         },
-        arriver:{
+        arriver: {
             jobs: {
                 url: '/arriver/jobs',
                 handler: {
@@ -259,6 +259,9 @@ angular.module('just', [
         }
     })
     .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            $rootScope.$$childHead.ctrl.isStartPage = 0;
+        });
         $rootScope.routes = routes;
         $rootScope.next = function (url) {
             flow.next(url);
