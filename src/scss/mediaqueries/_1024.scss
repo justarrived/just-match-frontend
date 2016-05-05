@@ -56,15 +56,17 @@ button.map-zoom-in {
   width: 70%;
   margin: 0 auto;
 }
+
 .faq-wrapper {
   height: 100%;
   background: $lightGrey;
 }
+
 .job-body-heading {
   display: table;
   table-layout: fixed;
   > div,
-  > div:last-child{
+  > div:last-child {
     display: table-cell;
     vertical-align: middle;
   }
@@ -118,18 +120,19 @@ button.map-zoom-in {
       width: 70%;
     }
   }
-  .button {
-    display: none;
-  }
 
 }
 
+.sticy-button {
+  display: none
+}
+
 .menu-page, .lang-page {
-  background: rgba(255,255,255, 0.3);
+  background: rgba(255, 255, 255, 0.3);
 
   > div, .lang-wrapper {
     width: 375px;
-    background: rgba(34,37,49,0.95);
+    background: rgba(34, 37, 49, 0.95);
     float: right;
   }
 }
