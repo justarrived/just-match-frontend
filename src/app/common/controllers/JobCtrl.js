@@ -125,143 +125,161 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', function (jobService, $scope, settings, Resources, $q) {
-            var that = this;
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter',
+            function (jobService, $scope, settings, Resources, $q, $filter) {
+                var that = this;
 
-            $scope.categoryOptions = {
-                async: true,
-                onSelect: function (item) {
-                    console.log(item);
-                }
-            };
-
-            $scope.searchAsync = function (term) {
-                // No search term: return initial items
-                if (!term) {
-                    term = '';
-                }
-
-                var deferd = $q.defer();
-                $scope.categories = Resources.categories.get({
-                    'page[number]': 1,
-                    'page[size]': 100,
-                    'filter[name]': term
-                });
-
-                $scope.categories.$promise.then(function (response) {
-                    $scope.categories = response;
-                    var result = [];
-                    angular.forEach(response.data, function (obj, key) {
-                        result.push({
-                            id: obj.id,
-                            name: obj.attributes.name
-                        });
-                    });
-                    deferd.resolve(result);
-                });
-                return deferd.promise;
-            };
-
-
-            $scope.map_class = "";
-            $scope.zoom_class = "map-zoom-in";
-
-            $scope.map = {
-                zoom: 7,
-                options: {
-                    draggable: true,
-                    disableDefaultUI: true,
-                    panControl: false,
-                    navigationControl: false,
-                    scrollwheel: false,
-                    scaleControl: false
-                }
-            };
-
-            $scope.zoomInOut = function () {
-                if ($scope.map_class === '') {
-                    $scope.map_class = "full-screen";
-                } else {
-                    $scope.map_class = "";
-                }
-
-                if ($scope.zoom_class === 'map-zoom-in') {
-                    $scope.zoom_class = "map-zoom-in map-zoom-out";
-                } else {
-                    $scope.zoom_class = "map-zoom-in";
-                }
-
-                window.google.maps.event.trigger($scope.map, 'resize');
-            };
-
-            $scope.getJobsPage = function (mode) {
-                var url;
-                var isNav = 0;
-                var i = 0;
-                $scope.markers = [];
-                if (['first', 'prev', 'next', 'last'].indexOf(mode) > -1) {
-                    url = $scope.jobs.links[mode];
-                    isNav = 1;
-                } else {
-                    url = mode;
-                }
-                url = decodeURIComponent(url);
-                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?', '');
-
-                if (isNav === 1) {
-                    var param = url.split('&');
-                    var paramVal = {};
-                    for (i = 0; i < param.length; i++) {
-                        var val = param[i].split('=');
-                        paramVal[val[0]] = val[1];
+                $scope.categoryOptions = {
+                    async: true,
+                    onSelect: function (item) {
+                        console.log(item);
                     }
-                    $scope.jobs = jobService.getJobsPage(paramVal);
-                } else {
-                    $scope.jobs = jobService.getJobs(url);
-                }
+                };
 
-                $scope.jobs.$promise.then(function (result) {
-                    i = 0;
+                $scope.searchAsync = function (term) {
+                    // No search term: return initial items
+                    if (!term) {
+                        term = '';
+                    }
 
-                    angular.forEach(result.data, function (obj, key) {
-                        var value = obj.attributes;
-                        if (value["zip-latitude"] !== null && value["zip-longitude"] !== null) {
-                            $scope.markers.push({
+                    var deferd = $q.defer();
+                    $scope.categories = Resources.categories.get({
+                        'page[number]': 1,
+                        'page[size]': 100,
+                        'filter[name]': term
+                    });
+
+                    $scope.categories.$promise.then(function (response) {
+                        $scope.categories = response;
+                        var result = [];
+                        angular.forEach(response.data, function (obj, key) {
+                            result.push({
                                 id: obj.id,
-                                coords: {
-                                    latitude: value["zip-latitude"],
-                                    longitude: value["zip-longitude"]
-                                },
-                                options: {
-                                    icon: "/assets/images/ui/logo-pin.png"
-                                },
-                                job: obj
+                                name: obj.attributes.name
                             });
-                            if (i === 0) {
-                                $scope.map.center = {
-                                    latitude: value["zip-latitude"],
-                                    longitude: value["zip-longitude"]
-                                };
-                            }
-                            i++;
-                        }
+                        });
+                        deferd.resolve(result);
+                    });
+                    return deferd.promise;
+                };
 
-                        angular.forEach(result.included, function (obj2, key2) {
-                            if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
-                                $scope.jobs.data[key].max_rate = obj2.attributes.rate;
-                                $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
-                                $scope.jobs.data[key].currency = obj2.attributes.currency;
+
+                $scope.map_class = "";
+                $scope.zoom_class = "map-zoom-in";
+
+                $scope.map = {
+                    zoom: 7,
+                    options: {
+                        draggable: true,
+                        disableDefaultUI: true,
+                        panControl: false,
+                        navigationControl: false,
+                        scrollwheel: false,
+                        scaleControl: false
+                    }
+                };
+
+                $scope.zoomInOut = function () {
+                    if ($scope.map_class === '') {
+                        $scope.map_class = "full-screen";
+                    } else {
+                        $scope.map_class = "";
+                    }
+
+                    if ($scope.zoom_class === 'map-zoom-in') {
+                        $scope.zoom_class = "map-zoom-in map-zoom-out";
+                    } else {
+                        $scope.zoom_class = "map-zoom-in";
+                    }
+
+                    window.google.maps.event.trigger($scope.map, 'resize');
+                };
+
+                $scope.getJobsPage = function (mode) {
+                    var url;
+                    var isNav = 0;
+                    var i = 0;
+                    $scope.markers = [];
+                    if (['first', 'prev', 'next', 'last'].indexOf(mode) > -1) {
+                        url = $scope.jobs.links[mode];
+                        isNav = 1;
+                    } else {
+                        url = mode;
+                    }
+                    url = decodeURIComponent(url);
+                    url = url.replace(settings.just_match_api + settings.just_match_api_version + 'jobs?', '');
+
+                    if (isNav === 1) {
+                        var param = url.split('&');
+                        var paramVal = {};
+                        for (i = 0; i < param.length; i++) {
+                            var val = param[i].split('=');
+                            paramVal[val[0]] = val[1];
+                        }
+                        $scope.jobs = jobService.getJobsPage(paramVal);
+                    } else {
+                        $scope.jobs = jobService.getJobs(url);
+                    }
+
+                    $scope.jobs.$promise.then(function (result) {
+                        i = 0;
+
+                        angular.forEach(result.data, function (obj, idx) {
+                            $scope.jobs.data[idx].company_image = "assets/images/content/placeholder-logo.png";
+                        });
+
+                        angular.forEach(result.data, function (obj, key) {
+
+                            var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
+                            if (found.length > 0) {
+                                if (found[0].relationships["company-images"].data.length > 0) {
+                                    Resources.companyImage.get({
+                                        company_id: found[0].id,
+                                        id: found[0].relationships["company-images"].data[0].id
+                                    }, function (result0) {
+                                        $scope.jobs.data[key].company_image = result0.data.attributes["image-url-small"];
+                                    });
+                                }
                             }
+
+                            var value = obj.attributes;
+                            if (value["zip-latitude"] !== null && value["zip-longitude"] !== null) {
+                                $scope.markers.push({
+                                    id: obj.id,
+                                    coords: {
+                                        latitude: value["zip-latitude"],
+                                        longitude: value["zip-longitude"]
+                                    },
+                                    options: {
+                                        icon: "/assets/images/ui/logo-pin.png"
+                                    },
+                                    job: obj
+                                });
+                                if (i === 0) {
+                                    $scope.map.center = {
+                                        latitude: value["zip-latitude"],
+                                        longitude: value["zip-longitude"]
+                                    };
+                                }
+                                i++;
+                            }
+
+                            angular.forEach(result.included, function (obj2, key2) {
+                                if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
+                                    $scope.jobs.data[key].max_rate = obj2.attributes.rate;
+                                    $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
+                                    $scope.jobs.data[key].currency = obj2.attributes.currency;
+                                }
+                            });
                         });
                     });
-                });
 
-            };
+                };
 
-            $scope.getJobsPage('owner,company,hourly-pay');
+                $scope.getJobsPage('owner,company,hourly-pay');
 
 
-        }])
+            }])
         .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
             function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
                 var that = this;
