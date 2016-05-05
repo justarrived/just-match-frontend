@@ -60,7 +60,7 @@
                on-directive-init="onDirectiveInit()">
             <div ng-repeat="job in ctrl.jobs.data | limitTo: 10">
                 <div class="image-wrapper">
-                    <div style="background-image: url(assets/images/content/hero.png);"></div>
+                    <div style="background-image: url({{job.company_image}});"></div>
                     <b><!--{{ job.attributes.max_rate | currency }}-->500:-</b>
                 </div>
                 <a href="#{{ routes.job.get.resolve(job) }}">
