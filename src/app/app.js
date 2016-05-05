@@ -260,7 +260,8 @@ angular.module('just', [
     })
     .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            $rootScope.$$childHead.ctrl.isStartPage = 0;
+            $rootScope.$$childHead.ctrl.isStartPage = false;
+            $rootScope.$$childHead.ctrl.isBackUrl = false;
         });
         $rootScope.routes = routes;
         $rootScope.next = function (url) {

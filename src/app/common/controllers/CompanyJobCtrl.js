@@ -52,7 +52,7 @@ angular.module('just.common')
                                             if (found_s.length > 0) {
                                                 obj.attributes["first-name"] = found_s[0].attributes["first-name"];
                                                 obj.attributes["last-name"] = found_s[0].attributes["last-name"];
-                                                obj.attributes["image-url-small"] = "assets/images/content/hero.png";
+                                                obj.attributes["image-url-small"] = "assets/images/content/placeholder-profile-image.png";
 
                                                 if (found_s[0].relationships["user-images"].data !== null) {
                                                     var found_img = $filter('filter')(result.included, {
@@ -326,19 +326,22 @@ angular.module('just.common')
                 });
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter) {
+    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
+        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, Resources) {
             var that = this;
             this.job_id = $routeParams.id;
 
             $scope.candidates = [];
 
-            $scope.job_users = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
+            $scope.job_users = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
             $scope.job_users.$promise.then(function (response) {
                 var deferd = $q.defer();
 
                 $scope.job_users = [];
                 angular.forEach(response.data, function (obj, key) {
+
+                    obj.user_image = "assets/images/content/placeholder-profile-image.png";
+
                     var found = $filter('filter')(response.included, {
                         id: "" + obj.relationships.user.data.id,
                         type: "users"
@@ -347,6 +350,17 @@ angular.module('just.common')
                     if (found.length > 0) {
                         obj.attributes["first-name"] = found[0].attributes["first-name"];
                         obj.attributes["last-name"] = found[0].attributes["last-name"];
+
+                        if (found[0].relationships["user-images"].data.length > 0) {
+                            var found_image = $filter('filter')(response.included, {
+                                id: "" + found[0].relationships["user-images"].data[0].id,
+                                type: "user-images"
+                            }, true);
+
+                            if (found_image.length > 0) {
+                                obj.user_image = found_image[0].attributes["image-url-small"];
+                            }
+                        }
                     }
 
                     $scope.job_users.push(obj);
@@ -359,6 +373,21 @@ angular.module('just.common')
 
                 if (found1.length > 0) {
                     $scope.job = found1[0];
+                    Resources.company.get({
+                        company_id: found1[0].relationships.company.data.id,
+                        'include': 'company-images'
+                    }, function (response) {
+                        $scope.job.company = response.data;
+                        $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+
+                        if (response.data.relationships["company-images"].data.length > 0) {
+                            var found = $filter('filter')(response.included, {id: "" + response.data.relationships["company-images"].data[0].id}, true);
+                            if (found.length > 0) {
+                                $scope.job.company_image = found[0].attributes["image-url-small"];
+                            }
+
+                        }
+                    });
                 }
 
                 deferd.resolve($scope.job_users);
@@ -366,8 +395,8 @@ angular.module('just.common')
 
             });
         }])
-    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, invoiceService, ratingService, flow, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
+        function (jobService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -409,7 +438,7 @@ angular.module('just.common')
                     $scope.userPerformedJobs = [];
                     var found = $filter('filter')(response.included, {type: 'jobs'}, true);
 
-                    if (found.length > 0) {
+                    if (found) {
                         Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
                             angular.forEach(found, function (obj, idx) {
                                 var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);

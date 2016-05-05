@@ -137,26 +137,6 @@ angular.module('just.common')
 
             this.getUser = function () {
                 if (that.signedIn()) {
-                    /*that.user = Resources.user.get({
-                     id: authService.userId().id,
-                     "include": "user-images"
-                     }, function (response) {
-                     that.user.data.attributes.user_image = 'assets/images/content/hero.png';
-                     if (that.user.data.relationships.company.data !== null) {
-                     that.isCompany = 1;
-                     } else {
-                     that.isCompany = 0;
-                     }
-                     if (response.data.relationships["user-images"].data.length > 0) {
-                     var found_img = $filter('filter')(response.included, {
-                     type: response.data.relationships["user-images"].data[0].type
-                     }, true);
-                     if (found_img.length > 0) {
-                     that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
-                     }
-                     }
-                     });*/
-
                     that.user = userService.userModel();
                     if (that.user.$promise) {
                         that.user.$promise.then(function (response) {

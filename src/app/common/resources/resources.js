@@ -64,6 +64,9 @@ angular.module('just.common')
                 userImage: crud("users/images"),
                 userImageId: crud("users/:user_id/images/:id"),
 
+                userNotifications: crud("users/notifications"),
+                userMessages: crud("users/:user_id/messages"),
+
                 userLanguages: crud("users/:user_id/languages"),
 
                 chatMessage: crud("chats/:id/messages"),

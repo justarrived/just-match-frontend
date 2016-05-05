@@ -6,7 +6,7 @@
         <ul>
             <li ng-repeat="job_user in job_users">
                 <div>
-                    <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}"><span class="user-info-image" style="background-image: url(assets/images/content/hero.png)"></span></a>
+                    <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}"><span class="user-info-image" style="background-image: url({{job_user.user_image}})"></span></a>
                 </div>
                 <div>
                     <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}">{{job_user.attributes["first-name"]}}

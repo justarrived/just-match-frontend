@@ -112,7 +112,7 @@ angular.module('just.service')
                                 that.isCompany = 0;
                                 storage.set("company_id", null);
                             }
-                            that.user.data.attributes.user_image = 'assets/images/content/hero.png';
+                            that.user.data.attributes.user_image = 'assets/images/content/placeholder-profile-image.png';
                             if (that.user.data.relationships["user-images"].data.length > 0) {
                                 var found_img = $filter('filter')(that.user.included, {
                                     type: that.user.data.relationships["user-images"].data[0].type
