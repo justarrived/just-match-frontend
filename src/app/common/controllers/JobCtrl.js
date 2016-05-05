@@ -262,8 +262,8 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter',
-            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter) {
+        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
+            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
                 var that = this;
 
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
@@ -288,7 +288,15 @@
                 };
 
                 this.accept_job = function () {
-                    flow.next(routes.user.user.url, $routeParams.id);
+                    //flow.next(routes.user.user.url, $routeParams.id);
+                    var path = $location.path();
+                    if (authService.isAuthenticated()) {
+                        jobService.acceptJob($routeParams.id);
+                    } else {
+                        flow.redirect(routes.user.select.url, function () {
+                            flow.redirect(path);
+                        });
+                    }
                 };
 
                 $scope.isSignIn = this.signedIn();
@@ -429,6 +437,10 @@
                 } else {
                     flow.redirect(routes.job.list.url);
                 }
+            };
+
+            this.gotoJobList = function () {
+                flow.redirect(routes.job.list.url);
             };
         }]);
 
