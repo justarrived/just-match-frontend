@@ -312,6 +312,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         }
         > div:last-child > div {
           vertical-align: bottom;
+          padding-right: 55px;
         }
       }
       .location {
@@ -334,7 +335,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       vertical-align: middle;
       position: relative;
       text-align: center;
-      min-width: 50px;
+      padding: 0;
 
       span {
         position: absolute;

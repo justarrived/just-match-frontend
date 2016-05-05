@@ -4,6 +4,7 @@
 
 .job-list-wrapper > li .job-rate {
   padding-right: 10px;
+  padding-left: 18px;
   font-size: 1.2em;
 
   span {
@@ -13,8 +14,13 @@
     display: block;
   }
 }
-.job-list-wrapper > li .job-desc > div {
-  height: auto;
+.job-list-wrapper {
+  > li .job-desc > div {
+    height: auto;
+  }
+  > li .job-desc > div > div:last-child > div {
+    padding-right: 0;
+  }
 }
 
 .section-partners .group > div {
