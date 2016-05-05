@@ -10,8 +10,15 @@
                      custom-select-options="companyOptions" ng-model="companySelected"></div>
                 <input type="hidden" name="id" ng-model="ctrl.data.id"/>
 
-                <img ng-src="{{ctrl.company_image}}" style="width:150px;"/>
-                <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
+                <div class="company-register-image">
+                    <div>
+                        <div class="show-image"><img ng-src="{{ctrl.company_image}}"/></div>
+                        <div class="upload-image">
+                            <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
+                            <i class="demo-icon icon-ic-camera"></i>
+                        </div>
+                    </div>
+                </div>
 
                 <validation form="form" field="cin" errormsg="company-register.form.cin.validation_error"
                             ng-show="isAddNewCIN">
@@ -31,7 +38,8 @@
 
                 <validation form="form" field="website" errormsg="company-register.form.website.validation_error">
                     <div class="group">
-                        <input type="text" name="website" required ng-model="ctrl.data.website" ng-disabled="disableInput">
+                        <input type="text" name="website" required ng-model="ctrl.data.website"
+                               ng-disabled="disableInput">
                         <label>{{'company-register.website.label' | translate}}</label>
                     </div>
                 </validation>
@@ -54,7 +62,8 @@
 
                 <validation form="form" field="email" errormsg="company-register.form.email.validation_error">
                     <div class="group">
-                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-disabled="disableInput" ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
+                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-disabled="disableInput"
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
                         <label>{{'company-register.email.label' | translate}}</label>
                     </div>
                 </validation>
@@ -68,7 +77,8 @@
 
                 <validation form="form" field="street" errormsg="company-register.form.street.validation_error">
                     <div class="group">
-                        <input type="text" name="street" required ng-model="ctrl.data.street" ng-disabled="disableInput">
+                        <input type="text" name="street" required ng-model="ctrl.data.street"
+                               ng-disabled="disableInput">
                         <label>{{'company-register.street.label' | translate}}</label>
                     </div>
                 </validation>
@@ -88,7 +98,9 @@
                 </validation>
 
                 <div class="form-group">
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid && isNew!==0">Fortsätt</button>
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid && isNew!==0">
+                        Fortsätt
+                    </button>
                 </div>
             </div>
         </form>
