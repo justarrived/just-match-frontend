@@ -85,7 +85,6 @@ angular.module('just.service')
                     flow.next(routes.job.accept.url, job_id);
                 }).error(function (data, status) {
                     that.jobMessage = data;
-                    flow.reload(routes.user.user.url);
                 });
             };
             this.ownerAcceptJob = function (job_id, job_user_id, fn) {

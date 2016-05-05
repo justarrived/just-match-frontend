@@ -262,8 +262,8 @@
 
 
         }])
-        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter',
-            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter) {
+        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
+            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
                 var that = this;
 
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
@@ -288,10 +288,20 @@
                 };
 
                 this.accept_job = function () {
-                    flow.next(routes.user.user.url, $routeParams.id);
+                    //flow.next(routes.user.user.url, $routeParams.id);
+                    var path = $location.path();
+                    if (authService.isAuthenticated()) {
+                        jobService.acceptJob($routeParams.id);
+                    } else {
+                        flow.redirect(routes.user.select.url, function () {
+                            flow.redirect(path);
+                        });
+                    }
                 };
 
                 $scope.isSignIn = this.signedIn();
+
+                $scope.company_image = "assets/images/content/antrop-logo.png";
 
                 Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
                     $scope.job = result.data;
@@ -300,10 +310,17 @@
                     $scope.job.max_rate = result.included[2].attributes.rate;
                     $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                     $scope.job.currency = result.included[2].attributes.currency;
-                });
+                    var company_image_arr = result.included[1].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        Resources.companyImage.get({
+                            company_id: result.data.relationships.company.data.id,
+                            id: company_image_arr[0].id
+                        }, function (resultImage) {
+                            $scope.company_image = resultImage.data.attributes["image-url-small"];
+                        });
 
-                /*$scope.comments = commentService.getComments('jobs', $routeParams.id, 'owner');
-                 $scope.comments_quantity = 5;*/
+                    }
+                });
 
                 this.getComments = function (job_id) {
                     $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
@@ -429,6 +446,10 @@
                 } else {
                     flow.redirect(routes.job.list.url);
                 }
+            };
+
+            this.gotoJobList = function () {
+                flow.redirect(routes.job.list.url);
             };
         }]);
 
