@@ -19,6 +19,8 @@ angular.module('just.common')
         function (i18nService, jobService, $scope, $filter, $q, Resources) {
             var that = this;
 
+            $scope.$parent.ctrl.isStartPage = 1;
+
             this.languages = i18nService.supportedLanguages();
 
             this.jobs = jobService.getJobs('company');

@@ -168,14 +168,13 @@
       margin: 5px auto 10px;
       height: 120px;
       overflow: hidden;
-      border-radius: 5px;
-      background: $pink;
       position: relative;
 
       > div {
         background-size: cover;
         background-position: center center;
         height: 90px;
+        border-radius: 5px 5px 0 0;
       }
       b {
         position: absolute;
@@ -183,12 +182,14 @@
         left: 0;
         right: 0;
         height: 30px;
-        line-height: 30px;
+        line-height: 29px;
         display: block;
         color: $white;
         text-align: center;
         font-size: 1.4em;
         font-weight: 300;
+        background: $pink;
+        border-radius: 0 0 5px 5px;
       }
     }
     .slick-slide {
