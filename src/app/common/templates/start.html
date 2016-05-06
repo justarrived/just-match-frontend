@@ -52,7 +52,7 @@
 <section class="section-jobs">
     <div class="section-jobs__content">
         <h3>
-            <div class="calendar">23</div>
+            <div class="calendar">{{today | date: 'dd'}}</div>
             {{'start.new.job.title' | translate}}
             <div class="section-jobs__content-right"><a href="#{{routes.job.list.url}}"><span>{{'start.new.job.showall' |
                 translate}}</span></a></div>
@@ -60,14 +60,16 @@
         <slick class="slick-job" infinite="false" prev-arrow="false" next-arrow="false"
                init-onload="true" slides-to-show="10" data="ctrl.jobs.data" responsive="jobGalleryResponsive"
                on-directive-init="onDirectiveInit()">
-            <div ng-repeat="job in ctrl.jobs.data | limitTo: 10">
-                <div class="image-wrapper">
-                    <div style="background-image: url({{job.company_image}});"></div>
-                    <b>{{ job.max_rate | number}} {{ job.currency }}</b>
-                </div>
+            <div ng-repeat="job in ctrl.jobs.data">
                 <a href="#{{ routes.job.get.resolve(job) }}">
-                    {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
-                    '...' }}
+                    <div class="image-wrapper">
+                        <div style="background-image: url({{job.company_image}});"></div>
+                        <b>{{ job.max_rate | number}} {{ job.currency }}</b>
+                    </div>
+                    <a href="#{{ routes.job.get.resolve(job) }}">
+                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                        '...' }}
+                    </a>
                 </a>
             </div>
         </slick>
