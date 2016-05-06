@@ -150,10 +150,10 @@ angular.module('just.common')
                     if (that.accepted && !that.will_perform) {
                         if (that.calcRemainTime() > 0) {
                             var interval = $interval(function () {
-                                if (that.calcRemainTime() <= 0) {
-                                    console.log("remain time < 0");
+                                that.calcRemainTime();
+                                /*if (that.calcRemainTime() <= 0) {
                                     //$interval.cancel(interval);
-                                }
+                                }*/
                             }, 6000);
                         }
                     }
@@ -230,7 +230,6 @@ angular.module('just.common')
 
             this.submit = function () {
                 if (!that.model.data.attributes["language-id"]) {
-                    //console.log(i18nService.getLanguage().id);
                     that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
                 }
                 Resources.comments.create({

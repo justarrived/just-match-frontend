@@ -165,16 +165,26 @@ angular.module('just.common')
 
             this.getJobData = function () {
 
-                $scope.jobb = jobService.getJob($routeParams.id, 'company');
+                $scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
                 $scope.jobb.$promise.then(function (response) {
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
+                    var found_hourly_pay = $filter('filter')(response.included, {
+                        id: "" + response.data.relationships["hourly-pay"].data.id,
+                        type: "hourly-pays"
+                    }, true);
+
+                    if (found_hourly_pay.length > 0) {
+                        $scope.job.hourly_pay = found_hourly_pay[0].attributes;
+                        $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                    }
+
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
                         Resources.companyImage.get({
-                            company_id: "" + response.included[0].id,
+                            company_id: "" + response.data.relationships.company.data.id,
                             id: company_image_arr[0].id
                         }, function (resultImage) {
                             $scope.job.company_image = resultImage.data.attributes["image-url-small"];
@@ -182,11 +192,10 @@ angular.module('just.common')
                     }
                 });
 
-                $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user-images');
+                $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
-                    var deferd = $q.defer();
                     angular.forEach(response.data, function (obj, idx) {
-                        if (obj.attributes.accepted) {
+                        if (obj.attributes.accepted || obj.attributes["will-perform"] || obj.attributes.performed) {
                             that.job_user_id = obj.id;
                             that.accepted = true;
                             that.accepted_at = obj.attributes["accepted-at"];
@@ -197,6 +206,16 @@ angular.module('just.common')
                             }, true);
 
                             that.user_apply = found_user[0];
+                            that.user_apply.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                            if (that.user_apply.relationships["user-images"].data.length > 0) {
+                                var found_user_image = $filter('filter')(response.included, {
+                                    id: "" + that.user_apply.relationships["user-images"].data[0].id,
+                                    type: "user-images"
+                                }, true);
+                                that.user_apply.user_image = found_user_image[0].attributes["image-url-small"];
+                            }
+
                             that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
 
                         }
@@ -221,15 +240,14 @@ angular.module('just.common')
                     if (that.accepted && !that.will_perform) {
                         if (that.calcRemainTime() > 0) {
                             var interval = $interval(function () {
-                                if (that.calcRemainTime() <= 0) {
-                                    console.log("remain time < 0");
+                                that.calcRemainTime();
+                                /*if (that.calcRemainTime() <= 0) {
                                     //$interval.cancel(interval);
-                                }
+                                }*/
                             }, 6000);
                         }
                     }
                     that.showStatus = true;
-                    return deferd.promise;
                 });
 
 
@@ -314,7 +332,6 @@ angular.module('just.common')
 
             this.submit = function () {
                 if (!that.model.data.attributes["language-id"]) {
-                    //console.log(i18nService.getLanguage().id);
                     that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
                 }
                 Resources.comments.create({
@@ -409,6 +426,7 @@ angular.module('just.common')
             this.accepted_at = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
+            this.user_apply = {};
             this.remainHours = 12;
             this.remainMinutes = 0;
             this.hasInvoice = false;
@@ -420,7 +438,7 @@ angular.module('just.common')
             };
 
             this.getUserRating = function (user_id) {
-                Resources.userRating.get({id: user_id, 'include': 'comment'});
+                Resources.userRating.get({id: user_id, 'include': 'comments'});
             };
 
             this.getUserRating($routeParams.job_id);
@@ -456,9 +474,36 @@ angular.module('just.common')
 
 
             this.getJobData = function () {
-                that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images');
+                $scope.jobb = jobService.getJob(that.job_id, 'company,hourly-pay');
+                $scope.jobb.$promise.then(function (response) {
+                    $scope.job = response.data;
+                    $scope.job.company = response.included[0];
+                    $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+
+                    var found_hourly_pay = $filter('filter')(response.included, {
+                        id: "" + response.data.relationships["hourly-pay"].data.id,
+                        type: "hourly-pays"
+                    }, true);
+
+                    if (found_hourly_pay.length > 0) {
+                        $scope.job.hourly_pay = found_hourly_pay[0].attributes;
+                        $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                    }
+
+                    var company_image_arr = response.included[0].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        Resources.companyImage.get({
+                            company_id: "" + response.data.relationships.company.data.id,
+                            id: company_image_arr[0].id
+                        }, function (resultImage) {
+                            $scope.job.company_image = resultImage.data.attributes["image-url-small"];
+                        });
+                    }
+                });
+
+
+                that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images,hourly-pay');
                 that.model.$promise.then(function (response) {
-                    var deferd = $q.defer();
 
                     that.candidate_model = {};
                     var found = $filter('filter')(response.included, {
@@ -466,13 +511,24 @@ angular.module('just.common')
                         type: "users"
                     }, true);
 
+                    that.user_apply = found[0];
+                    that.user_apply.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                    if (that.user_apply.relationships["user-images"].data.length > 0) {
+                        var found_user_image = $filter('filter')(response.included, {
+                            id: "" + that.user_apply.relationships["user-images"].data[0].id,
+                            type: "user-images"
+                        }, true);
+                        that.user_apply.user_image = found_user_image[0].attributes["image-url-small"];
+                    }
+
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
                     }
 
-                    if (response.data.attributes.accepted) {
+                    if (response.data.attributes.accepted || response.data.attributes["will-perform"] || response.data.attributes.performed) {
                         that.accepted = true;
                         that.accepted_at = response.data.attributes["accepted-at"];
                     }
@@ -499,16 +555,13 @@ angular.module('just.common')
                     if (that.accepted && !that.will_perform) {
                         if (that.calcRemainTime() > 0) {
                             var interval = $interval(function () {
-                                if (that.calcRemainTime() <= 0) {
-                                    console.log("remainTime < 0");
+                                that.calcRemainTime();
+                                /*if (that.calcRemainTime() <= 0) {
                                     //$interval.cancel(interval);
-                                }
+                                }*/
                             }, 6000);
                         }
                     }
-
-                    deferd.resolve(that.candidate_model);
-                    return deferd.promise;
                 });
             };
 
@@ -551,11 +604,11 @@ angular.module('just.common')
                 var remainTime = that.maxWaitMinutes - diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
-                if (remainTime <= 0) {
-                    console.log("remainTime < 0");
-                    /*that.accepted = false;
-                     that.accepted_at = null;*/
-                }
+                /*if (remainTime <= 0) {
+                    that.accepted = false;
+                    that.accepted_at = null;
+                    that.user_apply = {};
+                }*/
                 return remainTime;
             };
 
