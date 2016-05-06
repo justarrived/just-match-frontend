@@ -27,8 +27,9 @@
                     </div>
                 </validation>
 
-                <div class="group register-image" ng-hide="isNew">
+                <div class="group register-image register-image-preview" ng-hide="isNew">
                     <div class="show-image" ng-show="isShowLogo"><img ng-src="{{ctrl.company_image}}"/></div>
+                    <label>{{ 'company-register.logo.label' | translate }}</label>
                 </div>
 
                 <div class="group register-image" ng-show="isNew">
