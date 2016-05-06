@@ -624,6 +624,7 @@ job-body, job-comment {
     }
   }
 }
+
 .sticy-button {
   margin: 25px -25px -25px;
 
@@ -640,6 +641,7 @@ job-body, job-comment {
     padding: 18px;
   }
 }
+
 .job-more-wrapper {
   margin: 0 -25px -25px;
 
@@ -658,7 +660,6 @@ job-body, job-comment {
     padding: 0;
     text-transform: capitalize;
   }
-
 
   #map_canvas {
     display: none;
@@ -692,7 +693,7 @@ job-body, job-comment {
   > ul {
     display: table;
     table-layout: fixed;
-    margin: 0;
+    margin: 10px 0 0;
     padding: 0;
     list-style: none;
     width: 100%;
@@ -718,7 +719,7 @@ job-body, job-comment {
   }
 
   h1 {
-    margin: 15px 0;
+    margin: 0;
   }
 }
 
@@ -871,6 +872,15 @@ job-body, job-comment {
 
   }
 
+}
+
+.main-title {
+  .job-owner-header {
+    padding: 0;
+    h2 {
+      margin-top: 0;
+    }
+  }
 }
 
 .user-job-cadidates {
@@ -1130,6 +1140,7 @@ job-body, job-comment {
     margin-top: 10px;
   }
   input[type="submit"] {
+    margin-top: 10px;
     @include button-pink;
     max-width: 250px;
   }
