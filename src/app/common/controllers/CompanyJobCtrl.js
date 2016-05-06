@@ -350,10 +350,8 @@ angular.module('just.common')
 
             $scope.candidates = [];
 
-            $scope.job_users = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
-            $scope.job_users.$promise.then(function (response) {
-                var deferd = $q.defer();
-
+            $scope.jobb_users = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
+            $scope.jobb_users.$promise.then(function (response) {
                 $scope.job_users = [];
                 angular.forEach(response.data, function (obj, key) {
 
@@ -406,10 +404,6 @@ angular.module('just.common')
                         }
                     });
                 }
-
-                deferd.resolve($scope.job_users);
-                return deferd.promise;
-
             });
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
