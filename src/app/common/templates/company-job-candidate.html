@@ -61,8 +61,7 @@
         <div>
             <h3><i class="demo-icon icon-ic-user3"></i>{{"user.language-skills.label" | translate}}</h3>
             <ul>
-                <li>Swedish</li>
-                <li>English</li>
+                <li ng-repeat="lang in ctrl.candidate_model.languages">{{lang.attributes["en-name"]}}</li>
             </ul>
         </div>
     </div>

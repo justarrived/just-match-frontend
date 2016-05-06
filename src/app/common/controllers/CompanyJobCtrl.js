@@ -514,10 +514,11 @@ angular.module('just.common')
                 });
 
 
-                that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images,hourly-pay');
+                that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images,hourly-pay,user.language,user.languages');
                 that.model.$promise.then(function (response) {
 
                     that.candidate_model = {};
+
                     var found = $filter('filter')(response.included, {
                         id: "" + response.data.relationships.user.data.id,
                         type: "users"
