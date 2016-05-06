@@ -273,6 +273,15 @@ oi-select .select-search {
     opacity: 0.4;
   }
 }
+.register-image-preview {
+  border: 1px solid $lightBlue;
+  opacity: 0.4;
+  img {
+    width: 80%;
+    max-width: 150px;
+    margin: 15px;
+  }
+}
 
 
 .user-form {
