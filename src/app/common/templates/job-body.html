@@ -1,7 +1,7 @@
 <div class="job-body-heading">
     <div>
-        <span>{{ job.totalRate }}</span><br>
-        <em>{{ job.attributes.hours }} Timmar ({{ job.max_rate }} {{ job.currency }}/h)</em>
+        <span>{{ job.totalRate | number }}</span><br>
+        <em>{{ job.attributes.hours }} Timmar ({{ job.max_rate | number }} {{ job.currency }}/h)</em>
     </div>
     <div>
         <button ng-click="ctrl.accept_job()">{{"job-body.search.text" | translate}}</button>

@@ -23,7 +23,7 @@ angular.module('just.common')
 
             this.languages = i18nService.supportedLanguages();
 
-            this.jobs = jobService.getJobs('company');
+            this.jobs = jobService.getJobs('company,hourly-pay');
             this.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
 
@@ -32,8 +32,20 @@ angular.module('just.common')
                 });
 
                 angular.forEach(response.data, function (obj, idx) {
+                    var found_hourly_pay = $filter('filter')(response.included, {
+                        id: "" + obj.relationships["hourly-pay"].data.id,
+                        type: "hourly-pays"
+                    }, true);
+                    if (found_hourly_pay.length > 0) {
+                        that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes.rate * that.jobs.data[idx].attributes.hours;
+                        that.jobs.data[idx].currency = found_hourly_pay[0].attributes.currency;
+                    }
 
-                    var found = $filter('filter')(response.included, {id: "" + obj.relationships.company.data.id}, true);
+
+                    var found = $filter('filter')(response.included, {
+                        id: "" + obj.relationships.company.data.id,
+                        type: "companies"
+                    }, true);
                     if (found.length > 0) {
                         if (found[0].relationships["company-images"].data.length > 0) {
                             Resources.companyImage.get({

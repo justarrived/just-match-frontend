@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="job-rate">
-                    <span>{{job.totalRate}}</span>
-                    <em>5 h ({{ job.max_rate | currency }}/h)</em>
+                    <span>{{ job.totalRate | number }}</span>
+                    <em>5 h ({{ job.max_rate | number }} {{ job.currency }}/h)</em>
                 </div>
                 <div>
                     <a href="#{{routes.job.get.resolve(job)}}"><i class="demo-icon icon-ic-arrow-right"></i></a>

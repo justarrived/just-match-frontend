@@ -23,10 +23,12 @@
             </div>
         </slick>
         <div ng-show="showvdo" id="popupVid">
-            <iframe  ng-show="showvdo==1" src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?enablejsapi=1&rel=0&controls=0&showinfo=0"
-                     frameborder="0" allowfullscreen></iframe>
-            <iframe  ng-show="showvdo==2" src="https://www.youtube-nocookie.com/embed/y2Ky3Wo37AY?enablejsapi=1&rel=0&controls=0&showinfo=0"
-                     frameborder="0" allowfullscreen></iframe>
+            <iframe ng-show="showvdo==1"
+                    src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?enablejsapi=1&rel=0&controls=0&showinfo=0"
+                    frameborder="0" allowfullscreen></iframe>
+            <iframe ng-show="showvdo==2"
+                    src="https://www.youtube-nocookie.com/embed/y2Ky3Wo37AY?enablejsapi=1&rel=0&controls=0&showinfo=0"
+                    frameborder="0" allowfullscreen></iframe>
             <div class="close-x" ng-click="showvdo=false"><i class="demo-icon icon-ic-close"></i></div>
         </div>
     </div>
@@ -61,7 +63,7 @@
             <div ng-repeat="job in ctrl.jobs.data | limitTo: 10">
                 <div class="image-wrapper">
                     <div style="background-image: url({{job.company_image}});"></div>
-                    <b><!--{{ job.attributes.max_rate | currency }}-->500:-</b>
+                    <b>{{ job.max_rate | number}} {{ job.currency }}</b>
                 </div>
                 <a href="#{{ routes.job.get.resolve(job) }}">
                     {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
