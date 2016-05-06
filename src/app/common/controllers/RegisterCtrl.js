@@ -1,11 +1,15 @@
 angular.module('just.common')
-    .controller('RegisterCtrl', ['userService', 'justFlowService', function (userService, flow) {
+    .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService','justRoutes', function (authService, userService, flow,routes) {
         var that = this;
+
+        if(authService.isAuthenticated()){
+            flow.redirect(routes.user.user.url);
+        }
 
         this.data = userService.registerModel;
         this.message = userService.registerMessage;
 
-        if(flow.next_data){
+        if (flow.next_data) {
             this.data.company_id = flow.next_data.data.id;
         }
 
