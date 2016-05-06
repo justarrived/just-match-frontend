@@ -27,9 +27,12 @@
                     </div>
                 </validation>
 
-                <div class="group register-image">
+                <div class="group register-image" ng-hide="isNew">
+                    <div class="show-image" ng-show="isShowLogo"><img ng-src="{{ctrl.company_image}}"/></div>
+                </div>
+
+                <div class="group register-image" ng-show="isNew">
                     <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
-                    <!--<div class="show-image"><img ng-src="{{ctrl.company_image}}"/></div>-->
                     <label>{{ 'company-register.logo.label' | translate }}</label>
                 </div>
 

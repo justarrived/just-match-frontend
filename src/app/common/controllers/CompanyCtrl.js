@@ -24,6 +24,7 @@ angular
             $scope.regex = '\\d+';
             $scope.disableInput = true;
             $scope.isNew = -1;
+            this.isShowLogo = 0;
 
             this.process = function () {
                 if ($scope.isNew === 1) {
@@ -61,6 +62,7 @@ angular
                     that.data.zip = item.attributes.zip;
                     that.data.city = item.attributes.city;
                     that.company_image = item.company_image;
+                    $scope.isShowLogo = item.haveLogo;
                     $scope.disableInput = true;
                     $scope.isNew = 0;
                     that.selectedCompany.data = item;
@@ -80,6 +82,7 @@ angular
                     that.data.zip = "";
                     that.data.city = "";
                     that.company_image = "assets/images/content/placeholder-logo.png";
+                    $scope.isShowLogo = 0;
                     $scope.disableInput = false;
                     $scope.isNew = 1;
                     that.selectedCompany = {};
@@ -110,13 +113,15 @@ angular
                     angular.forEach(response.data, function (obj, key) {
                         obj.attributes.name_cin = obj.attributes.name + " (" + obj.attributes.cin + ")";
                         obj.company_image = "assets/images/content/placeholder-logo.png";
-                        if(obj.relationships["company-images"].data.length > 0){
+                        obj.haveLogo = 0;
+                        if (obj.relationships["company-images"].data.length > 0) {
                             var found = $filter('filter')(response.included, {
                                 id: obj.relationships["company-images"].data[0].id,
                                 type: 'company-images'
                             }, true);
-                            if(found.length>0){
+                            if (found.length > 0) {
                                 obj.company_image = found[0].attributes["image-url-medium"];
+                                obj.haveLogo = 1;
                             }
                         }
                         result.push(obj);
