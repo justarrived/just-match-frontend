@@ -592,3 +592,7 @@ textarea:focus, input:focus{
 .error-message {
   color: $pink;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow:0 0 0 50px white inset;
+}
