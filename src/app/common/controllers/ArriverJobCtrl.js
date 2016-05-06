@@ -100,6 +100,7 @@ angular.module('just.common')
                 var jobDate = new MyDate(new Date());
                 jobDate.setISO8601(job_date);
                 var nowDate = new Date();
+
                 if (nowDate < jobDate.date) {
                     return false;
                 } else {

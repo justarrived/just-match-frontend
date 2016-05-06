@@ -578,13 +578,13 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         padding: 15px 25px;
       }
       > div:first-child {
-        padding-right: 15px;
+        //padding-right: 15px;
       }
       > div:last-child {
         width: 90px;
         text-align: center;
         text-align: right;
-        padding-left: 0;
+        //padding-left: 0;
       }
     }
   }

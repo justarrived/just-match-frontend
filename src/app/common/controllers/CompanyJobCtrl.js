@@ -332,7 +332,7 @@ angular.module('just.common')
                             Resources.userImageId.get({
                                 user_id: obj.relationships.owner.data.id,
                                 id: found[0].relationships["user-images"].data[0].id
-                            },function(result){
+                            }, function (result) {
                                 $scope.comments[key].user_image = result.data.attributes["image-url-small"];
                             });
                         }
@@ -443,38 +443,44 @@ angular.module('just.common')
                 return new Array(parseInt(num));
             };
 
-            this.getUserRating = function (user_id) {
-                Resources.userRating.get({id: user_id, 'include': 'comments'});
-            };
-
-            this.getUserRating($routeParams.job_id);
-
             this.getUserPerformedJobs = function (user_id) {
-                $scope.userPerformedJobs = jobService.getUserJobs({
+                $scope.userPerformedJobss = jobService.getUserJobs({
                     user_id: user_id,
                     "include": "job",
                     "filter[performed]": true
                 });
 
-                $scope.userPerformedJobs.$promise.then(function (response) {
-                    var deferd = $q.defer();
+                $scope.userPerformedJobss.$promise.then(function (response) {
+                    $scope.userPerformedJobs = $filter('filter')(response.included, {type: 'jobs'}, true);
 
-                    $scope.userPerformedJobs = [];
-                    var found = $filter('filter')(response.included, {type: 'jobs'}, true);
-
-                    if (found) {
+                    if ($scope.userPerformedJobs) {
                         Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
-                            angular.forEach(found, function (obj, idx) {
+                            angular.forEach($scope.userPerformedJobs, function (obj, idx) {
                                 var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
                                 if (found_rating.length > 0) {
-                                    found[idx].rating = found_rating[0];
+                                    $scope.userPerformedJobs[idx].rating = found_rating[0];
                                 }
-                                $scope.userPerformedJobs.push(found[idx]);
                             });
-                            deferd.resolve($scope.userPerformedJobs);
-                            return deferd.promise;
                         });
                     }
+
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
+                    });
+
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        Resources.company.get({
+                            company_id: ""+obj.relationships.company.data.id,
+                            "include": "company-images"
+                        }, function (result) {
+                            if(result.included){
+                                $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
+                            }
+                        });
+
+
+                    });
+
                 });
             };
 
@@ -557,7 +563,7 @@ angular.module('just.common')
                         that.hasInvoice = false;
                     }
 
-                    Resources.userRating.get({id:that.user_apply.id},function(result){
+                    Resources.userRating.get({id: that.user_apply.id}, function (result) {
                         that.user_apply.rating = result.meta["average-score"];
                     });
 

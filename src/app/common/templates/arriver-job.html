@@ -26,9 +26,9 @@
                     <h2>Är uppdraget utfort?</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow=3">Skicka meddellanden</a>
+                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">Skicka meddellanden</a>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="that.canPerformed || true">
                     <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
                 </div>
             </div>
@@ -132,7 +132,6 @@
                 <form name="form" ng-submit="ctr.submitChat()">
                     <div>
                         <div><input type="text" required/></div>
-                        <div><input type="submit" value="skicka"></div>
                     </div>
                 </form>
                 <div class="translate"><span>Översätt från svenska</span></div>
