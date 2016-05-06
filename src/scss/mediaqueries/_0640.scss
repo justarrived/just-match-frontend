@@ -29,7 +29,13 @@
     }
   }
 }
-
+.main-title {
+  .job-owner-header {
+    h2 {
+      margin: 0;
+    }
+  }
+}
 .wrapper footer > div {
   > div {
     display: table;
