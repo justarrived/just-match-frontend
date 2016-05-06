@@ -61,8 +61,7 @@
         <div>
             <h3><i class="demo-icon icon-ic-user3"></i>{{"user.language-skills.label" | translate}}</h3>
             <ul>
-                <li>Swedish</li>
-                <li>English</li>
+                <li ng-repeat="lang in ctrl.candidate_model.languages">{{lang.attributes["en-name"]}}</li>
             </ul>
         </div>
     </div>
@@ -71,7 +70,7 @@
         <ul>
             <li ng-repeat="job in userPerformedJobs">
                 <div><span class="user-info-image"
-                           style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
+                           style="background-image: url({{job.company_image}})"></span></div>
                 <div>
                     <h4>{{job.attributes.name}}</h4>
                     <p>{{job.company.attributes.name}}</p>
@@ -135,7 +134,6 @@
             <form name="form" ng-submit="ctr.submitChat()">
                 <div>
                     <div><input type="text" required/></div>
-                    <div><input type="submit" value="skicka"></div>
                 </div>
             </form>
             <div class="translate"><span>Översätt från svenska</span></div>
