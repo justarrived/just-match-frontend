@@ -25,6 +25,9 @@
                 <div ng-show="that.canPerformed">
                     <h2>Är uppdraget utfort?</h2>
                 </div>
+                <div>
+                    <a class="button" href="" ng-click="userModalPerformShow=3">Skicka meddellanden</a>
+                </div>
                 <div ng-show="that.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
                 </div>
@@ -103,6 +106,37 @@
 
                 </div>
             </section>
+        </div>
+
+        <div ng-show="userModalPerformShow==3">
+            <h3>Meddelanden</h3>
+            <div>
+                <ul>
+                    <li>
+                        <div class="bubble">
+                            <div>Amir Khermand</div>
+                            <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
+                        </div>
+                        <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
+                        </div>
+                    </li>
+                    <li class="right">
+                        <div class="bubble">
+                            <div>Ove Martinnson</div>
+                            <div>Ja, det blir perfekt. Valkommen</div>
+                        </div>
+                        <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
+                        </div>
+                    </li>
+                </ul>
+                <form name="form" ng-submit="ctr.submitChat()">
+                    <div>
+                        <div><input type="text" required/></div>
+                        <div><input type="submit" value="skicka"></div>
+                    </div>
+                </form>
+                <div class="translate"><span>Översätt från svenska</span></div>
+            </div>
         </div>
 
     </div>
