@@ -541,13 +541,13 @@ oi-select .select-search {
   > div {
     height: 100%;
     display: table;
-    width: 100%;
-    max-width: 0 auto;
+    width: 85%;
+    margin: 0 auto;
 
     > div {
       display: table-cell;
       vertical-align: middle;
-      padding: 20px 20px 40px;
+      padding: 0;
     }
   }
 
