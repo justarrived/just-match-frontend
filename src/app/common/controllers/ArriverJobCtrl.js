@@ -13,20 +13,27 @@ angular.module('just.common')
 
             $scope.jobbs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job"});
             $scope.jobbs.$promise.then(function (response) {
-                $scope.jobs = [];
+                $scope.jobs = response.included;
 
-                angular.forEach(response.included, function (obj, key) {
-                    var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-                    if (found.length > 0) {
-                        obj["job-users"] = found[0];
-                        if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                            obj.attributes.text_status = "Du har sökt uppdraget";
+                angular.forEach($scope.jobs, function (obj, key) {
+
+
+                        var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                        if (found.length > 0) {
+                            $scope.jobs[key]["job-users"] = found[0];
+                            if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                $scope.jobs[key].attributes.text_status = "Du har sökt uppdraget";
+                            }
+                            if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                    $scope.jobs[key].attributes.text_status=result.included[0].attributes.name+" vill anlita dig";
+                                });
+                            }
+                            if(found[0].attributes["will-perform"]){
+                                $scope.jobs[key].attributes.text_status = "Du är anlitad";
+                            }
                         }
-                        if(found[0].attributes.accepted && !found[0].attributes["will-perform"]){
-                            obj.attributes.text_status = "vill anlita dig";
-                        }
-                        $scope.jobs.push(obj);
-                    }
+
                 });
             });
 
@@ -152,8 +159,8 @@ angular.module('just.common')
                             var interval = $interval(function () {
                                 that.calcRemainTime();
                                 /*if (that.calcRemainTime() <= 0) {
-                                    //$interval.cancel(interval);
-                                }*/
+                                 //$interval.cancel(interval);
+                                 }*/
                             }, 6000);
                         }
                     }
@@ -186,43 +193,63 @@ angular.module('just.common')
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
 
-            $scope.job = jobService.getJob($routeParams.id);
-            $scope.job.$promise.then(function (response) {
-                var deferd = $q.defer();
-
+            $scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
+            $scope.jobb.$promise.then(function (response) {
                 $scope.job = response.data;
+                $scope.job.company = response.included[0];
+                $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
-                deferd.resolve($scope.job);
-                return deferd.promise;
+                var found_hourly_pay = $filter('filter')(response.included, {
+                    id: "" + response.data.relationships["hourly-pay"].data.id,
+                    type: "hourly-pays"
+                }, true);
 
+                if (found_hourly_pay.length > 0) {
+                    $scope.job.hourly_pay = found_hourly_pay[0].attributes;
+                    $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                }
+
+                var company_image_arr = response.included[0].relationships["company-images"].data;
+                if (company_image_arr.length > 0) {
+                    Resources.companyImage.get({
+                        company_id: "" + response.data.relationships.company.data.id,
+                        id: company_image_arr[0].id
+                    }, function (resultImage) {
+                        $scope.job.company_image = resultImage.data.attributes["image-url-small"];
+                    });
+                }
             });
 
             this.getComments = function (job_id) {
-                $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
-                $scope.comments.$promise.then(function (response) {
-                    var deferd = $q.defer();
-                    $scope.comments = [];
-                    var curr_user_id = '0';
+                $scope.commentss = commentService.getComments('jobs', job_id, 'owner,user-images');
+                $scope.commentss.$promise.then(function (response) {
+                    $scope.comments = response.data;
                     angular.forEach(response.data, function (obj, key) {
                         var found = $filter('filter')(response.included, {
                             id: "" + obj.relationships.owner.data.id,
                             type: "users"
                         }, true);
                         if (found.length > 0) {
-                            obj.attributes["first-name"] = found[0].attributes["first-name"];
-                            obj.attributes["last-name"] = found[0].attributes["last-name"];
+                            $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
+                            $scope.comments[key].attributes["last-name"] = found[0].attributes["last-name"];
                         }
                         if (authService.userId().id === obj.relationships.owner.data.id) {
-                            obj.attributes.isOwner = 1;
+                            $scope.comments[key].attributes.isOwner = 1;
                         } else {
-                            obj.attributes.isOwner = 0;
+                            $scope.comments[key].attributes.isOwner = 0;
+                        }
+                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
+
+                        if (found[0].relationships["user-images"].data.length > 0) {
+                            Resources.userImageId.get({
+                                user_id: obj.relationships.owner.data.id,
+                                id: found[0].relationships["user-images"].data[0].id
+                            },function(result){
+                                $scope.comments[key].user_image = result.data.attributes["image-url-small"];
+                            });
                         }
 
-                        $scope.comments.push(obj);
-
                     });
-                    deferd.resolve($scope.comments);
-                    return deferd.promise;
                 });
             };
 
