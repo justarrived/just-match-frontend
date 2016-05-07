@@ -26,4 +26,4 @@ __Browser (check what browser you're running at https://whatbrowser.org)__: Chro
 
 __Screenshot__
 
-Take a screnshot of the error.
+Take a screenshot of the error.
