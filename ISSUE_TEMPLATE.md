@@ -4,7 +4,7 @@ Short description of the problem
 
 __Severity__: Can't complete action / Broken styling / Wrong translation
 
-__URL__: The URL that the error occured on.
+__URL__: The URL that the error occurred on.
 
 __Error message__: The error message displayed, if any.
 
