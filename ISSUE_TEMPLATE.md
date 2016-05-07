@@ -16,6 +16,8 @@ __How to recreate it__
 2. Click ...
 3.
 
+__What happend__
+
 __Expected outcome__
 
 No error message.
