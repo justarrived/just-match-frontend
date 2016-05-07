@@ -1,3 +1,16 @@
 {
-  "translationModules": []
+  "just_match_api": "https://just-match-api.herokuapp.com",
+  "just_match_api_version": "/api/v1/",
+  "translated_languages": [
+    {
+      "code": "sv",
+      "name": "Swedish",
+      "nativeName": "Svenska"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "nativeName": "English"
+    }
+  ]
 }
