@@ -59,6 +59,26 @@ If you want to contribute
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+## Translations
+
+Translations are managed at [Transifex](https://www.transifex.com/justarrived/just-match-frontend).
+
+To push or pull new translations, you need to install the [Transifex client](http://docs.transifex.com/client/setup/).
+
+__Fetch translations from transifex__
+
+```
+$ tx pull -a -f
+```
+
+__Push source language file to transifex__
+
+```
+$ tx push -s
+```
+
+The configuration is in [.tx/config](.tx/config).
+
 ## License
 
 This project is open source and licensed under the permissive [MIT](LICENSE.txt) license
