@@ -29,7 +29,9 @@ module.exports = function (grunt) {
 
   buildConfig = require('./build.config.js');
 
-  environment = process.env.NODE_ENV || 'dev';
+  environment = process.env.APP_ENV || process.env.NODE_ENV || 'dev';
+
+  console.log("App environment:", environment);
 
   appConstants = (function () {
     var baseConfig = buildConfig.config_dir + 'config.json',
