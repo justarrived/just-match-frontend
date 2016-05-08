@@ -13,7 +13,6 @@ angular.module('just.service')
             return {
                 data: {
                     attributes: {
-                        "language-id": i18nService.getLanguage().$$state.value.id,
                         "commentable-id": resource_id,
                         "commentable-type": resource_name
                     }
