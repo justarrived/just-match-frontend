@@ -448,7 +448,15 @@ angular.module('just.common')
                             id: obj.relationships.user.data.id
                         }, function (result) {
                             $scope.job_users[key].rating = result.meta["average-score"];
-                            $scope.job_users[key].total_uppdrag = result.meta.total;
+                        });
+
+                        $scope.userJobs = jobService.getUserJobs({
+                            user_id: obj.relationships.user.data.id,
+                            "filter[will-perform]": true
+                        });
+
+                        $scope.userJobs.$promise.then(function (response) {
+                            $scope.job_users[key].total_uppdrag = response.meta.total;
                         });
                     }
                 });
