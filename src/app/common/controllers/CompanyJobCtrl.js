@@ -398,14 +398,14 @@ angular.module('just.common')
             this.getComments($routeParams.id);
 
             this.submit = function () {
-                if (!that.model.data.attributes["language-id"]) {
-                    that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
-                }
+                that.model.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                var formData = {};
+                angular.copy(that.model, formData);
+                that.model.data.attributes.body = "";
                 Resources.comments.create({
                     resource_name: "jobs",
                     resource_id: $routeParams.id
-                }, that.model, function (response) {
-                    that.model.data.attributes.body = "";
+                }, formData, function (response) {
                     that.getComments($routeParams.id);
                 });
             };
