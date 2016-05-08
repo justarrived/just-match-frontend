@@ -34,13 +34,6 @@ label {
   margin-top: -22px;
   font-size: 0.9em;
   text-align: left;
-  &.return {
-    margin-top: 0px;
-  }
-}
-
-.text-danger.ng-hide + .text-danger.return {
-  margin-top: -22px !important;
 }
 
 .ng-valid.ng-touched {
@@ -209,10 +202,11 @@ label {
   .ng-valid.ng-touched {
     border-color: $lightBlue;
   }
+  
   .has-error .ng-valid, .has-error .ng-invalid {
     border-color: $pink !important;
     color: $pink !important;
-    ~ label{
+    ~ label {
       color: $pink !important;
     }
   }
