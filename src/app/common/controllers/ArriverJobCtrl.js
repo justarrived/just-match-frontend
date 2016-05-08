@@ -46,14 +46,15 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
         function (jobService, authService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
-            this.maxWaitMinutes = 720; //12 hours
+            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
+            this.will_perform_confirmation_by = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 12;
+            this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
             this.isCompany = 0;
@@ -82,10 +83,12 @@ angular.module('just.common')
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
+                var willPerformDate = new MyDate(new Date());
+                willPerformDate.setISO8601(that.will_perform_confirmation_by);
                 var nowDate = new Date();
-                var diffMs = (nowDate - acceptedDate.date);
+                var diffMs = (willPerformDate.date - nowDate);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = that.maxWaitMinutes - diffMins;
+                var remainTime = diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
@@ -118,6 +121,8 @@ angular.module('just.common')
                     that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
+                    $scope.comments_amt = response.data.relationships.comments.data.length;
+
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
                         Resources.companyImage.get({
@@ -141,6 +146,7 @@ angular.module('just.common')
                         that.job_user_id = response.data[0].id;
                         that.accepted = response.data[0].attributes.accepted;
                         that.accepted_at = response.data[0].attributes["accepted-at"];
+                        that.will_perform_confirmation_by = response.data[0].attributes["will-perform-confirmation-by"];
                         that.will_perform = response.data[0].attributes["will-perform"];
                         that.performed = response.data[0].attributes.performed;
 
