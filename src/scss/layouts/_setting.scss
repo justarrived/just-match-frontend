@@ -77,7 +77,6 @@
   }
   input[type="submit"] {
     @include button-white-border;
-    max-width: none;
     min-width: 220px;
   }
   .upload-photo {
