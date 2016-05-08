@@ -159,14 +159,15 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
         function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
-            this.maxWaitMinutes = 720; //12 hours
+            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
+            this.will_perform_confirmation_by = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 12;
+            this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
             this.showStatus = false;
@@ -196,10 +197,12 @@ angular.module('just.common')
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
+                var willPerformDate = new MyDate(new Date());
+                willPerformDate.setISO8601(that.will_perform_confirmation_by);
                 var nowDate = new Date();
-                var diffMs = (nowDate - acceptedDate.date);
+                var diffMs = (willPerformDate.date - nowDate);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = that.maxWaitMinutes - diffMins;
+                var remainTime = diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
@@ -250,6 +253,7 @@ angular.module('just.common')
                             that.job_user_id = obj.id;
                             that.accepted = true;
                             that.accepted_at = obj.attributes["accepted-at"];
+                            that.will_perform_confirmation_by = obj.attributes["will-perform-confirmation-by"];
 
                             var found_user = $filter('filter')(response.included, {
                                 id: "" + obj.relationships.user.data.id,
@@ -483,13 +487,14 @@ angular.module('just.common')
             $scope.currTab = 1;
             $scope.modalShow = false;
 
-            this.maxWaitMinutes = 720; //12 hours
+            this.maxWaitMinutes = 1080; //18 hours
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
+            this.will_perform_confirmation_by = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 12;
+            this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
 
@@ -600,6 +605,7 @@ angular.module('just.common')
                     if (response.data.attributes.accepted || response.data.attributes["will-perform"] || response.data.attributes.performed) {
                         that.accepted = true;
                         that.accepted_at = response.data.attributes["accepted-at"];
+                        that.will_perform_confirmation_by = response.data.attributes["will-perform-confirmation-by"];
                     }
 
                     if (response.data.attributes["will-perform"]) {
@@ -671,10 +677,12 @@ angular.module('just.common')
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
+                var willPeformDate = new MyDate(new Date());
+                willPeformDate.setISO8601(that.will_perform_confirmation_by);
                 var nowDate = new Date();
-                var diffMs = (nowDate - acceptedDate.date);
+                var diffMs = (willPeformDate.date - nowDate);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = that.maxWaitMinutes - diffMins;
+                var remainTime = diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
