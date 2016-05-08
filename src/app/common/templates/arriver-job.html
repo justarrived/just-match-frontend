@@ -26,7 +26,8 @@
                     <h2>Är uppdraget utfort?</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">Skicka meddellanden</a>
+                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">Skicka
+                        meddellanden</a>
                 </div>
                 <div ng-show="that.canPerformed || true">
                     <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
@@ -68,25 +69,33 @@
                 <p>Var vill du atr vi satter in ersattingen nar du utfort uppdraget?</p>
                 <div class="material-input">
 
-                    <form name="form" ng-submit="ctrl.userWillPerform()">
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.bank"/>
-                            <label>Bank</label>
-                        </div>
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.kortnummer"/>
-                            <label>Kortnummer</label>
-                        </div>
-                        <div class="group">
+                    <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
+                        <validation form="form" field="account_clearing_number"
+                                    errormsg="finance.form.account_clearing_number.validation_error">
+                            <div class="group">
+                                <input type="text" name="account_clearing_number"
+                                       ng-model="ctrl.financeModel.data.attributes['account-clearing-number']"/>
+                                <label>Bank</label>
+                            </div>
+                        </validation>
+
+                        <validation form="form" field="account_number"
+                                    errormsg="finance.form.account_number.validation_error">
+                            <div class="group">
+                                <input type="text" name="account_number"
+                                       ng-model="ctrl.financeModel.data.attributes['account-number']"/>
+                                <label>Kortnummer</label>
+                            </div>
+                        </validation>
+                        <!--<div class="group">
                             <input type="text" ng-model="model.data.attributes.iban"/>
                             <label>IBAN - nummer</label>
                         </div>
                         <div class="group">
                             <input type="text" ng-model="model.data.attributes.bic"/>
                             <label>BIC - nummer</label>
-                        </div>
+                        </div>-->
                         <input type="submit" value="Spara"/>
-                        <!--<a class="button submit pink" href="" ng-click="modalPerformShow=false; isPerformed=false;">Skicka</a>-->
                     </form>
                 </div>
             </section>
