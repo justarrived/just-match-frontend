@@ -409,11 +409,13 @@
 
                 this.submitComment = function () {
                     that.commentForm.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                    var formData = {};
+                    angular.copy(that.commentForm, formData);
+                    that.commentForm.data.attributes.body = "";
                     Resources.comments.create({
                         resource_name: "jobs",
                         resource_id: $routeParams.id
-                    }, that.commentForm, function (response) {
-                        that.commentForm.data.attributes.body = "";
+                    }, formData, function (response) {
                         that.getComments($routeParams.id);
                     });
                 };
