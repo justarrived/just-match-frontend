@@ -220,6 +220,8 @@ angular.module('just.common')
                     $scope.job.company = response.included[0];
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
+                    $scope.comments_amt = response.data.relationships.comments.data.length;
+
                     var found_hourly_pay = $filter('filter')(response.included, {
                         id: "" + response.data.relationships["hourly-pay"].data.id,
                         type: "hourly-pays"

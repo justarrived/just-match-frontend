@@ -118,6 +118,8 @@ angular.module('just.common')
                     that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
+                    $scope.comments_amt = response.data.relationships.comments.data.length;
+
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
                         Resources.companyImage.get({
