@@ -109,7 +109,8 @@ angular.module('just.common')
                 userRating: crud("users/:id/ratings"),
 
 
-                invoice: crud("jobs/:job_id/users/:job_user_id/invoices")
+                invoice: crud("jobs/:job_id/users/:job_user_id/invoices"),
+                finance: crud("users/:user_id/frilans-finans")
 
             };
         }

@@ -24,20 +24,14 @@ angular.module('just.common')
                             angular.forEach(obj.relationships["job-users"].data, function (obj2, key) {
                                 if (keepGoing) {
                                     // has invoice
-                                    var found_i = $filter('filter')(response.included, {
-                                        id: "" + obj2.id,
-                                        type: "job-users",
-                                        attributes: {
-                                            performed: true
-                                        },
-                                        relationships: {
-                                            invoice: {
-                                                data: '!null'
-                                            }
+                                    var found_i = [];
+                                    angular.forEach(response.included, function (obj3, key3) {
+                                        if (obj3.type === "job-users" && obj3.id === "" + obj2.id &&
+                                            obj3.attributes.performed === true && obj3.relationships.invoice.data !== null) {
+                                            found_i.push(obj3);
                                         }
-                                    }, true);
+                                    });
                                     if (found_i.length > 0) {
-
                                         keepGoing = false;
                                         Resources.jobUser.get({
                                             job_id: obj.id,
@@ -53,8 +47,7 @@ angular.module('just.common')
                                                 obj.attributes["first-name"] = found_s[0].attributes["first-name"];
                                                 obj.attributes["last-name"] = found_s[0].attributes["last-name"];
                                                 obj.attributes["image-url-small"] = "assets/images/content/placeholder-profile-image.png";
-
-                                                if (found_s[0].relationships["user-images"].data !== null) {
+                                                if (found_s[0].relationships["user-images"].data !== null && found_s[0].relationships["user-images"].data.length > 0) {
                                                     var found_img = $filter('filter')(result.included, {
                                                         id: "" + found_s[0].relationships["user-images"].data[0].id,
                                                         type: "user-images"
@@ -470,10 +463,10 @@ angular.module('just.common')
 
                     angular.forEach($scope.userPerformedJobs, function (obj, idx) {
                         Resources.company.get({
-                            company_id: ""+obj.relationships.company.data.id,
+                            company_id: "" + obj.relationships.company.data.id,
                             "include": "company-images"
                         }, function (result) {
-                            if(result.included){
+                            if (result.included) {
                                 $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
                             }
                         });
