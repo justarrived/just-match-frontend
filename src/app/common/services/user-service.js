@@ -32,9 +32,8 @@ angular.module('just.service')
                             that.isCompanyRegister = -1;
                             flow.completed(routes.job.create.url, ok);
                         } else if (that.isCompanyRegister === 0) {
-                            console.log("here");
                             that.isCompanyRegister = -1;
-                            if (that.apply_job === 0) {
+                            if (that.apply_job_id === 0) {
                                 flow.next(routes.user.user.url, {type: 'arriver_user_register'});
                             } else {
                                 flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
