@@ -12,8 +12,8 @@
                     <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}">{{job_user.attributes["first-name"]}}
                         {{job_user.attributes["last-name"]}}</a>
                     <br>
-                    <span class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;&#9734;</span>
-                    <span>(10 uppdrag)</span>
+                    <span class="stars"><span style="width : calc( {{job_user.rating}} * 16px );" title="{{job_user.rating}}"></span></span>
+                    <span>({{job_user.total_uppdrag}} uppdrag)</span>
                 </div>
             </li>
         </ul>

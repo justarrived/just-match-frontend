@@ -64,7 +64,7 @@ angular.module('just.common')
                                             $scope.jobs_invoice.push(obj);
                                         });
 
-                                        
+
                                     }
                                 }
                                 if (keepGoing) {
@@ -415,10 +415,10 @@ angular.module('just.common')
 
             $scope.jobb_users = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
             $scope.jobb_users.$promise.then(function (response) {
-                $scope.job_users = [];
+                $scope.job_users = response.data;
                 angular.forEach(response.data, function (obj, key) {
 
-                    obj.user_image = "assets/images/content/placeholder-profile-image.png";
+                    $scope.job_users[key].user_image = "assets/images/content/placeholder-profile-image.png";
 
                     var found = $filter('filter')(response.included, {
                         id: "" + obj.relationships.user.data.id,
@@ -426,8 +426,8 @@ angular.module('just.common')
                     }, true);
 
                     if (found.length > 0) {
-                        obj.attributes["first-name"] = found[0].attributes["first-name"];
-                        obj.attributes["last-name"] = found[0].attributes["last-name"];
+                        $scope.job_users[key].attributes["first-name"] = found[0].attributes["first-name"];
+                        $scope.job_users[key].attributes["last-name"] = found[0].attributes["last-name"];
 
                         if (found[0].relationships["user-images"].data.length > 0) {
                             var found_image = $filter('filter')(response.included, {
@@ -436,12 +436,18 @@ angular.module('just.common')
                             }, true);
 
                             if (found_image.length > 0) {
-                                obj.user_image = found_image[0].attributes["image-url-small"];
+                                $scope.job_users[key].user_image = found_image[0].attributes["image-url-small"];
                             }
                         }
-                    }
 
-                    $scope.job_users.push(obj);
+                        Resources.userRating.get({
+                            id: obj.relationships.user.data.id,
+                            'filter[will-perform]': true
+                        }, function (result) {
+                            $scope.job_users[key].rating = result.meta["average-score"];
+                            $scope.job_users[key].total_uppdrag = result.meta.total;
+                        });
+                    }
                 });
 
                 var found1 = $filter('filter')(response.included, {
