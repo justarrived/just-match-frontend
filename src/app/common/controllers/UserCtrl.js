@@ -187,7 +187,7 @@ angular.module('just.common')
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
                     if (flow.next_data) {
-                        var job_id = flow.next_data;
+                        var job_id = flow.next_data.job_id;
                         if(flow.next_data.type==='apply_job'){
                             jobService.acceptJob(job_id, that.showAppliedJob);
                         }else if(flow.next_data.type==='arriver_user_register'){
