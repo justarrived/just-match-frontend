@@ -65,12 +65,6 @@
                 </div>
             </validation>
 
-            <validation form="form" field="competences" errormsg="user.skills.validation_error">
-                <div class="form-group competences">
-                    <label>{{ "user.skills.label" | translate }}</label>
-                    <textarea name="competences" ng-model="ctrl.model.data.attributes.skills"></textarea>
-                </div>
-            </validation>
             <div>
                 <hr>
                 <p>Uppgifterna sparas till din profil och syns på alla dina ansökningar</p>
@@ -81,10 +75,30 @@
 
 
         </div>
-        <div class="data-generate">
-            <p>{{ ctrl.model | json }}</p>
-            <p><i>{{ ctrl.message | json}}</i></p>
-            <p>{{ language_bundle | json }}</p>
-        </div>
+
     </form>
+
+    <div class="complete job-approved" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;"
+         ng-show="ctrl.saveSuccessFromRegister">
+        <div>
+            <div>
+                <p><i class="demo-icon icon-ic-check2"></i></p>
+                <h1>Din profil är skapad!</h1>
+                <p>Du kan fortsätta fylla på din profil för att öka dina chanser att bli anlitad för ett uppdrag</p>
+                <button ng-click="ctrl.gotoJobList()" type="button">Hitta uppdrag</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="complete job-approved" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;"
+         ng-show="ctrl.saveSuccessFromJobApply">
+        <div>
+            <div>
+                <p><i class="demo-icon icon-ic-check2"></i></p>
+                <h1>Du har sök uppdraget!</h1>
+                <p>När din email är bekräftad kommer din ansökan synas för uppdragsgivaren.</p>
+                <button ng-click="ctrl.gotoJobList()" type="button">Hitta fler uppdrag</button>
+            </div>
+        </div>
+    </div>
 </section>

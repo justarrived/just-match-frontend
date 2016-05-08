@@ -15,6 +15,7 @@ angular.module('just.service')
             this.isCompanyRegister = -1;
             this.isCompany = -1;
             this.user = undefined;
+            this.apply_job_id = 0;
 
 
             this.signin = function (attributes, completeCb) {
@@ -32,11 +33,15 @@ angular.module('just.service')
                             flow.completed(routes.job.create.url, ok);
                         } else if (that.isCompanyRegister === 0) {
                             that.isCompanyRegister = -1;
-                            flow.completed(routes.user.user.url, ok);
+                            if (that.apply_job_id === 0) {
+                                flow.next(routes.user.user.url, {type: 'arriver_user_register'});
+                            } else {
+                                flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
+                            }
                         } else {
                             flow.completed();
                         }
-
+                        that.apply_job = 0;
                     }, function (error) {
                         that.signinMessage = error;
                         flow.reload(routes.user.signin.url);
