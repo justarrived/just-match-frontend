@@ -117,3 +117,35 @@ p, li, input, textarea {
     color: $pink;
   }
 }
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $white;
+  z-index:99999;
+  overflow: hidden;
+  > div {
+    position: fixed;
+    width: 90px;
+    height: 90px;
+    display: block;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    opacity: 0.2;
+    > div {
+      width: 90px;
+      height: 90px;
+      display: block;
+      background: url("../assets/images/ui/loader.svg") center center no-repeat;
+      background-size: contain;
+      -webkite-animation: spin 4s linear infinite;
+      animation: spin 4s linear infinite;
+     }
+  }
+}
