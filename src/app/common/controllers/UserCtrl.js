@@ -4,6 +4,8 @@ angular.module('just.common')
             var that = this;
 
             this.isStart = 1;
+            this.saveSuccessFromRegister = 0;
+            this.saveSuccessFromJobApply = 0;
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -30,20 +32,20 @@ angular.module('just.common')
                     type: "languages"
                 }, true);
 
-                angular.forEach(found,function(obj,idx){
+                angular.forEach(found, function (obj, idx) {
                     that.language_bundle.push(found[idx]);
                     that.language_ori.push(found[idx]);
                 });
 
-                Resources.userLanguage.get({user_id:that.model.data.id},function(result){
-                   angular.forEach(result.data,function(obj,idx){
-                       angular.forEach(that.language_bundle,function(obj2,idx2){
-                           if(obj.relationships.language.data.id === obj2.id){
-                               that.language_bundle[idx2].user_language_id = obj.id;
-                               that.language_ori[idx2].user_language_id = obj.id;
-                           }
-                       });
-                   });
+                Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                    angular.forEach(result.data, function (obj, idx) {
+                        angular.forEach(that.language_bundle, function (obj2, idx2) {
+                            if (obj.relationships.language.data.id === obj2.id) {
+                                that.language_bundle[idx2].user_language_id = obj.id;
+                                that.language_ori[idx2].user_language_id = obj.id;
+                            }
+                        });
+                    });
                 });
 
                 var found_img = $filter('filter')(response.included, {
@@ -172,6 +174,8 @@ angular.module('just.common')
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 //save data
+
+                // UPDATE USER LANGUAGE SKILL
                 that.processLanguages();
 
                 // UPLOAD IMAGE
@@ -182,17 +186,23 @@ angular.module('just.common')
 
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
-                    //console.log(response);
+                    if (flow.next_data) {
+                        var job_id = flow.next_data;
+                        if(flow.next_data.type==='apply_job'){
+                            jobService.acceptJob(job_id, that.showAppliedJob);
+                        }else if(flow.next_data.type==='arriver_user_register'){
+                            that.saveSuccessFromRegister = 1;
+                        }
+                    }
                 });
+            };
 
+            this.showAppliedJob = function () {
+                that.saveSuccessFromJobApply = 1;
+            };
 
-                // UPDATE USER LANGUAGE SKILL
-
-                if (flow.next_data) {
-                    var job_id = flow.next_data;
-                    jobService.acceptJob(job_id);
-                }
-
+            this.gotoJobList = function () {
+                flow.redirect(routes.job.list.url);
             };
         }]);
 
