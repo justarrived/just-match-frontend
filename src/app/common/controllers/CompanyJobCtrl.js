@@ -441,8 +441,7 @@ angular.module('just.common')
                         }
 
                         Resources.userRating.get({
-                            id: obj.relationships.user.data.id,
-                            'filter[will-perform]': true
+                            id: obj.relationships.user.data.id
                         }, function (result) {
                             $scope.job_users[key].rating = result.meta["average-score"];
                             $scope.job_users[key].total_uppdrag = result.meta.total;
