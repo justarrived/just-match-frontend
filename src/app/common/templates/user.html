@@ -1,13 +1,14 @@
 <section>
     <form name="form" novalidate ng-submit="ctrl.save()">
         <div class="main-title user-title">
-            <h1>{{ 'user.title' | translate }}</h1>
+            <h1>{{ 'profile.create.title' | translate }}</h1>
+            <p>{{'profile.create.description' | translate}}</p>
             <div>
                 <div>
                     <div class="upload-button">
                         <!--<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />-->
                         <input type="file" id="file_upload" name="file">
-                        <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>Välj bild</span></div>
+                        <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>{{'profile.form.photo.choose' | translate}}</span></div>
                         <div class="user-info-image"
                              style="background-image: url('{{ctrl.user_image}}');"></div>
                     </div>
@@ -17,17 +18,17 @@
         </div>
         <div class="user-form">
 
-            <validation form="form" field="presentation" errormsg="user.presentation.validation_error">
+            <validation form="form" field="presentation" errormsg="profile.form.presentation.validation">
                 <div class="form-group presentation">
-                    <label>{{ 'user.presentation.label' | translate }}</label>
+                    <label>{{ 'profile.form.presentation' | translate }}*</label>
                     <textarea name="presentation" required
                               ng-model="ctrl.model.data.attributes.description"></textarea>
                 </div>
             </validation>
 
-            <validation form="form" field="language_skills" errormsg="user.language-skills.validation_error">
+            <validation form="form" field="language_skills" errormsg="profile.form.languages.validation">
                 <div class="form-group language">
-                    <label>{{ "user.language-skills.label" | translate }}*</label>
+                    <label>{{ "profile.form.languages" | translate }}*</label>
                     <oi-select
                             oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
                             ng-model="ctrl.language_bundle"
@@ -38,39 +39,26 @@
                 </div>
             </validation>
 
-            <!--<validation form="form" field="language_id" errormsg="user.language-skills.validation_error">
-                <div class="form-group">
-                    <label>Select primary skill*</label>
-                    <select name="language_id" ng-model="ctrl.model.data.attributes['language-id']">
-                        <option style="display:none" value="">Select primary language</option>
-                        <option ng-repeat="lang in ctrl.language_bundle" value="{{lang.id}}">
-                            {{lang.attributes["en-name"]}}
-                        </option>
-                    </select>
-                </div>
-            </validation>-->
-
-
-            <validation form="form" field="job_experience" errormsg="user.job-experience.validation_error">
+            <validation form="form" field="job_experience" errormsg="profile.form.experience.validation">
                 <div class="form-group experience">
-                    <label>{{ "user.job-experience.label" | translate }}</label>
+                    <label>{{ "profile.form.experience" | translate }}</label>
                     <textarea name="job_experience" ng-model="ctrl.model.data.attributes['job-experience']"></textarea>
                 </div>
             </validation>
 
-            <validation form="form" field="education" errormsg="user.education.validation_error">
+            <validation form="form" field="education" errormsg="profile.form.education.validation">
                 <div class="form-group education">
-                    <label>{{ "user.education.label" | translate }}</label>
+                    <label>{{ "profile.form.education" | translate }}</label>
                     <textarea name="education" ng-model="ctrl.model.data.attributes.education"></textarea>
                 </div>
             </validation>
 
             <div>
                 <hr>
-                <p>Uppgifterna sparas till din profil och syns på alla dina ansökningar</p>
+                <p><p>{{'profile.create.notification' | translate}}</p></p>
             </div>
             <div class="form-group">
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">Fortsätt</button>
+                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
             </div>
 
 
@@ -82,9 +70,9 @@
         <div>
             <div>
                 <p><i class="demo-icon icon-ic-check2"></i></p>
-                <h1>Din profil är skapad!</h1>
-                <p>Du kan fortsätta fylla på din profil för att öka dina chanser att bli anlitad för ett uppdrag</p>
-                <button ng-click="ctrl.gotoJobList()" type="button">Hitta uppdrag</button>
+                <h1>{{'profile.create.confirmation.title' | translate}}</h1>
+                <p>{{'profile.create.confirmation.description' | translate}}</p>
+                <button ng-click="ctrl.gotoJobList()" type="button">{{'common.find_assignment' | translate}}</button>
             </div>
         </div>
     </div>
@@ -93,9 +81,9 @@
         <div>
             <div>
                 <p><i class="demo-icon icon-ic-check2"></i></p>
-                <h1>Du har sök uppdraget!</h1>
-                <p>När din email är bekräftad kommer din ansökan synas för uppdragsgivaren.</p>
-                <button ng-click="ctrl.gotoJobList()" type="button">Hitta fler uppdrag</button>
+                <h1>{{'assignment.status.applied' | translate}}</h1>
+                <p>{{'assignment.status.applied.description' | translate}}</p>
+                <button ng-click="ctrl.gotoJobList()" type="button">{{'user.apply.find_more' | translate}}</button>
             </div>
         </div>
     </div>
