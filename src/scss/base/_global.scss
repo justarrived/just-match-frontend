@@ -83,10 +83,11 @@ a {
         white-space: nowrap;
       }
     }
+    a {
+      color: $white;
+    }
   }
-  a {
-    color: $white;
-  }
+
 }
 
 .main-title {
