@@ -18,21 +18,21 @@ angular.module('just.common')
                 angular.forEach($scope.jobs, function (obj, key) {
 
 
-                        var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-                        if (found.length > 0) {
-                            $scope.jobs[key]["job-users"] = found[0];
-                            if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                $scope.jobs[key].attributes.text_status = "Du har sökt uppdraget";
-                            }
-                            if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                    $scope.jobs[key].attributes.text_status=result.included[0].attributes.name+" vill anlita dig";
-                                });
-                            }
-                            if(found[0].attributes["will-perform"]){
-                                $scope.jobs[key].attributes.text_status = "Du är anlitad";
-                            }
+                    var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                    if (found.length > 0) {
+                        $scope.jobs[key]["job-users"] = found[0];
+                        if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                            $scope.jobs[key].attributes.text_status = "Du har sökt uppdraget";
                         }
+                        if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                            Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                $scope.jobs[key].attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
+                            });
+                        }
+                        if (found[0].attributes["will-perform"]) {
+                            $scope.jobs[key].attributes.text_status = "Du är anlitad";
+                        }
+                    }
 
                 });
             });
@@ -42,9 +42,9 @@ angular.module('just.common')
             };
         }])
 
-    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        function (jobService, authService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 720; //12 hours
             this.job_user_id = null;
@@ -59,6 +59,8 @@ angular.module('just.common')
             this.isCompany = 0;
             this.canPerformed = false;
             this.showStatus = false;
+            this.financeModel = financeService.financeModel;
+            this.financeMessage = financeService.financeMessage;
 
             $scope.job_obj = {id: $routeParams.id};
 
@@ -100,6 +102,7 @@ angular.module('just.common')
                 var jobDate = new MyDate(new Date());
                 jobDate.setISO8601(job_date);
                 var nowDate = new Date();
+
                 if (nowDate < jobDate.date) {
                     return false;
                 } else {
@@ -167,6 +170,11 @@ angular.module('just.common')
                     that.showStatus = true;
                     return deferd.promise;
                 });
+            };
+
+            // Create Bank Account for USER
+            this.createBankAccount = function () {
+                financeService.createBankAccount(that.userWillPerform);
             };
 
             // USER Accept to do a job
@@ -244,11 +252,10 @@ angular.module('just.common')
                             Resources.userImageId.get({
                                 user_id: obj.relationships.owner.data.id,
                                 id: found[0].relationships["user-images"].data[0].id
-                            },function(result){
+                            }, function (result) {
                                 $scope.comments[key].user_image = result.data.attributes["image-url-small"];
                             });
                         }
-
                     });
                 });
             };

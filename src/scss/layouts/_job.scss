@@ -37,7 +37,7 @@
   h2 {
     font-weight: 400;
     font-size: 1.2em;
-    margin: 0;
+    margin: 10px 0 0;
   }
 
   > div {
@@ -578,13 +578,13 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         padding: 15px 25px;
       }
       > div:first-child {
-        padding-right: 15px;
+        //padding-right: 15px;
       }
       > div:last-child {
         width: 90px;
         text-align: center;
         text-align: right;
-        padding-left: 0;
+        //padding-left: 0;
       }
     }
   }
@@ -602,7 +602,19 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
   }
 }
-
+.arriver-chat {
+  margin: -25px -20px -20px;
+  > div {
+    padding-top: 20px;
+  }
+  ul {
+    padding: 0 25px !important;
+  }
+  input[type="submit"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
 job-body, job-comment {
   max-width: 800px;
   margin: 0 auto;
@@ -828,6 +840,7 @@ job-body, job-comment {
       height: 35px;
       line-height: 33px;
       margin: 8px;
+      max-width: none;
     }
   }
 

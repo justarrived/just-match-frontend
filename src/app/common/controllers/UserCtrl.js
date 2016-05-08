@@ -25,14 +25,26 @@ angular.module('just.common')
                 var deferd = $q.defer();
 
                 that.language_bundle = [];
+                that.language_ori = [];
                 var found = $filter('filter')(response.included, {
-                    id: "" + response.data.attributes["language-id"],
                     type: "languages"
                 }, true);
-                if (found.length > 0) {
-                    that.language_bundle.push(found[0]);
-                    that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
-                }
+
+                angular.forEach(found,function(obj,idx){
+                    that.language_bundle.push(found[idx]);
+                    that.language_ori.push(found[idx]);
+                });
+
+                Resources.userLanguage.get({user_id:that.model.data.id},function(result){
+                   angular.forEach(result.data,function(obj,idx){
+                       angular.forEach(that.language_bundle,function(obj2,idx2){
+                           if(obj.relationships.language.data.id === obj2.id){
+                               that.language_bundle[idx2].user_language_id = obj.id;
+                               that.language_ori[idx2].user_language_id = obj.id;
+                           }
+                       });
+                   });
+                });
 
                 var found_img = $filter('filter')(response.included, {
                     type: 'user-images'
@@ -89,6 +101,66 @@ angular.module('just.common')
 
             /*Image upload and submit*/
             this.image = {};
+            this.language_new = [];
+            this.language_remove = [];
+
+            this.processLanguages = function () {
+                that.language_new = [];
+                that.language_remove = [];
+
+                angular.forEach(that.language_bundle, function (obj, key) {
+                    var found = $filter('filter')(that.language_ori, {id: "" + obj.id}, true);
+                    if (found.length === 0) {
+                        that.language_new.push(obj);
+                    }
+                });
+
+                angular.forEach(that.language_ori, function (obj, key) {
+                    var found = $filter('filter')(that.language_bundle, {id: "" + obj.id}, true);
+                    if (found.length === 0) {
+                        that.language_remove.push(obj);
+                    }
+                });
+
+                that.removeLanguage();
+            };
+
+            this.removeLanguage = function () {
+                if (that.language_remove.length > 0) {
+                    Resources.userLanguageId.remove({
+                        user_id: "" + that.model.data.id,
+                        user_language_id: "" + that.language_remove[0].user_language_id
+                    }, function (result) {
+                        that.language_remove.shift();
+                        that.removeLanguage();
+                    }, function (result) {
+                        that.language_remove.shift();
+                        that.removeLanguage();
+                    });
+                }
+            };
+
+            this.newLanguage = function () {
+                if (that.language_new.length > 0) {
+                    var data = {
+                            data: {
+                                attributes: {
+                                    id: that.language_new[0].id
+                                }
+                            }
+                        }
+                        ;
+                    Resources.userLanguage.create({user_id: that.model.data.id}, data,
+                        function (result) {
+                            that.language_new.shift();
+                            that.newLanguage();
+                        }, function (result) {
+                            that.language_new.shift();
+                            that.newLanguage();
+
+                        });
+                }
+            };
 
             this.save = function () {
                 var update_data = {};
@@ -100,6 +172,7 @@ angular.module('just.common')
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 //save data
+                that.processLanguages();
 
                 // UPLOAD IMAGE
                 var element = angular.element("#file_upload");

@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[justmatch-frontend.svyml]
+file_filter = config/translations/<lang>.json
+source_file = config/translations/sv.json
+source_lang = sv
+type = KEYVALUEJSON
