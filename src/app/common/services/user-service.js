@@ -32,7 +32,7 @@ angular.module('just.service')
                             flow.completed(routes.job.create.url, ok);
                         } else if (that.isCompanyRegister === 0) {
                             that.isCompanyRegister = -1;
-                            flow.completed(routes.user.user.url, ok);
+                            flow.next(routes.user.user.url, {'type':'arriver_user_register'});
                         } else {
                             flow.completed();
                         }

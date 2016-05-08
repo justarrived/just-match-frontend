@@ -306,13 +306,13 @@
                 };
 
                 this.accept_job = function () {
-                    //flow.next(routes.user.user.url, $routeParams.id);
-                    var path = $location.path();
+                    //var path = $location.path();
                     if (authService.isAuthenticated()) {
                         jobService.acceptJob($routeParams.id);
                     } else {
+                        //flow.next(routes.user.user.url, $routeParams.id);
                         flow.redirect(routes.user.select.url, function () {
-                            flow.redirect(path);
+                            flow.next(routes.user.user.url, {'type':'apply_job','job_id':$routeParams.id});
                         });
                     }
                 };
