@@ -958,9 +958,6 @@ job-body, job-comment {
       > div:first-child {
         width: 85px;
       }
-      > div:last-child {
-        text-align: center;
-      }
     }
   }
 
@@ -1192,13 +1189,6 @@ job-body, job-comment {
     }
     > div:first-child {
       width: 80px;
-    }
-    > div:last-child {
-      text-align: right;
-      > div {
-        text-align: center;
-        display: inline-block;
-      }
     }
   }
   .user-info-image {
