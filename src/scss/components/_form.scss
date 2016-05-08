@@ -383,6 +383,8 @@ oi-select .select-search {
       pointer-events: none;
       -webkit-transition: background .3s;
       transition: background .3s;
+      border-radius: 50%;
+      overflow: hidden;
     }
     .icon-camera {
       text-align: center;
@@ -414,13 +416,10 @@ oi-select .select-search {
     }
   }
 
-  .upload-button:hover {
+  .upload-button {
     .user-info-image {
-      -webkit-filter: blur(3px);
-      -moz-filter: blur(3px);
-      -o-filter: blur(3px);
-      -ms-filter: blur(3px);
-      filter: blur(3px);
+      -webkit-filter: blur(2px);
+      filter: blur(2px);
     }
     .icon-camera {
       opacity: 1;
