@@ -34,7 +34,9 @@ input[type="button"]{
 p, li, input, textarea {
   font-weight: 400;
 }
-
+a {
+  color: $blue;
+}
 *, *:before, *:after {
   box-sizing: inherit;
 }
@@ -115,5 +117,12 @@ p, li, input, textarea {
   color: $midgrey;
   .select {
     color: $pink;
+  }
+}
+.bottom-text-center {
+  margin-bottom: 0;
+  p {
+    margin: 25px 0 0;
+    text-align: center;
   }
 }

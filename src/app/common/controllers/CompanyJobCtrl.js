@@ -3,13 +3,17 @@ angular.module('just.common')
         function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
             var that = this;
 
-            $scope.jobs = {};
-            $scope.jobs_accepted = [];
-            $scope.jobs_invoice = [];
+            $scope.jobs = {}; //accepted:false
+            $scope.jobs_invoice = []; //performed:true, invoice: notnull
+            $scope.jobs_accepted = []; //will-perform:true: performed:false
+            $scope.jobs_performed = []; //performed:true, invoice: null
+
+            this.company_jobs_tab = 1;
+
 
             userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
 
-            $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job,user,job-users");
+            $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job-users");
 
             $scope.jobs.$promise.then(function (response) {
                 var deferd = $q.defer();
@@ -59,6 +63,8 @@ angular.module('just.common')
                                             }
                                             $scope.jobs_invoice.push(obj);
                                         });
+
+                                        
                                     }
                                 }
                                 if (keepGoing) {
@@ -69,16 +75,66 @@ angular.module('just.common')
                                         attributes: {
                                             accepted: true,
                                             "will-perform": true,
-                                        },
-                                        relationships: {
-                                            invoice: {
-                                                data: null
-                                            }
+                                            "performed": false
                                         }
                                     }, true);
                                     if (found.length > 0) {
-                                        $scope.jobs_accepted.push(obj);
+                                        Resources.jobUser.get({
+                                            job_id: obj.id,
+                                            id: found[0].id,
+                                            'include': 'user,user.user-images'
+                                        }, function (result) {
+                                            var found_s = $filter('filter')(result.included, {
+                                                id: "" + result.data.relationships.user.data.id,
+                                                type: "users"
+                                            }, true);
+
+                                            if (found_s.length > 0) {
+                                                obj.attributes["first-name"] = found_s[0].attributes["first-name"];
+                                                obj.attributes["last-name"] = found_s[0].attributes["last-name"];
+                                            }
+                                            $scope.jobs_accepted.push(obj);
+                                        });
                                         keepGoing = false;
+                                    }
+                                }
+                                if (keepGoing) {
+                                    // ongoing
+                                    var found_p = $filter('filter')(response.included, {
+                                        id: "" + obj2.id,
+                                        type: "job-users",
+                                        attributes: {
+                                            "performed": true
+                                        }
+                                    }, true);
+                                    if (found_p.length > 0) {
+                                        keepGoing = false;
+                                        Resources.jobUser.get({
+                                            job_id: obj.id,
+                                            id: found_p[0].id,
+                                            'include': 'user,user.user-images'
+                                        }, function (result) {
+                                            var found_s = $filter('filter')(result.included, {
+                                                id: "" + result.data.relationships.user.data.id,
+                                                type: "users"
+                                            }, true);
+
+                                            if (found_s.length > 0) {
+                                                obj.attributes["first-name"] = found_s[0].attributes["first-name"];
+                                                obj.attributes["last-name"] = found_s[0].attributes["last-name"];
+                                                obj.attributes["image-url-small"] = "assets/images/content/placeholder-profile-image.png";
+                                                if (found_s[0].relationships["user-images"].data !== null && found_s[0].relationships["user-images"].data.length > 0) {
+                                                    var found_img = $filter('filter')(result.included, {
+                                                        id: "" + found_s[0].relationships["user-images"].data[0].id,
+                                                        type: "user-images"
+                                                    }, true);
+                                                    if (found_img.length > 0) {
+                                                        obj.attributes["image-url-small"] = found_img[0].attributes["image-url-small"];
+                                                    }
+                                                }
+                                            }
+                                            $scope.jobs_performed.push(obj);
+                                        });
                                     }
                                 }
                             });

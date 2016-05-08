@@ -714,7 +714,7 @@ job-body, job-comment {
     > li {
       display: table-cell;
     }
-    > li:first-child {
+    > li.sel {
       border-bottom: 5px solid $pink;
     }
 

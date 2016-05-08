@@ -2,12 +2,12 @@
     <div class="main-title user-job-header">
         <h1>{{ "menu.assignment.list" | translate }}</h1>
         <ul>
-            <li><a href="#{{routes.company.jobs.url}}">{{"user-jobs.job.label" | translate}}</a></li>
-            <li><a href="">ARKIV</a></li>
+            <li ng-class="{sel:ctrl.company_jobs_tab===1}"><a href="" ng-click="ctrl.company_jobs_tab=1">{{"user-jobs.job.label" | translate}}</a></li>
+            <li ng-class="{sel:ctrl.company_jobs_tab===2}"><a href="" ng-click="ctrl.company_jobs_tab=2">ARKIV</a></li>
         </ul>
     </div>
-    <div class="user-job-content">
-        <div>
+    <div class="user-job-content" ng-show="ctrl.company_jobs_tab!==2">
+        <div ng-hide="jobs_accepted.length === 0">
             <h2>Pågående Uppdrag</h2>
             <ul>
                 <li ng-repeat="job in jobs_accepted" ng-click="ctrl.gotoUserJobPage(job)">
@@ -17,12 +17,12 @@
                     </div>
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
-                        <p><em>{{job.relationships.comments.data.length}} kommentarer & {{job.relationships["job-users"].data.length}} ansökningar</em></p>
+                        <p>{{job.attributes["first-name"]}} kommer utföra uppdraget</p>
                     </div>
                 </li>
             </ul>
         </div>
-        <div>
+        <div ng-hide="jobs.length === 0">
             <h2>Senaste Aktivitet</h2>
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
@@ -37,10 +37,31 @@
                 </li>
             </ul>
         </div>
-        <div class="wait-rating">
+        <div class="wait-rating" ng-hide="jobs_performed.length === 0">
             <h2>SAKNAR BEDÖMNING</h2>
             <ul>
-                <li ng-repeat="job in jobs_invoice">
+                <li ng-repeat="job in jobs_performed" ng-click="ctrl.gotoUserJobPage(job)">
+                    <div>
+                        {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                        <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                    </div>
+                    <div>
+                        <h3>{{job.attributes.name}}</h3>
+                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
+
+                        <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                    </div>
+                    <div>
+                        <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="user-job-content" ng-show="ctrl.company_jobs_tab===2">
+        <div class="wait-rating">
+            <ul>
+                <li ng-repeat="job in jobs_invoice" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
                         {{job.attributes["job-date"] | date: "MMM"}}<br/>
                         <span>{{job.attributes["job-date"] | date: "dd"}}</span>
