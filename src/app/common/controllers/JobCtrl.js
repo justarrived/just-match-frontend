@@ -280,10 +280,11 @@
 
 
             }])
-        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
-            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
+        .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
+            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
                 var that = this;
 
+                this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
 
                 $scope.map_class = "";
@@ -308,20 +309,44 @@
                 this.accept_job = function () {
                     //flow.next(routes.user.user.url, $routeParams.id);
                     var path = $location.path();
+                    var job_id = $routeParams.id;
                     if (authService.isAuthenticated()) {
                         jobService.acceptJob($routeParams.id);
                     } else {
+                        userService.apply_job_id = $routeParams.id;
                         flow.redirect(routes.user.select.url, function () {
-                            flow.redirect(path);
+                            //flow.redirect(path);
+                            jobService.acceptJob(job_id);
                         });
                     }
                 };
+
 
                 $scope.isSignIn = this.signedIn();
 
                 $scope.company_image = "assets/images/content/placeholder-logo.png";
 
-                Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
+                if (authService.isAuthenticated()) {
+                    $scope.job_user = jobService.getUserJobs({
+                        user_id: authService.userId().id,
+                        'filter[job-id]': $routeParams.id
+                    });
+                    $scope.job_user.$promise.then(function (response) {
+                        if(response.data.length>0){
+                            that.canApplyJob = 0;
+                        }else{
+                            that.canApplyJob = 1;
+                        }
+                    });
+                }else{
+                    that.canApplyJob = 1;
+                }
+
+
+                Resources.job.get({
+                    id: $routeParams.id,
+                    "include": "owner,company,hourly-pay,job-users"
+                }, function (result) {
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
                     $scope.job.company = result.included[1];
@@ -338,6 +363,12 @@
                         });
 
                     }
+
+
+                    var found_job_users = $filter('filter')(result.included, {
+                        type: 'job-users',
+                        relationships: {user: {data: {id: authService.userId().id}}}
+                    }, true);
                 });
 
                 this.getComments = function (job_id) {
@@ -377,9 +408,7 @@
                 this.getComments($routeParams.id);
 
                 this.submitComment = function () {
-                    if (!that.commentForm.data.attributes["language-id"]) {
-                        that.commentForm.data.attributes["language-id"] = i18nService.getLanguage().id;
-                    }
+                    that.commentForm.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
                     Resources.comments.create({
                         resource_name: "jobs",
                         resource_id: $routeParams.id

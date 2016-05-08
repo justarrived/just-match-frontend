@@ -73,7 +73,7 @@ angular.module('just.service')
                     });
                 }
             };
-            this.acceptJob = function (job_id) {
+            this.acceptJob = function (job_id,fn) {
                 /*Resources.jobUsers.create({job_id: job_id}, function (data) {
                  flow.next(routes.job.accept.url, job_id);
                  }, function (error) {
@@ -84,7 +84,7 @@ angular.module('just.service')
                 $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
                     flow.next(routes.job.accept.url, job_id);
                 }).error(function (data, status) {
-                    that.jobMessage = data;
+                    flow.redirect(routes.job.get.resolve({id:job_id}));
                 });
             };
             this.ownerAcceptJob = function (job_id, job_user_id, fn) {
