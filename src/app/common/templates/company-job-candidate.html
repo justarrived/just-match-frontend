@@ -110,7 +110,15 @@
         <h3>Meddelanden</h3>
         <div>
             <ul>
-                <li>
+                <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
+                    <div class="bubble">
+                        <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
+                        <div>{{chatMessage.attributes.body}}</div>
+                    </div>
+                    <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
+                    </div>
+                </li>
+                <!--<li>
                     <div class="bubble">
                         <div>Amir Khermand</div>
                         <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
@@ -125,13 +133,14 @@
                     </div>
                     <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
                     </div>
-                </li>
+                </li>-->
             </ul>
-            <form name="form" ng-submit="ctr.submitChat()">
+            <form name="form" ng-submit="ctrl.submitChat()">
                 <div>
-                    <div><input type="text" required/></div>
+                    <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
                 </div>
             </form>
+
             <div class="translate"><span>Översätt från svenska</span></div>
         </div>
     </div>

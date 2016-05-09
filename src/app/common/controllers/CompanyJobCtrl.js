@@ -1,4 +1,14 @@
 angular.module('just.common')
+    .filter('reverse', function () {
+        return function (items) {
+            if (items) {
+                return items.slice().reverse();
+            } else {
+                return items;
+            }
+
+        };
+    })
     .controller('CompanyJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources',
         function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
             var that = this;
@@ -155,9 +165,9 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_manage.resolve(obj));
             };
         }])
-    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'chatService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        function (jobService, authService, invoiceService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
@@ -177,6 +187,7 @@ angular.module('just.common')
 
             userService.needSignin();
 
+
             this.model = userService.userModel();
             if (this.model.$promise) {
                 this.model.$promise.then(function (response) {
@@ -193,6 +204,9 @@ angular.module('just.common')
             this.gotoAcceptedCandidate = function () {
                 flow.redirect(routes.company.job_candidate.resolve($routeParams.id, that.job_user_id));
             };
+
+            this.userChats = chatService.getUserChat();
+
 
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
@@ -486,8 +500,10 @@ angular.module('just.common')
                 }
             });
         }])
-    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
+        'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
+        'MyDate', '$interval', 'Resources',
+        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -505,12 +521,19 @@ angular.module('just.common')
             this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
+            this.chatModel = chatService.chatModel;
+            this.chatMessageModel = chatService.chatMessageModel;
+            this.chatId = chatService.chatId;
+            this.chatMessages = chatService.chatMessages;
 
             this.ratingModel = ratingService.ratingModel;
+
+            this.chatModel.data.attributes["user-ids"] = [];
 
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
+
 
             this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
@@ -546,10 +569,7 @@ angular.module('just.common')
                                 $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
                             }
                         });
-
-
                     });
-
                 });
             };
 
@@ -649,6 +669,26 @@ angular.module('just.common')
                             }, 6000);
                         }
                     }
+
+                    if (!that.chatId) {
+                        that.userChats = chatService.getUserChat();
+                        that.userChats.$promise.then(function (response) {
+                            var keepGoing = true;
+                            angular.forEach(response.data, function (obj, key) {
+                                if (keepGoing) {
+                                    that.user_id = authService.userId().id;
+                                    var found = $filter('filter')(obj.relationships.users.data, {id: that.user_apply.id}, true);
+                                    if (found.length > 0) {
+                                        that.chatId = obj.id;
+                                        chatService.setChatId(that.chatId);
+                                        that.getChatMessage();
+                                        keepGoing = false;
+                                    }
+                                }
+                            });
+                        });
+                    }
+
                 });
             };
 
@@ -669,6 +709,16 @@ angular.module('just.common')
 
             this.submitJobRating = function () {
                 ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
+            };
+
+            this.submitChat = function () {
+                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, that.user_apply.id];
+                that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                chatService.newChatMessage(that.getChatMessage);
+            };
+
+            this.getChatMessage = function () {
+                that.chatMessages = chatService.getChatMessage();
             };
 
             this.fn = function (result) {
