@@ -29,10 +29,6 @@ __What happend__
 
 __Expected outcome__
 
-No error message.
-
-__System__: Windows/OSX/Linux
-
 __Browser (check what browser you're running at https://whatbrowser.org)__: Chrome/Firefox/Internet explorer version X
 
 __Screenshot__
