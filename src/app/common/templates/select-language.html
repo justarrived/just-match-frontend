@@ -3,7 +3,7 @@
     <div class="lang-wrapper">
         <div>
             <div class="just-arrived-logo"></div>
-            <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
+            <h2 class="text-center">{{ 'menu.language.title' | translate }}</h2>
             <div>
                 <button data-ng-repeat="lang in ctrl.languages" ng-click="ctrl.useLanguage(lang)"
                         ng-class="{ select: lang['lang-code']==ctrl.language['lang-code'] }" type="button">
@@ -11,8 +11,9 @@
                         class="lang-text">{{lang["local-name"]}}</span>
                 </button>
             </div>
-            <p>{{ 'language.select.body' | translate }}</p>
-            <p><a href="">{{ 'common.click-here' | translate }}</a></p>
+            <p>{{ 'menu.language.text_1' | translate }}</p>
+            <p>{{ 'menu.language.text_2' | translate }}</p>
+            <p><a href="">{{ 'common.click_here' | translate }}</a></p>
         </div>
     </div>
 </section>

@@ -6,15 +6,15 @@
             <div>
                 <h2 class="section-title"><i class="demo-icon icon-ic-just-arrived-logo"></i></h2>
                 <ul>
-                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.find'
+                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.main.find_assignment'
                         | translate}}</a></li>
-                    <li><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.create'
+                    <li><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.main.create_assignment'
                         | translate}}</a></li>
-                    <li><a class="nav-faq" href="#{{routes.global.faq.url}}" ng-click="ctrl.menu(0)">{{'menu.faq' |
+                    <li><a class="nav-faq" href="#{{routes.global.faq.url}}" ng-click="ctrl.menu(0)">{{'menu.main.faq' |
                         translate}}</a></li>
-                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.contact'
+                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.main.contact'
                         | translate}}</a></li>
-                    <li><a class="nav-signin" href="" ng-click="ctrl.signin()">{{'menu.signin' | translate}}</a></li>
+                    <li><a class="nav-signin" href="" ng-click="ctrl.signin()">{{'menu.main.login' | translate}}</a></li>
                 </ul>
             </div>
         </div>
@@ -25,19 +25,19 @@
             <div>
                 <h2 class="section-title"><i class="demo-icon icon-ic-just-arrived-logo"></i></h2>
                 <ul>
-                    <li ng-Show="ctrl.isCompany === 0"><a class="nav-my-job" href="#{{routes.arriver.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.list'
+                    <li ng-Show="ctrl.isCompany === 0"><a class="nav-my-job" href="#{{routes.arriver.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
                         | translate}}</a></li>
-                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-my-job" href="#{{routes.company.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.list'
+                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-my-job" href="#{{routes.company.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
                         | translate}}</a></li>
-                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.find'
+                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.main.find_assignment'
                         | translate}}</a></li>
-                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.assignment.create'
+                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.main.create_assignment'
                         | translate}}</a></li>
-                    <li><a class="nav-faq" href="#{{routes.global.faq.url}}" ng-click="ctrl.menu(0)">{{'menu.faq' |
+                    <li><a class="nav-faq" href="#{{routes.global.faq.url}}" ng-click="ctrl.menu(0)">{{'menu.main.faq' |
                         translate}}</a></li>
-                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.contact'
+                    <li><a class="nav-contact" href="#{{routes.contact.form.url}}" ng-click="ctrl.menu(0)">{{'menu.main.contact'
                         | translate}}</a></li>
-                    <li><a class="nav-signout" href="" ng-click="ctrl.signout()">{{'menu.signout' | translate}}</a></li>
+                    <li><a class="nav-signout" href="" ng-click="ctrl.signout()">{{'menu.main.logout' | translate}}</a></li>
                 </ul>
             </div>
         </div>
