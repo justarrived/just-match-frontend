@@ -294,6 +294,10 @@
   "assignment.status.company.approve_user": "would like you to perform the task",
   "warning.title": "We are sorry",
   "warning.description": "Your profile type can not access this function.",
-  "warning.url.title":"Home"
+  "warning.url.title":"Home",
+  "finance.form.account_clearing_number.validation":"Bank is missing",
+  "finance.form.account_number.validation":"Account number is missing",
+  "finance.form.iban.validation":"IBAN-number is missing",
+  "finance.form.bic.validation":"BIC-number is missing"
 
 }
