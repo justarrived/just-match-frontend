@@ -763,6 +763,7 @@ angular.module('just.common')
 
 
             this.getChatMessage = function () {
+                that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
                 that.chatMessages.$promise.then(function (response) {
                     angular.forEach(response.data, function (obj, key) {
