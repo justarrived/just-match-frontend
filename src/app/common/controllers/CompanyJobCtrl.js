@@ -352,8 +352,8 @@ angular.module('just.common')
 
             };
 
-            this.gotoChat = function(job_user_id,chat_id){
-                flow.next(routes.company.job_candidate.resolve($routeParams.id,job_user_id),chat_id);
+            this.gotoChat = function (job_user_id, chat_id) {
+                flow.next(routes.company.job_candidate.resolve($routeParams.id, job_user_id), chat_id);
             };
 
             this.ownerCancelPerformed = function () {
@@ -569,7 +569,7 @@ angular.module('just.common')
                 return new Array(parseInt(num));
             };
 
-            if(flow.next_data){
+            if (flow.next_data) {
                 this.chatModel = flow.next_data;
                 $scope.currTab = 3;
             }
@@ -757,8 +757,29 @@ angular.module('just.common')
                 chatService.newChatMessage(that.getChatMessage);
             };
 
+
             this.getChatMessage = function () {
                 that.chatMessages = chatService.getChatMessage();
+                that.chatMessages.$promise.then(function (response) {
+                    console.log(that.chatMessages);
+                    angular.forEach(response.data, function (obj, key) {
+                        var found_author = $filter('filter')(response.included, {
+                            type: 'users',
+                            id: obj.relationships.author.data.id
+                        }, true);
+                        if (found_author.length > 0) {
+                            if(found_author[0].relationships.company.data){
+                                // is company
+                                that.chatMessages.data[key].author = {attributes:{}};
+                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                            }else{
+                                that.chatMessages.data[key].author = found_author[0];
+                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                            }
+                        }
+                    });
+                });
             };
 
             this.fn = function (result) {
