@@ -7,6 +7,8 @@ angular.module('just.common')
 
             $scope.jobs = {};
 
+            this.arriver_jobs_tab = 1;
+
             that.isCompany = 0;
 
             userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
@@ -62,6 +64,7 @@ angular.module('just.common')
             this.showStatus = false;
             this.financeModel = financeService.financeModel;
             this.financeMessage = financeService.financeMessage;
+            $scope.currTab = 1;
 
             $scope.job_obj = {id: $routeParams.id};
 
