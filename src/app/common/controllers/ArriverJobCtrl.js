@@ -39,9 +39,52 @@ angular.module('just.common')
                 });
             });
 
+            this.getUserPerformedJobs = function (user_id) {
+                $scope.userPerformedJobss = jobService.getUserJobs({
+                    user_id: user_id,
+                    "include": "job",
+                    "filter[performed]": true
+                });
+
+                $scope.userPerformedJobss.$promise.then(function (response) {
+                    $scope.userPerformedJobs = $filter('filter')(response.included, {type: 'jobs'}, true);
+
+                    if ($scope.userPerformedJobs) {
+                        Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
+                            angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                                var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                                if (found_rating.length > 0) {
+                                    $scope.userPerformedJobs[idx].rating = found_rating[0];
+                                }
+                            });
+                        });
+                    }
+
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
+                    });
+
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        Resources.company.get({
+                            company_id: "" + obj.relationships.company.data.id,
+                            "include": "company-images"
+                        }, function (result) {
+                            if (result.included) {
+                                $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
+                            }
+                        });
+
+
+                    });
+
+                });
+            };
+
             this.gotoUserJobPage = function (obj) {
                 flow.redirect(routes.arriver.job_manage.resolve(obj));
             };
+
+            this.getUserPerformedJobs(parseInt(authService.userId().id));
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
