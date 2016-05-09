@@ -2,7 +2,7 @@
     <user-job-header></user-job-header>
     <div class="user-job-cadidates">
         <h1>VÄLJ KANDIDAT</h1>
-        <p>Så här gör du text Lorem ipsum dolor sit amet, consectetuer adipiscing elit lorem.</p>
+        <!--<p>Description</p>-->
         <ul>
             <li ng-repeat="job_user in job_users">
                 <div>
@@ -12,7 +12,7 @@
                     <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}">{{job_user.attributes["first-name"]}}
                         {{job_user.attributes["last-name"]}}</a>
                     <br>
-                    <span class="stars"><span style="width : calc( {{job_user.rating}} * 16px );" title="{{job_user.rating}}"></span></span>
+                    <span class="stars_i"><span style="width : calc( {{job_user.rating}} * 16px );" title="{{job_user.rating}}"></span></span>
                     <span>({{job_user.total_uppdrag}} uppdrag)</span>
                 </div>
             </li>

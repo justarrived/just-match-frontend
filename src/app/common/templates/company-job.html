@@ -37,9 +37,16 @@
 
     <div class="main-content" ng-hide="userModalPerformShow">
         <ul>
-            <li class="select"><a href="#{{routes.company.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br />
-                {{comments_amt}} kommentarer</a></li>
-            <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
+            <li class="select">
+                <a href="#{{routes.company.job_comments.resolve(job_obj)}}">
+                    <span>Kommentarer</span><br/>
+                    {{comments_amt}} kommentarer
+                </a>
+            </li>
+
+            <li class="select" ng-repeat="chat in ctrl.userChats.data">
+                <a href="" ng-click="ctrl.gotoChat(chat['job-users'].id,chat.id);"><span>Chatt</span><br>Meddelanden från {{chat.users.attributes["first-name"]}} {{chat.users.attributes["last-name"]}}</a>
+            </li>
         </ul>
 
     </div>

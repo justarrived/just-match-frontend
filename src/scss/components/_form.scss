@@ -6,6 +6,7 @@ input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="number"],
+input[type="url"],
 textarea,
 select {
   border: 1px solid $lightBlue;
@@ -531,14 +532,14 @@ oi-select .select-search {
     font-size: 1.5em;
     line-height: 1.5em;
     font-weight: 400;
-    text-transform: capitalize;
+    text-transform: none;
     margin-top: 0;
     padding: 0 20px;
   }
 
   a.button {
     @include button-pink;
-    max-width: 250px;
+    min-width: 220px;
   }
 
   .icon-ic-envelope {

@@ -1,4 +1,14 @@
 angular.module('just.common')
+    .filter('reverse', function () {
+        return function (items) {
+            if (items) {
+                return items.slice().reverse();
+            } else {
+                return items;
+            }
+
+        };
+    })
     .controller('CompanyJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources',
         function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
             var that = this;
@@ -155,9 +165,9 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_manage.resolve(obj));
             };
         }])
-    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'chatService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        function (jobService, authService, invoiceService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
@@ -177,6 +187,7 @@ angular.module('just.common')
 
             userService.needSignin();
 
+
             this.model = userService.userModel();
             if (this.model.$promise) {
                 this.model.$promise.then(function (response) {
@@ -193,6 +204,9 @@ angular.module('just.common')
             this.gotoAcceptedCandidate = function () {
                 flow.redirect(routes.company.job_candidate.resolve($routeParams.id, that.job_user_id));
             };
+
+            //this.userChats = chatService.getUserChat();
+
 
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
@@ -303,9 +317,43 @@ angular.module('just.common')
                         }
                     }
                     that.showStatus = true;
+
+
+                    that.userChats = chatService.getUserChat();
+                    that.userChats.$promise.then(function (result) {
+                        var deferd = $q.defer();
+                        that.userChats = {data: []};
+                        angular.forEach(response.data, function (obj, idx) {
+                            var found = $filter('filter')(result.data, {
+                                relationships: {users: {data: {id: obj.relationships.user.data.id}}}
+                            }, true);
+                            if (found.length > 0) {
+                                found[0]["job-users"] = obj;
+
+                                var found_u = $filter('filter')(response.included, {
+                                    id: obj.relationships.user.data.id,
+                                    type: 'users'
+                                }, true);
+
+                                if (found_u.length > 0) {
+                                    found[0].users = found_u[0];
+                                }
+
+                                that.userChats.data.push(found[0]);
+                            }
+
+
+                        });
+                        deferd.resolve(that.userChats);
+                        return deferd.promise;
+                    });
                 });
 
 
+            };
+
+            this.gotoChat = function (job_user_id, chat_id) {
+                flow.next(routes.company.job_candidate.resolve($routeParams.id, job_user_id), chat_id);
             };
 
             this.ownerCancelPerformed = function () {
@@ -329,7 +377,8 @@ angular.module('just.common')
                 $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
-        }])
+        }
+    ])
     .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
         function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
             var that = this;
@@ -486,8 +535,10 @@ angular.module('just.common')
                 }
             });
         }])
-    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+    .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
+        'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
+        'MyDate', '$interval', 'Resources',
+        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -505,12 +556,21 @@ angular.module('just.common')
             this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
+            this.chatModel = chatService.chatModel;
+            this.chatMessageModel = chatService.chatMessageModel;
+            this.chatId = chatService.chatId;
+            this.chatMessages = chatService.chatMessages;
 
             this.ratingModel = ratingService.ratingModel;
+
+            this.chatModel.data.attributes["user-ids"] = [];
 
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
+
+
+
 
             this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
@@ -546,10 +606,7 @@ angular.module('just.common')
                                 $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
                             }
                         });
-
-
                     });
-
                 });
             };
 
@@ -579,6 +636,13 @@ angular.module('just.common')
                         }, function (resultImage) {
                             $scope.job.company_image = resultImage.data.attributes["image-url-small"];
                         });
+                    }
+
+                    if (flow.next_data) {
+                        that.chatId = flow.next_data;
+                        chatService.setChatId(that.chatId);
+                        that.getChatMessage();
+                        $scope.currTab = 3;
                     }
                 });
 
@@ -649,6 +713,26 @@ angular.module('just.common')
                             }, 6000);
                         }
                     }
+
+                    if (!that.chatId) {
+                        that.userChats = chatService.getUserChat();
+                        that.userChats.$promise.then(function (response) {
+                            var keepGoing = true;
+                            angular.forEach(response.data, function (obj, key) {
+                                if (keepGoing) {
+                                    that.user_id = authService.userId().id;
+                                    var found = $filter('filter')(obj.relationships.users.data, {id: that.user_apply.id}, true);
+                                    if (found.length > 0) {
+                                        that.chatId = obj.id;
+                                        chatService.setChatId(that.chatId);
+                                        that.getChatMessage();
+                                        keepGoing = false;
+                                    }
+                                }
+                            });
+                        });
+                    }
+
                 });
             };
 
@@ -669,6 +753,37 @@ angular.module('just.common')
 
             this.submitJobRating = function () {
                 ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
+            };
+
+            this.submitChat = function () {
+                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, that.user_apply.id];
+                that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                chatService.newChatMessage(that.getChatMessage);
+            };
+
+
+            this.getChatMessage = function () {
+                that.user_id = authService.userId().id;
+                that.chatMessages = chatService.getChatMessage();
+                that.chatMessages.$promise.then(function (response) {
+                    angular.forEach(response.data, function (obj, key) {
+                        var found_author = $filter('filter')(response.included, {
+                            type: 'users',
+                            id: obj.relationships.author.data.id
+                        }, true);
+                        if (found_author.length > 0) {
+                            if(found_author[0].relationships.company.data){
+                                // is company
+                                that.chatMessages.data[key].author = {attributes:{}};
+                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                            }else{
+                                that.chatMessages.data[key].author = found_author[0];
+                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                            }
+                        }
+                    });
+                });
             };
 
             this.fn = function (result) {
