@@ -5,7 +5,7 @@
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <!-- Wait owner choose candidate -->
                 <div>
-                    <h2>Du har sökt uppdraget</h2>
+                    <h2>{{ "assignment.status.applied" | translate }}</h2>
                 </div>
             </div>
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
@@ -14,7 +14,7 @@
                     <h2>Vi vill anlita dig svara inom {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow=1">Ge besked</a>
+                    <a class="button" href="" ng-click="userModalPerformShow=1">{{ "assignment.status.reply" | translate }}</a>
                 </div>
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
