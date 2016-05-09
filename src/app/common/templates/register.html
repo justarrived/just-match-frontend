@@ -26,11 +26,6 @@
                     </div>
                 </validation2>
 
-                <div class="group register-image">
-                    <input type="file" id="file_upload" name="file">
-                    <label>{{ 'user.form.picture' | translate }}</label>
-                </div>
-
                 <validation2 form="form" field="last_name" errormsg="user.form.last_name.validation">
                     <div class="group">
                         <input name="last_name" type="text" required ng-model="ctrl.data.last_name"
@@ -39,13 +34,13 @@
                     </div>
                 </validation2>
 
-                <validation2 form="form" field="description" errormsg="user.form.description.validation"
+                <validation2 form="form" field="description" errormsg="profile.form.presentation.validation"
                              ng-hide="!ctrl.data.company_id">
                     <div class="group">
                         <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5"
                                   ng-model="ctrl.data.description"
                                   ng-keyup="form.description.error_detail = undefined"></textarea>
-                        <label>{{ 'user.form.description' | translate }}</label>
+                        <label>{{ 'profile.form.presentation' | translate }}</label>
                     </div>
                 </validation2>
 
@@ -92,6 +87,11 @@
                         <label>{{ 'user.form.password' | translate }}</label>
                     </div>
                 </validation2>
+
+                <div class="group register-image">
+                    <input type="file" id="file_upload" name="file">
+                    <label>{{ 'user.form.picture' | translate }}</label>
+                </div>
 
                 <div>
                     <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
