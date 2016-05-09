@@ -2,7 +2,16 @@ __Description__
 
 Short description of the problem
 
-__Severity__: Can't complete action / Broken styling / Wrong translation
+__Severity__:
+
+_Chose one of the below:_
+
+* Can not perform action
+* Can perform with problem
+* Can perform without problem but looks wrong
+* Translation error
+* New feature / suggestion
+
 
 __URL__: The URL that the error occurred on.
 
