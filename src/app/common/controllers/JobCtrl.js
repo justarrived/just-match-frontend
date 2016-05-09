@@ -7,8 +7,8 @@
             function (jobService, authService, i18nService, flow, routes, userService, $scope, $q, Resources) {
                 var that = this;
                 this.text = {
-                    title: 'assignment.new.title',
-                    submit: 'assignment.new.form.next'
+                    title: 'assignment.create.title',
+                    submit: 'common.next_step'
                 };
 
                 userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
@@ -75,7 +75,7 @@
             var that = this;
             this.text = {
                 title: 'assignment.update.title',
-                submit: 'assignment.update.form.next'
+                submit: 'common.next_step'
             };
 
             this.model = jobService.getJob($routeParams.id);
