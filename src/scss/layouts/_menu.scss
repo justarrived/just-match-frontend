@@ -39,7 +39,7 @@
   ul {
     display: inline-block;
     margin: 0;
-    padding: 0 0 20px 0;
+    padding: 0;
 
     li {
       display: block;
@@ -63,6 +63,9 @@
       }
       a.nav-job-list:before {
         content: '\e815';
+      }
+      a.nav-my-job:before {
+        content: '\e811';
       }
       a.nav-job-create:before {
         content: '\e819';
