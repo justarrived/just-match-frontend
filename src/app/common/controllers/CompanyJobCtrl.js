@@ -537,8 +537,8 @@ angular.module('just.common')
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
-        'MyDate', '$interval', 'Resources',
-        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        'MyDate', '$interval', 'Resources', '$http',
+        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -568,8 +568,6 @@ angular.module('just.common')
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
-
-
 
 
             this.getUserPerformedJobs = function (user_id) {
@@ -772,18 +770,28 @@ angular.module('just.common')
                             id: obj.relationships.author.data.id
                         }, true);
                         if (found_author.length > 0) {
-                            if(found_author[0].relationships.company.data){
+                            if (found_author[0].relationships.company.data) {
                                 // is company
-                                that.chatMessages.data[key].author = {attributes:{}};
+                                that.chatMessages.data[key].author = {attributes: {}};
                                 that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
                                 that.chatMessages.data[key].author.user_image = $scope.job.company_image;
-                            }else{
+                            } else {
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
                             }
                         }
                     });
                 });
+            };
+
+            this.translationWord = function () {
+                var target_lang = 'en';
+                if (that.chatMessageModel.data.attributes.body) {
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=en&target=" + target_lang;
+                    $http({method: 'GET', url: url}).then(function (response) {
+                        that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
+                    });
+                }
             };
 
             this.fn = function (result) {
