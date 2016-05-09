@@ -21,18 +21,18 @@
   opacity: $btnOpacityDisabled;
 }
 
-span.stars {
+span.stars_i {
   position: relative;
   top: 2px;
 }
 
-span.stars, span.stars span {
+span.stars_i, span.stars_i span {
   display: inline-block;
   background: url(../assets/images/ui/stars.png) 0 -16px repeat-x;
   width: 80px;
   height: 16px;
 }
 
-span.stars span {
+span.stars_i span {
   background-position: 0 0;
 }
