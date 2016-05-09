@@ -11,7 +11,7 @@
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
                 <div>
-                    <h2>Vi vill anlita dig svara inom {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min</h2>
+                    <h2>{{'assignment.status.offer'}} {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow=1">{{ "assignment.status.reply" | translate }}</a>
@@ -20,17 +20,16 @@
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
                 <div ng-show="!that.canPerformed">
-                    <h2>Du är anlitad</h2>
+                    <h2>{{'assignment.status.hired' | translate}}</h2>
                 </div>
                 <div ng-show="that.canPerformed">
-                    <h2>Är uppdraget utfort?</h2>
+                    <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">Skicka
-                        meddellanden</a>
+                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
                 </div>
                 <div ng-show="that.canPerformed || true">
-                    <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
+                    <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
                 </div>
             </div>
         </div>
@@ -38,10 +37,10 @@
     </div>
     <div class="main-content" ng-hide="userModalPerformShow">
         <ul>
-            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br />
-                {{comments_amt}} kommentarer</a></li>
+            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>{{'user.assignments.comments' | translate}}</span><br />
+                {{comments_amt}} {{'user.assignments.comment_count' | translate}}</a></li>
             <li class="select" ng-repeat="chat in ctrl.userChats.data">
-                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>Chatt</span><br>Meddelanden från {{job.company.attributes.name}}</a>
+                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>{{'user.assignments.chat' | translate}}</span><br>{{'user.assignments.conversation' | translate}} {{job.company.attributes.name}}</a>
             </li>
         </ul>
 
@@ -53,18 +52,18 @@
             <section ng-show="!isWillPerform">
 
                 <h4>
-                    Grattis!<br/>
-                    {{company_name}} vill garna att du utfor uppdraget
+                    {{'common.congratulation' | translate}}<br/>
+                    {{company_name}} {{'assignment.status.company.approve_user' | translate}}
                 </h4>
-                <p>Vill du fortfalande ta uppdraget</p>
+                <p>{{'assignment.status.offer.approve' | translate}}</p>
                 <div>
-                    <a class="button dark" href="" ng-click="userModalPerformShow=false">Nej</a>
-                    <a class="button pink" href="" ng-click="isWillPerform=true">Ja</a>
+                    <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
+                    <a class="button pink" href="" ng-click="isWillPerform=true">{{'common.yes' | translate}}</a>
 
                 </div>
-                <h3>Var god ge ett besked<br>
-                    inom:<br>
-                    {{ctrl.remainHours}} h {{ctrl.remainMinutes}} min</h3>
+                <h3>{{'assignment.status.reply' | translate}}<br>
+                    {{'common.in' | translate}}<br>
+                    {{ctrl.remainHours}} {{'common.hour' | translate}} {{ctrl.remainMinutes}} min</h3>
             </section>
             <section ng-show="isWillPerform">
                 <h3>Kontuppgifter</h3>

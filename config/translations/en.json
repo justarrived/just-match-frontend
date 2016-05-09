@@ -22,6 +22,9 @@
   "common.close": "Close",
   "common.start_here": "Start here!",
   "common.find_assignment": "Find assignments",
+  "common.hour": "h",
+  "common.congratulation": "Congratulation!",
+  "common.in": "in:",
   "menu.language.title": "Select language",
   "menu.language.text_1": "You can go back and change your selected language later if you like.",
   "menu.language.text_2": "Jobs, comments and messages are translated automatically.",
@@ -243,9 +246,9 @@
   "user.account.iban": "IBAN number",
   "user.account.bic": "BIC number",
   "user.assignments.comments": "Comments",
-  "user.assignments.comment_count": "(number) comments",
+  "user.assignments.comment_count": "comments",
   "user.assignments.chat": "Chat",
-  "user.assignments.conversation": "Conversation with (name)",
+  "user.assignments.conversation": "Conversation with",
   "user.assignment.company_approved": "(Employer) has approved the job. Has it been completed as agreed?",
   "user.assignment.approve": "Is the job completed?",
   "user.assignment.approved": "Your job is approved!",
@@ -275,9 +278,15 @@
   "assignment.status.applied.description": "Once your email is confirmed, your application will be visible to the client.",
   "assignment.status.question_asked": "You have asked a question about this job",
   "assignment.status.offer": "You have received an offer for this job. Answer within (time)",
+  "assignment.status.offer.approve": "Do you still want to take the assignment",
   "assignment.status.reply": "Provide answer",
   "assignment.status.hired": "Hired",
   "assignment.status.company_approved.approved": "(Employer) has approved the job! Has the job been completed as agreed?",
   "assignment.status.approved": "Job approved",
-  "assignment.status.payment": "You will be paid shortly"
+  "assignment.status.payment": "You will be paid shortly",
+  "assignment.status.company.approve_user": "would like you to perform the task",
+  "warning.title": "We are sorry",
+  "warning.description": "Your profile type can not access this function.",
+  "warning.url.title":"Home"
+
 }
