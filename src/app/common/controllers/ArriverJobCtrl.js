@@ -88,8 +88,8 @@ angular.module('just.common')
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
-        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http',
+        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
             var that = this;
             this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
@@ -308,6 +308,17 @@ angular.module('just.common')
             this.userPerformed = function () {
                 jobService.userPerformedJob($routeParams.id, that.job_user_id, that.fn);
             };
+
+            this.translationWord = function () {
+                var target_lang = 'en';
+                if (that.chatMessageModel.data.attributes.body) {
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=en&target=" + target_lang;
+                    $http({method: 'GET', url: url}).then(function (response) {
+                        that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
+                    });
+                }
+            };
+
 
             this.fn = function (result) {
                 if (result === 1) {
