@@ -528,6 +528,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
           background: none;
           padding: 0;
           border-radius: 0;
+          text-align: left;
 
           > div:last-child {
             border-radius: 5px;
@@ -578,13 +579,13 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         padding: 15px 25px;
       }
       > div:first-child {
-        //padding-right: 15px;
+        padding-right: 15px;
       }
       > div:last-child {
-        width: 90px;
+        width: 82px;
         text-align: center;
         text-align: right;
-        //padding-left: 0;
+        padding-left: 0;
       }
     }
   }
@@ -613,6 +614,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   input[type="submit"] {
     padding: 0 !important;
     margin: 0 !important;
+    min-width: none;
   }
 }
 job-body, job-comment {
@@ -1134,7 +1136,7 @@ job-body, job-comment {
   }
   .button.pink {
     @include button-pink;
-    max-width: 115px;
+    min-width: 115px;
     margin: 15px 5px;
     &:disabled {
       opacity: $btnOpacityDisabled;
@@ -1142,7 +1144,7 @@ job-body, job-comment {
   }
   .button.dark {
     @include button-dark;
-    max-width: 115px;
+    min-width: 115px;
     margin: 15px 5px;
   }
   .button.submit {
@@ -1152,7 +1154,6 @@ job-body, job-comment {
   input[type="submit"] {
     margin-top: 10px;
     @include button-pink;
-    max-width: 250px;
   }
 }
 
