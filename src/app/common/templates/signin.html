@@ -1,28 +1,28 @@
 <section>
     <div class="login-form">
-        <h1>{{'menu.signin' | translate}}</h1>
+        <h1>{{'login.title' | translate}}</h1>
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
-                <validation form="form" field="email" errormsg="register.form.email.validation_error">
+                <validation form="form" field="email" errormsg="login.form.username.validation">
                     <div class="group">
                         <input type="email" name="email" required ng-model="ctrl.data.email">
-                        <label>{{'register.form.email' | translate}}</label>
+                        <label>{{'login.form.username' | translate}}</label>
                     </div>
                 </validation>
 
-                <validation form="form" field="password" errormsg="register.form.password.validation_error">
+                <validation form="form" field="password" errormsg="login.form.password.validation">
                     <div class="group">
                         <input type="password" name="password" required ng-model="ctrl.data.password">
-                        <label>{{'register.form.password' | translate}}</label>
+                        <label>{{'login.form.password' | translate}}</label>
                     </div>
                 </validation>
 
                 <div>
                     <div class="error-message">{{ctrl.message.data.errors[0].detail}}</div>
-                    <input type="submit" ng-disabled="form.$invalid"/>
+                    <input type="submit" ng-disabled="form.$invalid" ng-value="'common.login' | translate"/>
                 </div>
 
-                <div><a href="">Glömt lösenord?</a></div>
+                <div><a href="">{{'login.forgot_password' | translate}}</a></div>
             </div>
         </form>
     </div>
