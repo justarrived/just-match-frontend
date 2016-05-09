@@ -1154,6 +1154,7 @@ job-body, job-comment {
   input[type="submit"] {
     margin-top: 10px;
     @include button-pink;
+    min-width: 180px;
   }
 }
 
