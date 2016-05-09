@@ -71,7 +71,7 @@
 
                     <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
                         <validation form="form" field="account_clearing_number"
-                                    errormsg="finance.form.account_clearing_number.validation_error">
+                                    errormsg="finance.form.account_clearing_number.validation">
                             <div class="group">
                                 <input type="text" name="account_clearing_number"
                                        ng-required="ctrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
@@ -81,7 +81,7 @@
                         </validation>
 
                         <validation form="form" field="account_number"
-                                    errormsg="finance.form.account_number.validation_error">
+                                    errormsg="finance.form.account_number.validation">
                             <div class="group">
                                 <input type="text" name="account_number"
                                        ng-required="ctrl.financeModel.data.attributes['account-clearing-number']"
@@ -90,7 +90,7 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="iban" errormsg="finance.form.iban.validation_error">
+                        <validation form="form" field="iban" errormsg="finance.form.iban.validation">
                             <div class="group">
                                 <input type="text" name="iban"
                                        ng-required="ctrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
@@ -99,7 +99,7 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="bic" errormsg="finance.form.bic.validation_error">
+                        <validation form="form" field="bic" errormsg="finance.form.bic.validation">
                             <div class="group">
                                 <input type="text" name="bic"
                                        ng-required="ctrl.financeModel.data.attributes.iban"
@@ -108,7 +108,7 @@
                             </div>
                         </validation>
 
-                        <input type="submit" ng-disabled="form.$invalid" value="'common.save' | translate"/>
+                        <input type="submit" ng-disabled="form.$invalid" ng-value="'common.save' | translate"/>
 
                     </form>
                 </div>

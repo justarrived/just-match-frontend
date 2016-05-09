@@ -295,5 +295,11 @@
   "assignment.status.approve_for_payment": "Godkänn för att fa ersättning",
   "warning.title": "Vi är ledsna",
   "warning.description": "Din profiltyp har tyvärr inte tillgång till denna funktion.",
-  "warning.url.title":"Hem"
+  "warning.url.title":"Hem",
+  "finance.form.account_clearing_number.validation":"Bank saknas",
+  "finance.form.account_number.validation":"Kortnummer saknas",
+  "finance.form.iban.validation":"IBAN-nummer saknas",
+  "finance.form.bic.validation":"BIC.nummer saknas"
+
+
 }
