@@ -569,10 +569,7 @@ angular.module('just.common')
                 return new Array(parseInt(num));
             };
 
-            if (flow.next_data) {
-                this.chatModel = flow.next_data;
-                $scope.currTab = 3;
-            }
+
 
 
             this.getUserPerformedJobs = function (user_id) {
@@ -639,6 +636,13 @@ angular.module('just.common')
                         }, function (resultImage) {
                             $scope.job.company_image = resultImage.data.attributes["image-url-small"];
                         });
+                    }
+
+                    if (flow.next_data) {
+                        that.chatId = flow.next_data;
+                        chatService.setChatId(that.chatId);
+                        that.getChatMessage();
+                        $scope.currTab = 3;
                     }
                 });
 
@@ -761,7 +765,6 @@ angular.module('just.common')
             this.getChatMessage = function () {
                 that.chatMessages = chatService.getChatMessage();
                 that.chatMessages.$promise.then(function (response) {
-                    console.log(that.chatMessages);
                     angular.forEach(response.data, function (obj, key) {
                         var found_author = $filter('filter')(response.included, {
                             type: 'users',
