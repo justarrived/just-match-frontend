@@ -255,12 +255,6 @@
                                     },
                                     job: obj
                                 });
-                                if (i === 0) {
-                                    $scope.map.center = {
-                                        latitude: value["zip-latitude"],
-                                        longitude: value["zip-longitude"]
-                                    };
-                                }
                                 i++;
                             }
 
@@ -272,6 +266,13 @@
                                 }
                             });
                         });
+
+                        that.bounds = new google.maps.LatLngBounds();
+                        angular.forEach($scope.markers, function (value, key) {
+                            var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
+                            that.bounds.extend(myLatLng);
+                        });
+                        $scope.map = { center: { latitude: that.bounds.getCenter().lat(), longitude: that.bounds.getCenter().lng() }, zoom: 5 };
                     });
 
                 };
