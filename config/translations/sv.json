@@ -310,6 +310,4 @@
   "finance.form.account_number.validation":"Kortnummer saknas",
   "finance.form.iban.validation":"IBAN-nummer saknas",
   "finance.form.bic.validation":"BIC.nummer saknas"
-
-
 }
