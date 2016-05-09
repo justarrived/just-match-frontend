@@ -21,7 +21,7 @@
             <validation form="form" field="presentation" errormsg="profile.form.presentation.validation">
                 <div class="form-group presentation">
                     <label>{{ 'profile.form.presentation' | translate }}*</label>
-                    <textarea name="presentation" required
+                    <textarea name="presentation" required minlength="10"
                               ng-model="ctrl.model.data.attributes.description"></textarea>
                 </div>
             </validation>
