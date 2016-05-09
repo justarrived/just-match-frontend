@@ -43,19 +43,19 @@
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
-            <h3><i class="demo-icon icon-ic-paper"></i>{{"user.presentation.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-paper"></i>{{"profile.form.presentation" | translate}}</h3>
             <p>{{ctrl.candidate_model.description}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-star"></i>{{"user.job-experience.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-star"></i>{{"profile.form.experience" | translate}}</h3>
             <p>{{ctrl.candidate_model["job-experience"]}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-education"></i>{{"user.education.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-education"></i>{{"profile.form.education" | translate}}</h3>
             <p>{{ctrl.candidate_model["education"]}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-user3"></i>{{"user.language-skills.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-user3"></i>{{"profile.form.languages" | translate}}</h3>
             <ul>
                 <li ng-repeat="lang in ctrl.candidate_model.languages">{{lang.attributes["en-name"]}}</li>
             </ul>
@@ -159,8 +159,8 @@
                     annan kandidat.
                 </p>
                 <p>
-                    <a class="button dark" href="" ng-click="modalShow = false">Avbryt</a>
-                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">Skicka</a>
+                    <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
+                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
                 </p>
             </div>
         </div>
