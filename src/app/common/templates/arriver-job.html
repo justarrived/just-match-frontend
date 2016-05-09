@@ -11,7 +11,7 @@
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
                 <div>
-                    <h2>{{'assignment.status.offer'}} {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}min</h2>
+                    <h2>{{'assignment.status.offer' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow=1">{{ "assignment.status.reply" | translate }}</a>
