@@ -1,13 +1,13 @@
 <section>
     <div class="main-title user-job-header">
-        <h1>{{ "menu.assignment.list" | translate }}</h1>
+        <h1>{{ "company.assignments.title" | translate }}</h1>
         <ul>
-            <li><a href="#{{routes.arriver.jobs.url}}">{{"user-jobs.job.label" | translate}}</a></li>
-            <li><a href="">ARKIV</a></li>
+            <li ng-class="{sel:ctrl.arriver_jobs_tab===1}"><a href="" ng-click="ctrl.arriver_jobs_tab=1">{{"company.assignments.filter_1" | translate}}</a></li>
+            <li ng-class="{sel:ctrl.arriver_jobs_tab===2}"><a href="" ng-click="ctrl.arriver_jobs_tab=2">{{"company.assignments.filter_2" | translate}}</a></li>
         </ul>
     </div>
     <div class="user-job-content">
-        <div>
+        <div ng-show="ctrl.arriver_jobs_tab!==2">
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -17,6 +17,30 @@
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
                         <p>{{job.attributes.text_status}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-show="ctrl.arriver_jobs_tab===2">
+            <ul>
+                <li>
+                    <div>
+                        May<br/>
+                        <span>09</span>
+                    </div>
+                    <div>
+                        <h3>Job Title</h3>
+                        <p>Job description</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        May<br/>
+                        <span>09</span>
+                    </div>
+                    <div>
+                        <h3>Job Title</h3>
+                        <p>Job description</p>
                     </div>
                 </li>
             </ul>
