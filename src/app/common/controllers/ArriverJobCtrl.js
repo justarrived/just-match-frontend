@@ -44,9 +44,9 @@ angular.module('just.common')
             };
         }])
 
-    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
@@ -64,6 +64,14 @@ angular.module('just.common')
             this.showStatus = false;
             this.financeModel = financeService.financeModel;
             this.financeMessage = financeService.financeMessage;
+            this.chatModel = chatService.chatModel;
+            this.chatMessageModel = chatService.chatMessageModel;
+            this.chatId = chatService.chatId;
+            this.chatMessages = chatService.chatMessages;
+            this.chatModel.data.attributes["user-ids"] = [];
+
+            this.chatId = chatService.chatId;
+
             $scope.currTab = 1;
 
             $scope.job_obj = {id: $routeParams.id};
@@ -177,7 +185,69 @@ angular.module('just.common')
                         }
                     }
                     that.showStatus = true;
+
+                    that.userChats = chatService.getUserChat();
+                    that.userChats.$promise.then(function (result) {
+                        var deferd = $q.defer();
+                        that.userChats = {data: []};
+
+                        var found = $filter('filter')(result.data, {
+                            relationships: {users: {data: {id: $scope.job.relationships.owner.data.id}}}
+                        }, true);
+
+                        if (found.length > 0) {
+                            that.userChats.data.push(found[0]);
+
+                            if (!that.chatId) {
+                                that.chatId = found[0].id;
+                                chatService.setChatId(that.chatId);
+                                that.getChatMessage();
+                            }
+                        }
+
+                        deferd.resolve(that.userChats);
+                        return deferd.promise;
+                    });
+
                     return deferd.promise;
+                });
+            };
+
+            this.gotoChat = function (chat_id) {
+                that.chatId = chat_id;
+                $scope.userModalPerformShow = 3;
+                chatService.setChatId(that.chatId);
+                that.getChatMessage();
+            };
+
+            this.submitChat = function () {
+                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, $scope.job.relationships.owner.data.id];
+                that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                chatService.newChatMessage(that.getChatMessage);
+            };
+
+            this.getChatMessage = function () {
+                that.user_id = authService.userId().id;
+                that.chatMessages = chatService.getChatMessage();
+                that.chatMessages.$promise.then(function (response) {
+                    //console.log(that.chatMessages);
+                    angular.forEach(response.data, function (obj, key) {
+                        var found_author = $filter('filter')(response.included, {
+                            type: 'users',
+                            id: obj.relationships.author.data.id
+                        }, true);
+                        if (found_author.length > 0) {
+                            if (found_author[0].relationships.company.data) {
+                                // is company
+                                that.chatMessages.data[key].author = {attributes: {}};
+                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                            } else {
+                                that.chatMessages.data[key].author = found_author[0];
+                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                            }
+                        }
+                    });
                 });
             };
 

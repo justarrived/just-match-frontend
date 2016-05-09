@@ -40,7 +40,9 @@
         <ul>
             <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br />
                 {{comments_amt}} kommentarer</a></li>
-            <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
+            <li class="select" ng-repeat="chat in ctrl.userChats.data">
+                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>Chatt</span><br>Meddelanden från {{job.company.attributes.name}}</a>
+            </li>
         </ul>
 
     </div>
@@ -135,26 +137,18 @@
             <h3>Meddelanden</h3>
             <div>
                 <ul>
-                    <li>
+                    <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                         <div class="bubble">
-                            <div>Amir Khermand</div>
-                            <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
+                            <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
+                            <div>{{chatMessage.attributes.body}}</div>
                         </div>
-                        <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
-                        </div>
-                    </li>
-                    <li class="right">
-                        <div class="bubble">
-                            <div>Ove Martinnson</div>
-                            <div>Ja, det blir perfekt. Valkommen</div>
-                        </div>
-                        <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
+                        <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
                         </div>
                     </li>
                 </ul>
-                <form name="formChat" ng-submit="ctr.submitChat()">
+                <form name="formChat" ng-submit="ctrl.submitChat()">
                     <div>
-                        <div><input type="text" required/></div>
+                        <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
                     </div>
                 </form>
                 <div class="translate"><span>Översätt från svenska</span></div>
