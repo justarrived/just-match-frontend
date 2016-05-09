@@ -22,28 +22,30 @@
             </ul>
         </div>
         <div ng-show="ctrl.arriver_jobs_tab===2">
-            <ul>
-                <li>
-                    <div>
-                        May<br/>
-                        <span>09</span>
-                    </div>
-                    <div>
-                        <h3>Job Title</h3>
-                        <p>Job description</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        May<br/>
-                        <span>09</span>
-                    </div>
-                    <div>
-                        <h3>Job Title</h3>
-                        <p>Job description</p>
-                    </div>
-                </li>
-            </ul>
+            <div class="candidate-referencer">
+                <ul>
+                    <li ng-repeat="job in userPerformedJobs">
+                        <div><span class="user-info-image"
+                                   style="background-image: url({{job.company_image}})"></span></div>
+                        <div>
+                            <h4>{{job.attributes.name}}</h4>
+                            <p>{{job.company.attributes.name}}</p>
+
+                            <p class="rating">
+                                <span ng-class="{select:job.rating.attributes.score>=1}"></span>
+                                <span ng-class="{select:job.rating.attributes.score>=2}"></span>
+                                <span ng-class="{select:job.rating.attributes.score>=3}"></span>
+                                <span ng-class="{select:job.rating.attributes.score>=4}"></span>
+                                <span ng-class="{select:job.rating.attributes.score>=5}"></span>
+                            </p>
+                        </div>
+                        <div>
+                            {{job.attributes["job-date"] | date: "MMM"}}<br/>
+                            <span>{{job.attributes["job-date"] | date: "dd"}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <!--<div class="data-generate">
