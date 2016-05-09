@@ -267,7 +267,7 @@
   }
   a.button {
     @include button-pink;
-    max-width: 200px;
+    min-width: 200px;
   }
   .select-wrapper {
     width: 100%;

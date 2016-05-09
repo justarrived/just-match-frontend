@@ -83,4 +83,8 @@
     }
   }
 
+  .close-x {
+    @include close-popup;
+  }
+
 }

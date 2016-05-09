@@ -12,6 +12,8 @@ select {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
 }
 
 label {
@@ -202,7 +204,14 @@ label {
   .ng-valid.ng-touched {
     border-color: $lightBlue;
   }
-
+  
+  .has-error .ng-valid, .has-error .ng-invalid {
+    border-color: $pink !important;
+    color: $pink !important;
+    ~ label {
+      color: $pink !important;
+    }
+  }
 }
 
 input[type="submit"][disabled],
@@ -237,7 +246,8 @@ oi-select .select-search {
 
   button.form-control {
     font-size: 1.4em;
-    max-width: 180px;
+    width: auto;
+    min-width: 180px;
     margin: 30px auto 0;
     display: inherit;
   }
@@ -273,6 +283,7 @@ oi-select .select-search {
     opacity: 0.4;
   }
 }
+
 .register-image-preview {
   border: 1px solid $lightBlue;
   opacity: 0.4;
@@ -282,7 +293,6 @@ oi-select .select-search {
     margin: 15px;
   }
 }
-
 
 .user-form {
   padding-top: 35px;
@@ -357,13 +367,13 @@ oi-select .select-search {
     width: 85px;
     height: 85px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
     overflow: hidden;
     cursor: pointer;
     position: relative;
-    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
-    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
 
     input[type="file"] {
       width: 85px;
@@ -393,7 +403,7 @@ oi-select .select-search {
       z-index: 1;
       top: 0;
       height: 85px;
-      text-shadow: 0px 0px 5px rgba(0,0,0,1);
+      text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
       pointer-events: none;
       opacity: 0;
       -webkit-transition: opacity .2s;
@@ -568,9 +578,11 @@ oi-select .select-search {
 input:invalid {
   box-shadow: none;
 }
-textarea:focus, input:focus{
+
+textarea:focus, input:focus {
   outline: none;
 }
+
 .grey-header {
   padding: 30px;
   background: $lightBlue;
@@ -588,10 +600,12 @@ textarea:focus, input:focus{
     text-align: center;
   }
 }
+
 .error-message {
   color: $pink;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow:0 0 0 50px white inset;
+  -webkit-box-shadow: 0 0 0 50px white inset;
 }

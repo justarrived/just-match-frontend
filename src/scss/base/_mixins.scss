@@ -106,8 +106,7 @@
   color: $white;
   background: $pink;
   padding: 0 20px;
-  width: 100%;
-  max-width: 180px;
+  width: auto;
   margin-top: 20px;
   border: 0;
   border-radius: 23px;
@@ -121,8 +120,7 @@
   color: $white;
   background: $lightBlue;
   padding: 0 20px;
-  width: 100%;
-  max-width: 180px;
+  width: auto;
   margin-top: 20px;
   border: 0;
   border-radius: 23px;
@@ -184,8 +182,10 @@
   color: $white;
   font-size: 20px;
   position: fixed;
-  top: 18px;
+  top: 12px;
   right: 12px;
   background: none;
   border: 0;
+  margin: 0;
+  padding: 0;
 }

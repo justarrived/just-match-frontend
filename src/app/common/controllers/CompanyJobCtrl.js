@@ -64,7 +64,7 @@ angular.module('just.common')
                                             $scope.jobs_invoice.push(obj);
                                         });
 
-                                        
+
                                     }
                                 }
                                 if (keepGoing) {
@@ -159,14 +159,15 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
         function (jobService, authService, invoiceService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
-            this.maxWaitMinutes = 720; //12 hours
+            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
+            this.will_perform_confirmation_by = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 12;
+            this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
             this.showStatus = false;
@@ -196,10 +197,12 @@ angular.module('just.common')
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
+                var willPerformDate = new MyDate(new Date());
+                willPerformDate.setISO8601(that.will_perform_confirmation_by);
                 var nowDate = new Date();
-                var diffMs = (nowDate - acceptedDate.date);
+                var diffMs = (willPerformDate.date - nowDate);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = that.maxWaitMinutes - diffMins;
+                var remainTime = diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
@@ -219,6 +222,8 @@ angular.module('just.common')
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+
+                    $scope.comments_amt = response.data.relationships.comments.data.length;
 
                     var found_hourly_pay = $filter('filter')(response.included, {
                         id: "" + response.data.relationships["hourly-pay"].data.id,
@@ -248,6 +253,7 @@ angular.module('just.common')
                             that.job_user_id = obj.id;
                             that.accepted = true;
                             that.accepted_at = obj.attributes["accepted-at"];
+                            that.will_perform_confirmation_by = obj.attributes["will-perform-confirmation-by"];
 
                             var found_user = $filter('filter')(response.included, {
                                 id: "" + obj.relationships.user.data.id,
@@ -392,14 +398,14 @@ angular.module('just.common')
             this.getComments($routeParams.id);
 
             this.submit = function () {
-                if (!that.model.data.attributes["language-id"]) {
-                    that.model.data.attributes["language-id"] = i18nService.getLanguage().id;
-                }
+                that.model.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                var formData = {};
+                angular.copy(that.model, formData);
+                that.model.data.attributes.body = "";
                 Resources.comments.create({
                     resource_name: "jobs",
                     resource_id: $routeParams.id
-                }, that.model, function (response) {
-                    that.model.data.attributes.body = "";
+                }, formData, function (response) {
                     that.getComments($routeParams.id);
                 });
             };
@@ -413,10 +419,10 @@ angular.module('just.common')
 
             $scope.jobb_users = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
             $scope.jobb_users.$promise.then(function (response) {
-                $scope.job_users = [];
+                $scope.job_users = response.data;
                 angular.forEach(response.data, function (obj, key) {
 
-                    obj.user_image = "assets/images/content/placeholder-profile-image.png";
+                    $scope.job_users[key].user_image = "assets/images/content/placeholder-profile-image.png";
 
                     var found = $filter('filter')(response.included, {
                         id: "" + obj.relationships.user.data.id,
@@ -424,8 +430,8 @@ angular.module('just.common')
                     }, true);
 
                     if (found.length > 0) {
-                        obj.attributes["first-name"] = found[0].attributes["first-name"];
-                        obj.attributes["last-name"] = found[0].attributes["last-name"];
+                        $scope.job_users[key].attributes["first-name"] = found[0].attributes["first-name"];
+                        $scope.job_users[key].attributes["last-name"] = found[0].attributes["last-name"];
 
                         if (found[0].relationships["user-images"].data.length > 0) {
                             var found_image = $filter('filter')(response.included, {
@@ -434,12 +440,25 @@ angular.module('just.common')
                             }, true);
 
                             if (found_image.length > 0) {
-                                obj.user_image = found_image[0].attributes["image-url-small"];
+                                $scope.job_users[key].user_image = found_image[0].attributes["image-url-small"];
                             }
                         }
-                    }
 
-                    $scope.job_users.push(obj);
+                        Resources.userRating.get({
+                            id: obj.relationships.user.data.id
+                        }, function (result) {
+                            $scope.job_users[key].rating = result.meta["average-score"];
+                        });
+
+                        $scope.userJobs = jobService.getUserJobs({
+                            user_id: obj.relationships.user.data.id,
+                            "filter[will-perform]": true
+                        });
+
+                        $scope.userJobs.$promise.then(function (response) {
+                            $scope.job_users[key].total_uppdrag = response.meta.total;
+                        });
+                    }
                 });
 
                 var found1 = $filter('filter')(response.included, {
@@ -476,13 +495,14 @@ angular.module('just.common')
             $scope.currTab = 1;
             $scope.modalShow = false;
 
-            this.maxWaitMinutes = 720; //12 hours
+            this.maxWaitMinutes = 1080; //18 hours
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
+            this.will_perform_confirmation_by = null; // datetime owner choosed
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 12;
+            this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
 
@@ -593,6 +613,7 @@ angular.module('just.common')
                     if (response.data.attributes.accepted || response.data.attributes["will-perform"] || response.data.attributes.performed) {
                         that.accepted = true;
                         that.accepted_at = response.data.attributes["accepted-at"];
+                        that.will_perform_confirmation_by = response.data.attributes["will-perform-confirmation-by"];
                     }
 
                     if (response.data.attributes["will-perform"]) {
@@ -664,10 +685,12 @@ angular.module('just.common')
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
                 acceptedDate.setISO8601(that.accepted_at);
+                var willPeformDate = new MyDate(new Date());
+                willPeformDate.setISO8601(that.will_perform_confirmation_by);
                 var nowDate = new Date();
-                var diffMs = (nowDate - acceptedDate.date);
+                var diffMs = (willPeformDate.date - nowDate);
                 var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = that.maxWaitMinutes - diffMins;
+                var remainTime = diffMins;
                 that.remainHours = Math.floor((remainTime) / 60);
                 that.remainMinutes = remainTime - (that.remainHours * 60);
                 /*if (remainTime <= 0) {
