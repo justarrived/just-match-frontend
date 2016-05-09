@@ -25,6 +25,9 @@
   "common.hour": "tim",
   "common.congratulation": "Grattis!",
   "common.in": "innom:",
+  "common.good_work":"Bra jobbat!",
+  "common.messages":"Meddelanden",
+  "common.translate.from":"Översätt från",
   "menu.language.title": "Välj språk",
   "menu.language.text_1": "Du kan gå tillbaka och ändra språk senare om du vill.",
   "menu.language.text_2": "Uppdrag, kommentarer och meddelanden översätts automatiskt.",
@@ -285,6 +288,7 @@
   "assignment.status.approved": "Uppdraget är godkänt",
   "assignment.status.payment": "Du kommer att få din ersättning inom kort.",
   "assignment.status.company.approve_user": "vill garna att du utfor uppdraget",
+  "assignment.status.approve_for_payment": "Godkänn för att fa ersättning",
   "warning.title": "Vi är ledsna",
   "warning.description": "Din profiltyp har tyvärr inte tillgång till denna funktion.",
   "warning.url.title":"Hem"
