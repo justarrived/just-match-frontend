@@ -10,7 +10,7 @@ angular.module('just.service')
     '$translate', 'tmhDynamicLocale', 'settings',
     'localStorageService', 'justFlowService',
     'justRoutes', '$q',
-    'datastoreService', function($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService) {
+    'datastoreService','$http', function($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService,$http) {
       this.listeners = [];
       var that = this;
 
@@ -100,6 +100,7 @@ angular.module('just.service')
       };
 
       this.updateLanguage = function (lang) {
+        $http.defaults.headers.common["X-API-LOCALE"] = lang['lang-code'];
         $translate.use(lang['lang-code']);
         tmhDynamicLocale.set(lang['lang-code']);
         storage.set("language", lang);
