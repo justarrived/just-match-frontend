@@ -25,9 +25,11 @@
             <div>
                 <h2 class="section-title"><i class="demo-icon icon-ic-just-arrived-logo"></i></h2>
                 <ul>
-                    <li ng-Show="ctrl.isCompany === 0"><a class="nav-job-list" href="#{{routes.arriver.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
+                    <li ng-Show="ctrl.isCompany === 0"><a class="nav-my-job" href="#{{routes.arriver.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
                         | translate}}</a></li>
-                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-job-list" href="#{{routes.company.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
+                    <li ng-Show="ctrl.isCompany === 1"><a class="nav-my-job" href="#{{routes.company.jobs.url}}" ng-click="ctrl.menu(0)">{{'menu.main.my_assignment'
+                        | translate}}</a></li>
+                    <li><a class="nav-job-list" href="#{{routes.job.list.url}}" ng-click="ctrl.menu(0)">{{'menu.main.find_assignment'
                         | translate}}</a></li>
                     <li ng-Show="ctrl.isCompany === 1"><a class="nav-job-create" href="#{{routes.job.create.url}}" ng-click="ctrl.menu(0)">{{'menu.main.create_assignment'
                         | translate}}</a></li>

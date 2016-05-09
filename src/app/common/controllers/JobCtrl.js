@@ -267,12 +267,17 @@
                             });
                         });
 
-                        that.bounds = new google.maps.LatLngBounds();
+                        var bounds = new google.maps.LatLngBounds();
                         angular.forEach($scope.markers, function (value, key) {
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
-                            that.bounds.extend(myLatLng);
+                            bounds.extend(myLatLng);
                         });
-                        $scope.map = { center: { latitude: that.bounds.getCenter().lat(), longitude: that.bounds.getCenter().lng() }, zoom: 5 };
+                        $scope.map = {
+                            center: {
+                                latitude: bounds.getCenter().lat(),
+                                longitude: bounds.getCenter().lng()
+                            }, zoom: 5
+                        };
                     });
 
                 };
@@ -333,13 +338,13 @@
                         'filter[job-id]': $routeParams.id
                     });
                     $scope.job_user.$promise.then(function (response) {
-                        if(response.data.length>0){
+                        if (response.data.length > 0) {
                             that.canApplyJob = 0;
-                        }else{
+                        } else {
                             that.canApplyJob = 1;
                         }
                     });
-                }else{
+                } else {
                     that.canApplyJob = 1;
                 }
 
@@ -497,8 +502,19 @@
                                 }
                             });
                         });
-                    });
 
+                        var bounds = new google.maps.LatLngBounds();
+                        angular.forEach($scope.markers, function (value, key) {
+                            var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
+                            bounds.extend(myLatLng);
+                        });
+                        $scope.map = {
+                            center: {
+                                latitude: bounds.getCenter().lat(),
+                                longitude: bounds.getCenter().lng()
+                            }, zoom: 5
+                        };
+                    });
                 };
 
                 $scope.getJobsPage('owner,company,hourly-pay');
