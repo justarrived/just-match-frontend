@@ -205,7 +205,7 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_candidate.resolve($routeParams.id, that.job_user_id));
             };
 
-            this.userChats = chatService.getUserChat();
+            //this.userChats = chatService.getUserChat();
 
 
             this.calcRemainTime = function () {
@@ -317,9 +317,43 @@ angular.module('just.common')
                         }
                     }
                     that.showStatus = true;
+
+
+                    that.userChats = chatService.getUserChat();
+                    that.userChats.$promise.then(function (result) {
+                        var deferd = $q.defer();
+                        that.userChats = {data: []};
+                        angular.forEach(response.data, function (obj, idx) {
+                            var found = $filter('filter')(result.data, {
+                                relationships: {users: {data: {id: obj.relationships.user.data.id}}}
+                            }, true);
+                            if (found.length > 0) {
+                                found[0]["job-users"] = obj;
+
+                                var found_u = $filter('filter')(response.included, {
+                                    id: obj.relationships.user.data.id,
+                                    type: 'users'
+                                }, true);
+
+                                if (found_u.length > 0) {
+                                    found[0].users = found_u[0];
+                                }
+
+                                that.userChats.data.push(found[0]);
+                            }
+
+
+                        });
+                        deferd.resolve(that.userChats);
+                        return deferd.promise;
+                    });
                 });
 
 
+            };
+
+            this.gotoChat = function(job_user_id,chat_id){
+                flow.next(routes.company.job_candidate.resolve($routeParams.id,job_user_id),chat_id);
             };
 
             this.ownerCancelPerformed = function () {
@@ -343,7 +377,8 @@ angular.module('just.common')
                 $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
-        }])
+        }
+    ])
     .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
         function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
             var that = this;
@@ -533,6 +568,11 @@ angular.module('just.common')
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
+
+            if(flow.next_data){
+                this.chatModel = flow.next_data;
+                $scope.currTab = 3;
+            }
 
 
             this.getUserPerformedJobs = function (user_id) {
