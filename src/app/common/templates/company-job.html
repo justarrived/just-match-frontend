@@ -5,31 +5,31 @@
 
             <!-- Choose candidate -->
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
-                <h2>Du har {{job_user.data.length}} ansökningar</h2>
+                <h2>{{'common.you_have' | translate}} {{job_user.data.length}} {{'company.assignments.applications' | translate}}</h2>
             </div>
             <div ng-show="!ctrl.accepted && !ctrl.will_perform && job_user.data.length > 0">
-                <a class="button" href="#{{routes.company.job_candidates.resolve(job_obj)}}">Välj kandidat</a>
+                <a class="button" href="#{{routes.company.job_candidates.resolve(job_obj)}}">{{'company.assignments.candidates.select.title' | translate}}</a>
             </div>
 
             <!-- Wait user accepted -->
             <div ng-show="ctrl.accepted && !ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
-                <h2>{{ctrl.user_apply.attributes["first-name"]}} har {{ctrl.remainHours}}h
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} {{'common.have' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}}
                     {{ctrl.remainMinutes}}min<br/>
                     på sig att acceptera uppdraget.</h2>
             </div>
 
             <!-- Job ongoing -->
             <div ng-show="ctrl.will_perform && !ctrl.performed" ng-click="ctrl.gotoAcceptedCandidate()">
-                <h2>{{ctrl.user_apply.attributes["first-name"]}} kommer utföra uppdraget</h2>
+                <h2>{{ctrl.user_apply.attributes["first-name"]}} {{'assignment.status.applicant_approved' | translate}}</h2>
             </div>
 
             <!-- Job performed confirmation -->
             <div ng-show="ctrl.performed">
-                <h2>Ar uppdraget utfört?</h2>
+                <h2>{{'assignment.is_approved' | translate}}</h2>
             </div>
             <div class="buttons" ng-show="ctrl.performed">
-                <a class="button" href="" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
-                <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
+                <a class="button" href="" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
+                <a class="button" href="" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
             </div>
 
         </div>
@@ -39,13 +39,13 @@
         <ul>
             <li class="select">
                 <a href="#{{routes.company.job_comments.resolve(job_obj)}}">
-                    <span>Kommentarer</span><br/>
-                    {{comments_amt}} kommentarer
+                    <span>{{'user.assignments.comments' | translate}}</span><br/>
+                    {{comments_amt}} {{'user.assignments.comment_count' | translate}}
                 </a>
             </li>
 
             <li class="select" ng-repeat="chat in ctrl.userChats.data">
-                <a href="" ng-click="ctrl.gotoChat(chat['job-users'].id,chat.id);"><span>Chatt</span><br>Meddelanden från {{chat.users.attributes["first-name"]}} {{chat.users.attributes["last-name"]}}</a>
+                <a href="" ng-click="ctrl.gotoChat(chat['job-users'].id,chat.id);"><span>{{'user.assignments.chat' | translate}}</span><br>{{'user.assignments.conversation' | translate}} {{chat.users.attributes["first-name"]}} {{chat.users.attributes["last-name"]}}</a>
             </li>
         </ul>
 
