@@ -12,5 +12,7 @@
       "name": "English",
       "nativeName": "English"
     }
-  ]
+  ],
+  "debug_enable": false,
+  "google_map_api_key": "AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M"
 }

@@ -125,8 +125,8 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter',
-            function (jobService, $scope, settings, Resources, $q, $filter) {
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi',
+            function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi) {
                 var that = this;
 
                 $scope.categoryOptions = {
@@ -167,17 +167,20 @@
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
-                $scope.map = {
-                    zoom: 7,
-                    options: {
-                        draggable: true,
-                        disableDefaultUI: true,
-                        panControl: false,
-                        navigationControl: false,
-                        scrollwheel: false,
-                        scaleControl: false
-                    }
-                };
+                uiGmapGoogleMapApi.then(function (maps) {
+                    $scope.map = {
+                        zoom: 7,
+                        options: {
+                            draggable: true,
+                            disableDefaultUI: true,
+                            panControl: false,
+                            navigationControl: false,
+                            scrollwheel: false,
+                            scaleControl: false
+                        }
+                    };
+                });
+
 
                 $scope.zoomInOut = function () {
                     if ($scope.map_class === '') {
