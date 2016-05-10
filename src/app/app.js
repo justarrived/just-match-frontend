@@ -283,10 +283,13 @@ angular.module('just', [
             .setPrefix('just-arrived')
             .setStorageType('sessionStorage');
     }])
-    .config(function (uiGmapGoogleMapApiProvider) {
+    .config(['uiGmapGoogleMapApiProvider', 'settings', function (uiGmapGoogleMapApiProvider, settings) {
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M',
+            key: settings.google_map_api_key,
             v: '3.20',
             libraries: 'weather,geometry,visualization'
         });
-    });
+    }])
+    .config(['$compileProvider', 'settings', function ($compileProvider, settings) {
+        $compileProvider.debugInfoEnabled(settings.debug_enable);
+    }]);
