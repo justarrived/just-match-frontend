@@ -125,8 +125,8 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi',
-            function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi) {
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
+            function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
                 $scope.categoryOptions = {
@@ -168,6 +168,7 @@
                 $scope.zoom_class = "map-zoom-in";
 
                 uiGmapGoogleMapApi.then(function (maps) {
+                    maps.visualRefresh = true;
                     $scope.map = {
                         zoom: 7,
                         options: {
@@ -181,12 +182,32 @@
                     };
                 });
 
+                uiGmapIsReady.promise(1).then(function (instances) {
+                    instances.forEach(function (inst) {
+                        $scope.mapObj = inst.map;
+                        $scope.uuid = $scope.mapObj.uiGmap_id;
+                        var mapInstanceNumber = inst.instance; // Starts at 1.
+                    });
+                });
+
 
                 $scope.zoomInOut = function () {
                     if ($scope.map_class === '') {
+                        $scope.zoomOutHeight = angular.element("#map_canvas").height() + "px";
+                        $scope.zoomOutWidth = angular.element("#map_canvas").width() + "px";
                         $scope.map_class = "full-screen";
+                        angular.element(".angular-google-map-container").css("height", window.innerHeight + "px");
+                        angular.element(".angular-google-map-container").css("width", window.innerWidth + "px");
+                        google.maps.event.trigger($scope.mapObj, 'resize');
+                        //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
+                        $scope.mapObj.fitBounds($scope.bounds);
                     } else {
                         $scope.map_class = "";
+                        angular.element(".angular-google-map-container").css("height", $scope.zoomOutHeight);
+                        angular.element(".angular-google-map-container").css("width", $scope.zoomOutWidth);
+                        google.maps.event.trigger($scope.mapObj, 'resize');
+                        //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
+                        $scope.mapObj.fitBounds($scope.bounds);
                     }
 
                     if ($scope.zoom_class === 'map-zoom-in') {
@@ -195,7 +216,7 @@
                         $scope.zoom_class = "map-zoom-in";
                     }
 
-                    window.google.maps.event.trigger($scope.map, 'resize');
+
                 };
 
                 $scope.getJobsPage = function (mode) {
@@ -270,17 +291,18 @@
                             });
                         });
 
-                        var bounds = new google.maps.LatLngBounds();
+                        $scope.bounds = new google.maps.LatLngBounds();
                         angular.forEach($scope.markers, function (value, key) {
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
-                            bounds.extend(myLatLng);
+                            $scope.bounds.extend(myLatLng);
                         });
                         $scope.map = {
                             center: {
-                                latitude: bounds.getCenter().lat(),
-                                longitude: bounds.getCenter().lng()
-                            }, zoom: 5
+                                latitude: $scope.bounds.getCenter().lat(),
+                                longitude: $scope.bounds.getCenter().lng()
+                            }, zoom: 4
                         };
+
                     });
 
                 };
@@ -289,8 +311,9 @@
 
 
             }])
-        .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
-            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
+        .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
+            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
                 this.canApplyJob = 0;
@@ -299,17 +322,28 @@
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
-                $scope.map = {
-                    zoom: 7,
-                    options: {
-                        draggable: true,
-                        disableDefaultUI: true,
-                        panControl: false,
-                        navigationControl: false,
-                        scrollwheel: false,
-                        scaleControl: false
-                    }
-                };
+                uiGmapGoogleMapApi.then(function (maps) {
+                    maps.visualRefresh = true;
+                    $scope.map = {
+                        zoom: 7,
+                        options: {
+                            draggable: true,
+                            disableDefaultUI: true,
+                            panControl: false,
+                            navigationControl: false,
+                            scrollwheel: false,
+                            scaleControl: false
+                        }
+                    };
+                });
+
+                uiGmapIsReady.promise(1).then(function (instances) {
+                    instances.forEach(function (inst) {
+                        $scope.mapObj = inst.map;
+                        $scope.uuid = $scope.mapObj.uiGmap_id;
+                        var mapInstanceNumber = inst.instance; // Starts at 1.
+                    });
+                });
 
                 this.signedIn = function () {
                     return authService.isAuthenticated();
@@ -506,16 +540,16 @@
                             });
                         });
 
-                        var bounds = new google.maps.LatLngBounds();
+                        $scope.bounds = new google.maps.LatLngBounds();
                         angular.forEach($scope.markers, function (value, key) {
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
-                            bounds.extend(myLatLng);
+                            $scope.bounds.extend(myLatLng);
                         });
                         $scope.map = {
                             center: {
-                                latitude: bounds.getCenter().lat(),
-                                longitude: bounds.getCenter().lng()
-                            }, zoom: 5
+                                latitude: $scope.bounds.getCenter().lat(),
+                                longitude: $scope.bounds.getCenter().lng()
+                            }, zoom: 4
                         };
                     });
                 };

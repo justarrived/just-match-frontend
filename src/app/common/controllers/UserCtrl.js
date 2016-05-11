@@ -66,21 +66,27 @@ angular.module('just.common')
             $scope.languagesArrFn = function (query, querySelectAs) {
                 var deferd = $q.defer();
 
-                $scope.languages = Resources.languages.get({
-                    'page[number]': 1,
-                    'page[size]': 50,
-                    'sort': 'en-name',
-                    'filter[name]': query
-                });
-
-                $scope.languages.$promise.then(function (response) {
-                    $scope.languagesArr = response;
-                    var result = [];
-                    angular.forEach(response.data, function (obj, key) {
-                        result.push(obj);
+                if(query!==''){
+                    angular.element(".select-search-list-item_loader").show();
+                    $scope.languages = Resources.languages.get({
+                        'page[number]': 1,
+                        'page[size]': 50,
+                        'sort': 'en-name',
+                        'filter[name]': query
                     });
-                    deferd.resolve(result);
-                });
+
+                    $scope.languages.$promise.then(function (response) {
+                        $scope.languagesArr = response;
+                        var result = [];
+                        angular.forEach(response.data, function (obj, key) {
+                            result.push(obj);
+                        });
+                        deferd.resolve(result);
+                    });
+                }else{
+                    angular.element(".select-search-list-item_loader").hide();
+                }
+
                 return deferd.promise;
             };
 
