@@ -13,40 +13,81 @@ angular.module('just.common')
 
             userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
 
-            $scope.jobbs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job"});
+            $scope.jobbs = jobService.getUserJobs({user_id: authService.userId().id, "include": "job", "page[size]": 50});
             $scope.jobbs.$promise.then(function (response) {
-                $scope.jobs = response.included;
+                $scope.jobs = [];
+                $scope.userPerformedJobs = [];
 
-                angular.forEach($scope.jobs, function (obj, key) {
+                angular.forEach(response.included, function (obj, key) {
 
 
                     var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
                     if (found.length > 0) {
-                        $scope.jobs[key]["job-users"] = found[0];
-                        if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                            $scope.jobs[key].attributes.text_status = "Du har sökt uppdraget";
-                        }
-                        if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                            Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                $scope.jobs[key].attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
-                            });
-                        }
-                        if (found[0].attributes["will-perform"]) {
-                            $scope.jobs[key].attributes.text_status = "Du är anlitad";
+
+                        if(found[0].relationships.invoice.data === null) {
+                            obj["job-users"] = found[0];
+                            if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                obj.attributes.text_status = "Du har sökt uppdraget";
+                            }
+                            if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                    obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
+                                });
+                            }
+                            if (found[0].attributes["will-perform"]) {
+                                obj.attributes.text_status = "Du är anlitad";
+                            }
+
+                            $scope.jobs.push(obj);
+                        }else{
+                            $scope.userPerformedJobs.push(obj);
                         }
                     }
 
                 });
+
+                if ($scope.userPerformedJobs) {
+                    Resources.userRating.get({id: authService.userId().id, 'include': 'comment'}, function (result) {
+                        angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                            var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                            if (found_rating.length > 0) {
+                                $scope.userPerformedJobs[idx].rating = found_rating[0];
+                            }
+                        });
+                    });
+                }
+
+                angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                    $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
+                });
+
+                angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                    Resources.company.get({
+                        company_id: "" + obj.relationships.company.data.id,
+                        "include": "company-images"
+                    }, function (result) {
+                        if (result.included) {
+                            $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
+                        }
+                    });
+                });
             });
 
-            this.getUserPerformedJobs = function (user_id) {
+            /*this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
                     user_id: user_id,
                     "include": "job",
-                    "filter[performed]": true
+                    "filter[will-perform]": true
                 });
 
                 $scope.userPerformedJobss.$promise.then(function (response) {
+
+                    var found_job = $filter('filter')(response.included, {type: 'jobs'}, true);
+                    if(found_job.length>0){
+                        angular.forEacj
+                    }
+
+
                     $scope.userPerformedJobs = $filter('filter')(response.included, {type: 'jobs'}, true);
 
                     if ($scope.userPerformedJobs) {
@@ -78,13 +119,13 @@ angular.module('just.common')
                     });
 
                 });
-            };
+            };*/
 
             this.gotoUserJobPage = function (obj) {
                 flow.redirect(routes.arriver.job_manage.resolve(obj));
             };
 
-            this.getUserPerformedJobs(parseInt(authService.userId().id));
+            //this.getUserPerformedJobs(parseInt(authService.userId().id));
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
