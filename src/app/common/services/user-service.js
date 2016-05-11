@@ -6,7 +6,8 @@
  * Service to handle users.
  */
 angular.module('just.service')
-    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources', 'localStorageService', '$q', '$location', '$filter', '$rootScope', 'httpPostFactory', 'settings',
+    .service('userService', ['justFlowService', 'authService', 'i18nService', 'justRoutes', 'Resources',
+        'localStorageService', '$q', '$location', '$filter', '$rootScope', 'httpPostFactory', 'settings',
         function (flow, authService, i18nService, routes, Resources, storage, $q, $location, $filter, $rootScope, httpPostFactory, settings) {
             var that = this;
 
@@ -182,7 +183,7 @@ angular.module('just.service')
             this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
-                    flow.redirect(routes.user.selectCompany.url, function () {
+                    flow.replace(routes.user.selectCompany.url, function () {
                         flow.redirect(path);
                     });
                 } else {
@@ -200,13 +201,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() === null) {
-                                flow.completed(routes.global.warning.url, warning);
+                                flow.replace(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() === null) {
-                            flow.completed(routes.global.warning.url, warning);
+                            flow.replace(routes.global.warning.url, warning);
                         }
                     }
                 }

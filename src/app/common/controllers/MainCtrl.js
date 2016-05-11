@@ -84,6 +84,7 @@ angular.module('just.common')
             var that = this;
             this.showSetting = false;
             that.isCompany = -1;
+            this.backStep = -1;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
@@ -91,7 +92,8 @@ angular.module('just.common')
             this.signout = function () {
                 authService.logout();
                 userService.clearUserModel();
-                flow.completed(routes.global.start.url);
+                //flow.completed(routes.global.start.url);
+                flow.replace(routes.global.start.url);
                 this.menu(0);
             };
             this.signin = function () {
@@ -126,11 +128,11 @@ angular.module('just.common')
                 routes.global.isMainMenuOpen = show;
             };
 
-            this.setProfile = function(){
+            this.setProfile = function () {
                 $scope.$broadcast('onSignin');
             };
 
-            $scope.$on('onSigninSetmenu', function(event) {
+            $scope.$on('onSigninSetmenu', function (event) {
                 that.getUser();
                 that.setProfile();
             });
@@ -158,6 +160,10 @@ angular.module('just.common')
                         }
                     }
                 }
+            };
+
+            this.historyBack = function () {
+                window.history.go(that.backStep);
             };
 
             this.getUser();
