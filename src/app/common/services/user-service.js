@@ -167,13 +167,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() !== null) {
-                                flow.next(routes.global.warning.url, warning);
+                                flow.completed(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() !== null) {
-                            flow.next(routes.global.warning.url, warning);
+                            flow.completed(routes.global.warning.url, warning);
                         }
                     }
                 }
@@ -200,13 +200,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() === null) {
-                                flow.next(routes.global.warning.url, warning);
+                                flow.completed(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() === null) {
-                            flow.next(routes.global.warning.url, warning);
+                            flow.completed(routes.global.warning.url, warning);
                         }
                     }
                 }
