@@ -274,6 +274,9 @@ angular.module('just', [
                 $routeProvider.when(route.url, route.handler);
             });
         });
+        $routeProvider.otherwise({
+            templateUrl: 'common/templates/error-404.html'
+        });
 
         /*    $locationProvider.html5Mode(true);
          $locationProvider.hashPrefix('!'); */
