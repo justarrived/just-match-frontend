@@ -10,7 +10,7 @@ angular
             var that = this;
 
             this.data = companyService.registerModel;
-            this.registerMessage = companyService.signinMessage;
+            this.message = companyService.registerMessage;
             this.company_image = "assets/images/content/placeholder-logo.png";
 
             if (authService.isAuthenticated()) {
@@ -19,12 +19,35 @@ angular
 
             $scope.isAddNewCIN = false;
             //$scope.data = {};
-            this.data.cin = "";
+
             this.selectedCompany = {};
             $scope.regex = '\\d+';
             $scope.disableInput = true;
             $scope.isNew = -1;
             this.isShowLogo = 0;
+
+            if(this.message.data && that.data.id === ""){
+                $scope.isAddNewCIN = true;
+                $scope.isShowLogo = 0;
+                $scope.disableInput = false;
+                $scope.isNew = 1;
+            }else{
+                this.data.cin = "";
+            }
+
+            $scope.$watch('form', function(form) {
+                if(form) {
+                    if (that.message.data) {
+                        angular.forEach(that.message.data.errors, function (obj, key) {
+                            var pointer_arr = obj.source.pointer.split("/");
+                            var field_name = pointer_arr[pointer_arr.length - 1];
+                            field_name = field_name.replace(/-/g, "_");
+                            $scope.form[field_name].error_detail = obj.detail;
+                        });
+
+                    }
+                }
+            });
 
             this.process = function () {
                 if ($scope.isNew === 1) {
@@ -67,7 +90,7 @@ angular
                     $scope.isNew = 0;
                     that.selectedCompany.data = item;
                 },
-                addText: 'Add new CIN',
+                addText: 'Create new company',
                 onAdd: function () {
                     $scope.isAddNewCIN = true;
                     that.data.cin = $scope.searchTerm;
