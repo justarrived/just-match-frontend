@@ -17,6 +17,27 @@
                 this.message = jobService.jobMessage;
                 this.model.data.attributes.hours = 2;
 
+
+                $scope.$watch('form', function(form) {
+                    if(form) {
+                        if (that.message.data) {
+                            angular.forEach(that.message.data.errors, function (obj, key) {
+                                var pointer_arr = obj.source.pointer.split("/");
+                                var field_name = pointer_arr[pointer_arr.length - 1];
+
+                                field_name = field_name.replace(/-/g, "_");
+
+                                switch(field_name){
+                                    case 'job_date': field_name = 'from_date'; break;
+                                    case 'job_end_date': field_name = 'to_date'; break;
+                                }
+                                $scope.form[field_name].error_detail = obj.detail;
+                            });
+
+                        }
+                    }
+                });
+
                 this.rates = {};
                 $scope.getRate = function (hp_id) {
                     that.rates = jobService.rates();
@@ -443,15 +464,21 @@
                             }
 
                             obj.user_image = "assets/images/content/placeholder-profile-image.png";
-
-                            if (found[0].relationships["user-images"].data.length > 0) {
-                                Resources.userImageId.get({
-                                    user_id: obj.relationships.owner.data.id,
-                                    id: found[0].relationships["user-images"].data[0].id
-                                }, function (result) {
-                                    obj.user_image = result.data.attributes["image-url-small"];
-                                });
+                            
+                            if(obj.attributes.isOwner === 0){
+                                if (found[0].relationships["user-images"].data.length > 0) {
+                                    Resources.userImageId.get({
+                                        user_id: obj.relationships.owner.data.id,
+                                        id: found[0].relationships["user-images"].data[0].id
+                                    }, function (result) {
+                                        obj.user_image = result.data.attributes["image-url-small"];
+                                    });
+                                }else{
+                                    obj.user_image = userService.user.data.attributes.user_image;
+                                }
                             }
+
+                            
 
                             $scope.comments.push(obj);
                         });

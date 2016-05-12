@@ -310,7 +310,12 @@ angular.module('just.common')
             this.submitChat = function () {
                 that.chatModel.data.attributes["user-ids"] = [authService.userId().id, $scope.job.relationships.owner.data.id];
                 that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
-                chatService.newChatMessage(that.getChatMessage);
+                chatService.newChatMessage(that.setChatId_get);
+            };
+
+            this.setChatId_get = function(chat_id){
+                that.chatId = chat_id;
+                that.getChatMessage();
             };
 
             this.getChatMessage = function () {

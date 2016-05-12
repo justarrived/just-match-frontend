@@ -29,10 +29,10 @@ angular.module('just.service')
             return Resources.userChat.get({user_id: authService.userId().id});
         };
 
-        this.newChat = function () {
+        this.newChat = function (fn) {
             Resources.chats.create({},that.chatModel,function (response) {
                 that.chatId = response.data.id;
-                that.newChatMessage();
+                that.newChatMessage(fn);
             }, function (response) {
                 that.message = response;
             });
@@ -42,18 +42,26 @@ angular.module('just.service')
             that.chatId = chat_id;
         };
 
+        this.clearChat = function(){
+            that.chatId = undefined;
+            that.chatMessageModel = {data: {attributes: {body: ""}}};
+            that.message = {};
+            that.chatMessages = {data:[]};
+            that.chatModel = {data:{attributes:{"user-ids":[]}}};
+        };
+
         this.newChatMessage = function (fn) {
-            var formData = {};
-            angular.copy(that.chatMessageModel,formData);
-            that.chatMessageModel.data.attributes.body = "";
             if (that.chatId) {
+                var formData = {};
+                angular.copy(that.chatMessageModel,formData);
+                that.chatMessageModel.data.attributes.body = "";
                 Resources.chatMessage.create({id: that.chatId}, formData, function (response) {
                     if(fn){
-                        fn();
+                        fn(that.chatId);
                     }
                 });
             } else {
-                that.newChat();
+                that.newChat(fn);
             }
         };
 
