@@ -258,7 +258,7 @@
   "user.apply.find_more": "Search for more jobs",
   "user.account": "Account details",
   "user.account.description": "Where would you like your wage to be paid when you have completed the job?",
-  "user.account.bank": "Bank Swedbank",
+  "user.account.bank": "Bank Name",
   "user.account.cardnr": "Account number",
   "user.account.iban": "IBAN number",
   "user.account.bic": "BIC number",
