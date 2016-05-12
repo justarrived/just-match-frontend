@@ -7,7 +7,7 @@
                 <div>
                     <div class="upload-button">
                         <!--<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />-->
-                        <input type="file" id="file_upload" name="file">
+                        <input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()">
                         <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>{{'profile.form.photo.choose' | translate}}</span></div>
                         <div class="user-info-image"
                              style="background-image: url('{{ctrl.user_image}}');"></div>

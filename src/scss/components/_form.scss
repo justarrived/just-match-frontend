@@ -590,7 +590,7 @@ input:invalid {
   box-shadow: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus, input:focus, select:focus, option:focus {
   outline: none;
 }
 

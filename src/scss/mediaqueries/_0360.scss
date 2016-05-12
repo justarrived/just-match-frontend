@@ -25,29 +25,51 @@
   padding-left: 110px;
 }
 
-.setting-page form {
-  .group > div > div, > div > div {
-    padding: 5px 0;
-  }
-  > div:first-child > div:first-child {
-    padding-bottom: 30px;
-  }
-  .group {
-    margin-bottom: 30px;
-  }
-  input[type="email"], input[type="password"], input[type="text"], input[type="number"], textarea, select {
-    padding: 10px;
-  }
-  .name-group {
-    input:first-child {
-      padding-bottom: 2px;
+.setting-page {
+  form {
+    .group > div > div, > div > div {
+      padding: 5px 0;
     }
-    input:last-child {
-      padding-top: 2px;
+    > div:first-child > div:first-child {
+      padding-bottom: 30px;
     }
+    .group {
+      margin-bottom: 30px;
+    }
+    input[type="email"], input[type="password"], input[type="text"], input[type="number"], textarea, select {
+      padding: 10px;
+    }
+    .name-group {
+      input:first-child {
+        padding-bottom: 2px;
+      }
+      input:last-child {
+        padding-top: 2px;
+      }
+    }
+  }
+  .setting-bank-form {
+    .bank-group > div {
+      padding: 5px 0;
+    }
+    input[type="submit"] {
+      margin-top: 45px;
+    }
+    .form-error-detail {
+      top: 5px;
+    }
+  }
+  > div > div > div {
+    min-height: 565px;
+  }
+  .form-profile label.error {
+    top: 5px;
   }
 }
-
+.setting-tab {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
 .top-bar {
   > div {
     padding-left: 17px;
@@ -69,4 +91,5 @@
 .complete .icon-ic-envelope {
   margin: 40px 15px 20px 0;
 }
+
 
