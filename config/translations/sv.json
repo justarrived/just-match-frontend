@@ -264,7 +264,7 @@
   "user.apply.find_more": "Hitta fler uppdrag",
   "user.account": "Kontouppgifter",
   "user.account.description": "Var vill du att vi sätter in ersättningen när du utfört uppdraget?",
-  "user.account.bank": "Bank Swedbank",
+  "user.account.bank": "Bank namn",
   "user.account.cardnr": "Kortnummer",
   "user.account.iban": "IBAN-nummer",
   "user.account.bic": "BIC-nummer",

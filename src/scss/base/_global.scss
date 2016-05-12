@@ -136,3 +136,12 @@ a {
     padding-top: 5px;
   }
 }
+.close-bar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 375px;
+  bottom: 0;
+  top: 0;
+  cursor: pointer;
+}
