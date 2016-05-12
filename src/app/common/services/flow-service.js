@@ -53,6 +53,11 @@ angular.module('just.service')
       }
     };
 
+    this.next_replace = function(path, data){
+      that.next_data = data;
+      $location.path(path).replace();
+    };
+
     this.next = function(path, data) {
       that.next_data = data;
       $location.path(path);

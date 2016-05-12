@@ -408,10 +408,13 @@
                     }
 
 
-                    var found_job_users = $filter('filter')(result.included, {
-                        type: 'job-users',
-                        relationships: {user: {data: {id: authService.userId().id}}}
-                    }, true);
+                    if (authService.isAuthenticated()) {
+                        var found_job_users = $filter('filter')(result.included, {
+                            type: 'job-users',
+                            relationships: {user: {data: {id: authService.userId().id}}}
+                        }, true);
+                    }
+
                 });
 
                 this.getComments = function (job_id) {
@@ -429,18 +432,27 @@
                                 obj.attributes["first-name"] = found[0].attributes["first-name"];
                                 obj.attributes["last-name"] = found[0].attributes["last-name"];
                             }
-                            if (authService.userId().id === obj.relationships.owner.data.id) {
-                                obj.attributes.isOwner = 1;
+                            if (authService.isAuthenticated()) {
+                                if (authService.userId().id === obj.relationships.owner.data.id) {
+                                    obj.attributes.isOwner = 1;
+                                } else {
+                                    obj.attributes.isOwner = 0;
+                                }
                             } else {
                                 obj.attributes.isOwner = 0;
                             }
 
-                            /*if (curr_user_id === obj.relationships.owner.data.id) {
-                             $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
-                             } else {
-                             curr_user_id = obj.relationships.owner.data.id;
-                             $scope.comments.push(obj);
-                             }*/
+                            obj.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                            if (found[0].relationships["user-images"].data.length > 0) {
+                                Resources.userImageId.get({
+                                    user_id: obj.relationships.owner.data.id,
+                                    id: found[0].relationships["user-images"].data[0].id
+                                }, function (result) {
+                                    obj.user_image = result.data.attributes["image-url-small"];
+                                });
+                            }
+
                             $scope.comments.push(obj);
                         });
                         deferd.resolve($scope.comments);

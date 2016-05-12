@@ -163,17 +163,20 @@ angular.module('just.common')
             userService.needSignin();
 
             this.model = userService.userModel();
-            if (this.model.$promise) {
-                this.model.$promise.then(function (response) {
-                    var deferd = $q.defer();
-                    that.model = response;
+            if(this.model){
+                if (this.model.$promise) {
+                    this.model.$promise.then(function (response) {
+                        var deferd = $q.defer();
+                        that.model = response;
+                        that.getJobData();
+                        deferd.resolve(that.model);
+                        return deferd.promise;
+                    });
+                } else {
                     that.getJobData();
-                    deferd.resolve(that.model);
-                    return deferd.promise;
-                });
-            } else {
-                that.getJobData();
+                }
             }
+
 
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
