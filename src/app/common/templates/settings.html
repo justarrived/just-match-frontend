@@ -21,17 +21,17 @@
                                 <div class="upload-photo">
                                     <input type="file">
                                     <div class="user-info-image"
-                                         style="background-image:url({{sCtrl.model.data.attributes.user_image}})"></div>
+                                         style="background-image:url({{userModel.data.company.company_image.attributes['image-url-small']}})"></div>
                                     <div><i class="demo-icon icon-ic-camera"></i></div>
                                 </div>
                                 <div>Ladda upp logga</div>
                             </div>
-                            <div><h2>{{model.data.attributes["company-name"]}}</h2></div>
+                            <div><h2>{{userModel.data.attributes["company-name"]}}</h2></div>
                         </div>
                         <div class="group">
                             <div ng-show="ctrl.isCompany===1">
                                 <div><label>{{'user.form.orgnr' | translate}}</label></div>
-                                <div><input type="text" ng-model="sCtrl.model.data.attributes.cin"></div>
+                                <div><input type="text" value="{{userModel.data.company.cin}}" readonly></div>
                             </div>
                             <div ng-show="ctrl.isCompany===0">
                                 <div><label>{{'user.form.ssn' | translate}}</label></div>
@@ -66,7 +66,7 @@
                                 <div>
                                     <select ng-model="sCtrl.model.data.attributes['language-id']">
                                         <option value="" hidden/>
-                                        <option ng-repeat="lang in sCtrl.allLangauge.data">{{lang.attributes["en-name"]}}</option>
+                                        <option ng-repeat="lang in sCtrl.languages" value="{{lang.id}}">{{lang["en-name"]}}</option>
                                     </select>
                                 </div>
                             </div>

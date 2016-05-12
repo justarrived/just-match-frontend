@@ -110,10 +110,26 @@ angular.module('just.service')
                                 }, true);
                                 if (found.length > 0) {
                                     that.user.data.attributes["company-name"] = found[0].attributes.name;
+                                    that.user.data.company = found[0].attributes;
+                                    Resources.companies.get({
+                                        "include": "company-images",
+                                        "filter[cin]": found[0].attributes.cin
+                                    }, function (result_company) {
+                                        if (result_company.data[0].relationships["company-images"].data.length > 0) {
+                                            var found_company_image = $filter('filter')(result_company.included, {
+                                                type: "company-images",
+                                                id: "" + result_company.data[0].relationships["company-images"].data[0].id
+                                            }, true);
+                                            if (found_company_image.length > 0) {
+                                                that.user.data.company.company_image = found_company_image[0];
+                                            }
+                                        }
+                                    });
                                 }
-                                storage.set("company_id", that.user.data.relationships.company.data.id);
                                 that.isCompany = 1;
                                 storage.set("company_id", that.user.data.relationships.company.data.id);
+
+
                             } else {
                                 that.isCompany = 0;
                                 storage.set("company_id", null);
