@@ -41,6 +41,7 @@
   "menu.main.login": "Log in",
   "menu.main.logout": "Log out",
   "menu.main.create_account": "Create account",
+  "menu.settings.title": "Settings",
   "menu.settings.notifications": "Email notifications",
   "login.title": "Log in",
   "login.form.username": "Username",

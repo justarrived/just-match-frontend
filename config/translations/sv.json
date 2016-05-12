@@ -41,6 +41,7 @@
   "menu.main.login": "Logga in",
   "menu.main.logout": "Logga ut",
   "menu.main.create_account": "Skapa konto",
+  "menu.settings.title": "Inställningar",
   "menu.settings.notifications": "Notifieringar via mail",
   "login.title": "Logga in",
   "login.form.username": "Användarnamn",
