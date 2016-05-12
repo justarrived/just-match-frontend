@@ -17,6 +17,7 @@ angular.module('just.service')
             this.isCompany = -1;
             this.user = undefined;
             this.apply_job_id = 0;
+            this.message = {};
 
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
@@ -114,7 +115,7 @@ angular.module('just.service')
                                 type: "companies"
                             }, true);
                             if (found.length > 0) {
-                                that.user.data.attributes["company-name"] = found[0].attributes.name;
+                                //that.user.data.attributes["company-name"] = found[0].attributes.name;
                                 that.user.data.company = found[0].attributes;
                                 Resources.companies.get({
                                     "include": "company-images",
@@ -128,6 +129,8 @@ angular.module('just.service')
                                         if (found_company_image.length > 0) {
                                             that.user.data.company.company_image = found_company_image[0];
                                         }
+                                    }else{
+                                        that.user.data.company.company_image = {attributes:{'image-url-small':"assets/images/content/placeholder-logo.png"}};
                                     }
                                 });
                             }
@@ -139,13 +142,13 @@ angular.module('just.service')
                             that.isCompany = 0;
                             storage.set("company_id", null);
                         }
-                        that.user.data.attributes.user_image = 'assets/images/content/placeholder-profile-image.png';
+                        that.user.data.user_image = 'assets/images/content/placeholder-profile-image.png';
                         if (that.user.data.relationships["user-images"].data.length > 0) {
                             var found_img = $filter('filter')(that.user.included, {
                                 type: that.user.data.relationships["user-images"].data[0].type
                             }, true);
                             if (found_img.length > 0) {
-                                that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
+                                that.user.data.user_image = found_img[0].attributes["image-url-small"];
                             }
                         }
                     });
@@ -164,6 +167,20 @@ angular.module('just.service')
                         flow.redirect(path);
                     });
                 }
+            };
+
+            this.saveUserModel = function (data, fn) {
+                Resources.user.save({id: that.user.data.id}, data, function (response) {
+                    that.clearUserModel();
+                    that.getUserDetail();
+                    if (fn) {
+                        fn(1, response);
+                    }
+                }, function (response) {
+                    if (fn) {
+                        fn(0, response);
+                    }
+                });
             };
 
             this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
