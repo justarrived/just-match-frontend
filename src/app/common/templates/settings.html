@@ -1,6 +1,6 @@
 <section class="setting-page" ng-show="ctrl.showSetting">
+    <button class="close-x" ng-click="ctrl.showSetting=false"><i class="demo-icon icon-ic-close"></i></button>
     <div data-ng-controller="SettingCtrl as sCtrl">
-        <button class="close-x" ng-click="ctrl.showSetting=false"><i class="demo-icon icon-ic-close"></i></button>
         <div>
             <div>
 
@@ -9,13 +9,15 @@
                         <h2>{{"menu.settings.title" | translate}}</h2>
                     </div>
                     <div class="setting-tab">
-                        <a href="" ng-click="curr_tab=1" ng-class="{'sel':curr_tab!==2}">Personuppgifter</a>
-                        <a href="" ng-click="curr_tab=2" ng-class="{'sel':curr_tab===2}">Bankuppgifter</a>
+                        <a href="" ng-click="curr_tab=1" ng-class="{'sel':curr_tab!==2}">{{'menu.settings.personal_data'
+                            | translate}}</a>
+                        <a href="" ng-click="curr_tab=2" ng-class="{'sel':curr_tab===2}">{{'menu.settings.bank_details'
+                            | translate}}</a>
                     </div>
                 </div>
 
                 <div ng-show="curr_tab!==2">
-                    <form name="form_profile" ng-submit="ctrl.companyProfileUpdate();">
+                    <form name="form_profile" class="form-profile" ng-submit="ctrl.companyProfileUpdate();">
                         <div ng-show="ctrl.isCompany===1">
                             <div>
                                 <div class="upload-photo">
@@ -24,49 +26,56 @@
                                          style="background-image:url({{sCtrl.model.data.attributes.user_image}})"></div>
                                     <div><i class="demo-icon icon-ic-camera"></i></div>
                                 </div>
-                                <div>Ladda upp logga</div>
+                                <div>{{'menu.settings.upload_logo' | translate}}</div>
                             </div>
                             <div><h2>{{model.data.attributes["company-name"]}}</h2></div>
                         </div>
+                        <div ng-show="ctrl.isCompany===1">
+                            <div><label>{{'user.form.orgnr' | translate}}:</label></div>
+                            <div><input type="text" ng-model="sCtrl.model.data.attributes.cin"></div>
+                        </div>
+                        <div ng-show="ctrl.isCompany===0">
+                            <div><label>{{'user.form.ssn' | translate}}:</label></div>
+                            <div><input type="text" ng-model="sCtrl.model.data.attributes.ssn"></div>
+                        </div>
                         <div class="group">
-                            <div ng-show="ctrl.isCompany===1">
-                                <div><label>{{'user.form.orgnr' | translate}}</label></div>
-                                <div><input type="text" ng-model="sCtrl.model.data.attributes.cin"></div>
-                            </div>
-                            <div ng-show="ctrl.isCompany===0">
-                                <div><label>{{'user.form.ssn' | translate}}</label></div>
-                                <div><input type="text" ng-model="sCtrl.model.data.attributes.ssn"></div>
-                            </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-user"></i></label></div>
                                 <div class="name-group">
                                     <input type="text" placeholder="{{'user.form.first_name' | translate}}" required
-                                           ng-model="sCtrl.model.data.attributes['first-name']">
+                                           ng-model="sCtrl.model.data.attributes['first-name']"><label
+                                        class="error"></label>
                                     <input type="text" placeholder="{{'user.form.last_name' | translate}}" required
-                                           ng-model="sCtrl.model.data.attributes['last-name']">
+                                           ng-model="sCtrl.model.data.attributes['last-name']"><label
+                                        class="error"></label>
                                 </div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-email"></i></label></div>
                                 <div><input type="text" placeholder="{{'user.form.email' | translate}}" required
-                                            ng-model="sCtrl.model.data.attributes.email"></div>
+                                            ng-model="sCtrl.model.data.attributes.email"><label class="error"></label>
+                                </div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-phone"></i></label></div>
                                 <div><input type="text" placeholder="{{'user.form.phone' | translate}}" required
-                                            ng-model="sCtrl.model.data.attributes.phone"></div>
+                                            ng-model="sCtrl.model.data.attributes.phone"><label class="error"></label>
+                                </div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-password"></i></label></div>
                                 <div><input type="password" placeholder="{{'user.form.password' | translate}}" required
-                                            ng-model="sCtrl.model.data.attributes.password"></div>
+                                            ng-model="sCtrl.model.data.attributes.password"><label
+                                        class="error"></label></div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-user3"></i></label></div>
                                 <div>
                                     <select ng-model="sCtrl.model.data.attributes['language-id']">
                                         <option value="" hidden/>
-                                        <option ng-repeat="lang in sCtrl.allLangauge.data">{{lang.attributes["en-name"]}}</option>
+                                        <option ng-repeat="lang in sCtrl.allLangauge.data">
+                                            {{lang.attributes["en-name"]}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -77,68 +86,55 @@
                     </form>
                 </div>
                 <div ng-show="curr_tab===2">
-                    <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
-
+                    <form name="form" class="setting-bank-form" novalidate ng-submit="ctrl.createBankAccount()">
                         <validation2 form="form" field="account_clearing_number"
                                      errormsg="finance.form.account_clearing_number.validation">
-                            <div class="group">
-                                <div>
-                                    <div><label>{{'user.account.bank' | translate}}</label></div>
-                                    <div><input type="text" name="account_clearing_number"
-                                                ng-required="sCtrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
-                                                ng-model="sCtrl.financeModel.data.attributes['account-clearing-number']"
-                                                ng-keyup="form.account_clearing_number.error_detail = undefined"/>
-                                    </div>
+                            <div class="bank-group">
+                                <div><label>{{'user.account.bank' | translate}}:</label></div>
+                                <div><input type="text" name="account_clearing_number"
+                                            ng-required="sCtrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
+                                            ng-model="sCtrl.financeModel.data.attributes['account-clearing-number']"
+                                            ng-keyup="form.account_clearing_number.error_detail = undefined"/>
                                 </div>
                             </div>
                         </validation2>
 
                         <validation2 form="form" field="account_number"
                                      errormsg="finance.form.account_number.validation">
-                            <div class="group">
-                                <div>
-                                    <div><label>{{'user.account.cardnr' | translate}}</label></div>
-                                    <div><input type="text" name="account_number"
-                                                ng-required="sCtrl.financeModel.data.attributes['account-clearing-number']"
-                                                ng-model="sCtrl.financeModel.data.attributes['account-number']"
-                                                ng-keyup="form.account_number.error_detail = undefined"/></div>
-                                </div>
+                            <div class="bank-group">
+                                <div><label>{{'user.account.cardnr' | translate}}:</label></div>
+                                <div><input type="text" name="account_number"
+                                            ng-required="sCtrl.financeModel.data.attributes['account-clearing-number']"
+                                            ng-model="sCtrl.financeModel.data.attributes['account-number']"
+                                            ng-keyup="form.account_number.error_detail = undefined"/></div>
                             </div>
                         </validation2>
-
                         <validation2 form="form" field="iban" errormsg="finance.form.iban.validation">
-                            <div class="group">
-                                <div>
-                                    <div><label>{{'user.account.iban' | translate}}</label></div>
-                                    <div><input type="text" name="iban"
-                                                ng-required="sCtrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
-                                                ng-model="sCtrl.financeModel.data.attributes.iban"
-                                                ng-keyup="form.iban.error_detail = undefined"/></div>
-                                </div>
+                            <div class="bank-group">
+                                <div><label>{{'user.account.iban' | translate}}:</label></div>
+                                <div><input type="text" name="iban"
+                                            ng-required="sCtrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
+                                            ng-model="sCtrl.financeModel.data.attributes.iban"
+                                            ng-keyup="form.iban.error_detail = undefined"/></div>
                             </div>
                         </validation2>
-
                         <validation2 form="form" field="bic" errormsg="finance.form.bic.validation">
-                            <div class="group">
-                                <div>
-                                    <div><label>{{'user.account.bic' | translate}}</label></div>
-                                    <div><input type="text" name="bic"
-                                                ng-required="sCtrl.financeModel.data.attributes.iban"
-                                                ng-model="sCtrl.financeModel.data.attributes.bic"
-                                                ng-keyup="form.bic.error_detail = undefined"/></div>
-                                </div>
+                            <div class="bank-group">
+                                <div><label>{{'user.account.bic' | translate}}:</label></div>
+                                <div><input type="text" name="bic"
+                                            ng-required="sCtrl.financeModel.data.attributes.iban"
+                                            ng-model="sCtrl.financeModel.data.attributes.bic"
+                                            ng-keyup="form.bic.error_detail = undefined"/></div>
                             </div>
                         </validation2>
-
                         <validation2 form="form" field="password" errormsg="user.form.password.validation">
-                            <div class="group">
-                                <div>
-                                    <div><label><i class="demo-icon icon-ic-password"></i></label></div>
-                                    <div><input name="password" type="password" placeholder="{{'user.form.password' | translate}}"
-                                                required
-                                                ng-model="sCtrl.financeModel.data.attributes.password"
-                                                ng-keyup="form.password.error_detail = undefined"></div>
-                                </div>
+                            <div class="bank-group">
+                                <div><label>{{'login.form.password' | translate}}:</label></div>
+                                <div><input name="password" type="password"
+                                            placeholder="{{'user.form.password' | translate}}"
+                                            required
+                                            ng-model="sCtrl.financeModel.data.attributes.password"
+                                            ng-keyup="form.password.error_detail = undefined"></div>
                             </div>
                         </validation2>
 
