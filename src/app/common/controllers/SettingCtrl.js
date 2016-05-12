@@ -1,9 +1,9 @@
 angular.module('just.common')
-    .controller('SettingCtrl', ['justFlowService', 'justRoutes', 'authService', 'userService', '$scope', 'Resources',
-        function (flow, routes, authService, userService, $scope, Resources) {
+    .controller('SettingCtrl', ['justFlowService', 'justRoutes', 'authService', 'i18nService', 'userService', '$scope', 'Resources',
+        function (flow, routes, authService, i18nService, userService, $scope, Resources) {
             var that = this;
             this.languageList = "";
-            this.isCompany = userService.isCompany;
+            this.allLangauge = i18nService.allLangauge;
 
             $scope.model = userService.userModel();
 
@@ -12,7 +12,8 @@ angular.module('just.common')
                 $scope.model = userService.userModel();
             });
 
+            this.companyProfileUpdate = function () {
 
-
+            };
 
         }]);
