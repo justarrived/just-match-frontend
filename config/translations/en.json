@@ -232,6 +232,8 @@
   "user.form.street.validation": "Enter address",
   "user.form.zip.validation": "Enter five-digit post code",
   "user.form.password.validation": "Your password should contain at least eight characters ",
+  "user.reset_password.title": "Reset password",
+  "user.reset_password.description": "Reset password confirmation email has been sent to",
   "profile": "Profile",
   "profile.create.title": "Create Profile",
   "profile.create.description": "Remember that a complete profile increases your chances of getting jobs. Details are saved to your public profile and will be visible on all your applications.",

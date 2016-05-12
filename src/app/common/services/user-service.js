@@ -40,7 +40,7 @@ angular.module('just.service')
                                 flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
                             }
                         } else {
-                            flow.completed();
+                            flow.completed(routes.global.start.url);
                         }
                         that.apply_job = 0;
                     }, function (error) {
@@ -129,8 +129,8 @@ angular.module('just.service')
                                         if (found_company_image.length > 0) {
                                             that.user.data.company.company_image = found_company_image[0];
                                         }
-                                    }else{
-                                        that.user.data.company.company_image = {attributes:{'image-url-small':"assets/images/content/placeholder-logo.png"}};
+                                    } else {
+                                        that.user.data.company.company_image = {attributes: {'image-url-small': "assets/images/content/placeholder-logo.png"}};
                                     }
                                 });
                             }
@@ -247,6 +247,19 @@ angular.module('just.service')
                         }
                     }
                 }
+            };
+
+            this.reset_password = function (email, fn) {
+                var data = {data: {attributes: {email: email}}};
+                Resources.userResetPassword.create({}, data, function (response) {
+                    if (fn) {
+                        fn(1, response);
+                    }
+                }, function (response) {
+                    if (fn) {
+                        fn(0, response);
+                    }
+                });
             };
 
             this.userMessage = {};
