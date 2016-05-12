@@ -439,7 +439,7 @@
                 });
 
                 this.getComments = function (job_id) {
-                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
+                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
                     $scope.comments.$promise.then(function (response) {
                         var deferd = $q.defer();
                         $scope.comments = [];
@@ -464,21 +464,18 @@
                             }
 
                             obj.user_image = "assets/images/content/placeholder-profile-image.png";
-                            
-                            if(obj.attributes.isOwner === 0){
-                                if (found[0].relationships["user-images"].data.length > 0) {
-                                    Resources.userImageId.get({
-                                        user_id: obj.relationships.owner.data.id,
-                                        id: found[0].relationships["user-images"].data[0].id
-                                    }, function (result) {
-                                        obj.user_image = result.data.attributes["image-url-small"];
-                                    });
-                                }else{
-                                    obj.user_image = userService.user.data.attributes.user_image;
+
+                            if (found[0].relationships["user-images"].data.length > 0) {
+                                var found_image = $filter('filter')(response.included, {
+                                    id: "" + found[0].relationships["user-images"].data[0].id,
+                                    type: "user-images"
+                                }, true);
+                                if(found_image.length > 0){
+                                    obj.user_image = found_image[0].attributes["image-url-small"];
                                 }
                             }
 
-                            
+
 
                             $scope.comments.push(obj);
                         });
