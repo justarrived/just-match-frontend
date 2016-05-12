@@ -66,10 +66,10 @@
                         <div style="background-image: url({{job.company_image}});"></div>
                         <b>{{ job.max_rate | number}} {{ job.currency }}</b>
                     </div>
-                    <a href="#{{ routes.job.get.resolve(job) }}">
+                    <span>
                         {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
                         '...' }}
-                    </a>
+                    </span>
                 </a>
             </div>
         </slick>
