@@ -18,7 +18,6 @@ angular.module('just.service')
             this.user = undefined;
             this.apply_job_id = 0;
 
-
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
                     .then(function (ok) {
@@ -98,55 +97,59 @@ angular.module('just.service')
 
             this.userModel = function () {
                 if (authService.isAuthenticated()) {
-                    if (angular.isUndefined(that.user)) {
-                        that.user = Resources.user.get({
-                            id: authService.userId().id,
-                            "include": "company,language,languages,user-images"
-                        }, function () {
-                            if (that.user.data.relationships.company.data !== null) {
-                                var found = $filter('filter')(that.user.included, {
-                                    id: "" + that.user.data.relationships.company.data.id,
-                                    type: "companies"
-                                }, true);
-                                if (found.length > 0) {
-                                    that.user.data.attributes["company-name"] = found[0].attributes.name;
-                                    that.user.data.company = found[0].attributes;
-                                    Resources.companies.get({
-                                        "include": "company-images",
-                                        "filter[cin]": found[0].attributes.cin
-                                    }, function (result_company) {
-                                        if (result_company.data[0].relationships["company-images"].data.length > 0) {
-                                            var found_company_image = $filter('filter')(result_company.included, {
-                                                type: "company-images",
-                                                id: "" + result_company.data[0].relationships["company-images"].data[0].id
-                                            }, true);
-                                            if (found_company_image.length > 0) {
-                                                that.user.data.company.company_image = found_company_image[0];
-                                            }
-                                        }
-                                    });
-                                }
-                                that.isCompany = 1;
-                                storage.set("company_id", that.user.data.relationships.company.data.id);
-
-
-                            } else {
-                                that.isCompany = 0;
-                                storage.set("company_id", null);
-                            }
-                            that.user.data.attributes.user_image = 'assets/images/content/placeholder-profile-image.png';
-                            if (that.user.data.relationships["user-images"].data.length > 0) {
-                                var found_img = $filter('filter')(that.user.included, {
-                                    type: that.user.data.relationships["user-images"].data[0].type
-                                }, true);
-                                if (found_img.length > 0) {
-                                    that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
-                                }
-                            }
-                        });
-                    }
+                    that.getUserDetail();
                 }
                 return that.user;
+            };
+
+            this.getUserDetail = function () {
+                if (angular.isUndefined(that.user)) {
+                    that.user = Resources.user.get({
+                        id: authService.userId().id,
+                        "include": "company,language,languages,user-images"
+                    }, function (res) {
+                        if (that.user.data.relationships.company.data !== null) {
+                            var found = $filter('filter')(that.user.included, {
+                                id: "" + that.user.data.relationships.company.data.id,
+                                type: "companies"
+                            }, true);
+                            if (found.length > 0) {
+                                that.user.data.attributes["company-name"] = found[0].attributes.name;
+                                that.user.data.company = found[0].attributes;
+                                Resources.companies.get({
+                                    "include": "company-images",
+                                    "filter[cin]": found[0].attributes.cin
+                                }, function (result_company) {
+                                    if (result_company.data[0].relationships["company-images"].data.length > 0) {
+                                        var found_company_image = $filter('filter')(result_company.included, {
+                                            type: "company-images",
+                                            id: "" + result_company.data[0].relationships["company-images"].data[0].id
+                                        }, true);
+                                        if (found_company_image.length > 0) {
+                                            that.user.data.company.company_image = found_company_image[0];
+                                        }
+                                    }
+                                });
+                            }
+                            that.isCompany = 1;
+                            storage.set("company_id", that.user.data.relationships.company.data.id);
+
+
+                        } else {
+                            that.isCompany = 0;
+                            storage.set("company_id", null);
+                        }
+                        that.user.data.attributes.user_image = 'assets/images/content/placeholder-profile-image.png';
+                        if (that.user.data.relationships["user-images"].data.length > 0) {
+                            var found_img = $filter('filter')(that.user.included, {
+                                type: that.user.data.relationships["user-images"].data[0].type
+                            }, true);
+                            if (found_img.length > 0) {
+                                that.user.data.attributes.user_image = found_img[0].attributes["image-url-small"];
+                            }
+                        }
+                    });
+                }
             };
 
             this.clearUserModel = function () {
