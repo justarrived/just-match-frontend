@@ -63,6 +63,8 @@ angular.module('just.common')
                 userOwnedJobs: crud("users/:user_id/owned-jobs"),  //for owner
                 userImage: crud("users/images"),
                 userImageId: crud("users/:user_id/images/:id"),
+                userResetPassword: crud("users/reset-password"),
+                userChangePassword: crud("users/change-password"),
 
                 userNotifications: crud("users/notifications"),
                 userMessages: crud("users/:user_id/messages"),

@@ -232,6 +232,8 @@
   "user.form.street.validation": "Ange adress",
   "user.form.zip.validation": "Ange postnummer med fem siffror",
   "user.form.password.validation": "Lösenordet bör vara minst 8 tecken",
+  "user.reset_password.title": "Glömt lösenord",
+  "user.reset_password.description": "Återställ bekräftelse lösenord mail har skickats till",
   "profile": "Profil",
   "profile.create.title": "Skapa Profil",
   "profile.create.description": "Tänk på att en väl ifylld profil ökar dina möjligheter att få uppdrag.",
