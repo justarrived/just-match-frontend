@@ -437,7 +437,7 @@ angular.module('just.common')
             });
 
             this.getComments = function (job_id) {
-                $scope.commentss = commentService.getComments('jobs', job_id, 'owner,user-images');
+                $scope.commentss = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
                 $scope.commentss.$promise.then(function (response) {
                     $scope.comments = response.data;
                     angular.forEach(response.data, function (obj, key) {
@@ -449,23 +449,22 @@ angular.module('just.common')
                             $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
                             $scope.comments[key].attributes["last-name"] = found[0].attributes["last-name"];
                         }
-                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
                         if (authService.userId().id === obj.relationships.owner.data.id) {
                             $scope.comments[key].attributes.isOwner = 1;
-                            $scope.comments[key].user_image = userService.user.data.attributes.user_image;
                         } else {
                             $scope.comments[key].attributes.isOwner = 0;
+                        }
+                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
 
-                            if (found[0].relationships["user-images"].data.length > 0) {
-                                Resources.userImageId.get({
-                                    user_id: obj.relationships.owner.data.id,
-                                    id: found[0].relationships["user-images"].data[0].id
-                                }, function (result) {
-                                    $scope.comments[key].user_image = result.data.attributes["image-url-small"];
-                                });
+                        if (found[0].relationships["user-images"].data.length > 0) {
+                            var found_image = $filter('filter')(response.included, {
+                                id: "" + found[0].relationships["user-images"].data[0].id,
+                                type: "user-images"
+                            }, true);
+                            if (found_image.length > 0) {
+                                $scope.comments[key].user_image = found_image[0].attributes["image-url-small"];
                             }
                         }
-
                     });
                 });
             };
@@ -814,7 +813,7 @@ angular.module('just.common')
                 chatService.newChatMessage(that.setChatId_get);
             };
 
-            this.setChatId_get = function(chat_id){
+            this.setChatId_get = function (chat_id) {
                 that.chatId = chat_id;
                 that.getChatMessage();
             };
