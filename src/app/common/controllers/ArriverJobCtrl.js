@@ -163,17 +163,20 @@ angular.module('just.common')
             userService.needSignin();
 
             this.model = userService.userModel();
-            if (this.model.$promise) {
-                this.model.$promise.then(function (response) {
-                    var deferd = $q.defer();
-                    that.model = response;
+            if(this.model){
+                if (this.model.$promise) {
+                    this.model.$promise.then(function (response) {
+                        var deferd = $q.defer();
+                        that.model = response;
+                        that.getJobData();
+                        deferd.resolve(that.model);
+                        return deferd.promise;
+                    });
+                } else {
                     that.getJobData();
-                    deferd.resolve(that.model);
-                    return deferd.promise;
-                });
-            } else {
-                that.getJobData();
+                }
             }
+
 
             this.calcRemainTime = function () {
                 var acceptedDate = new MyDate(new Date());
@@ -307,7 +310,12 @@ angular.module('just.common')
             this.submitChat = function () {
                 that.chatModel.data.attributes["user-ids"] = [authService.userId().id, $scope.job.relationships.owner.data.id];
                 that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
-                chatService.newChatMessage(that.getChatMessage);
+                chatService.newChatMessage(that.setChatId_get);
+            };
+
+            this.setChatId_get = function(chat_id){
+                that.chatId = chat_id;
+                that.getChatMessage();
             };
 
             this.getChatMessage = function () {

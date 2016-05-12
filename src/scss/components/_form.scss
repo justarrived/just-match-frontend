@@ -215,6 +215,16 @@ label {
   }
 }
 
+.job-date{
+  .has-error .ng-valid, .has-error .ng-invalid {
+    border-color: $pink !important;
+    color: $pink !important;
+    ~ label {
+      color: $pink !important;
+    }
+  }
+}
+
 input[type="submit"][disabled],
 .btn-pos[disabled],
 .btn-pos.disabled,

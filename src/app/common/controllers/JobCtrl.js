@@ -17,6 +17,27 @@
                 this.message = jobService.jobMessage;
                 this.model.data.attributes.hours = 2;
 
+
+                $scope.$watch('form', function(form) {
+                    if(form) {
+                        if (that.message.data) {
+                            angular.forEach(that.message.data.errors, function (obj, key) {
+                                var pointer_arr = obj.source.pointer.split("/");
+                                var field_name = pointer_arr[pointer_arr.length - 1];
+
+                                field_name = field_name.replace(/-/g, "_");
+
+                                switch(field_name){
+                                    case 'job_date': field_name = 'from_date'; break;
+                                    case 'job_end_date': field_name = 'to_date'; break;
+                                }
+                                $scope.form[field_name].error_detail = obj.detail;
+                            });
+
+                        }
+                    }
+                });
+
                 this.rates = {};
                 $scope.getRate = function (hp_id) {
                     that.rates = jobService.rates();
@@ -408,10 +429,13 @@
                     }
 
 
-                    var found_job_users = $filter('filter')(result.included, {
-                        type: 'job-users',
-                        relationships: {user: {data: {id: authService.userId().id}}}
-                    }, true);
+                    if (authService.isAuthenticated()) {
+                        var found_job_users = $filter('filter')(result.included, {
+                            type: 'job-users',
+                            relationships: {user: {data: {id: authService.userId().id}}}
+                        }, true);
+                    }
+
                 });
 
                 this.getComments = function (job_id) {
@@ -429,18 +453,33 @@
                                 obj.attributes["first-name"] = found[0].attributes["first-name"];
                                 obj.attributes["last-name"] = found[0].attributes["last-name"];
                             }
-                            if (authService.userId().id === obj.relationships.owner.data.id) {
-                                obj.attributes.isOwner = 1;
+                            if (authService.isAuthenticated()) {
+                                if (authService.userId().id === obj.relationships.owner.data.id) {
+                                    obj.attributes.isOwner = 1;
+                                } else {
+                                    obj.attributes.isOwner = 0;
+                                }
                             } else {
                                 obj.attributes.isOwner = 0;
                             }
 
-                            /*if (curr_user_id === obj.relationships.owner.data.id) {
-                             $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
-                             } else {
-                             curr_user_id = obj.relationships.owner.data.id;
-                             $scope.comments.push(obj);
-                             }*/
+                            obj.user_image = "assets/images/content/placeholder-profile-image.png";
+                            
+                            if(obj.attributes.isOwner === 0){
+                                if (found[0].relationships["user-images"].data.length > 0) {
+                                    Resources.userImageId.get({
+                                        user_id: obj.relationships.owner.data.id,
+                                        id: found[0].relationships["user-images"].data[0].id
+                                    }, function (result) {
+                                        obj.user_image = result.data.attributes["image-url-small"];
+                                    });
+                                }else{
+                                    obj.user_image = userService.user.data.attributes.user_image;
+                                }
+                            }
+
+                            
+
                             $scope.comments.push(obj);
                         });
                         deferd.resolve($scope.comments);

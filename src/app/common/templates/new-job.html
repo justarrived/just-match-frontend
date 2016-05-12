@@ -9,85 +9,92 @@
     <div class="new-job-form">
         <form name="form" novalidate ng-submit="ctrl.save()">
             <div class="material-input">
-                <validation form="form" field="title" errormsg="assignment.form.title.validation">
+                <validation2 form="form" field="name" errormsg="assignment.form.title.validation">
                     <div class="group">
-                        <input type="text" name="title" required ng-model="ctrl.model.data.attributes.name">
+                        <input type="text" name="name" required ng-model="ctrl.model.data.attributes.name"
+                               ng-keyup="form.title.error_detail = undefined">
                         <label>{{'assignment.form.title' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
             </div>
 
-            <validation form="form" field="category_id" errormsg="assignment.form.category.validation">
+            <validation2 form="form" field="category_id" errormsg="assignment.form.category.validation">
                 <input type="hidden" name="category_id" required ng-model="ctrl.model.data.attributes['category-id']"/>
                 <input type="hidden" name="category_name" required ng-model="ctrl.model.data.attributes.category_name"/>
-            </validation>
+            </validation2>
+
             <div class="cate-group">
                 <label>{{'assignment.form.category' | translate}}</label>
                 <div custom-select="category.id as category.name for category in searchAsync($searchTerm)"
                      custom-select-options="categoryOptions" ng-model="categorySelected"></div>
             </div>
             <div class="material-input">
-                <validation form="form" field="description"
-                            errormsg="assignment.form.description.validation">
+                <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
                         <textarea name="description" required
-                                  ng-model="ctrl.model.data.attributes.description"></textarea>
+                                  ng-model="ctrl.model.data.attributes.description"
+                                  ng-keyup="form.description.error_detail = undefined"></textarea>
                         <label>{{'assignment.form.description' | translate}}</label>
                     </div>
-                </validation>
-                <validation form="form" field="street" errormsg="assignment.form.address.validation">
+                </validation2>
+
+                <validation2 form="form" field="street" errormsg="assignment.form.address.validation">
                     <div class="group">
-                        <input type="text" name="street" required ng-model="ctrl.model.data.attributes.street">
+                        <input type="text" name="street" required ng-model="ctrl.model.data.attributes.street"
+                               ng-keyup="form.street.error_detail = undefined">
                         <label>{{'assignment.form.address' | translate}}</label>
                     </div>
-                </validation>
-                <validation form="form" field="zip" errormsg="assignment.form.zip.validation">
+                </validation2>
+
+                <validation2 form="form" field="zip" errormsg="assignment.form.zip.validation">
                     <div class="group">
-                        <input type="text" name="zip" required ng-model="ctrl.model.data.attributes.zip">
+                        <input type="text" name="zip" required ng-model="ctrl.model.data.attributes.zip" ng-minlength="5"
+                               ng-keyup="form.zip.error_detail = undefined">
                         <label>{{'assignment.form.zip' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
             </div>
 
-            <div class="clearfix">
-                <div class="job-date">
-                    <validation form="form" field="job_date" errormsg="assignment.form.from_date.validation">
-                        <div class="form-group">
-                            <input type="text" id="job_date" name="job_date" required
-                                   ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
-                                   ng-model="ctrl.model.data.attributes['job-date']"
-                                   placeholder="YYYY-MM-DD">
-                            <label for="job_date">{{'assignment.form.from_date' | translate}}</label>
-                        </div>
-                    </validation>
-                </div>
 
-                <div class="job-date">
-                    <validation form="form" field="job_end_date"
-                                errormsg="assignment.form.to_date.validation">
-                        <div class="form-group">
-
-                            <input type="text" id="job_end_date" name="job_end_date" required
-                                   ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
-                                   ng-model="ctrl.model.data.attributes['job-end-date']"
-                                   placeholder="YYYY-MM-DD">
-                            <label for="job_end_date">{{'assignment.form.to_date' | translate}}</label>
-                        </div>
-                    </validation>
-                </div>
+            <div class="job-date">
+                <validation2 form="form" field="from_date" errormsg="assignment.form.from_date.validation">
+                    <div class="form-group">
+                        <input type="text" id="job_date" name="from_date" required
+                               ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
+                               ng-model="ctrl.model.data.attributes['job-date']"
+                               placeholder="YYYY-MM-DD" ng-keyup="form.from_date.error_detail = undefined">
+                        <label>{{'assignment.form.from_date' | translate}}</label>
+                    </div>
+                </validation2>
             </div>
+
+            <div class="job-date">
+                <validation2 form="form" field="to_date"
+                             errormsg="assignment.form.to_date.validation">
+                    <div class="form-group">
+
+                        <input type="text" id="job_end_date" name="to_date" required
+                               ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
+                               ng-model="ctrl.model.data.attributes['job-end-date']"
+                               placeholder="YYYY-MM-DD" ng-keyup="form.to_date.error_detail = undefined">
+                        <label>{{'assignment.form.to_date' | translate}}</label>
+                    </div>
+                </validation2>
+            </div>
+
 
             <div class="material-input">
-                <validation form="form" field="" errormsg="assignment.form.hours.validation">
+                <validation2 form="form" field="hours" errormsg="assignment.form.hours.validation">
                     <div class="group">
-                        <input type="number" name="hours" required ng-model="ctrl.model.data.attributes.hours" min="1">
+                        <input type="number" name="hours" required ng-model="ctrl.model.data.attributes.hours" min="1"
+                               ng-keyup="form.hours.error_detail = undefined">
                         <label>{{'assignment.form.hours' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="" errormsg="">
+                <validation2 form="form" field="hourly_pay_id" errormsg="">
                     <div class="group group-select">
-                        <select ng-model="ctrl.model.data.attributes['hourly-pay-id']" required>
+                        <select name="hourly_pay_id" ng-model="ctrl.model.data.attributes['hourly-pay-id']" required>
                             <option value="" hidden/>
                             <option ng-repeat="rate in ctrl.rates.data" value="{{rate.id}}">
                                 {{rate.attributes.rate}} {{rate.attributes.currency}}
@@ -95,10 +102,9 @@
                         </select>
                         <label class="control-label">{{ 'assignment.form.rate' | translate }}</label>
                     </div>
-                </validation>
+                </validation2>
 
                 <div>
-                    <div class="error-message">{{ctrl.message.data.errors[0].detail}}</div>
                     <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{
                         ctrl.text.submit | translate }}
                     </button>

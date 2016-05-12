@@ -402,8 +402,9 @@ angular.module('just.common')
             };
         }
     ])
-    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
+    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams',
+        '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService',
+        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -448,21 +449,23 @@ angular.module('just.common')
                             $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
                             $scope.comments[key].attributes["last-name"] = found[0].attributes["last-name"];
                         }
+                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
                         if (authService.userId().id === obj.relationships.owner.data.id) {
                             $scope.comments[key].attributes.isOwner = 1;
+                            $scope.comments[key].user_image = userService.user.data.attributes.user_image;
                         } else {
                             $scope.comments[key].attributes.isOwner = 0;
-                        }
-                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
 
-                        if (found[0].relationships["user-images"].data.length > 0) {
-                            Resources.userImageId.get({
-                                user_id: obj.relationships.owner.data.id,
-                                id: found[0].relationships["user-images"].data[0].id
-                            }, function (result) {
-                                $scope.comments[key].user_image = result.data.attributes["image-url-small"];
-                            });
+                            if (found[0].relationships["user-images"].data.length > 0) {
+                                Resources.userImageId.get({
+                                    user_id: obj.relationships.owner.data.id,
+                                    id: found[0].relationships["user-images"].data[0].id
+                                }, function (result) {
+                                    $scope.comments[key].user_image = result.data.attributes["image-url-small"];
+                                });
+                            }
                         }
+
                     });
                 });
             };
@@ -579,15 +582,19 @@ angular.module('just.common')
             this.remainHours = 18;
             this.remainMinutes = 0;
             this.hasInvoice = false;
+
+            chatService.clearChat();
             this.chatModel = chatService.chatModel;
             this.chatMessageModel = chatService.chatMessageModel;
-            this.chatId = chatService.chatId;
-            this.chatMessages = chatService.chatMessages;
+            this.chatId = undefined;
+            this.chatMessages = undefined;
             this.canPerformed = false;
 
             this.ratingModel = ratingService.ratingModel;
 
             this.chatModel.data.attributes["user-ids"] = [];
+
+            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
 
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
@@ -679,6 +686,7 @@ angular.module('just.common')
                         chatService.setChatId(that.chatId);
                         that.getChatMessage();
                         $scope.currTab = 3;
+                        flow.next_data = undefined;
                     }
                 });
 
@@ -803,9 +811,13 @@ angular.module('just.common')
             this.submitChat = function () {
                 that.chatModel.data.attributes["user-ids"] = [authService.userId().id, that.user_apply.id];
                 that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
-                chatService.newChatMessage(that.getChatMessage);
+                chatService.newChatMessage(that.setChatId_get);
             };
 
+            this.setChatId_get = function(chat_id){
+                that.chatId = chat_id;
+                that.getChatMessage();
+            };
 
             this.getChatMessage = function () {
                 that.user_id = authService.userId().id;
