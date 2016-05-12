@@ -201,11 +201,20 @@
         line-height: 1.2em;
         letter-spacing: 0.02em;
       }
+
     }
 
   }
   a {
     color: $lightBlue;
+
+    span {
+      word-wrap: break-word;
+      -moz-hyphens:auto;
+      -webkit-hyphens:auto;
+      -o-hyphens:auto;
+      hyphens:auto;
+    }
   }
 }
 
