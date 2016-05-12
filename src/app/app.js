@@ -97,6 +97,13 @@ angular.module('just', [
                     templateUrl: 'common/templates/user.html',
                     controller: 'UserCtrl as ctrl'
                 }
+            },
+            reset_password_confirm: {
+                url: '/user/reset-password/confirm/:token',
+                resolve: function (obj) {
+                    return '/user/reset-password/confirm/' + obj;
+                },
+                handler: {}
             }
         },
         job: {
