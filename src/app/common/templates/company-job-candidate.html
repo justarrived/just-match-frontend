@@ -1,10 +1,10 @@
 <section>
     <user-header></user-header>
     <div class="user-job-candidate-topmenu">
+        <div class="message-botton"><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'profile.overview.send_message' | translate}}</a></div>
         <ul>
             <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
             <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a></li>
-            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a></li>
         </ul>
 
     </div>
@@ -25,15 +25,15 @@
             </div>
 
             <!-- Job ongoing -->
-            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
+            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.canPerformed">
                 {{ctrl.candidate_model["first-name"]}} {{'assignment.status.applicant_approved' | translate}}
             </div>
 
             <!-- Job performed confirmation -->
-            <div class="user-job-status-title" ng-show="ctrl.performed">
+            <div class="user-job-status-title" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
                 {{ 'assignment.status.is_successful' | translate}}
             </div>
-            <div class="buttons" ng-show="ctrl.performed">
+            <div class="buttons" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
                 <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
                 <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
             </div>
@@ -105,11 +105,11 @@
             <form name="form" ng-submit="ctrl.submitChat()">
                 <div>
                     <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
-                    <div><input type="submit" ng-value="common.submit | translate"></div>
+                    <div><input type="submit" ng-value="'common.submit' | translate"></div>
                 </div>
             </form>
 
-            <div class="translate"><span style="cursor:pointer;" ng-click="ctrl.translationWord();">{{'common.translate.from' | translate}}</span></div>
+            <div class="translate"><span ng-click="ctrl.translationWord();">{{'common.translate.from' | translate}}</span></div>
         </div>
     </div>
 
