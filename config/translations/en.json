@@ -205,7 +205,7 @@
   "profile.chat.translate.from": "translate from:",
   "profile.chat.translate.original": "show original",
   "user.assignment.confirmation.title": "Send offer to (Job-seeker)",
-  "user.assignment.confirmation.description": "(The job-seeker) has 12 hours to accept the job. If (The job-seeker) does not accept within 12 hours, you are free to select another candidate. ",
+  "user.assignment.confirmation.description": "(The job-seeker) has 18 hours to accept the job. If (The job-seeker) does not accept within 18 hours, you are free to select another candidate. ",
   "assignment.is_approved": "Has the job been completed?",
   "assignment.approve.description": "The designated time for the job has expired. To ensure invoicing can take place, and that wages are paid, you and the job-seeker need to confirm that the job has been completed. ",
   "assignment.total_cost.title": "Total cost SEK (amount) including VAT.",
