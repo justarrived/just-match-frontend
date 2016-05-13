@@ -14,8 +14,8 @@
             <!-- Wait user accepted -->
             <div ng-show="ctrl.accepted && !ctrl.will_perform" ng-click="ctrl.gotoAcceptedCandidate()">
                 <h2>{{ctrl.user_apply.attributes["first-name"]}} {{'common.have' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}}
-                    {{ctrl.remainMinutes}}min<br/>
-                    på sig att acceptera uppdraget.</h2>
+                    {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
+                    {{'assignment.status.user_application.time_remaining' | translate}}</h2>
             </div>
 
             <!-- Job ongoing -->
