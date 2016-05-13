@@ -8,7 +8,7 @@
     </div>
     <div class="user-job-content" ng-show="ctrl.company_jobs_tab!==2">
         <div ng-hide="jobs_accepted.length === 0">
-            <h2>Pågående Uppdrag</h2>
+            <h2>{{'assignment.status.ongoing' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs_accepted" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -17,13 +17,13 @@
                     </div>
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
-                        <p>{{job.attributes["first-name"]}} kommer utföra uppdraget</p>
+                        <p>{{job.attributes["first-name"]}} {{'assignment.status.user_application.will_perform' | translate}}</p>
                     </div>
                 </li>
             </ul>
         </div>
         <div ng-hide="jobs.length === 0">
-            <h2>Senaste Aktivitet</h2>
+            <h2>{{'company.assignments.latest_activity.' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -38,7 +38,7 @@
             </ul>
         </div>
         <div class="wait-rating" ng-hide="jobs_performed.length === 0">
-            <h2>SAKNAR BEDÖMNING</h2>
+            <h2>{{'assignment.status.missing_review' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs_performed" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -47,9 +47,9 @@
                     </div>
                     <div>
                         <h3>{{job.attributes.name}}</h3>
-                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
+                        <p><em>{{'assignment.status.you_hired' | translate}} {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
 
-                        <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                        <p>{{'assignment.status.rate' | translate}}:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
                     </div>
                     <div>
                         <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>
@@ -68,9 +68,8 @@
                     </div>
                     <div>
                         <h3>{{job.attributes.name}}</h3>
-                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
-
-                        <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                        <p><em>{{'assignment.status.you_hired' | translate}} {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
+                        <p>{{'assignment.status.rate' | translate}}:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
                     </div>
                     <div>
                         <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>

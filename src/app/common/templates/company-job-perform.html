@@ -4,20 +4,18 @@
             <section ng-show="!isPerformed">
                 <h3><span class="user-info-image" style="background-image: url({{ctrl.user_apply.user_image}})"></span>
                 </h3>
-                <h3>Ar uppdraget utfort?</h3>
-                <p>Perioden for uppdraget har passerats. For att fakturering ska goras och ersattningen ska betalas
-                    ut maste
-                    bade du och {{ctrl.user_apply.attributes["first-name"]}} godkanna uppdraget nar det har utforts.</p>
+                <h3>{{'assignment.is_approved' | translate}}</h3>
+                <p>{{'assignment.approve.description' | translate}}</p>
                 <h4>
                     <span>{{job.attributes.name}}</span>
-                    <span>{{job.attributes.hours}}h {{job.hourly_pay.rate}} SEK</span>
+                    <span>{{job.attributes.hours}}{{'common.hour' | translate}} {{job.hourly_pay.rate}} SEK</span>
                 </h4>
                 <h4>
-                    Totalkonstnad {{job.max_rate}} {{job.hourly_pay.currency}} inkl. moms
+                    {{'common.total_cost' | translate}} {{job.max_rate}} {{job.hourly_pay.currency}} {{'common.currency_inc_vat' | translate}}
                 </h4>
                 <div>
-                    <a class="button pink" href="" ng-click="isPerformed=true">Ja</a>
-                    <a class="button dark" href="" ng-click="modalPerformShow=false">Nej</a>
+                    <a class="button pink" href="" ng-click="isPerformed=true">{{'common.yes' | translate}}</a>
+                    <a class="button dark" href="" ng-click="modalPerformShow=false">{{'common.no' | translate}}</a>
                 </div>
             </section>
             <section ng-show="isPerformed">
@@ -25,10 +23,8 @@
                     <h3><span class="user-info-image"
                               style="background-image: url({{ctrl.user_apply.user_image}})"></span>
                     </h3>
-                    <h3>Tack!</h3>
-                    <p>Hur tyckte du att {{ctrl.user_apply.attributes["first-name"]}} utforde uppdraget? Ge antal stjanor (1-5) och skriv en recension som laggs
-                        till
-                        {{ctrl.user_apply.attributes["first-name"]}} profil</p>
+                    <h3>{{'common.thanks' | translate}}</h3>
+                    <p>{{'assignment.recommendation.title' | translate}}</p>
                     <div>
                         <span class="rating" ng-class="ctrl.ratingClass">
                             <span ng-repeat="i in [1,2,3,4,5]" ng-click="ctrl.ratingModel.data.attributes.score=i; ctrl.ratingClass='score'+i;"></span>
@@ -46,12 +42,12 @@
                             <validation form="form" field="comment" errormsg="">
                                 <div class="group">
                                     <input name="comment" type="text" required ng-model="ctrl.ratingModel.data.attributes.body">
-                                    <label>Skriv en rekommendation</label>
+                                    <label>{{'assignment.recommendation.description' | translate}}</label>
                                 </div>
                             </validation>
 
                         </div>
-                        <button class="button submit pink" type="submit" ng-disabled="form.$invalid">Skicka</button>
+                        <button class="button submit pink" type="submit" ng-disabled="form.$invalid">{{'common.submit' | translate}}</button>
                     </div>
                 </form>
             </section>
