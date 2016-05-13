@@ -6,6 +6,7 @@ angular.module('just.common')
             this.isStart = 1;
             this.saveSuccessFromRegister = 0;
             this.saveSuccessFromJobApply = 0;
+            this.saveSuccessDefault = 0;
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -66,7 +67,7 @@ angular.module('just.common')
             $scope.languagesArrFn = function (query, querySelectAs) {
                 var deferd = $q.defer();
 
-                if(query!==''){
+                if (query !== '') {
                     angular.element(".select-search-list-item_loader").show();
                     $scope.languages = Resources.languages.get({
                         'page[number]': 1,
@@ -83,7 +84,7 @@ angular.module('just.common')
                         });
                         deferd.resolve(result);
                     });
-                }else{
+                } else {
                     angular.element(".select-search-list-item_loader").hide();
                 }
 
@@ -177,6 +178,7 @@ angular.module('just.common')
                 update_data.data.attributes.description = that.model.data.attributes.description;
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
+                update_data.data.attributes["competence-text"] = that.model.data.attributes["competence-text"];
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 //save data
@@ -194,11 +196,13 @@ angular.module('just.common')
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
                     if (flow.next_data) {
                         var job_id = flow.next_data.job_id;
-                        if(flow.next_data.type==='apply_job'){
+                        if (flow.next_data.type === 'apply_job') {
                             jobService.acceptJob(job_id, that.showAppliedJob);
-                        }else if(flow.next_data.type==='arriver_user_register'){
+                        } else if (flow.next_data.type === 'arriver_user_register') {
                             that.saveSuccessFromRegister = 1;
                         }
+                    } else {
+                        that.saveSuccessDefault = 1;
                     }
                 });
             };

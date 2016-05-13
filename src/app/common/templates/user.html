@@ -53,6 +53,13 @@
                 </div>
             </validation>
 
+            <validation form="form" field="competence_text" errormsg="profile.form.skills.validation">
+                <div class="form-group competences">
+                    <label>{{ "profile.form.skills" | translate }}</label>
+                    <textarea name="competence_text" ng-model="ctrl.model.data.attributes['competence-text']"></textarea>
+                </div>
+            </validation>
+
             <div>
                 <hr>
                 <p><p>{{'profile.create.notification' | translate}}</p></p>
@@ -86,6 +93,18 @@
                 <h1>{{'assignment.status.applied' | translate}}</h1>
                 <p>{{'assignment.status.applied.description' | translate}}</p>
                 <button ng-click="ctrl.gotoJobList()" type="button">{{'user.apply.find_more' | translate}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="complete job-approved" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;"
+         ng-show="ctrl.saveSuccessDefault">
+        <div>
+            <div>
+                <p><i class="demo-icon icon-ic-check2"></i></p>
+                <h1>Updated</h1>
+                <p>Your profile update successful</p>
+                <button ng-click="ctrl.saveSuccessDefault=false" type="button">Back</button>
             </div>
         </div>
     </div>

@@ -53,6 +53,10 @@
             <p>{{ctrl.candidate_model["education"]}}</p>
         </div>
         <div>
+            <h3><i class="demo-icon icon-ic-tool"></i>{{"profile.form.skills" | translate}}</h3>
+            <p>{{ctrl.candidate_model["competence-text"]}}</p>
+        </div>
+        <div>
             <h3><i class="demo-icon icon-ic-user3"></i>{{"profile.form.languages" | translate}}</h3>
             <ul>
                 <li ng-repeat="lang in ctrl.candidate_model.languages">{{lang.attributes["en-name"]}}</li>
@@ -76,31 +80,13 @@
                         <span ng-class="{select:job.rating.attributes.score>=4}"></span>
                         <span ng-class="{select:job.rating.attributes.score>=5}"></span>
                     </p>
-
-                    <!--<p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
-                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>-->
-                    <!--<p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>-->
                 </div>
                 <div>
                     {{job.attributes["job-date"] | date: "MMM"}}<br/>
                     <span>{{job.attributes["job-date"] | date: "dd"}}</span>
                 </div>
             </li>
-            <!--<li>
-                <div><span class="user-info-image"
-                           style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
-                <div>
-                    <h4>Kontainerstadning</h4>
-                    <p>Elgiganten</p>
-                    <p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
-                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>
-                    <p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>
-                </div>
-                <div>
-                    JAN<br/>
-                    <span>01</span>
-                </div>
-            </li>-->
+
         </ul>
     </div>
 
@@ -116,22 +102,6 @@
                     <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
                     </div>
                 </li>
-                <!--<li>
-                    <div class="bubble">
-                        <div>Amir Khermand</div>
-                        <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
-                    </div>
-                    <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
-                    </div>
-                </li>
-                <li class="right">
-                    <div class="bubble">
-                        <div>Ove Martinnson</div>
-                        <div>Ja, det blir perfekt. Valkommen</div>
-                    </div>
-                    <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
-                    </div>
-                </li>-->
             </ul>
             <form name="form" ng-submit="ctrl.submitChat()">
                 <div>

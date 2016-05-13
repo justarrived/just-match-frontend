@@ -21,9 +21,12 @@
                         <div ng-show="ctrl.isCompany===1">
                             <div>
                                 <div class="upload-photo">
-                                    <input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>
-                                    <input type="text" name="user_image_one_time_token" ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
-                                    <div class="user-info-image" style="background-image:url({{sCtrl.user_image}})"></div>
+                                    <input type="file" id="file_upload" name="file"
+                                           onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>
+                                    <input type="text" name="user_image_one_time_token"
+                                           ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
+                                    <div class="user-info-image"
+                                         style="background-image:url({{sCtrl.user_image}})"></div>
                                     <div><i class="demo-icon icon-ic-camera"></i></div>
                                 </div>
                                 <div>{{'menu.settings.upload_logo' | translate}}</div>
@@ -88,7 +91,8 @@
                                             placeholder="{{'user.form.password' | translate}}"
                                             ng-minlength="6"
                                             ng-model="sCtrl.model.data.attributes.password"
-                                            ng-keyup="form_profile.password.error_detail = undefined">
+                                            ng-keyup="form_profile.password.error_detail = undefined"
+                                            autocomplete="off">
                                     <label class="error"></label></div>
                             </div>
                             <div>
@@ -157,7 +161,7 @@
                                             placeholder="{{'user.form.password' | translate}}"
                                             required
                                             ng-model="sCtrl.financeModel.data.attributes.password"
-                                            ng-keyup="form.password.error_detail = undefined"></div>
+                                            ng-keyup="form.password.error_detail = undefined" autocomplete="off"></div>
                             </div>
                         </validation2>
 
