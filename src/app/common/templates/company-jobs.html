@@ -38,7 +38,7 @@
             </ul>
         </div>
         <div class="wait-rating" ng-hide="jobs_performed.length === 0">
-            <h2>SAKNAR BEDÖMNING</h2>
+            <h2>{{'assignment.status.missing_review' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs_performed" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -47,9 +47,9 @@
                     </div>
                     <div>
                         <h3>{{job.attributes.name}}</h3>
-                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
+                        <p><em>{{'assignment.status.you_hired' | translate}} {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
 
-                        <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                        <p>{{'assignment.status.rate' | translate}}:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
                     </div>
                     <div>
                         <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>
@@ -68,9 +68,8 @@
                     </div>
                     <div>
                         <h3>{{job.attributes.name}}</h3>
-                        <p><em>Du anlitade {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
-
-                        <p>Ge betyg ditt betyg:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                        <p><em>{{'assignment.status.you_hired' | translate}} {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
+                        <p>{{'assignment.status.rate' | translate}}:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
                     </div>
                     <div>
                         <div class="user-info-image" style="background-image: url({{job.attributes['image-url-small']}})"></div>
