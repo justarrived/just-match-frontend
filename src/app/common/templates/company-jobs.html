@@ -8,7 +8,7 @@
     </div>
     <div class="user-job-content" ng-show="ctrl.company_jobs_tab!==2">
         <div ng-hide="jobs_accepted.length === 0">
-            <h2>Pågående Uppdrag</h2>
+            <h2>{{'assignment.status.ongoing' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs_accepted" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
@@ -17,13 +17,13 @@
                     </div>
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
-                        <p>{{job.attributes["first-name"]}} kommer utföra uppdraget</p>
+                        <p>{{job.attributes["first-name"]}} {{'assignment.status.user_application.will_perform' | translate}}</p>
                     </div>
                 </li>
             </ul>
         </div>
         <div ng-hide="jobs.length === 0">
-            <h2>Senaste Aktivitet</h2>
+            <h2>{{'company.assignments.latest_activity.' | translate}}</h2>
             <ul>
                 <li ng-repeat="job in jobs" ng-click="ctrl.gotoUserJobPage(job)">
                     <div>
