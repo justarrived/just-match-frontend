@@ -91,23 +91,6 @@ angular.module('just.common')
                 return deferd.promise;
             };
 
-            $scope.uploadFile = function () {
-                var formData = new FormData();
-
-                var element = angular.element("#file_upload");
-
-                formData.append("image", element[0].files[0]);
-                httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
-                    var image_token = {};
-                    image_token.data = {};
-                    image_token.data.attributes = {};
-                    image_token.data.attributes["user-image-one-time-token"] = callback.data.attributes["one-time-token"];
-                    Resources.user.save({id: that.model.data.id}, image_token, function (response) {
-                        //console.log(response);
-                    });
-                });
-            };
-
             /*Image upload and submit*/
             this.image = {};
             this.language_new = [];
@@ -172,6 +155,24 @@ angular.module('just.common')
                 }
             };
 
+
+            $scope.fileNameChanged = function () {
+                // UPLOAD IMAGE
+                var element = angular.element("#file_upload");
+                if (element[0].files[0]) {
+                    var formData = new FormData();
+
+                    var element0 = angular.element("#file_upload");
+
+                    formData.append("image", element0[0].files[0]);
+                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
+                        that.model.data.attributes['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
+                        that.user_image = callback.data.attributes["image-url-small"];
+                    });
+                }
+
+            };
+
             this.save = function () {
                 var update_data = {};
                 update_data.data = {};
@@ -180,18 +181,16 @@ angular.module('just.common')
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
                 update_data.data.attributes["competence-text"] = that.model.data.attributes["competence-text"];
+                if(that.model.data.attributes['user-image-one-time-token']){
+                    update_data.data.attributes["user-image-one-time-token"] = that.model.data.attributes["user-image-one-time-token"];
+                }
+
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 //save data
 
                 // UPDATE USER LANGUAGE SKILL
                 that.processLanguages();
-
-                // UPLOAD IMAGE
-                var element = angular.element("#file_upload");
-                if (element[0].files[0]) {
-                    $scope.uploadFile();
-                }
 
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
