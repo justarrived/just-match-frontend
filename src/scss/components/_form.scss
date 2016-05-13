@@ -573,8 +573,8 @@ oi-select .select-search {
 
   button {
     @include button-white-border;
-    max-width: none;
-    margin-top: 30px;
+    min-width: 200px;
+    margin: 30px 0;
   }
   p {
     font-size: 1.2em;
