@@ -2,9 +2,9 @@
     <user-header></user-header>
     <div class="user-job-candidate-topmenu">
         <ul>
-            <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">Profil</a></li>
-            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">Referenser</a></li>
-            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">Meddelande</a></li>
+            <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a></li>
         </ul>
 
     </div>
@@ -12,30 +12,30 @@
         <div>
             <!-- Choose candidate -->
             <div class="user-job-status-title" ng-show="!ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har sokt uppdraget
+                {{ctrl.candidate_model["first-name"]}} {{'assignment.status.user_application' | translate}}
             </div>
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
-                <a href="" ng-click="modalShow = true">Anlita</a>
+                <a href="" ng-click="modalShow = true">{{'assignment.status.user_application.approve' | translate}}</a>
             </div>
 
             <!-- Wait user accepted -->
             <div class="user-job-status-title" ng-show="ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min<br/>
-                på sig att acceptera uppdraget.
+                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
+                {{'assignment.status.user_application.time_remaining' | translate}}
             </div>
 
             <!-- Job ongoing -->
             <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
-                {{ctrl.candidate_model["first-name"]}} kommer utföra uppdraget
+                {{ctrl.candidate_model["first-name"]}} {{'assignment.status.applicant_approved' | translate}}
             </div>
 
             <!-- Job performed confirmation -->
             <div class="user-job-status-title" ng-show="ctrl.performed">
-                Ar uppdraget utfört?
+                {{ 'assignment.status.is_successful' | translate}}
             </div>
             <div class="buttons" ng-show="ctrl.performed">
-                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
-                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
             </div>
         </div>
     </div>
@@ -67,8 +67,7 @@
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
             <li ng-repeat="job in userPerformedJobs">
-                <div><span class="user-info-image"
-                           style="background-image: url({{job.company_image}})"></span></div>
+                <div><span class="user-info-image" style="background-image: url({{job.company_image}})"></span></div>
                 <div>
                     <h4>{{job.attributes.name}}</h4>
                     <p>{{job.company.attributes.name}}</p>
@@ -91,7 +90,7 @@
     </div>
 
     <div class="candidate-chat" ng-show="currTab === 3">
-        <h3>Meddelanden</h3>
+        <h3>{{'common.messages' | translate}}</h3>
         <div>
             <ul>
                 <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
@@ -106,11 +105,11 @@
             <form name="form" ng-submit="ctrl.submitChat()">
                 <div>
                     <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
-                    <div><input type="submit" value="skicka"></div>
+                    <div><input type="submit" ng-value="common.submit | translate"></div>
                 </div>
             </form>
 
-            <div class="translate"><span style="cursor:pointer;" ng-click="ctrl.translationWord();">Översätt från svenska</span></div>
+            <div class="translate"><span style="cursor:pointer;" ng-click="ctrl.translationWord();">{{'common.translate.from' | translate}}</span></div>
         </div>
     </div>
 
@@ -118,14 +117,10 @@
         <div>
             <div>
                 <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
-                <h3>Du skickar en forfragan till</h3>
+                <h3>{{'company.assignments.candidates.send_request' | translate}}</h3>
                 <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
                 <p>
-                    {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
-                    {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar
-                    valja en
-                    annan kandidat.
-                </p>
+                    {{ctrl.candidate_model["first-name"]}} {{'user.assignment.confirmation.description' | translate}}</p>
                 <p>
                     <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
                     <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
