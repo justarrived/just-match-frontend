@@ -25,15 +25,15 @@
             </div>
 
             <!-- Job ongoing -->
-            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
+            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.canPerformed">
                 {{ctrl.candidate_model["first-name"]}} {{'assignment.status.applicant_approved' | translate}}
             </div>
 
             <!-- Job performed confirmation -->
-            <div class="user-job-status-title" ng-show="ctrl.performed">
+            <div class="user-job-status-title" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
                 {{ 'assignment.status.is_successful' | translate}}
             </div>
-            <div class="buttons" ng-show="ctrl.performed">
+            <div class="buttons" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
                 <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
                 <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
             </div>
