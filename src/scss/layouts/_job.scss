@@ -432,6 +432,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     border: 1px solid $midgrey;
     margin-bottom: 35px;
   }
+  .translate span {
+    cursor: pointer;
+  }
 
   ul {
     display: block;
@@ -603,6 +606,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
   }
 }
+
 .arriver-chat {
   margin: -25px -20px -20px;
   > div {
@@ -617,6 +621,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     min-width: none;
   }
 }
+
 job-body, job-comment {
   max-width: 800px;
   margin: 0 auto;
@@ -1211,7 +1216,7 @@ job-body, job-comment {
 .user-job-candidate-topmenu {
   background: $lightBlue;
   color: $white;
-  > div:first-child {
+  .message-botton {
     padding-left: 105px;
     padding-bottom: 20px;
     a {
