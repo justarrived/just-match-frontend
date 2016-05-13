@@ -22,7 +22,7 @@
                     <input type="submit" ng-disabled="form.$invalid" ng-value="'common.login' | translate"/>
                 </div>
 
-                <div><a href="" ng-click="ctrl.reset_password()">{{'login.forgot_password' | translate}}</a></div>
+                <div><a href="#{{routes.global.forgot_password.url}}">{{'login.forgot_password' | translate}}</a></div>
             </div>
         </form>
     </div>

@@ -59,10 +59,17 @@ angular.module('just', [
                     controller: 'WarningCtrl as ctrl'
                 }
             },
+            forgot_password: {
+                url: '/forgot_password',
+                handler: {
+                    templateUrl: 'common/templates/forgot-password.html',
+                    controller: 'ForgotPasswordCtrl as ctrl'
+                }
+            },
             reset_password_confirm: {
                 url: '/reset_password/:token',
                 resolve: function (token) {
-                    return '/reset-password/confirm/' + token;
+                    return '/reset_password/' + token;
                 },
                 handler: {
                     templateUrl: 'common/templates/reset-password.html',
