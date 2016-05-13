@@ -134,6 +134,14 @@
   }
   input[type="email"], input[type="password"], input[type="text"], input[type="number"], textarea, select {
     padding: 8px 10px;
+
+  }
+  option {
+    background: $lightBlue;
+    border: 0;
+  }
+  option:hover {
+    background: $pink;
   }
   .setting-bank-form {
     .form-group {
@@ -170,11 +178,7 @@
     input[type="submit"] {
       margin-top: 20px;
     }
-    input:-webkit-autofill,
-    input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px $lightBlue inset;
-      color: $white;
-    }
+
   }
   .form-profile {
     label.error {
@@ -202,6 +206,11 @@
       color: $pink;
     }
 
+  }
+  :-webkit-autofill,
+  :-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 50px $lightBlue inset;
+    color: $white;
   }
 
 }

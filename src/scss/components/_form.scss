@@ -624,3 +624,14 @@ input:-webkit-autofill:focus {
 textarea {
   max-width: 100%;
 }
+.reset-password-form {
+  width: 85%;
+  margin: 35px auto;
+  max-width: 500px;
+  input[type="submit"] {
+    @include button-pink;
+    min-width: 200px;
+    margin-top: 40px;
+  }
+
+}
