@@ -132,6 +132,7 @@ angular.module('just.common')
                 });
 
                 that.removeLanguage();
+                that.newLanguage();
             };
 
             this.removeLanguage = function () {
