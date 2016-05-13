@@ -73,7 +73,7 @@ angular.module('just.common')
                         'page[number]': 1,
                         'page[size]': 50,
                         'sort': 'en-name',
-                        'filter[name]': query
+                        'filter[en-name]': query
                     });
 
                     $scope.languages.$promise.then(function (response) {
