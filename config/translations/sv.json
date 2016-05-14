@@ -330,5 +330,11 @@
   "finance.form.account_clearing_number.validation":"Bank saknas",
   "finance.form.account_number.validation":"Kortnummer saknas",
   "finance.form.iban.validation":"IBAN-nummer saknas",
-  "finance.form.bic.validation":"BIC.nummer saknas"
+  "finance.form.bic.validation":"BIC.nummer saknas",
+  "cookies.title": "Cookies",
+  "cookies.description": "Vi använder oss av cookies.",
+  "cookies.read_more": "Läs mer.",
+  "cookies.accept": "Jag förstår.",
+  "cookies.info.title": "Om cookies",
+  "cookies.info.description": "Vi använder cookies av tekniska skäl, för att underlätta användningen av våra tjänster och för att ge dig som användare relevant information när du besöker vår webbplats. Cookies används även för att mäta trafiken på vår webbplats, för insamling av statistik och för att förbättra våra tjänster. Genom att använda våra tjänster godkänner du att vi använder cookies, såvida du inte har inaktiverat dessa genom att ändra inställningarna för cookies i din webbläsare."
 }
