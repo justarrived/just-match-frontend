@@ -75,7 +75,14 @@ angular.module('just', [
                     templateUrl: 'common/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl as ctrl'
                 }
-            }
+            },
+            confirmation: {
+                url: '/confirmation',
+                handler: {
+                    templateUrl: 'common/templates/confirmation.html',
+                    controller: 'ConfirmationCtrl as ctrl'
+                }
+            },
         },
         user: {
             select: {

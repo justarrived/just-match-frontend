@@ -8,7 +8,6 @@ angular.module('just.common')
             this.saveSuccessFromJobApply = 0;
             this.saveSuccessDefault = 0;
             this.submitLabel = 'common.continue';
-            this.fromRoute = '';
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -19,7 +18,6 @@ angular.module('just.common')
 
             if(flow.next_data.from_route === routes.global.start.url) {
                 this.submitLabel = 'common.save';
-                this.fromRoute = flow.next_data.from_route;
             }
 
             this.model = {};
@@ -196,8 +194,14 @@ angular.module('just.common')
 
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
                     if(flow.next_data.from_route === routes.global.start.url) {
-                        //from menu
-                        that.saveSuccessDefault = 1;
+                        flow.push(function () {
+                            flow.completed(routes.global.start.url);
+                        });
+                        flow.next(routes.global.confirmation.url, {
+                            title: 'common.updated',
+                            description: 'profile.updated',
+                            submit: 'common.back'
+                        });
                     } else if (flow.next_data) {
                         //from apply job, register
                         var job_id = flow.next_data.job_id;
