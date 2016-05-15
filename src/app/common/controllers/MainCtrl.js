@@ -79,8 +79,8 @@ angular.module('just.common')
 
         return MyDate;
     })
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q',
-        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q) {
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q','$route',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q,$route) {
             var that = this;
             this.showSetting = false;
             that.isCompany = -1;
@@ -104,6 +104,12 @@ angular.module('just.common')
                 });
                 this.menu(0);
             };
+
+            this.profileEdit = function () {
+                flow.next(routes.user.user.url, {'from_route': $route.current.$$route.originalPath});
+                this.menu(0);
+            };
+
             this.updateLanguage = function () {
                 i18nService.getLanguage().then(function (lang) {
                     that.language = lang;

@@ -7,11 +7,19 @@ angular.module('just.common')
             this.saveSuccessFromRegister = 0;
             this.saveSuccessFromJobApply = 0;
             this.saveSuccessDefault = 0;
+            this.submitLabel = 'common.continue';
+            this.fromRoute = '';
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
                     flow.redirect(routes.user.user.url);
                 });
+            }
+
+
+            if(flow.next_data.from_route === routes.global.start.url) {
+                this.submitLabel = 'common.save';
+                this.fromRoute = flow.next_data.from_route;
             }
 
             this.model = {};
@@ -150,7 +158,6 @@ angular.module('just.common')
                         }, function (result) {
                             that.language_new.shift();
                             that.newLanguage();
-
                         });
                 }
             };
@@ -185,16 +192,14 @@ angular.module('just.common')
                     update_data.data.attributes["user-image-one-time-token"] = that.model.data.attributes["user-image-one-time-token"];
                 }
 
-                //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
-
-                //save data
-
-                // UPDATE USER LANGUAGE SKILL
                 that.processLanguages();
 
-                // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
-                    if (flow.next_data) {
+                    if(flow.next_data.from_route === routes.global.start.url) {
+                        //from menu
+                        that.saveSuccessDefault = 1;
+                    } else if (flow.next_data) {
+                        //from apply job, register
                         var job_id = flow.next_data.job_id;
                         if (flow.next_data.type === 'apply_job') {
                             jobService.acceptJob(job_id, that.showAppliedJob);
