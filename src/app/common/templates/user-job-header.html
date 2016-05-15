@@ -13,6 +13,7 @@
                     {{ job.attributes["job-end-date"] | date:'dd MMM' }}
 
                 </li>
+                <li>{{ job.attributes.street }}</li>
             </ul>
             <ul>
                 <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
