@@ -194,6 +194,7 @@ angular.module('just.common')
 
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
                     if(flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
+                        //from menu
                         flow.push(function () {
                             flow.completed(routes.global.start.url);
                         });
@@ -206,6 +207,8 @@ angular.module('just.common')
                         //from apply job, register
                         var job_id = flow.next_data.job_id;
                         if (flow.next_data.type === 'apply_job') {
+                            
+                            
                             jobService.acceptJob(job_id, that.showAppliedJob);
                         } else if (flow.next_data.type === 'arriver_user_register') {
                             that.saveSuccessFromRegister = 1;

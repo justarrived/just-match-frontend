@@ -14,8 +14,8 @@ angular.module('just.common')
                 this.data.company_id = flow.next_data.data.id;
             }
 
-            $scope.$watch('form', function(form) {
-                if(form) {
+            $scope.$watch('form', function (form) {
+                if (form) {
                     if (that.message.data) {
                         angular.forEach(that.message.data.errors, function (obj, key) {
                             var pointer_arr = obj.source.pointer.split("/");
@@ -27,8 +27,6 @@ angular.module('just.common')
                     }
                 }
             });
-
-
 
             this.process = function () {
                 var element0 = angular.element("#file_upload");
