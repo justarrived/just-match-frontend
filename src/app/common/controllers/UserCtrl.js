@@ -193,7 +193,7 @@ angular.module('just.common')
                 that.processLanguages();
 
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
-                    if(flow.next_data.from_route === routes.global.start.url) {
+                    if(flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
                         flow.push(function () {
                             flow.completed(routes.global.start.url);
                         });
