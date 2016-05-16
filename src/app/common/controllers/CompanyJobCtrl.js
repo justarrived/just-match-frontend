@@ -846,7 +846,7 @@ angular.module('just.common')
                 var source_lang = 'sv';
                 var target_lang = 'en';
                 if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source="+source_lang+"&target=" + target_lang;
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
                     $http({method: 'GET', url: url}).then(function (response) {
                         that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
                     });
@@ -893,6 +893,17 @@ angular.module('just.common')
                 } else {
                     return true;
                 }
+            };
+
+            this.translation_test = "testing";
+
+            this.test = function () {
+                $http({
+                    method: 'GET',
+                    url: "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&source=en&target=de&q=Hello%20world"
+                }).then(function (response) {
+                    that.translation_test = response.data.translations.translatedText;
+                });
             };
 
         }]);
