@@ -85,6 +85,7 @@ angular.module('just.common')
             this.showSetting = false;
             that.isCompany = -1;
             this.backStep = -1;
+            this.menuShowCreateAccount = false;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
@@ -126,6 +127,7 @@ angular.module('just.common')
                 //show = undefined : toggle
                 show = show | !routes.global.isMainMenuOpen;
                 routes.global.isMainMenuOpen = show;
+                this.menuShowCreateAccount = false;
             };
 
             this.setProfile = function () {
