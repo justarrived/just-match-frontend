@@ -32,6 +32,12 @@ angular.module('just', [
                     controller: 'StartCtrl as ctrl'
                 }
             },
+            terms: {
+                url: '/terms',
+                handler: {
+                    templateUrl: 'common/templates/terms.html'
+                }
+            },
             select_language: {
                 url: '/select-language',
                 handler: {

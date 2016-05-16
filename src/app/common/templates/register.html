@@ -93,6 +93,10 @@
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
 
+                <div class="terms">
+                    <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.accept' | translate}} <a href="#{{routes.global.terms.url}}">{{'terms' | translate}}</a></p>
+                </div>
+
                 <div>
                     <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
                 </div>
