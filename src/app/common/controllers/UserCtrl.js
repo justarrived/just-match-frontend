@@ -1,6 +1,6 @@
 angular.module('just.common')
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService, settings, httpPostFactory) {
+    .controller('UserCtrl', ['userService', '$scope', '$timeout', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
+        function (userService, $scope, $timeout, Resources, authService, flow, routes, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
             this.isStart = 1;
@@ -133,6 +133,25 @@ angular.module('just.common')
                 }
             };
 
+            this.autoresize = function() {
+                var areas = document.getElementsByTagName('textarea');
+
+                if (areas.length < 4) {
+                    var self = this;
+                    $timeout(function() {
+                        self.autoresize();
+                    }, 100);
+                } else {
+                    Array.prototype.forEach.call(areas, function(area) {
+                        angular.element(area).bind('input', function() {
+                            angular.element(area).css({'height': 'auto','overflow-y': 'hidden'}).css({'height': area.scrollHeight});
+                        });
+                    });
+                }
+            };
+
+            this.autoresize();
+
             this.newLanguage = function () {
                 if (that.language_new.length > 0) {
                     var data = {
@@ -174,7 +193,11 @@ angular.module('just.common')
             };
 
             this.save = function () {
-                var update_data = {};
+
+              var test = document.getElementsByName('job_experience');
+
+              console.log(test);
+                /*var update_data = {};
                 update_data.data = {};
                 update_data.data.attributes = {};
                 update_data.data.attributes.description = that.model.data.attributes.description;
@@ -204,7 +227,7 @@ angular.module('just.common')
                     } else {
                         that.saveSuccessDefault = 1;
                     }
-                });
+                });*/
             };
 
             this.showAppliedJob = function () {
@@ -215,5 +238,3 @@ angular.module('just.common')
                 flow.redirect(routes.job.list.url);
             };
         }]);
-
-
