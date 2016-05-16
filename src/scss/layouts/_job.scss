@@ -634,17 +634,10 @@ job-body, job-comment {
 }
 
 .sticky {
-  .sticy-button {
-    .button {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  }
+
 }
 
-.sticy-button {
+.assignment-button {
   margin: 25px -25px -25px;
 
   .button {
@@ -658,6 +651,8 @@ job-body, job-comment {
     text-decoration: none;
     line-height: 1.1em;
     padding: 18px;
+    position: relative;
+    bottom: 1.2em;
   }
 }
 
