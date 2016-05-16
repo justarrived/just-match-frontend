@@ -1,10 +1,10 @@
 <section>
     <user-header></user-header>
     <div class="user-job-candidate-topmenu">
-        <div class="message-botton"><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'profile.overview.send_message' | translate}}</a></div>
         <ul>
             <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
             <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a></li>
         </ul>
 
     </div>
@@ -90,7 +90,6 @@
     </div>
 
     <div class="candidate-chat" ng-show="currTab === 3">
-        <h3>{{'common.messages' | translate}}</h3>
         <div>
             <ul>
                 <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
