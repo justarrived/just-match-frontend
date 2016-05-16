@@ -307,6 +307,7 @@ oi-select .select-search {
 
 .user-form {
   padding-top: 35px;
+  padding-left: 35px;
   label {
     text-transform: uppercase;
   }
@@ -321,13 +322,12 @@ oi-select .select-search {
     text-align: center;
   }
   .form-group {
-    padding-left: 20px;
     position: relative;
   }
   .form-group:before {
     position: absolute;
     font-family: 'fontello';
-    left: -20px;
+    left: -35px;
     font-size: 20px;
     color: $midgrey;
   }
