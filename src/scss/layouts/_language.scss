@@ -7,8 +7,18 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 20px ;
+    top: 20px;
+  }
 
+  .credentials {
+    text-align: center;
+    position: relative;
+    top: 3em;
+    transform: scale(0.75);
+  }
+
+  .prominent {
+    font-weight: bold;
   }
 
   .lang-wrapper {
