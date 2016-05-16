@@ -93,6 +93,10 @@
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
 
+                <div class="terms">
+                    <p><input type="checkbox" name="term"> Jag accepterar just Arriveds <a href="#{{routes.global.terms.url}}">villkor</a></p>
+                </div>
+
                 <div>
                     <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
                 </div>

@@ -32,7 +32,7 @@ angular.module('just', [
                     controller: 'StartCtrl as ctrl'
                 }
             },
-            term: {
+            terms: {
                 url: '/terms',
                 handler: {
                     templateUrl: 'common/templates/terms.html'
