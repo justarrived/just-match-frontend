@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="terms">
-                    <p><input type="checkbox" name="term"> Jag accepterar just Arriveds <a href="#{{routes.global.terms.url}}">villkor</a></p>
+                    <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.accept' | translate}} <a href="#{{routes.global.terms.url}}">{{'terms' | translate}}</a></p>
                 </div>
 
                 <div>
