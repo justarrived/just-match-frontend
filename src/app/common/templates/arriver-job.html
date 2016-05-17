@@ -19,16 +19,16 @@
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
-                <div ng-show="!that.canPerformed">
+                <div ng-show="!ctrl.canPerformed">
                     <h2>{{'assignment.status.hired' | translate}}</h2>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
                 </div>
             </div>
