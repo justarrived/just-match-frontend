@@ -67,7 +67,7 @@
                         <b>{{ job.max_rate | number}} {{ job.currency }}</b>
                     </div>
                     <span>
-                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
                         '...' }}
                     </span>
                 </a>
@@ -99,6 +99,10 @@
     <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
            slides-to-show="3" responsive="instructionsResponsive" on-directive-init="onDirectiveInit()">
         <div>
+            <div>
+                <h3>{{'start.instruction_section.slide_1.title' | translate}}</h3>
+                <!--<p>Description</p>-->
+            </div>
             <div class="pink">
                 <ul>
                     <li>{{'start.instruction_section.slide_1.text_1' | translate}}</li>
@@ -107,12 +111,12 @@
                 </ul>
                 <p><a href="#{{routes.job.list.url}}">{{'common.start_here' | translate}}</a></p>
             </div>
-            <div>
-                <h3>{{'start.instruction_section.slide_1.title' | translate}}</h3>
-                <!--<p>Description</p>-->
-            </div>
         </div>
         <div>
+            <div>
+                <h3>{{'start.instruction_section.slide_2.title' | translate}}</h3>
+                <!--<p>Description</p>-->
+            </div>
             <div>
                 <p>{{'start.instruction_section.slide_2.text_1' | translate}}</p>
                 <ul>
@@ -121,10 +125,6 @@
                     <li>{{'start.instruction_section.slide_2.text_4' | translate}}</li>
                 </ul>
                 <p><a href="#{{routes.user.register.url}}">{{'common.start_here' | translate}}</a></p>
-            </div>
-            <div>
-                <h3>{{'start.instruction_section.slide_2.title' | translate}}</h3>
-                <!--<p>Description</p>-->
             </div>
         </div>
         <!--
