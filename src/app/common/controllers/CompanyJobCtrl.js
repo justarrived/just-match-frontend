@@ -73,8 +73,6 @@ angular.module('just.common')
                                             }
                                             $scope.jobs_invoice.push(obj);
                                         });
-
-
                                     }
                                 }
                                 if (keepGoing) {
@@ -83,7 +81,6 @@ angular.module('just.common')
                                         id: "" + obj2.id,
                                         type: "job-users",
                                         attributes: {
-                                            accepted: true,
                                             "will-perform": true,
                                             "performed": false
                                         }
