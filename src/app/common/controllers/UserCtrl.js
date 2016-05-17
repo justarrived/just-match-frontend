@@ -1,6 +1,6 @@
 angular.module('just.common')
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService, settings, httpPostFactory) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$location', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
+        function (userService, $scope, Resources, authService, flow, routes, $location, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
             this.isStart = 1;
@@ -23,43 +23,44 @@ angular.module('just.common')
 
             this.user_image = 'assets/images/content/placeholder-profile-image.png';
 
+            if (this.model.$promise) {
+                this.model.$promise.then(function (response) {
+                    var deferd = $q.defer();
 
-            this.model.$promise.then(function (response) {
-                var deferd = $q.defer();
+                    that.language_bundle = [];
+                    that.language_ori = [];
+                    var found = $filter('filter')(response.included, {
+                        type: "languages"
+                    }, true);
 
-                that.language_bundle = [];
-                that.language_ori = [];
-                var found = $filter('filter')(response.included, {
-                    type: "languages"
-                }, true);
+                    angular.forEach(found, function (obj, idx) {
+                        that.language_bundle.push(found[idx]);
+                        that.language_ori.push(found[idx]);
+                    });
 
-                angular.forEach(found, function (obj, idx) {
-                    that.language_bundle.push(found[idx]);
-                    that.language_ori.push(found[idx]);
-                });
-
-                Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
-                    angular.forEach(result.data, function (obj, idx) {
-                        angular.forEach(that.language_bundle, function (obj2, idx2) {
-                            if (obj.relationships.language.data.id === obj2.id) {
-                                that.language_bundle[idx2].user_language_id = obj.id;
-                                that.language_ori[idx2].user_language_id = obj.id;
-                            }
+                    Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                        angular.forEach(result.data, function (obj, idx) {
+                            angular.forEach(that.language_bundle, function (obj2, idx2) {
+                                if (obj.relationships.language.data.id === obj2.id) {
+                                    that.language_bundle[idx2].user_language_id = obj.id;
+                                    that.language_ori[idx2].user_language_id = obj.id;
+                                }
+                            });
                         });
                     });
+
+                    var found_img = $filter('filter')(response.included, {
+                        type: 'user-images'
+                    }, true);
+                    if (found_img.length > 0) {
+                        that.user_image = found_img[0].attributes["image-url-small"];
+                    }
+
+                    deferd.resolve(that.language_bundle);
+                    deferd.resolve(that.user_image);
+                    return deferd.promise;
                 });
-
-                var found_img = $filter('filter')(response.included, {
-                    type: 'user-images'
-                }, true);
-                if (found_img.length > 0) {
-                    that.user_image = found_img[0].attributes["image-url-small"];
-                }
-
-                deferd.resolve(that.language_bundle);
-                deferd.resolve(that.user_image);
-                return deferd.promise;
-            });
+            }
 
 
             $scope.languagesArr = [];
@@ -96,7 +97,7 @@ angular.module('just.common')
             this.language_new = [];
             this.language_remove = [];
 
-            this.processLanguages = function () {
+            this.processLanguages = function (fn) {
                 that.language_new = [];
                 that.language_remove = [];
 
@@ -114,44 +115,48 @@ angular.module('just.common')
                     }
                 });
 
-                that.removeLanguage();
-                that.newLanguage();
+                that.removeLanguage(fn);
             };
 
-            this.removeLanguage = function () {
+            this.removeLanguage = function (fn) {
                 if (that.language_remove.length > 0) {
                     Resources.userLanguageId.remove({
                         user_id: "" + that.model.data.id,
                         user_language_id: "" + that.language_remove[0].user_language_id
                     }, function (result) {
                         that.language_remove.shift();
-                        that.removeLanguage();
+                        that.removeLanguage(fn);
                     }, function (result) {
                         that.language_remove.shift();
-                        that.removeLanguage();
+                        that.removeLanguage(fn);
                     });
+                } else {
+                    that.newLanguage(fn);
                 }
             };
 
-            this.newLanguage = function () {
+            this.newLanguage = function (fn) {
                 if (that.language_new.length > 0) {
                     var data = {
-                            data: {
-                                attributes: {
-                                    id: that.language_new[0].id
-                                }
+                        data: {
+                            attributes: {
+                                id: that.language_new[0].id
                             }
                         }
-                        ;
+                    };
                     Resources.userLanguage.create({user_id: that.model.data.id}, data,
                         function (result) {
                             that.language_new.shift();
-                            that.newLanguage();
+                            that.newLanguage(fn);
                         }, function (result) {
                             that.language_new.shift();
-                            that.newLanguage();
+                            that.newLanguage(fn);
 
                         });
+                } else {
+                    if (fn) {
+                        fn();
+                    }
                 }
             };
 
@@ -173,7 +178,45 @@ angular.module('just.common')
 
             };
 
+            this.getLanguages = function () {
+
+                userService.clearUserModel();
+                that.model = userService.userModel();
+                that.model.$promise.then(function (response) {
+                    that.language_bundle = [];
+                    that.language_ori = [];
+
+                    var found = $filter('filter')(response.included, {
+                        type: "languages"
+                    }, true);
+
+                    angular.forEach(found, function (obj, idx) {
+                        that.language_bundle.push(found[idx]);
+                        that.language_ori.push(found[idx]);
+                    });
+
+                    Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                        angular.forEach(result.data, function (obj, idx) {
+                            angular.forEach(that.language_bundle, function (obj2, idx2) {
+                                if (obj.relationships.language.data.id === obj2.id) {
+                                    that.language_bundle[idx2].user_language_id = obj.id;
+                                    that.language_ori[idx2].user_language_id = obj.id;
+                                }
+                            });
+
+
+                        });
+                    });
+
+                });
+            };
+
             this.save = function () {
+                // UPDATE USER LANGUAGE SKILL
+                that.processLanguages(that.saveProfile);
+            };
+
+            this.saveProfile = function () {
                 var update_data = {};
                 update_data.data = {};
                 update_data.data.attributes = {};
@@ -181,16 +224,10 @@ angular.module('just.common')
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
                 update_data.data.attributes["competence-text"] = that.model.data.attributes["competence-text"];
-                if(that.model.data.attributes['user-image-one-time-token']){
+                if (that.model.data.attributes['user-image-one-time-token']) {
                     update_data.data.attributes["user-image-one-time-token"] = that.model.data.attributes["user-image-one-time-token"];
                 }
-
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
-
-                //save data
-
-                // UPDATE USER LANGUAGE SKILL
-                that.processLanguages();
 
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
@@ -213,6 +250,12 @@ angular.module('just.common')
 
             this.gotoJobList = function () {
                 flow.redirect(routes.job.list.url);
+            };
+            this.refreshPage = function () {
+                that.getLanguages();
+                var path = $location.path();
+                flow.redirect(path);
+                that.saveSuccessDefault = 0;
             };
         }]);
 

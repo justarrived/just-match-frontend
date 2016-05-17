@@ -385,6 +385,15 @@
                     }
                 };
 
+                that.userModel = userService.userModel();
+                if(that.userModel.$promise){
+                    that.userModel.$promise.then(function(result){
+                        that.isCompany = userService.isCompany;
+                    });
+                }else{
+                    that.isCompany = userService.isCompany;
+                }
+
 
                 $scope.isSignIn = this.signedIn();
 
