@@ -159,6 +159,12 @@ angular.module('just.common')
 
             this.chatId = chatService.chatId;
 
+            i18nService.addLanguageChangeListener(function () {
+                    that.getChatMessage();
+                }
+            );
+
+
             $scope.currTab = 1;
 
             $scope.job_obj = {id: $routeParams.id};
@@ -322,6 +328,7 @@ angular.module('just.common')
             };
 
             this.getChatMessage = function () {
+                var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
                 that.chatMessages.$promise.then(function (response) {
@@ -341,6 +348,14 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
                             }
+                        }
+                        if (that.chatMessages.data[key].attributes.body) {
+                            var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessages.data[key].attributes.body) + "&target=" + target_lang;
+                            $http({method: 'GET', url: url}).then(function (response) {
+                                that.chatMessages.data[key].attributes.body_translated = response.data.data.translations[0].translatedText;
+                                that.chatMessages.data[key].attributes.body_translated_from = response.data.data.translations[0].detectedSourceLanguage;
+                                that.chatMessages.data[key].attributes.body_translated_to = target_lang;
+                            });
                         }
                     });
                 });
