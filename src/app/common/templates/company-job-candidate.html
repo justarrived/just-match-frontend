@@ -96,11 +96,11 @@
                     <div class="bubble">
                         <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
                         <div>{{chatMessage.attributes.body}}</div>
+                        <div class="test">{{chatMessage.attributes.body_translated}}</div>
                     </div>
                     <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
                     </div>
                 </li>
-                <li><button ng-click="ctrl.test()">{{ctrl.translation_test}}</button></li>
             </ul>
             <form name="form" ng-submit="ctrl.submitChat()">
                 <div>

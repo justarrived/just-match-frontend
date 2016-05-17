@@ -564,8 +564,8 @@ angular.module('just.common')
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
-        'MyDate', '$interval', 'Resources', '$http',
-        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
+        'MyDate', '$interval', 'Resources', '$http','settings',
+        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, settings) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -854,6 +854,11 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
                             }
+                            var url = settings.google_translate_api_url + settings.google_translate_api_key + "&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&target=" + i18nService.getLanguage().$$state.value.id;
+                            $http({method: 'GET', url: url}).then(function (response) {
+                                that.chatMessageModel.data.attributes.body_translated = response.data.data.translations[0].translatedText;
+                            });
+                            
                         }
                     });
                 });
