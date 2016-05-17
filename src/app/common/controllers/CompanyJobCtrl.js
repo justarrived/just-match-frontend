@@ -262,8 +262,22 @@ angular.module('just.common')
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
                     var isFound = 0;
+                    var currJobuserPoint = 0;
                     angular.forEach(response.data, function (obj, idx) {
-                        if (isFound === 0) {
+                        var jobuserPoint = 0;
+
+                        if (obj.attributes.accepted) {
+                            jobuserPoint = 1;
+                        }
+                        if (obj.attributes["will-perform"]) {
+                            jobuserPoint = 2;
+                        }
+                        if (obj.attributes.performed) {
+                            jobuserPoint = 3;
+                        }
+                        if (currJobuserPoint < jobuserPoint) {
+                            currJobuserPoint = jobuserPoint;
+
                             if (obj.attributes.accepted || obj.attributes["will-perform"] || obj.attributes.performed) {
                                 that.job_user_id = obj.id;
                                 that.accepted = true;
@@ -287,7 +301,6 @@ angular.module('just.common')
                                 }
 
                                 that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
-                                isFound = 1;
                             }
                             if (obj.attributes["will-perform"]) {
                                 that.will_perform = true;
@@ -302,8 +315,6 @@ angular.module('just.common')
 
                             if (obj.relationships.invoice.data !== null) {
                                 that.hasInvoice = true;
-                            } else {
-                                that.hasInvoice = false;
                             }
                         }
                     });
@@ -691,13 +702,12 @@ angular.module('just.common')
 
                 $scope.job_user = jobService.getJobUsers(that.job_id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
+
                     var isFound = 0;
                     angular.forEach(response.data, function (obj, idx) {
                         if (isFound === 0) {
                             if (obj.relationships.invoice.data !== null) {
                                 that.hasInvoice = true;
-                            } else {
-                                that.hasInvoice = false;
                             }
                             isFound = 1;
                         }
