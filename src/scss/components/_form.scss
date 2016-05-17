@@ -215,7 +215,7 @@ label {
   }
 }
 
-.job-date{
+.job-date {
   .has-error .ng-valid, .has-error .ng-invalid {
     border-color: $pink !important;
     color: $pink !important;
@@ -624,6 +624,7 @@ input:-webkit-autofill:focus {
 textarea {
   max-width: 100%;
 }
+
 .reset-password-form {
   width: 85%;
   margin: 35px auto;
@@ -633,5 +634,25 @@ textarea {
     min-width: 200px;
     margin-top: 40px;
   }
+
+}
+
+.terms {
+  text-align: center;
+  a {
+    color: $brightBlue;
+  }
+  input[type="checkbox"] {
+    width: auto;
+    vertical-align: middle;
+    margin-right: 5px;
+    border: 1px solid $brightBlue;
+    display: inline-block;
+    margin-top: -1px;
+  }
+}
+.terms-page {
+  top: 0;
+  bottom: 0;
 
 }
