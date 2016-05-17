@@ -264,48 +264,53 @@ angular.module('just.common')
 
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
+                    var isFound = 0;
                     angular.forEach(response.data, function (obj, idx) {
-                        if (obj.attributes.accepted || obj.attributes["will-perform"] || obj.attributes.performed) {
-                            that.job_user_id = obj.id;
-                            that.accepted = true;
-                            that.accepted_at = obj.attributes["accepted-at"];
-                            that.will_perform_confirmation_by = obj.attributes["will-perform-confirmation-by"];
+                        if (isFound === 0) {
+                            if (obj.attributes.accepted || obj.attributes["will-perform"] || obj.attributes.performed) {
+                                that.job_user_id = obj.id;
+                                that.accepted = true;
+                                that.accepted_at = obj.attributes["accepted-at"];
+                                that.will_perform_confirmation_by = obj.attributes["will-perform-confirmation-by"];
 
-                            var found_user = $filter('filter')(response.included, {
-                                id: "" + obj.relationships.user.data.id,
-                                type: "users"
-                            }, true);
-
-                            that.user_apply = found_user[0];
-                            that.user_apply.user_image = "assets/images/content/placeholder-profile-image.png";
-
-                            if (that.user_apply.relationships["user-images"].data.length > 0) {
-                                var found_user_image = $filter('filter')(response.included, {
-                                    id: "" + that.user_apply.relationships["user-images"].data[0].id,
-                                    type: "user-images"
+                                var found_user = $filter('filter')(response.included, {
+                                    id: "" + obj.relationships.user.data.id,
+                                    type: "users"
                                 }, true);
-                                that.user_apply.user_image = found_user_image[0].attributes["image-url-small"];
+
+                                that.user_apply = found_user[0];
+                                that.user_apply.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                                if (that.user_apply.relationships["user-images"].data.length > 0) {
+                                    var found_user_image = $filter('filter')(response.included, {
+                                        id: "" + that.user_apply.relationships["user-images"].data[0].id,
+                                        type: "user-images"
+                                    }, true);
+                                    that.user_apply.user_image = found_user_image[0].attributes["image-url-small"];
+                                }
+
+                                that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
+
+                            }
+                            if (obj.attributes["will-perform"]) {
+                                that.will_perform = true;
+                            } else {
+                                if (that.accepted) {
+                                    that.calcRemainTime();
+                                }
+                            }
+                            if (obj.attributes.performed) {
+                                that.performed = true;
                             }
 
-                            that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
-
-                        }
-                        if (obj.attributes["will-perform"]) {
-                            that.will_perform = true;
-                        } else {
-                            if (that.accepted) {
-                                that.calcRemainTime();
+                            if (obj.relationships.invoice.data !== null) {
+                                that.hasInvoice = true;
+                            } else {
+                                that.hasInvoice = false;
                             }
-                        }
-                        if (obj.attributes.performed) {
-                            that.performed = true;
+                            isFound = 1;
                         }
 
-                        if (obj.relationships.invoice.data !== null) {
-                            that.hasInvoice = true;
-                        } else {
-                            that.hasInvoice = false;
-                        }
                     });
                     //Calculate remain time
                     if (that.accepted && !that.will_perform) {
@@ -689,6 +694,21 @@ angular.module('just.common')
                     }
                 });
 
+                $scope.job_user = jobService.getJobUsers(that.job_id, 'job,user,user.user-images');
+                $scope.job_user.$promise.then(function (response) {
+                    var isFound = 0;
+                    angular.forEach(response.data, function (obj, idx) {
+                        if (isFound === 0) {
+                            if (obj.relationships.invoice.data !== null) {
+                                that.hasInvoice = true;
+                            } else {
+                                that.hasInvoice = false;
+                            }
+                            isFound = 1;
+                        }
+                    });
+                });
+
 
                 that.model = jobService.getJobUser(that.job_id, that.job_user_id, 'job,user,user.user-images,hourly-pay,user.language,user.languages');
                 that.model.$promise.then(function (response) {
@@ -735,11 +755,11 @@ angular.module('just.common')
                         that.performed = true;
                     }
 
-                    if (response.data.relationships.invoice.data !== null) {
+                    /*if (response.data.relationships.invoice.data !== null) {
                         that.hasInvoice = true;
                     } else {
                         that.hasInvoice = false;
-                    }
+                    }*/
 
                     Resources.userRating.get({id: that.user_apply.id}, function (result) {
                         that.user_apply.rating = result.meta["average-score"];
@@ -846,7 +866,7 @@ angular.module('just.common')
                 var source_lang = 'sv';
                 var target_lang = 'en';
                 if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source="+source_lang+"&target=" + target_lang;
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
                     $http({method: 'GET', url: url}).then(function (response) {
                         that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
                     });
