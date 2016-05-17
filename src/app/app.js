@@ -307,7 +307,7 @@ angular.module('just', [
     .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
         localStorageServiceProvider
             .setPrefix('just-arrived')
-            .setStorageType('sessionStorage');
+            .setStorageType('localStorage');
     }])
     .config(['uiGmapGoogleMapApiProvider', 'settings', function (uiGmapGoogleMapApiProvider, settings) {
         uiGmapGoogleMapApiProvider.configure({
