@@ -6,6 +6,7 @@
     <job-comment></job-comment>
     <job-more></job-more>
     <div class="sticy-button" ng-show="ctrl.canApplyJob"><a class="button" href="" ng-click="ctrl.accept_job()">{{"assignment.status.apply" | translate}}</a></div>
+    <div class="sticy-button" ng-hide="ctrl.canApplyJob"><a class="button-disabled" ng-click="">You have applied</a></div>
   </div>
 
 </section>
