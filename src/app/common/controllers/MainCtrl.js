@@ -11,8 +11,10 @@ angular.module('just.common')
                 }
 
                 var footerHeight = angular.element("footer").height();
+                var jobMore = document.getElementsByClassName("job-more-wrapper");
+                var jobMoreHeight = angular.element(jobMore).height();
                 var windowHeight = window.innerHeight;
-                var docHeight = getDocHeight() - footerHeight;
+                var docHeight = getDocHeight() - jobMoreHeight - footerHeight;
                 if ((this.pageYOffset + windowHeight) <= docHeight) {
                     element.addClass('sticky');
                 } else {
