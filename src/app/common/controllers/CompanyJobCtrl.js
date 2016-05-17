@@ -833,6 +833,7 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author = {attributes: {}};
                                 that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
                                 that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+
                             } else {
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
@@ -846,9 +847,9 @@ angular.module('just.common')
                 var source_lang = 'sv';
                 var target_lang = 'en';
                 if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
                     $http({method: 'GET', url: url}).then(function (response) {
-                        that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
+                        that.chatMessageModel.data.attributes.body = response.data.data.translations[0].translatedText;
                     });
                 }
             };
@@ -893,17 +894,6 @@ angular.module('just.common')
                 } else {
                     return true;
                 }
-            };
-
-            this.translation_test = "testing";
-
-            this.test = function () {
-                $http({
-                    method: 'GET',
-                    url: "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&source=en&target=de&q=Hello%20world"
-                }).then(function (response) {
-                    that.translation_test = response.data.translations.translatedText;
-                });
             };
 
         }]);
