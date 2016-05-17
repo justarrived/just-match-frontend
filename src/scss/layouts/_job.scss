@@ -24,6 +24,12 @@
     width: auto;
     max-width: none;
   }
+  button:disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+  }
 }
 
 .job-header {
@@ -647,7 +653,7 @@ job-body, job-comment {
 .sticy-button {
   margin: 25px -25px -25px;
 
-  .button {
+  .button,.button-disabled {
     text-align: center;
     background: $pink;
     color: $white;
@@ -658,6 +664,13 @@ job-body, job-comment {
     text-decoration: none;
     line-height: 1.1em;
     padding: 18px;
+  }
+  .button-disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+    cursor: default;
   }
 }
 
