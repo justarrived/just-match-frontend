@@ -1,6 +1,6 @@
 angular.module('just.common')
-    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
-        function (userService, $scope, Resources, authService, flow, routes, $q, $filter, jobService, settings, httpPostFactory) {
+    .controller('UserCtrl', ['userService', '$scope', 'Resources', 'authService', 'justFlowService', 'justRoutes', '$location', '$q', '$filter', 'jobService', 'settings', 'httpPostFactory',
+        function (userService, $scope, Resources, authService, flow, routes, $location, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
             this.isStart = 1;
@@ -23,43 +23,44 @@ angular.module('just.common')
 
             this.user_image = 'assets/images/content/placeholder-profile-image.png';
 
+            if (this.model.$promise) {
+                this.model.$promise.then(function (response) {
+                    var deferd = $q.defer();
 
-            this.model.$promise.then(function (response) {
-                var deferd = $q.defer();
+                    that.language_bundle = [];
+                    that.language_ori = [];
+                    var found = $filter('filter')(response.included, {
+                        type: "languages"
+                    }, true);
 
-                that.language_bundle = [];
-                that.language_ori = [];
-                var found = $filter('filter')(response.included, {
-                    type: "languages"
-                }, true);
+                    angular.forEach(found, function (obj, idx) {
+                        that.language_bundle.push(found[idx]);
+                        that.language_ori.push(found[idx]);
+                    });
 
-                angular.forEach(found, function (obj, idx) {
-                    that.language_bundle.push(found[idx]);
-                    that.language_ori.push(found[idx]);
-                });
-
-                Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
-                    angular.forEach(result.data, function (obj, idx) {
-                        angular.forEach(that.language_bundle, function (obj2, idx2) {
-                            if (obj.relationships.language.data.id === obj2.id) {
-                                that.language_bundle[idx2].user_language_id = obj.id;
-                                that.language_ori[idx2].user_language_id = obj.id;
-                            }
+                    Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                        angular.forEach(result.data, function (obj, idx) {
+                            angular.forEach(that.language_bundle, function (obj2, idx2) {
+                                if (obj.relationships.language.data.id === obj2.id) {
+                                    that.language_bundle[idx2].user_language_id = obj.id;
+                                    that.language_ori[idx2].user_language_id = obj.id;
+                                }
+                            });
                         });
                     });
+
+                    var found_img = $filter('filter')(response.included, {
+                        type: 'user-images'
+                    }, true);
+                    if (found_img.length > 0) {
+                        that.user_image = found_img[0].attributes["image-url-small"];
+                    }
+
+                    deferd.resolve(that.language_bundle);
+                    deferd.resolve(that.user_image);
+                    return deferd.promise;
                 });
-
-                var found_img = $filter('filter')(response.included, {
-                    type: 'user-images'
-                }, true);
-                if (found_img.length > 0) {
-                    that.user_image = found_img[0].attributes["image-url-small"];
-                }
-
-                deferd.resolve(that.language_bundle);
-                deferd.resolve(that.user_image);
-                return deferd.promise;
-            });
+            }
 
 
             $scope.languagesArr = [];
@@ -177,6 +178,39 @@ angular.module('just.common')
 
             };
 
+            this.getLanguages = function () {
+
+                userService.clearUserModel();
+                that.model = userService.userModel();
+                that.model.$promise.then(function (response) {
+                    that.language_bundle = [];
+                    that.language_ori = [];
+
+                    var found = $filter('filter')(response.included, {
+                        type: "languages"
+                    }, true);
+
+                    angular.forEach(found, function (obj, idx) {
+                        that.language_bundle.push(found[idx]);
+                        that.language_ori.push(found[idx]);
+                    });
+
+                    Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                        angular.forEach(result.data, function (obj, idx) {
+                            angular.forEach(that.language_bundle, function (obj2, idx2) {
+                                if (obj.relationships.language.data.id === obj2.id) {
+                                    that.language_bundle[idx2].user_language_id = obj.id;
+                                    that.language_ori[idx2].user_language_id = obj.id;
+                                }
+                            });
+
+
+                        });
+                    });
+
+                });
+            };
+
             this.save = function () {
                 // UPDATE USER LANGUAGE SKILL
                 that.processLanguages(that.saveProfile);
@@ -217,8 +251,10 @@ angular.module('just.common')
             this.gotoJobList = function () {
                 flow.redirect(routes.job.list.url);
             };
-            this.refreshPage = function(){
-                flow.redirect(routes.user.user.url);
+            this.refreshPage = function () {
+                that.getLanguages();
+                var path = $location.path();
+                flow.redirect(path);
                 that.saveSuccessDefault = 0;
             };
         }]);
