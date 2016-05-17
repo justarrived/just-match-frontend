@@ -97,6 +97,9 @@
   a.nav-create-account {
     @include button-white-border;
     font-size: inherit;
+    margin-top: 0;
+    margin-bottom: 20px;
+    min-width: 200px;
   }
 
   .user-info {
