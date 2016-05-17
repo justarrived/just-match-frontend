@@ -1,4 +1,21 @@
 angular.module('just.common')
+    .directive('passwordMatch', function () {
+        return {
+            restrict: 'A',
+            scope: true,
+            require: 'ngModel',
+            link: function (scope, elem, attrs, control) {
+                var checker = function () {
+                    var e1 = scope.$eval(attrs.ngModel);
+                    var e2 = scope.$eval(attrs.passwordMatch);
+                    return e1 === e2;
+                };
+                scope.$watch(checker, function (n) {
+                    control.$setValidity("unique", n);
+                });
+            }
+        };
+    })
     .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope',
         function (authService, userService, flow, routes, $scope) {
             var that = this;
