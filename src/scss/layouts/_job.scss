@@ -646,12 +646,13 @@ job-body, job-comment {
       bottom: 0;
       left: 0;
       right: 0;
+      z-index: 2;
     }
   }
 }
 
 .sticy-button {
-  margin: 25px -25px -25px;
+  margin: 0 -25px;
 
   .button,.button-disabled {
     text-align: center;
@@ -676,6 +677,7 @@ job-body, job-comment {
 
 .job-more-wrapper {
   margin: 0 -25px -25px;
+  padding-top: 2px;
 
   .main-title, .button {
     padding: 18px;
