@@ -287,7 +287,7 @@ angular.module('just.common')
                                 }
 
                                 that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
-
+                                isFound = 1;
                             }
                             if (obj.attributes["will-perform"]) {
                                 that.will_perform = true;
@@ -305,9 +305,7 @@ angular.module('just.common')
                             } else {
                                 that.hasInvoice = false;
                             }
-                            isFound = 1;
                         }
-
                     });
                     //Calculate remain time
                     if (that.accepted && !that.will_perform) {
@@ -753,10 +751,10 @@ angular.module('just.common')
                     }
 
                     /*if (response.data.relationships.invoice.data !== null) {
-                        that.hasInvoice = true;
-                    } else {
-                        that.hasInvoice = false;
-                    }*/
+                     that.hasInvoice = true;
+                     } else {
+                     that.hasInvoice = false;
+                     }*/
 
                     Resources.userRating.get({id: that.user_apply.id}, function (result) {
                         that.user_apply.rating = result.meta["average-score"];
