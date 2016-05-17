@@ -51,7 +51,7 @@
 
                 <validation2 form="form" field="street" errormsg="company.form.street.validation">
                     <div class="group">
-                        <input type="text" name="street" required ng-model="ctrl.data.street" ng-disabled="disableInput"
+                        <input type="text" name="street" ng-model="ctrl.data.street" ng-disabled="disableInput"
                                ng-keyup="form.street.error_detail = undefined">
                         <label>{{'company.form.street' | translate}}</label>
                     </div>
@@ -59,7 +59,7 @@
 
                 <validation2 form="form" field="zip" errormsg="company.form.zip.validation">
                     <div class="group">
-                        <input type="text" name="zip" required ng-model="ctrl.data.zip" ng-disabled="disableInput"
+                        <input type="text" name="zip" ng-model="ctrl.data.zip" ng-disabled="disableInput"
                                ng-minlength="5" ng-maxlength="5" ng-keyup="form.zip.error_detail = undefined">
                         <label>{{'company.form.zip' | translate}}</label>
                     </div>
@@ -67,7 +67,7 @@
 
                 <validation2 form="form" field="city" errormsg="company.form.city.validation">
                     <div class="group">
-                        <input type="text" name="city" required ng-model="ctrl.data.city" ng-disabled="disableInput"
+                        <input type="text" name="city" ng-model="ctrl.data.city" ng-disabled="disableInput"
                                ng-keyup="form.city.error_detail = undefined">
                         <label>{{'company.form.city' | translate}}</label>
                     </div>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="group register-image" ng-show="isNew">
-                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
+                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
                     <label>{{ 'company.form.logo' | translate }}</label>
                 </div>
 
@@ -114,7 +114,7 @@
 
                 <validation2 form="form" field="phone" errormsg="company.form.phone.validation">
                     <div class="group">
-                        <input type="text" name="phone" required ng-model="ctrl.data.phone" ng-disabled="disableInput"
+                        <input type="text" name="phone" ng-model="ctrl.data.phone"
                                ng-keyup="form.phone.error_detail = undefined">
                         <label>{{'company.form.phone' | translate}}</label>
                     </div>
@@ -122,7 +122,7 @@
 
                 <validation2 form="form" field="email" errormsg="company.form.email.validation">
                     <div class="group">
-                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-disabled="disableInput"
+                        <input type="email" name="email" required ng-model="ctrl.data.email"
                                ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
                                ng-keyup="form.email.error_detail = undefined">
                         <label>{{'company.form.email' | translate}}</label>
@@ -138,7 +138,7 @@
                 </validation2>
 
                 <div class="group register-image">
-                    <input type="file" id="file_upload" name="file">
+                    <input type="file" id="file_upload2" name="file" onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
 
@@ -149,7 +149,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid && isNew!==0">
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">
                         {{'common.continue' | translate}}
                     </button>
                 </div>
