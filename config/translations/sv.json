@@ -239,6 +239,7 @@
   "user.form.street.validation": "Ange adress",
   "user.form.zip.validation": "Ange postnummer med fem siffror",
   "user.form.password.validation": "Lösenordet bör vara minst 8 tecken",
+  "user.form.passwordCompare.validation": "Lösenorden stämmer inte överens",
   "user.reset_password.title": "Glömt lösenord",
   "user.reset_password.description": "Återställ bekräftelse lösenord mail har skickats till",
   "profile": "Profil",
