@@ -7,6 +7,7 @@ input[type="password"],
 input[type="text"],
 input[type="number"],
 input[type="url"],
+input[type="date"],
 textarea,
 select {
   border: 1px solid $lightBlue;
@@ -16,7 +17,10 @@ select {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
 }
-
+input[type="date"] {
+  min-height: 42px;
+  text-transform: uppercase;
+}
 label {
   font-weight: 400;
 }
