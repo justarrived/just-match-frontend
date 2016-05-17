@@ -18,79 +18,83 @@ angular.module('just.common')
             this.model.data = {};
             this.model.data.attributes = {};
 
-            this.model = userService.userModel();
-            this.message = userService.userMessage;
+            if(authService.isAuthenticated()){
+                this.model = userService.userModel();
+                this.message = userService.userMessage;
 
-            this.user_image = 'assets/images/content/placeholder-profile-image.png';
+                this.user_image = 'assets/images/content/placeholder-profile-image.png';
 
-            if (this.model.$promise) {
-                this.model.$promise.then(function (response) {
-                    var deferd = $q.defer();
+                if (this.model.$promise) {
+                    this.model.$promise.then(function (response) {
+                        var deferd = $q.defer();
 
-                    that.language_bundle = [];
-                    that.language_ori = [];
-                    var found = $filter('filter')(response.included, {
-                        type: "languages"
-                    }, true);
+                        that.language_bundle = [];
+                        that.language_ori = [];
+                        var found = $filter('filter')(response.included, {
+                            type: "languages"
+                        }, true);
 
-                    angular.forEach(found, function (obj, idx) {
-                        that.language_bundle.push(found[idx]);
-                        that.language_ori.push(found[idx]);
-                    });
+                        angular.forEach(found, function (obj, idx) {
+                            that.language_bundle.push(found[idx]);
+                            that.language_ori.push(found[idx]);
+                        });
 
-                    Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
-                        angular.forEach(result.data, function (obj, idx) {
-                            angular.forEach(that.language_bundle, function (obj2, idx2) {
-                                if (obj.relationships.language.data.id === obj2.id) {
-                                    that.language_bundle[idx2].user_language_id = obj.id;
-                                    that.language_ori[idx2].user_language_id = obj.id;
-                                }
+                        Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
+                            angular.forEach(result.data, function (obj, idx) {
+                                angular.forEach(that.language_bundle, function (obj2, idx2) {
+                                    if (obj.relationships.language.data.id === obj2.id) {
+                                        that.language_bundle[idx2].user_language_id = obj.id;
+                                        that.language_ori[idx2].user_language_id = obj.id;
+                                    }
+                                });
                             });
                         });
-                    });
 
-                    var found_img = $filter('filter')(response.included, {
-                        type: 'user-images'
-                    }, true);
-                    if (found_img.length > 0) {
-                        that.user_image = found_img[0].attributes["image-url-small"];
+                        var found_img = $filter('filter')(response.included, {
+                            type: 'user-images'
+                        }, true);
+                        if (found_img.length > 0) {
+                            that.user_image = found_img[0].attributes["image-url-small"];
+                        }
+
+                        deferd.resolve(that.language_bundle);
+                        deferd.resolve(that.user_image);
+                        return deferd.promise;
+                    });
+                }
+
+
+                $scope.languagesArr = [];
+
+                $scope.languagesArrFn = function (query, querySelectAs) {
+                    var deferd = $q.defer();
+
+                    if (query !== '') {
+                        angular.element(".select-search-list-item_loader").show();
+                        $scope.languages = Resources.languages.get({
+                            'page[number]': 1,
+                            'page[size]': 50,
+                            'sort': 'en-name',
+                            'filter[en-name]': query
+                        });
+
+                        $scope.languages.$promise.then(function (response) {
+                            $scope.languagesArr = response;
+                            var result = [];
+                            angular.forEach(response.data, function (obj, key) {
+                                result.push(obj);
+                            });
+                            deferd.resolve(result);
+                        });
+                    } else {
+                        angular.element(".select-search-list-item_loader").hide();
                     }
 
-                    deferd.resolve(that.language_bundle);
-                    deferd.resolve(that.user_image);
                     return deferd.promise;
-                });
+                };
             }
 
 
-            $scope.languagesArr = [];
-
-            $scope.languagesArrFn = function (query, querySelectAs) {
-                var deferd = $q.defer();
-
-                if (query !== '') {
-                    angular.element(".select-search-list-item_loader").show();
-                    $scope.languages = Resources.languages.get({
-                        'page[number]': 1,
-                        'page[size]': 50,
-                        'sort': 'en-name',
-                        'filter[en-name]': query
-                    });
-
-                    $scope.languages.$promise.then(function (response) {
-                        $scope.languagesArr = response;
-                        var result = [];
-                        angular.forEach(response.data, function (obj, key) {
-                            result.push(obj);
-                        });
-                        deferd.resolve(result);
-                    });
-                } else {
-                    angular.element(".select-search-list-item_loader").hide();
-                }
-
-                return deferd.promise;
-            };
 
             /*Image upload and submit*/
             this.image = {};
