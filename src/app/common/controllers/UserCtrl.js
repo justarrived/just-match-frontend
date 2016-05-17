@@ -96,7 +96,7 @@ angular.module('just.common')
             this.language_new = [];
             this.language_remove = [];
 
-            this.processLanguages = function () {
+            this.processLanguages = function (fn) {
                 that.language_new = [];
                 that.language_remove = [];
 
@@ -114,44 +114,48 @@ angular.module('just.common')
                     }
                 });
 
-                that.removeLanguage();
-                that.newLanguage();
+                that.removeLanguage(fn);
             };
 
-            this.removeLanguage = function () {
+            this.removeLanguage = function (fn) {
                 if (that.language_remove.length > 0) {
                     Resources.userLanguageId.remove({
                         user_id: "" + that.model.data.id,
                         user_language_id: "" + that.language_remove[0].user_language_id
                     }, function (result) {
                         that.language_remove.shift();
-                        that.removeLanguage();
+                        that.removeLanguage(fn);
                     }, function (result) {
                         that.language_remove.shift();
-                        that.removeLanguage();
+                        that.removeLanguage(fn);
                     });
+                } else {
+                    that.newLanguage(fn);
                 }
             };
 
-            this.newLanguage = function () {
+            this.newLanguage = function (fn) {
                 if (that.language_new.length > 0) {
                     var data = {
-                            data: {
-                                attributes: {
-                                    id: that.language_new[0].id
-                                }
+                        data: {
+                            attributes: {
+                                id: that.language_new[0].id
                             }
                         }
-                        ;
+                    };
                     Resources.userLanguage.create({user_id: that.model.data.id}, data,
                         function (result) {
                             that.language_new.shift();
-                            that.newLanguage();
+                            that.newLanguage(fn);
                         }, function (result) {
                             that.language_new.shift();
-                            that.newLanguage();
+                            that.newLanguage(fn);
 
                         });
+                } else {
+                    if (fn) {
+                        fn();
+                    }
                 }
             };
 
@@ -174,6 +178,11 @@ angular.module('just.common')
             };
 
             this.save = function () {
+                // UPDATE USER LANGUAGE SKILL
+                that.processLanguages(that.saveProfile);
+            };
+
+            this.saveProfile = function () {
                 var update_data = {};
                 update_data.data = {};
                 update_data.data.attributes = {};
@@ -181,16 +190,10 @@ angular.module('just.common')
                 update_data.data.attributes["job-experience"] = that.model.data.attributes["job-experience"];
                 update_data.data.attributes.education = that.model.data.attributes.education;
                 update_data.data.attributes["competence-text"] = that.model.data.attributes["competence-text"];
-                if(that.model.data.attributes['user-image-one-time-token']){
+                if (that.model.data.attributes['user-image-one-time-token']) {
                     update_data.data.attributes["user-image-one-time-token"] = that.model.data.attributes["user-image-one-time-token"];
                 }
-
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
-
-                //save data
-
-                // UPDATE USER LANGUAGE SKILL
-                that.processLanguages();
 
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
@@ -213,6 +216,10 @@ angular.module('just.common')
 
             this.gotoJobList = function () {
                 flow.redirect(routes.job.list.url);
+            };
+            this.refreshPage = function(){
+                flow.redirect(routes.user.user.url);
+                that.saveSuccessDefault = 0;
             };
         }]);
 
