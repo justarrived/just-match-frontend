@@ -166,7 +166,6 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
         function (jobService, authService, invoiceService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
-            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
@@ -582,7 +581,6 @@ angular.module('just.common')
             $scope.currTab = 1;
             $scope.modalShow = false;
 
-            this.maxWaitMinutes = 1080; //18 hours
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
             this.will_perform_confirmation_by = null; // datetime owner choosed
