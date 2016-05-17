@@ -166,7 +166,6 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
         function (jobService, authService, invoiceService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
-            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
@@ -262,8 +261,22 @@ angular.module('just.common')
                 $scope.job_user = jobService.getJobUsers($routeParams.id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
                     var isFound = 0;
+                    var currJobuserPoint = 0;
                     angular.forEach(response.data, function (obj, idx) {
-                        if (isFound === 0) {
+                        var jobuserPoint = 0;
+
+                        if (obj.attributes.accepted) {
+                            jobuserPoint = 1;
+                        }
+                        if (obj.attributes["will-perform"]) {
+                            jobuserPoint = 2;
+                        }
+                        if (obj.attributes.performed) {
+                            jobuserPoint = 3;
+                        }
+                        if (currJobuserPoint < jobuserPoint) {
+                            currJobuserPoint = jobuserPoint;
+
                             if (obj.attributes.accepted || obj.attributes["will-perform"] || obj.attributes.performed) {
                                 that.job_user_id = obj.id;
                                 that.accepted = true;
@@ -287,7 +300,6 @@ angular.module('just.common')
                                 }
 
                                 that.ratingModel.data.attributes["user-id"] = parseInt(obj.relationships.user.data.id);
-
                             }
                             if (obj.attributes["will-perform"]) {
                                 that.will_perform = true;
@@ -302,12 +314,8 @@ angular.module('just.common')
 
                             if (obj.relationships.invoice.data !== null) {
                                 that.hasInvoice = true;
-                            } else {
-                                that.hasInvoice = false;
                             }
-                            isFound = 1;
                         }
-
                     });
                     //Calculate remain time
                     if (that.accepted && !that.will_perform) {
@@ -573,7 +581,6 @@ angular.module('just.common')
             $scope.currTab = 1;
             $scope.modalShow = false;
 
-            this.maxWaitMinutes = 1080; //18 hours
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
             this.will_perform_confirmation_by = null; // datetime owner choosed
@@ -693,13 +700,12 @@ angular.module('just.common')
 
                 $scope.job_user = jobService.getJobUsers(that.job_id, 'job,user,user.user-images');
                 $scope.job_user.$promise.then(function (response) {
+
                     var isFound = 0;
                     angular.forEach(response.data, function (obj, idx) {
                         if (isFound === 0) {
                             if (obj.relationships.invoice.data !== null) {
                                 that.hasInvoice = true;
-                            } else {
-                                that.hasInvoice = false;
                             }
                             isFound = 1;
                         }
@@ -753,10 +759,10 @@ angular.module('just.common')
                     }
 
                     /*if (response.data.relationships.invoice.data !== null) {
-                        that.hasInvoice = true;
-                    } else {
-                        that.hasInvoice = false;
-                    }*/
+                     that.hasInvoice = true;
+                     } else {
+                     that.hasInvoice = false;
+                     }*/
 
                     Resources.userRating.get({id: that.user_apply.id}, function (result) {
                         that.user_apply.rating = result.meta["average-score"];
