@@ -4,8 +4,8 @@ angular.module('just.common')
             var that = this;
 
             this.isStart = 1;
-            this.saveSuccessFromRegister = 0;
-            this.saveSuccessFromJobApply = 0;
+            //this.saveSuccessFromRegister = 0;
+            //this.saveSuccessFromJobApply = 0;
             this.saveSuccessDefault = 0;
             this.submitLabel = 'common.continue';
 
@@ -207,11 +207,18 @@ angular.module('just.common')
                         //from apply job, register
                         var job_id = flow.next_data.job_id;
                         if (flow.next_data.type === 'apply_job') {
-                            
-                            
                             jobService.acceptJob(job_id, that.showAppliedJob);
                         } else if (flow.next_data.type === 'arriver_user_register') {
-                            that.saveSuccessFromRegister = 1;
+                            //that.saveSuccessFromRegister = 1;
+
+                            flow.push(function () {
+                                flow.completed(routes.job.list.url);
+                            });
+                            flow.next(routes.global.confirmation.url, {
+                                title: 'profile.create.confirmation.title',
+                                description: 'profile.create.confirmation.description',
+                                submit: 'common.find_assignment'
+                            });
                         }
                     } else {
                         that.saveSuccessDefault = 1;
@@ -220,7 +227,17 @@ angular.module('just.common')
             };
 
             this.showAppliedJob = function () {
-                that.saveSuccessFromJobApply = 1;
+                //that.saveSuccessFromJobApply = 1;
+
+                flow.push(function () {
+                    flow.completed(routes.job.list.url);
+                });
+                flow.next(routes.global.confirmation.url, {
+                    title: 'assignment.status.applied',
+                    description: 'assignment.status.applied.description',
+                    submit: 'user.apply.find_more'
+                });
+
             };
 
             this.gotoJobList = function () {
