@@ -5,12 +5,13 @@ angular
      * @name just.common.controller:CompanyCtrl
      *
      */
-    .controller('RegisterCompanyCtrl', ['companyService', 'authService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter',
-        function (companyService, authService, $scope, flow, routes, Resources, $q, $filter) {
+    .controller('RegisterCompanyCtrl', ['companyService', 'authService', 'userService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', 'settings', 'httpPostFactory',
+        function (companyService, authService, userService, $scope, flow, routes, Resources, $q, $filter, settings, httpPostFactory) {
             var that = this;
 
             this.data = companyService.registerModel;
             this.message = companyService.registerMessage;
+            this.messageU = userService.registerMessage;
             this.company_image = "assets/images/content/placeholder-logo.png";
 
             if (authService.isAuthenticated()) {
@@ -26,23 +27,36 @@ angular
             $scope.isNew = -1;
             this.isShowLogo = 0;
 
-            if(this.message.data && that.data.id === ""){
+            if (this.message.data && that.data.id === "") {
                 $scope.isAddNewCIN = true;
                 $scope.isShowLogo = 0;
                 $scope.disableInput = false;
                 $scope.isNew = 1;
-            }else{
+            } else {
                 this.data.cin = "";
             }
 
-            $scope.$watch('form', function(form) {
-                if(form) {
+            $scope.$watch('form', function (form) {
+                if (form) {
                     if (that.message.data) {
                         angular.forEach(that.message.data.errors, function (obj, key) {
                             var pointer_arr = obj.source.pointer.split("/");
                             var field_name = pointer_arr[pointer_arr.length - 1];
                             field_name = field_name.replace(/-/g, "_");
-                            $scope.form[field_name].error_detail = obj.detail;
+                            if ($scope.form[field_name]) {
+                                $scope.form[field_name].error_detail = obj.detail;
+                            }
+                        });
+
+                    }
+                    if (that.messageU.data) {
+                        angular.forEach(that.messageU.data.errors, function (obj, key) {
+                            var pointer_arr = obj.source.pointer.split("/");
+                            var field_name = pointer_arr[pointer_arr.length - 1];
+                            field_name = field_name.replace(/-/g, "_");
+                            if ($scope.form[field_name]) {
+                                $scope.form[field_name].error_detail = obj.detail;
+                            }
                         });
 
                     }
@@ -51,21 +65,11 @@ angular
 
             this.process = function () {
                 if ($scope.isNew === 1) {
-                    //Register and choose new company
-
-                    // GENERATE FORMDATA FOR UPLOAD IMAGE
-                    var element0 = angular.element("#file_upload");
-                    if (element0[0].files[0]) {
-                        var formData = new FormData();
-                        var element = angular.element("#file_upload");
-                        formData.append("image", element[0].files[0]);
-                        companyService.register(that.data, formData);
-                    } else {
-                        companyService.register(that.data);
-                    }
+                    // Register and choose new company
+                    companyService.register(that.data);
                 } else {
                     //Choose stored company
-                    companyService.choose(that.selectedCompany);
+                    companyService.choose(that.data);
                 }
             };
 
@@ -84,8 +88,11 @@ angular
                     that.data.street = item.attributes.street;
                     that.data.zip = item.attributes.zip;
                     that.data.city = item.attributes.city;
+                    that.data.company_id = item.id;
+                    that.data["company-image-one-time-token"] = "";
                     that.company_image = item.company_image;
-                    $scope.isShowLogo = item.haveLogo;
+                    //$scope.isShowLogo = item.haveLogo;
+                    $scope.isShowLogo = 1;
                     $scope.disableInput = true;
                     $scope.isNew = 0;
                     that.selectedCompany.data = item;
@@ -104,6 +111,8 @@ angular
                     that.data.street = "";
                     that.data.zip = "";
                     that.data.city = "";
+                    that.data.company_id = "";
+                    that.data["company-image-one-time-token"] = "";
                     that.company_image = "assets/images/content/placeholder-logo.png";
                     $scope.isShowLogo = 0;
                     $scope.disableInput = false;
@@ -157,5 +166,38 @@ angular
 
                 return deferd.promise;
             };
+
+            $scope.fileNameChanged = function () {
+                // UPLOAD IMAGE
+                var element = angular.element("#file_upload");
+                if (element[0].files[0]) {
+                    var formData = new FormData();
+
+                    var element0 = angular.element("#file_upload");
+
+                    formData.append("image", element0[0].files[0]);
+                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'companies/images', formData, function (callback) {
+                        that.data['company-image-one-time-token'] = callback.data.attributes["one-time-token"];
+                        that.company_image = callback.data.attributes["image-url-small"];
+                    });
+                }
+            };
+
+            $scope.fileNameChanged2 = function () {
+                // UPLOAD IMAGE
+                var element = angular.element("#file_upload2");
+                if (element[0].files[0]) {
+                    var formData = new FormData();
+
+                    var element0 = angular.element("#file_upload2");
+
+                    formData.append("image", element0[0].files[0]);
+                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
+                        that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
+                        that.user_image = callback.data.attributes["image-url-small"];
+                    });
+                }
+            };
+
         }]);
 

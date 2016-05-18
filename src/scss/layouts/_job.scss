@@ -716,6 +716,12 @@ job-body, job-comment {
 .new-job-form {
   .cate-group {
     position: relative;
+    .form-group {
+      margin-bottom: 0;
+    }
+    .form-error-detail {
+      margin-bottom: 15px;
+    }
   }
 }
 

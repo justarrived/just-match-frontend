@@ -6,8 +6,8 @@
  * Service to handle companies.
  */
 angular.module('just.service')
-    .service('companyService', ['$q', 'justFlowService', 'authService', 'Resources', 'justRoutes', 'i18nService', 'httpPostFactory', 'settings',
-        function ($q, flow, authService, Resources, routes, i18nService, httpPostFactory, settings) {
+    .service('companyService', ['$q', 'justFlowService', 'authService', 'userService', 'Resources', 'justRoutes', 'i18nService', 'httpPostFactory', 'settings',
+        function ($q, flow, authService, userService, Resources, routes, i18nService, httpPostFactory, settings) {
             var that = this;
 
             this.registerModel = {};
@@ -33,14 +33,17 @@ angular.module('just.service')
                 that.registerModel = attributes;
 
                 Resources.companies.create({data: {attributes: attributes}}, function (data) {
-                    flow.next(routes.user.register.url, data);
+                    //flow.next(routes.user.register.url, data);
+                    attributes.company_id = data.data.id;
+                    userService.register(attributes);
+
                 }, function (error) {
                     that.registerMessage = error;
                     flow.reload(routes.company.register.url);
                 });
             };
 
-            this.choose = function (company) {
-                flow.next(routes.user.register.url, company);
+            this.choose = function (attributes) {
+                userService.register(attributes);
             };
         }]);

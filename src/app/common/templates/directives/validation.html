@@ -3,7 +3,7 @@
     <div>
         <ng-transclude/>
     </div>
-    <div ng-show="form[field].$invalid && form[field].$touched">
+    <div class="form-error-detail" ng-show="form[field].$invalid && form[field].$touched">
         <span class="text-danger">{{errormsg | translate}}</span>
     </div>
 </div>

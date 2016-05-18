@@ -18,16 +18,19 @@
                 </validation2>
             </div>
 
-            <validation2 form="form" field="category_id" errormsg="assignment.form.category.validation">
-                <input type="hidden" name="category_id" required ng-model="ctrl.model.data.attributes['category-id']"/>
-                <input type="hidden" name="category_name" required ng-model="ctrl.model.data.attributes.category_name"/>
-            </validation2>
+
 
             <div class="cate-group">
                 <label>{{'assignment.form.category' | translate}}</label>
                 <div custom-select="category.id as category.name for category in searchAsync($searchTerm)"
                      custom-select-options="categoryOptions" ng-model="categorySelected"></div>
+
+                <validation2 form="form" field="category_id" errormsg="assignment.form.category.validation">
+                    <input type="hidden" name="category_id" required ng-model="ctrl.model.data.attributes['category-id']"/>
+                    <input type="hidden" name="category_name" required ng-model="ctrl.model.data.attributes.category_name"/>
+                </validation2>
             </div>
+
             <div class="material-input">
                 <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
