@@ -7,6 +7,7 @@ angular.module('just.common')
             //this.saveSuccessFromRegister = 0;
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
+            this.saveButtonText = "common.continue";
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -17,6 +18,15 @@ angular.module('just.common')
             this.model = {};
             this.model.data = {};
             this.model.data.attributes = {};
+
+            if(flow.next_data){
+                if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
+                    this.saveButtonText = "common.save";
+                }
+            }else{
+                this.saveButtonText = "common.save";
+            }
+
 
             if (authService.isAuthenticated()) {
                 this.model = userService.userModel();
@@ -247,33 +257,44 @@ angular.module('just.common')
                      }*/
 
 
-                    if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
-                        //from menu
+                    if (flow.next_data) {
+                        if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
+                            //from menu
+                            flow.push(function () {
+                                flow.completed(routes.global.start.url);
+                            });
+                            flow.next(routes.global.confirmation.url, {
+                                title: 'common.updated',
+                                description: 'profile.updated',
+                                submit: 'common.back'
+                            });
+                        } else if (flow.next_data) {
+                            //from apply job, register
+                            var job_id = flow.next_data.job_id;
+                            if (flow.next_data.type === 'apply_job') {
+                                jobService.acceptJob(job_id, that.showAppliedJob);
+                            } else if (flow.next_data.type === 'arriver_user_register') {
+                                //that.saveSuccessFromRegister = 1;
+
+                                flow.push(function () {
+                                    flow.completed(routes.job.list.url);
+                                });
+                                flow.next(routes.global.confirmation.url, {
+                                    title: 'profile.create.confirmation.title',
+                                    description: 'profile.create.confirmation.description',
+                                    submit: 'common.find_assignment'
+                                });
+                            }
+                        }
+                    } else {
                         flow.push(function () {
-                            flow.completed(routes.global.start.url);
+                            flow.completed(routes.user.user.url);
                         });
                         flow.next(routes.global.confirmation.url, {
                             title: 'common.updated',
                             description: 'profile.updated',
                             submit: 'common.back'
                         });
-                    } else if (flow.next_data) {
-                        //from apply job, register
-                        var job_id = flow.next_data.job_id;
-                        if (flow.next_data.type === 'apply_job') {
-                            jobService.acceptJob(job_id, that.showAppliedJob);
-                        } else if (flow.next_data.type === 'arriver_user_register') {
-                            //that.saveSuccessFromRegister = 1;
-
-                            flow.push(function () {
-                                flow.completed(routes.job.list.url);
-                            });
-                            flow.next(routes.global.confirmation.url, {
-                                title: 'profile.create.confirmation.title',
-                                description: 'profile.create.confirmation.description',
-                                submit: 'common.find_assignment'
-                            });
-                        }
                     }
                     /* else {
                      that.saveSuccessDefault = 1;
