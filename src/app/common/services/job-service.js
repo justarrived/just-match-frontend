@@ -54,7 +54,17 @@ angular.module('just.service')
 
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {
-                    flow.next(routes.job.approved.url, data);
+                    //flow.next(routes.job.approved.url, data);
+
+                    flow.push(function () {
+                        flow.completed(routes.company.jobs.url);
+                    });
+                    flow.next(routes.global.confirmation.url, {
+                        title: 'assignment.created.title',
+                        description: 'assignment.created.description',
+                        submit: 'assignment.created.continue'
+                    });
+
                 }, function (error) {
                     that.jobMessage = error;
                     flow.reload(routes.job.create.url);
