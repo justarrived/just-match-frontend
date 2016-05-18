@@ -31,14 +31,16 @@ label {
   display: none;
 }
 
-.text-danger {
-  color: $pink;
-  display: block;
+.form-error-detail {
   margin-top: -22px;
   font-size: 0.9em;
   text-align: left;
+  line-height: 1.3em;
 }
-
+.text-danger {
+  color: $pink;
+  display: block;
+}
 .ng-valid.ng-touched {
 }
 
@@ -341,7 +343,7 @@ oi-select .select-search {
   label {
     text-transform: uppercase;
   }
-  .text-danger {
+  .form-error-detail {
     margin-top: -15px;
   }
   hr {
@@ -502,7 +504,7 @@ oi-select .select-search {
     position: relative;
     margin-bottom: 26px;
 
-    span.text-danger {
+    .form-error-detail {
       margin-top: -12px;
     }
 
