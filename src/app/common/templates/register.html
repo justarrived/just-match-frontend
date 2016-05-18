@@ -44,16 +44,6 @@
                     </div>
                 </validation2>
 
-                <validation2 form="form" field="email" errormsg="user.form.email.validation">
-                    <div class="group">
-                        <input name="email" type="email" required
-                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
-                               ng-model="ctrl.data.email"
-                               ng-keyup="form.email.error_detail = undefined">
-                        <label>{{ 'user.form.email' | translate }}</label>
-                    </div>
-                </validation2>
-
                 <validation2 form="form" field="phone" errormsg="user.form.phone.validation">
                     <div class="group">
                         <input name="phone" type="text" required ng-minlength="6" ng-model="ctrl.data.phone"
@@ -77,6 +67,16 @@
                         <input name="zip" type="text" ng-required='ctrl.data.company_id' ng-minlength="5"
                                ng-model="ctrl.data.zip" ng-keyup="form.zip.error_detail = undefined">
                         <label>{{ 'user.form.zip' | translate }}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="email" errormsg="user.form.email.validation">
+                    <div class="group">
+                        <input name="email" type="email" required
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                               ng-model="ctrl.data.email"
+                               ng-keyup="form.email.error_detail = undefined">
+                        <label>{{ 'user.form.email' | translate }}</label>
                     </div>
                 </validation2>
 
