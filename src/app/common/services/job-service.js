@@ -6,8 +6,8 @@
  * Service to handle jobs.
  */
 angular.module('just.service')
-    .service('jobService', ['$q', 'justFlowService', 'authService', 'Resources', 'justRoutes', 'i18nService', '$http', 'settings',
-        function ($q, flow, authService, Resources, routes, i18nService, $http, settings) {
+    .service('jobService', ['$q', 'justFlowService', 'authService', 'userService', 'Resources', 'justRoutes', 'i18nService', '$http', 'settings',
+        function ($q, flow, authService, userService, Resources, routes, i18nService, $http, settings) {
             var that = this;
             this.rates = function () {
                 return Resources.hourly_pays.get({'sort': 'rate', 'page[number]': 1, 'page[size]': 100});
@@ -39,7 +39,7 @@ angular.module('just.service')
                 return Resources.userJobs.get(obj);
             };
             this.getOwnedJobs = function (user_id, include) {
-                return Resources.userOwnedJobs.get({user_id: user_id, 'include': include, 'page[size]':50});
+                return Resources.userOwnedJobs.get({user_id: user_id, 'include': include, 'page[size]': 50});
             };
             this.getJobUsers = function (job_id, include) {
                 return Resources.jobUsers.get({job_id: job_id, 'include': include}, function (response) {
@@ -73,19 +73,26 @@ angular.module('just.service')
                     });
                 }
             };
-            this.acceptJob = function (job_id,fn) {
-                /*Resources.jobUsers.create({job_id: job_id}, function (data) {
-                 flow.next(routes.job.accept.url, job_id);
-                 }, function (error) {
-                 that.jobMessage = error;
-                 flow.reload(routes.user.user.url);
-                 });*/
+            this.acceptJob = function (job_id, fn) {
+                if (userService.isCompany === 0) {
+                    $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
+                        //flow.next(routes.job.accept.url, job_id);
 
-                $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
-                    flow.next(routes.job.accept.url, job_id);
-                }).error(function (data, status) {
-                    flow.redirect(routes.job.get.resolve({id:job_id}));
-                });
+                        flow.push(function () {
+                            flow.completed(routes.job.list.url);
+                        });
+                        flow.next(routes.global.confirmation.url, {
+                            title: 'user.apply.confirmation',
+                            description: 'user.apply.confirmation.text.',
+                            submit: 'user.apply.find_more'
+                        });
+
+                    }).error(function (data, status) {
+                        flow.redirect(routes.job.get.resolve({id: job_id}));
+                    });
+                } else {
+                    flow.redirect(routes.job.get.resolve({id: job_id}));
+                }
             };
             this.ownerAcceptJob = function (job_id, job_user_id, fn) {
                 var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
@@ -103,17 +110,17 @@ angular.module('just.service')
             };
             this.ownerCancelAcceptJob = function (job_id, job_user_id, fn) {
                 /*var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
-                var data = {data: {attributes: {accepted: false}}};
-                $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
-                    if (fn) {
-                        fn(1);
-                    }
-                }, function (response) {
-                    that.jobMessage = response;
-                    if (fn) {
-                        fn(0);
-                    }
-                });*/
+                 var data = {data: {attributes: {accepted: false}}};
+                 $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
+                 if (fn) {
+                 fn(1);
+                 }
+                 }, function (response) {
+                 that.jobMessage = response;
+                 if (fn) {
+                 fn(0);
+                 }
+                 });*/
                 fn(0);
             };
             this.userWillPerformJob = function (job_id, job_user_id, fn) {
