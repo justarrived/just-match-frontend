@@ -24,6 +24,12 @@
     width: auto;
     max-width: none;
   }
+  button:disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+  }
 }
 
 .job-header {
@@ -640,14 +646,15 @@ job-body, job-comment {
       bottom: 0;
       left: 0;
       right: 0;
+      z-index: 2;
     }
   }
 }
 
 .sticy-button {
-  margin: 25px -25px -25px;
+  margin: 0 -25px;
 
-  .button {
+  .button,.button-disabled {
     text-align: center;
     background: $pink;
     color: $white;
@@ -659,10 +666,18 @@ job-body, job-comment {
     line-height: 1.1em;
     padding: 18px;
   }
+  .button-disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+    cursor: default;
+  }
 }
 
 .job-more-wrapper {
   margin: 0 -25px -25px;
+  padding-top: 2px;
 
   .main-title, .button {
     padding: 18px;

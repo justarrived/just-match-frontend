@@ -19,16 +19,16 @@
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
-                <div ng-show="!that.canPerformed">
+                <div ng-show="!ctrl.canPerformed">
                     <h2>{{'assignment.status.hired' | translate}}</h2>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
                 </div>
             </div>
@@ -78,16 +78,6 @@
                                        ng-required="ctrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
                                        ng-model="ctrl.financeModel.data.attributes['account-clearing-number']"/>
                                 <label>{{'user.account.bank' | translate}}</label>
-                            </div>
-                        </validation>
-
-                        <validation form="form" field="account_number"
-                                    errormsg="finance.form.account_number.validation">
-                            <div class="group">
-                                <input type="text" name="account_number"
-                                       ng-required="ctrl.financeModel.data.attributes['account-clearing-number']"
-                                       ng-model="ctrl.financeModel.data.attributes['account-number']"/>
-                                <label>{{'user.account.cardnr' | translate}}</label>
                             </div>
                         </validation>
 

@@ -136,7 +136,6 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http',
         function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
             var that = this;
-            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
@@ -366,7 +365,7 @@ angular.module('just.common')
                 var source_lang = 'sv';
                 var target_lang = 'en';
                 if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source="+source_lang+"&target=" + target_lang;
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
                     $http({method: 'GET', url: url}).then(function (response) {
                         that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
                     });

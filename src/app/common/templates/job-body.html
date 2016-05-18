@@ -4,7 +4,8 @@
         <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number }} {{ job.currency }}/{{'common.hour' | translate}})</em>
     </div>
     <div>
-        <button ng-click="ctrl.accept_job()" ng-show="ctrl.canApplyJob">{{"assignment.status.apply" | translate}}</button>
+        <button ng-click="ctrl.accept_job()" ng-show="ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.apply" | translate}}</button>
+        <button ng-click="" disabled ng-hide="ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" | translate}}</button>
     </div>
 </div>
 
@@ -19,7 +20,6 @@
             <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
                 | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}
             </li>
-            <!--<li class="job-language">Eng, Svenska, Arabiska</li>-->
             <li class="job-report"><a href="#">{{"assignment.report" | translate}}</a></li>
         </ul>
     </div>
