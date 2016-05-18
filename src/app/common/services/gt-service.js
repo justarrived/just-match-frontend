@@ -37,7 +37,8 @@ angular.module('just.service')
                     return {
                         translatedText: response.data.data.translations[0].translatedText,
                         detectedSourceLanguage: response.data.data.translations[0].detectedSourceLanguage,
-                        detectedSourceLanguageName: that.getLanguageName(response.data.data.translations[0].detectedSourceLanguage),
+                        detectedSourceLanguageName: that.getSourceLanguageName(response.data.data.translations[0].detectedSourceLanguage),
+                        detectedSourceLanguageDirection: that.getSourceDirection(response.data.data.translations[0].detectedSourceLanguage),
                         targetLanguage: that.targetLanguage,
                         targetLanguageName: that.targetLanguageName,
                         targetLanguageDirection: that.targetLanguageDirection
@@ -46,11 +47,25 @@ angular.module('just.service')
             );
         };
 
-        this.getLanguageName = function(langCode) {
-            angular.forEach(that.allLanguages, function (obj, key) {
-                if(obj['lang-code'] === langCode) {
-                    return obj['en-name'];
+        this.getSourceLanguageName = function(langCode) {
+            var len = that.allLanguages.length;
+            var i = 0;
+            for(i; i<len; i++) {
+                if(that.allLanguages[i]['lang-code'] === langCode) {
+                    return that.allLanguages[i]['en-name'];
                 }
-            });
+            }
+            return "-";
         };
+        this.getSourceDirection = function(langCode) {
+            var len = that.allLanguages.length;
+            var i = 0;
+            for(i; i<len; i++) {
+                if(that.allLanguages[i]['lang-code'] === langCode) {
+                    return that.allLanguages[i].direction;
+                }
+            }
+            return "ltr";
+        };
+
     }]);
