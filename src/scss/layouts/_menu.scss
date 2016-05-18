@@ -36,10 +36,16 @@
     line-height: 1em;
   }
 
+  .create-account-header {
+    font-size: 1.2em;
+    font-weight: normal;
+    margin-top: 15px;
+  }
+
   ul {
     display: inline-block;
     margin: 0;
-    padding: 0 0 20px 0;
+    padding: 0;
 
     li {
       display: block;
@@ -64,6 +70,9 @@
       a.nav-job-list:before {
         content: '\e815';
       }
+      a.nav-my-job:before {
+        content: '\e811';
+      }
       a.nav-job-create:before {
         content: '\e819';
       }
@@ -79,8 +88,18 @@
       a.nav-signout:before {
         content: '\e810';
       }
-
+      a.nav-profile:before {
+        content: '\e805';
+      }
     }
+  }
+
+  a.nav-create-account {
+    @include button-white-border;
+    font-size: inherit;
+    margin-top: 0;
+    margin-bottom: 20px;
+    min-width: 200px;
   }
 
   .user-info {
@@ -97,7 +116,7 @@
     > div:first-child {
       text-align: left;
       padding-left: 25px;
-      a {
+      .user-table {
         display: table;
         margin-right: 10px;
 

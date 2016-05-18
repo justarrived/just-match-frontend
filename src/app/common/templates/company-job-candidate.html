@@ -1,12 +1,10 @@
 <section>
     <user-header></user-header>
     <div class="user-job-candidate-topmenu">
-        <div>
-            <a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">Skicka Meddelande</a>
-        </div>
         <ul>
-            <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">Profil</a></li>
-            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">Referenser</a></li>
+            <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a></li>
         </ul>
 
     </div>
@@ -14,52 +12,52 @@
         <div>
             <!-- Choose candidate -->
             <div class="user-job-status-title" ng-show="!ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har sokt uppdraget
+                {{ctrl.candidate_model["first-name"]}} {{'assignment.status.user_application' | translate}}
             </div>
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
-                <a href="" ng-click="modalShow = true">Anlita</a>
+                <a href="" ng-click="modalShow = true">{{'assignment.status.user_application.approve' | translate}}</a>
             </div>
 
             <!-- Wait user accepted -->
             <div class="user-job-status-title" ng-show="ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min<br/>
-                på sig att acceptera uppdraget.
+                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
+                {{'assignment.status.user_application.time_remaining' | translate}}
             </div>
 
             <!-- Job ongoing -->
-            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.performed">
-                {{ctrl.candidate_model["first-name"]}} kommer utföra uppdraget
+            <div class="user-job-status-title" ng-show="ctrl.will_perform && !ctrl.canPerformed">
+                {{ctrl.candidate_model["first-name"]}} {{'assignment.status.applicant_approved' | translate}}
             </div>
 
             <!-- Job performed confirmation -->
-            <div class="user-job-status-title" ng-show="ctrl.performed">
-                Ar uppdraget utfört?
+            <div class="user-job-status-title" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
+                {{ 'assignment.status.is_successful' | translate}}
             </div>
-            <div class="buttons" ng-show="ctrl.performed">
-                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">Nej</a>
-                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">Ja</a>
+            <div class="buttons" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
+                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
             </div>
         </div>
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
-            <h3><i class="demo-icon icon-ic-paper"></i>{{"user.presentation.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-paper"></i>{{"profile.form.presentation" | translate}}</h3>
             <p>{{ctrl.candidate_model.description}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-star"></i>{{"user.job-experience.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-star"></i>{{"profile.form.experience" | translate}}</h3>
             <p>{{ctrl.candidate_model["job-experience"]}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-education"></i>{{"user.education.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-education"></i>{{"profile.form.education" | translate}}</h3>
             <p>{{ctrl.candidate_model["education"]}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-tool"></i>{{"user.skills.label" | translate}}</h3>
-            <p></p>
+            <h3><i class="demo-icon icon-ic-tool"></i>{{"profile.form.skills" | translate}}</h3>
+            <p>{{ctrl.candidate_model["competence-text"]}}</p>
         </div>
         <div>
-            <h3><i class="demo-icon icon-ic-user3"></i>{{"user.language-skills.label" | translate}}</h3>
+            <h3><i class="demo-icon icon-ic-user3"></i>{{"profile.form.languages" | translate}}</h3>
             <ul>
                 <li ng-repeat="lang in ctrl.candidate_model.languages">{{lang.attributes["en-name"]}}</li>
             </ul>
@@ -69,8 +67,7 @@
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
             <li ng-repeat="job in userPerformedJobs">
-                <div><span class="user-info-image"
-                           style="background-image: url({{job.company_image}})"></span></div>
+                <div><span class="user-info-image" style="background-image: url({{job.company_image}})"></span></div>
                 <div>
                     <h4>{{job.attributes.name}}</h4>
                     <p>{{job.company.attributes.name}}</p>
@@ -82,61 +79,43 @@
                         <span ng-class="{select:job.rating.attributes.score>=4}"></span>
                         <span ng-class="{select:job.rating.attributes.score>=5}"></span>
                     </p>
-
-                    <!--<p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
-                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>-->
-                    <!--<p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>-->
                 </div>
                 <div>
                     {{job.attributes["job-date"] | date: "MMM"}}<br/>
                     <span>{{job.attributes["job-date"] | date: "dd"}}</span>
                 </div>
             </li>
-            <!--<li>
-                <div><span class="user-info-image"
-                           style="background-image: url(assets/images/content/antrop-logo.png)"></span></div>
-                <div>
-                    <h4>Kontainerstadning</h4>
-                    <p>Elgiganten</p>
-                    <p class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span
-                            class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;</p>
-                    <p>Amir gjorde ett riktigt bra jobb. Elgiganten ar gigantisk nojda</p>
-                </div>
-                <div>
-                    JAN<br/>
-                    <span>01</span>
-                </div>
-            </li>-->
+
         </ul>
     </div>
 
     <div class="candidate-chat" ng-show="currTab === 3">
-        <h3>Meddelanden</h3>
         <div>
             <ul>
-                <li>
+                <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                     <div class="bubble">
-                        <div>Amir Khermand</div>
-                        <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
+                        <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
+                        <div ng-if="chatMessage.attributes.body_translated_from == chatMessage.attributes.body_translated_to">
+                            {{chatMessage.attributes.body}}
+                        </div>
+                        <div ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
+                            {{chatMessage.attributes.body_translated}}
+                            <p><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from}}</strong><br>
+                                {{chatMessage.attributes.body}}
+                            </p>
+                        </div>
                     </div>
-                    <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
-                    </div>
-                </li>
-                <li class="right">
-                    <div class="bubble">
-                        <div>Ove Martinnson</div>
-                        <div>Ja, det blir perfekt. Valkommen</div>
-                    </div>
-                    <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
-                    </div>
+                    <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})"></div>
                 </li>
             </ul>
-            <form name="form" ng-submit="ctr.submitChat()">
+            <form name="form" ng-submit="ctrl.submitChat()">
                 <div>
-                    <div><input type="text" required/></div>
+                    <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
+                    <div><input type="submit" ng-value="'common.submit' | translate"></div>
                 </div>
             </form>
-            <div class="translate"><span>Översätt från svenska</span></div>
+
+            <div class="translate"><span ng-click="ctrl.translationWord();">{{'common.translate.from' | translate}}</span></div>
         </div>
     </div>
 
@@ -144,17 +123,13 @@
         <div>
             <div>
                 <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
-                <h3>Du skickar en forfragan till</h3>
+                <h3>{{'company.assignments.candidates.send_request' | translate}}</h3>
                 <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
                 <p>
-                    {{ctrl.candidate_model["first-name"]}} har 12 timmer pa sig att acceptera uppdrager. Om
-                    {{ctrl.candidate_model["first-name"]}} inte accepterar inom den angivna tiden kommer du att kunnar
-                    valja en
-                    annan kandidat.
-                </p>
+                    {{ctrl.candidate_model["first-name"]}} {{'user.assignment.confirmation.description' | translate}}</p>
                 <p>
-                    <a class="button dark" href="" ng-click="modalShow = false">Avbryt</a>
-                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">Skicka</a>
+                    <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
+                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
                 </p>
             </div>
         </div>

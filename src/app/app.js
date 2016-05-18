@@ -32,6 +32,12 @@ angular.module('just', [
                     controller: 'StartCtrl as ctrl'
                 }
             },
+            terms: {
+                url: '/terms',
+                handler: {
+                    templateUrl: 'common/templates/terms.html'
+                }
+            },
             select_language: {
                 url: '/select-language',
                 handler: {
@@ -57,6 +63,23 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/warning.html',
                     controller: 'WarningCtrl as ctrl'
+                }
+            },
+            forgot_password: {
+                url: '/forgot_password',
+                handler: {
+                    templateUrl: 'common/templates/forgot-password.html',
+                    controller: 'ForgotPasswordCtrl as ctrl'
+                }
+            },
+            reset_password_confirm: {
+                url: '/reset_password/:token',
+                resolve: function (token) {
+                    return '/reset_password/' + token;
+                },
+                handler: {
+                    templateUrl: 'common/templates/reset-password.html',
+                    controller: 'ResetPasswordCtrl as ctrl'
                 }
             }
         },
@@ -274,6 +297,9 @@ angular.module('just', [
                 $routeProvider.when(route.url, route.handler);
             });
         });
+        $routeProvider.otherwise({
+            templateUrl: 'common/templates/error-404.html'
+        });
 
         /*    $locationProvider.html5Mode(true);
          $locationProvider.hashPrefix('!'); */
@@ -281,12 +307,15 @@ angular.module('just', [
     .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
         localStorageServiceProvider
             .setPrefix('just-arrived')
-            .setStorageType('sessionStorage');
+            .setStorageType('localStorage');
     }])
-    .config(function (uiGmapGoogleMapApiProvider) {
+    .config(['uiGmapGoogleMapApiProvider', 'settings', function (uiGmapGoogleMapApiProvider, settings) {
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M',
+            key: settings.google_map_api_key,
             v: '3.20',
             libraries: 'weather,geometry,visualization'
         });
-    });
+    }])
+    .config(['$compileProvider', 'settings', function ($compileProvider, settings) {
+        $compileProvider.debugInfoEnabled(settings.debug_enable);
+    }]);

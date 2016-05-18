@@ -73,7 +73,7 @@ angular.module('just.service')
                     });
                 }
             };
-            this.acceptJob = function (job_id) {
+            this.acceptJob = function (job_id,fn) {
                 /*Resources.jobUsers.create({job_id: job_id}, function (data) {
                  flow.next(routes.job.accept.url, job_id);
                  }, function (error) {
@@ -84,7 +84,7 @@ angular.module('just.service')
                 $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
                     flow.next(routes.job.accept.url, job_id);
                 }).error(function (data, status) {
-                    that.jobMessage = data;
+                    flow.redirect(routes.job.get.resolve({id:job_id}));
                 });
             };
             this.ownerAcceptJob = function (job_id, job_user_id, fn) {
@@ -102,7 +102,7 @@ angular.module('just.service')
                 });
             };
             this.ownerCancelAcceptJob = function (job_id, job_user_id, fn) {
-                var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
+                /*var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;
                 var data = {data: {attributes: {accepted: false}}};
                 $http({method: 'PATCH', url: url, data: angular.toJson(data)}).then(function (response) {
                     if (fn) {
@@ -113,7 +113,8 @@ angular.module('just.service')
                     if (fn) {
                         fn(0);
                     }
-                });
+                });*/
+                fn(0);
             };
             this.userWillPerformJob = function (job_id, job_user_id, fn) {
                 var url = settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users/" + job_user_id;

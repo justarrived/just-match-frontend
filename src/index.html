@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="just" ng-cloak class="ng-cloak">
 <head>
-    <title>Just Arrived</title>
+    <title>{{'applications.title' | translate}}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="sv">
 
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
     <link rel="icon" sizes="16x16 32x32 64x64" href="/assets/favicons/favicon.ico">
@@ -38,20 +38,13 @@
     <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
     <script type="text/javascript" src="<%= file %>"></script>
     <% }); %>
-    <script src='//maps.googleapis.com/maps/api/js'></script>
 </head>
 
 <body ng-controller="MainCtrl as ctrl" scroll>
-<div id="loader">
-    <div>
-        <div></div>
-    </div>
-</div>
 <div class="wrapper">
     <header>
         <div class="top-bar">
-            <div class="back-button" ng-hide="ctrl.isStartPage"><a href="javascript: history.back()"><i
-                    class="demo-icon icon-ic-arrow-left"></i></a></div>
+            <div class="back-button" ng-hide="ctrl.isStartPage"><a href="" ng-click="ctrl.historyBack()"><i class="demo-icon icon-ic-arrow-left"></i></a></div>
             <div class="top-logo">
                 <a href="#/">
                     <img src="assets/images/ui/logo.svg" alt="logo"/>
@@ -63,7 +56,7 @@
             </div>
             <div>
                 <button ng-click="ctrl.menu()" type="button"><span class="menu-icon"><i></i><i></i><i></i></span><span
-                        class="menu-text">{{"menu.title" | translate}}</span></button>
+                        class="menu-text">{{"common.menu" | translate}}</span></button>
             </div>
         </div>
     </header>
@@ -74,13 +67,13 @@
         <div>
             <div>
                 <p>
-                    <span>Just Arrived</span>
+                    <span>{{'applications.title' | translate}}</span>
                 </p>
                 <p>
                     <span>Jakobsbergsgatan 22,</span>
                     <span>111 44 Stockholm</span>
                 </p>
-                <p><span>hej@justarrived</span></p>
+                <p><a href="mailto:hej@justarrived.se"><span>hej@justarrived.se</span></a></p>
             </div>
         </div>
     </footer>

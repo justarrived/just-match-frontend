@@ -1,119 +1,159 @@
 <section>
     <div class="grey-header">
-        <h1>SKAPA KONTO</h1>
-        <!--<p>Description</p>-->
+        <p class="main">
+            {{'common.have_account' | translate}}
+            <br>
+            <a href="#{{routes.user.signin.url}}">{{'common.login' | translate}}</a>
+        </p>
     </div>
     <div class="company-register-form">
         <form name="form" novalidate ng-submit="ctrl.process()">
-            <div class="material-input">
-                <div custom-select="company.id as company.attributes.name_cin for company in searchAsync($searchTerm)"
-                     custom-select-options="companyOptions" ng-model="companySelected"></div>
-                <input type="hidden" name="id" ng-model="ctrl.data.id"/>
 
-                <validation form="form" field="cin" errormsg="company-register.form.cin.validation_error"
-                            ng-show="isAddNewCIN">
+            <div class="material-input">
+                <div class="group">
+                    <h1>Ny uppdragsgivare</h1>
+                    <h2>Företags uppgifter</h2>
+                    <p>En hjälptext om vilka typer av användarkonton skulle kunna vara ungefär såhär lång. Har vi mycket att
+                        orda om kan den krypa ned hit.</p>
+                </div>
+
+                <div class="select-group">
+                    <label>{{'company.form.orgnr' | translate}}</label>
+                    <div custom-select="company.id as company.attributes.name_cin for company in searchAsync($searchTerm)"
+                         custom-select-options="companyOptions" ng-model="companySelected"></div>
+                    <input type="hidden" name="id" ng-model="ctrl.data.id"/>
+                </div>
+                <validation2 form="form" field="cin" errormsg="company.form.orgnr.validation" ng-show="isAddNewCIN">
                     <div class="group">
                         <input type="text" name="cin" ng-pattern="regex" ng-minlength="10" ng-maxlength="10"
-                               ng-model="ctrl.data.cin" readonly>
-                        <label>{{'company-register.cin.label' | translate}}</label>
+                               ng-model="ctrl.data.cin" readonly
+                               ng-keyup="form.cin.error_detail = undefined">
+                        <label>{{'company.form.orgnr' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
 
-
-                <validation form="form" field="name" errormsg="company-register.form.name.validation_error">
+                <validation2 form="form" field="name" errormsg="company.form.name.validation">
                     <div class="group">
-                        <input type="text" name="name" required ng-model="ctrl.data.name" ng-disabled="disableInput">
-                        <label>{{'company-register.name.label' | translate}}</label>
+                        <input type="text" name="name" required ng-model="ctrl.data.name" ng-disabled="disableInput"
+                               ng-keyup="form.name.error_detail = undefined">
+                        <label>{{'company.form.name' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
+
+                <validation2 form="form" field="website" errormsg="company.form.url.validation">
+                    <div class="group">
+                        <input type="url" name="website" required ng-model="ctrl.data.website"
+                               ng-disabled="disableInput"
+                               ng-keyup="form.website.error_detail = undefined">
+                        <label>{{'company.form.url' | translate}}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="street" errormsg="company.form.street.validation">
+                    <div class="group">
+                        <input type="text" name="street" ng-model="ctrl.data.street" ng-disabled="disableInput"
+                               ng-keyup="form.street.error_detail = undefined">
+                        <label>{{'company.form.street' | translate}}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="zip" errormsg="company.form.zip.validation">
+                    <div class="group">
+                        <input type="text" name="zip" ng-model="ctrl.data.zip" ng-disabled="disableInput"
+                               ng-minlength="5" ng-maxlength="5" ng-keyup="form.zip.error_detail = undefined">
+                        <label>{{'company.form.zip' | translate}}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="city" errormsg="company.form.city.validation">
+                    <div class="group">
+                        <input type="text" name="city" ng-model="ctrl.data.city" ng-disabled="disableInput"
+                               ng-keyup="form.city.error_detail = undefined">
+                        <label>{{'company.form.city' | translate}}</label>
+                    </div>
+                </validation2>
 
                 <div class="group register-image register-image-preview" ng-hide="isNew">
                     <div class="show-image" ng-show="isShowLogo"><img ng-src="{{ctrl.company_image}}"/></div>
-                    <label>{{ 'company-register.logo.label' | translate }}</label>
+                    <label>{{ 'company.form.logo' | translate }}</label>
                 </div>
 
                 <div class="group register-image" ng-show="isNew">
-                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput">
-                    <label>{{ 'company-register.logo.label' | translate }}</label>
+                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
+                    <label>{{ 'company.form.logo' | translate }}</label>
                 </div>
 
-                <validation form="form" field="website" errormsg="company-register.form.website.validation_error">
-                    <div class="group">
-                        <input type="text" name="website" required ng-model="ctrl.data.website"
-                               ng-disabled="disableInput">
-                        <label>{{'company-register.website.label' | translate}}</label>
-                    </div>
-                </validation>
 
-                <!--<validation form="form" field="firstname"
-                            errormsg="company-register.form.contact-firstname.validation_error">
-                    <div class="group">
-                        <input type="text" name="firstname" ng-model="ctrl.data.firstname" ng-disabled="disableInput">
-                        <label>{{'company-register.contact-firstname.label' | translate}}</label>
-                    </div>
-                </validation>
+                <div class="group">
+                    <h2>Inloggningsuppgifter</h2>
+                </div>
 
-                <validation form="form" field="lastname"
-                            errormsg="company-register.form.contact-lastname.validation_error">
+                <validation2 form="form" field="ssn" errormsg="user.form.ssn.validation">
                     <div class="group">
-                        <input type="text" name="lastname" ng-model="ctrl.data.lastname" ng-disabled="disableInput">
-                        <label>{{'company-register.contact-lastname.label' | translate}}</label>
+                        <input name="ssn" type="text" required ng-minlength="10"
+                               ng-maxlength="10" ng-model="ctrl.data.ssn" ng-keyup="form.ssn.error_detail = undefined"/>
+                        <label>{{ 'user.form.ssn' | translate }}</label>
                     </div>
-                </validation>-->
+                </validation2>
 
-                <validation form="form" field="email" errormsg="company-register.form.email.validation_error">
+                <validation2 form="form" field="first_name" errormsg="user.form.first_name.validation">
                     <div class="group">
-                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-disabled="disableInput"
-                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
-                        <label>{{'company-register.email.label' | translate}}</label>
+                        <input name="first_name" type="text" required
+                               ng-model="ctrl.data.first_name" ng-keyup="form.first_name.error_detail = undefined">
+                        <label>{{ 'user.form.first_name' | translate }}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="phone" errormsg="company-register.form.phone.validation_error">
+                <validation2 form="form" field="last_name" errormsg="user.form.last_name.validation">
                     <div class="group">
-                        <input type="text" name="phone" required ng-model="ctrl.data.phone" ng-disabled="disableInput">
-                        <label>{{'company-register.telephone.label' | translate}}</label>
+                        <input name="last_name" type="text" required ng-model="ctrl.data.last_name"
+                               ng-keyup="form.last_name.error_detail = undefined">
+                        <label>{{'user.form.last_name' | translate }}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="street" errormsg="company-register.form.street.validation_error">
+                <validation2 form="form" field="phone" errormsg="company.form.phone.validation">
                     <div class="group">
-                        <input type="text" name="street" required ng-model="ctrl.data.street"
-                               ng-disabled="disableInput">
-                        <label>{{'company-register.street.label' | translate}}</label>
+                        <input type="text" name="phone" ng-model="ctrl.data.phone"
+                               ng-keyup="form.phone.error_detail = undefined">
+                        <label>{{'company.form.phone' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="zip" errormsg="company-register.form.zip.validation_error">
+                <validation2 form="form" field="email" errormsg="company.form.email.validation">
                     <div class="group">
-                        <input type="text" name="zip" required ng-model="ctrl.data.zip" ng-disabled="disableInput">
-                        <label>{{'company-register.zip.label' | translate}}</label>
+                        <input type="email" name="email" required ng-model="ctrl.data.email"
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                               ng-keyup="form.email.error_detail = undefined">
+                        <label>{{'company.form.email' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="city" errormsg="company-register.form.city.validation_error">
+                <validation2 form="form" field="password" errormsg="user.form.password.validation">
                     <div class="group">
-                        <input type="text" name="city" required ng-model="ctrl.data.city" ng-disabled="disableInput">
-                        <label>{{'company-register.city.label' | translate}}</label>
+                        <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password"
+                               ng-keyup="form.password.error_detail = undefined">
+                        <label>{{ 'user.form.password' | translate }}</label>
                     </div>
-                </validation>
+                </validation2>
+
+                <div class="group register-image">
+                    <input type="file" id="file_upload2" name="file" onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">
+                    <label>{{ 'user.form.picture' | translate }}</label>
+                </div>
+
+
+                <div class="terms">
+                    <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.accept'
+                        | translate}} <a href="#{{routes.global.terms.url}}">{{'terms' | translate}}</a></p>
+                </div>
 
                 <div class="form-group">
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid && isNew!==0">
-                        Fortsätt
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">
+                        {{'common.continue' | translate}}
                     </button>
                 </div>
             </div>
         </form>
-
     </div>
-    <div class="data-generate">
-        <p>
-            {{ctrl.data}}
-        </p>
-        <p>
-            <i>{{ctrl.message}}</i>
-        </p>
-    </div>
-
 </section>

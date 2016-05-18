@@ -6,14 +6,21 @@ input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="number"],
+input[type="url"],
+input[type="date"],
 textarea,
 select {
   border: 1px solid $lightBlue;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
 }
-
+input[type="date"] {
+  min-height: 42px;
+  text-transform: uppercase;
+}
 label {
   font-weight: 400;
 }
@@ -28,14 +35,16 @@ label {
   display: none;
 }
 
-.text-danger {
-  color: $pink;
-  display: block;
+.form-error-detail {
   margin-top: -22px;
   font-size: 0.9em;
   text-align: left;
+  line-height: 1.3em;
 }
-
+.text-danger {
+  color: $pink;
+  display: block;
+}
 .ng-valid.ng-touched {
 }
 
@@ -203,6 +212,23 @@ label {
     border-color: $lightBlue;
   }
 
+  .has-error .ng-valid, .has-error .ng-invalid {
+    border-color: $pink !important;
+    color: $pink !important;
+    ~ label {
+      color: $pink !important;
+    }
+  }
+}
+
+.job-date {
+  .has-error .ng-valid, .has-error .ng-invalid {
+    border-color: $pink !important;
+    color: $pink !important;
+    ~ label {
+      color: $pink !important;
+    }
+  }
 }
 
 input[type="submit"][disabled],
@@ -232,12 +258,14 @@ oi-select .select-search {
     border: 1px solid $lightBlue;
     padding: 6px 10px;
     height: 42px;
+    line-height: 28px;
     color: $dark;
   }
 
   button.form-control {
     font-size: 1.4em;
-    max-width: 180px;
+    width: auto;
+    min-width: 180px;
     margin: 30px auto 0;
     display: inherit;
   }
@@ -249,6 +277,35 @@ oi-select .select-search {
   }
   h1 {
     margin-top: 0;
+  }
+}
+
+.company-register-form {
+  .material-input {
+    h1, h2, p {
+      text-align: center;
+      margin: 0 0 20px;
+    }
+    h2 {
+      font-size: 1.25em;
+      font-weight: 600;
+    }
+    p {
+      margin-bottom: 30px;
+    }
+
+  }
+
+  .select-group {
+    position: relative;
+    label {
+      position: absolute;
+      background: $white;
+      z-index: 2;
+      top: -5px;
+      line-height: 10px;
+      padding: 0 5px;
+    }
   }
 }
 
@@ -273,6 +330,7 @@ oi-select .select-search {
     opacity: 0.4;
   }
 }
+
 .register-image-preview {
   border: 1px solid $lightBlue;
   opacity: 0.4;
@@ -283,13 +341,15 @@ oi-select .select-search {
   }
 }
 
-
 .user-form {
   padding-top: 35px;
+  .wrap-icon {
+    padding-left: 35px;
+  }
   label {
     text-transform: uppercase;
   }
-  .text-danger {
+  .form-error-detail {
     margin-top: -15px;
   }
   hr {
@@ -300,13 +360,12 @@ oi-select .select-search {
     text-align: center;
   }
   .form-group {
-    padding-left: 20px;
     position: relative;
   }
   .form-group:before {
     position: absolute;
     font-family: 'fontello';
-    left: -20px;
+    left: -35px;
     font-size: 20px;
     color: $midgrey;
   }
@@ -338,7 +397,7 @@ oi-select .select-search {
     margin: 0 auto;
     > div {
       display: table-cell;
-      padding-top: 10px;
+      padding-top: 15px;
       vertical-align: middle;
       text-align: center;
       font-size: 1.2em;
@@ -357,13 +416,13 @@ oi-select .select-search {
     width: 85px;
     height: 85px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
     overflow: hidden;
     cursor: pointer;
     position: relative;
-    -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
-    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
 
     input[type="file"] {
       width: 85px;
@@ -383,6 +442,8 @@ oi-select .select-search {
       pointer-events: none;
       -webkit-transition: background .3s;
       transition: background .3s;
+      border-radius: 50%;
+      overflow: hidden;
     }
     .icon-camera {
       text-align: center;
@@ -391,7 +452,7 @@ oi-select .select-search {
       z-index: 1;
       top: 0;
       height: 85px;
-      text-shadow: 0px 0px 5px rgba(0,0,0,1);
+      text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
       pointer-events: none;
       opacity: 0;
       -webkit-transition: opacity .2s;
@@ -414,13 +475,10 @@ oi-select .select-search {
     }
   }
 
-  .upload-button:hover {
+  .upload-button {
     .user-info-image {
-      -webkit-filter: blur(3px);
-      -moz-filter: blur(3px);
-      -o-filter: blur(3px);
-      -ms-filter: blur(3px);
-      filter: blur(3px);
+      -webkit-filter: blur(2px);
+      filter: blur(2px);
     }
     .icon-camera {
       opacity: 1;
@@ -452,7 +510,7 @@ oi-select .select-search {
     position: relative;
     margin-bottom: 26px;
 
-    span.text-danger {
+    .form-error-detail {
       margin-top: -12px;
     }
 
@@ -522,14 +580,14 @@ oi-select .select-search {
     font-size: 1.5em;
     line-height: 1.5em;
     font-weight: 400;
-    text-transform: capitalize;
+    text-transform: none;
     margin-top: 0;
     padding: 0 20px;
   }
 
   a.button {
     @include button-pink;
-    max-width: 250px;
+    min-width: 220px;
   }
 
   .icon-ic-envelope {
@@ -553,8 +611,8 @@ oi-select .select-search {
 
   button {
     @include button-white-border;
-    max-width: none;
-    margin-top: 30px;
+    min-width: 200px;
+    margin: 30px 0;
   }
   p {
     font-size: 1.2em;
@@ -569,9 +627,11 @@ oi-select .select-search {
 input:invalid {
   box-shadow: none;
 }
-textarea:focus, input:focus{
+
+textarea:focus, input:focus, select:focus, option:focus {
   outline: none;
 }
+
 .grey-header {
   padding: 30px;
   background: $lightBlue;
@@ -588,11 +648,57 @@ textarea:focus, input:focus{
     margin: 15px 0 0;
     text-align: center;
   }
+  p.main {
+    margin: 0;
+    line-height: 1.8em;
+  }
+  a {
+    color: $brightBlue;
+  }
 }
+
 .error-message {
   color: $pink;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow:0 0 0 50px white inset;
+  -webkit-box-shadow: 0 0 0 50px white inset;
+}
+
+textarea {
+  max-width: 100%;
+}
+
+.reset-password-form {
+  width: 85%;
+  margin: 35px auto;
+  max-width: 500px;
+  input[type="submit"] {
+    @include button-pink;
+    min-width: 200px;
+    margin-top: 40px;
+  }
+
+}
+
+.terms {
+  text-align: center;
+  a {
+    color: $brightBlue;
+  }
+  input[type="checkbox"] {
+    width: auto;
+    vertical-align: middle;
+    margin-right: 5px;
+    border: 1px solid $brightBlue;
+    display: inline-block;
+    margin-top: -1px;
+  }
+}
+
+.terms-page {
+  top: 0;
+  bottom: 0;
+
 }

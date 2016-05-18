@@ -1,8 +1,8 @@
 <section>
     <user-job-header></user-job-header>
     <div class="user-job-cadidates">
-        <h1>VÄLJ KANDIDAT</h1>
-        <p>Så här gör du text Lorem ipsum dolor sit amet, consectetuer adipiscing elit lorem.</p>
+        <h1>{{'company.assignments.candidates.select.title' | translate}}</h1>
+        <!--<p>Description</p>-->
         <ul>
             <li ng-repeat="job_user in job_users">
                 <div>
@@ -12,13 +12,8 @@
                     <a href="#{{routes.company.job_candidate.resolve(ctrl.job_id,job_user.id)}}">{{job_user.attributes["first-name"]}}
                         {{job_user.attributes["last-name"]}}</a>
                     <br>
-                    <span class="rating"><span class="select">&#9733;</span><span class="select">&#9733;</span><span class="select">&#9733;</span>&#9734;&#9734;</span>
-                    <span>(10 uppdrag)</span>
-                </div>
-                <div>
-                    <span class="heart">&#9825;<!--<span class="select">&#x2764;</span>--></span>
-                    <br>
-                    <span>Favorit</span>
+                    <span class="stars_i"><span style="width : calc( {{job_user.rating}} * 16px );" title="{{job_user.rating}}"></span></span>
+                    <span>({{job_user.total_uppdrag}} {{'assignment' | translate}})</span>
                 </div>
             </li>
         </ul>

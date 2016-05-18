@@ -5,31 +5,31 @@
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
                 <!-- Wait owner choose candidate -->
                 <div>
-                    <h2>Du har sökt uppdraget</h2>
+                    <h2>{{ "assignment.status.applied" | translate }}</h2>
                 </div>
             </div>
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
                 <div>
-                    <h2>Vi vill anlita dig svara inom {{ctrl.remainHours}}h {{ctrl.remainMinutes}}min</h2>
+                    <h2>{{'assignment.status.offer' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow=1">Ge besked</a>
+                    <a class="button" href="" ng-click="userModalPerformShow=1">{{ "assignment.status.reply" | translate }}</a>
                 </div>
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
-                <div ng-show="!that.canPerformed">
-                    <h2>Du är anlitad</h2>
+                <div ng-show="!ctrl.canPerformed">
+                    <h2>{{'assignment.status.hired' | translate}}</h2>
                 </div>
-                <div ng-show="that.canPerformed">
-                    <h2>Är uppdraget utfort?</h2>
+                <div ng-show="ctrl.canPerformed">
+                    <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">Skicka meddellanden</a>
+                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
                 </div>
-                <div ng-show="that.canPerformed || true">
-                    <a class="button" href="" ng-click="userModalPerformShow=2">Ja</a>
+                <div ng-show="ctrl.canPerformed">
+                    <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
                 </div>
             </div>
         </div>
@@ -37,11 +37,12 @@
     </div>
     <div class="main-content" ng-hide="userModalPerformShow">
         <ul>
-            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>Kommentarer</span><br>Två
-                kommentarer</a></li>
-            <li class="select"><a href=""><span>Chatt</span><br>Meddelanden från Amir Kherimand</a></li>
+            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>{{'user.assignments.comments' | translate}}</span><br />
+                {{comments_amt}} {{'user.assignments.comment_count' | translate}}</a></li>
+            <li class="select" ng-repeat="chat in ctrl.userChats.data">
+                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>{{'user.assignments.chat' | translate}}</span><br>{{'user.assignments.conversation' | translate}} {{job.company.attributes.name}}</a>
+            </li>
         </ul>
-
     </div>
 
     <div class="main-content user-modal-perform-show" ng-show="userModalPerformShow">
@@ -50,43 +51,56 @@
             <section ng-show="!isWillPerform">
 
                 <h4>
-                    Grattis!<br/>
-                    {{company_name}} vill garna att du utfor uppdraget
+                    {{'common.congratulation' | translate}}<br/>
+                    {{company_name}} {{'assignment.status.company.approve_user' | translate}}
                 </h4>
-                <p>Vill du fortfalande ta uppdraget</p>
+                <p>{{'assignment.status.offer.approve' | translate}}</p>
                 <div>
-                    <a class="button dark" href="" ng-click="userModalPerformShow=false">Nej</a>
-                    <a class="button pink" href="" ng-click="isWillPerform=true">Ja</a>
+                    <a class="button pink" href="" ng-click="isWillPerform=true">{{'common.yes' | translate}}</a>
+                    <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
+
 
                 </div>
-                <h3>Var god ge ett besked<br>
-                    inom:<br>
-                    {{ctrl.remainHours}} h {{ctrl.remainMinutes}} min</h3>
+                <h3>{{'assignment.status.reply' | translate}}<br>
+                    {{'common.in' | translate}}<br>
+                    {{ctrl.remainHours}} {{'common.hour' | translate}} {{ctrl.remainMinutes}} min</h3>
             </section>
             <section ng-show="isWillPerform">
-                <h3>Kontuppgifter</h3>
-                <p>Var vill du atr vi satter in ersattingen nar du utfort uppdraget?</p>
+                <h3>{{'user.account' | translate}}</h3>
+                <p>{{'user.account.description' | translate}}</p>
                 <div class="material-input">
 
-                    <form name="form" ng-submit="ctrl.userWillPerform()">
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.bank"/>
-                            <label>Bank</label>
-                        </div>
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.kortnummer"/>
-                            <label>Kortnummer</label>
-                        </div>
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.iban"/>
-                            <label>IBAN - nummer</label>
-                        </div>
-                        <div class="group">
-                            <input type="text" ng-model="model.data.attributes.bic"/>
-                            <label>BIC - nummer</label>
-                        </div>
-                        <input type="submit" value="Spara"/>
-                        <!--<a class="button submit pink" href="" ng-click="modalPerformShow=false; isPerformed=false;">Skicka</a>-->
+                    <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
+                        <validation form="form" field="account_clearing_number"
+                                    errormsg="finance.form.account_clearing_number.validation">
+                            <div class="group">
+                                <input type="text" name="account_clearing_number"
+                                       ng-required="ctrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
+                                       ng-model="ctrl.financeModel.data.attributes['account-clearing-number']"/>
+                                <label>{{'user.account.bank' | translate}}</label>
+                            </div>
+                        </validation>
+
+                        <validation form="form" field="iban" errormsg="finance.form.iban.validation">
+                            <div class="group">
+                                <input type="text" name="iban"
+                                       ng-required="ctrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
+                                       ng-model="ctrl.financeModel.data.attributes.iban"/>
+                                <label>{{'user.account.iban' | translate}}</label>
+                            </div>
+                        </validation>
+
+                        <validation form="form" field="bic" errormsg="finance.form.bic.validation">
+                            <div class="group">
+                                <input type="text" name="bic"
+                                       ng-required="ctrl.financeModel.data.attributes.iban"
+                                       ng-model="ctrl.financeModel.data.attributes.bic"/>
+                                <label>{{'user.account.bic' | translate}}</label>
+                            </div>
+                        </validation>
+
+                        <input type="submit" ng-disabled="form.$invalid" value="{{'common.save' | translate}}"/>
+
                     </form>
                 </div>
             </section>
@@ -96,45 +110,45 @@
         <div ng-show="userModalPerformShow==2">
             <section>
                 <h4>
-                    Bra jobbat!<br/>
-                    {{company_name}} har godkant utforandet av uppdraget.
+                    {{'common.good_work' | translate}}<br/>
+                    {{company_name}} {{'user.assignment.company_approved' | translate}}
                 </h4>
-                <p>Godkann for att fa ersattningen</p>
+                <p>{{'assignment.status.approve_for_payment' | translate}}</p>
                 <div>
-                    <a class="button dark" href="" ng-click="userModalPerformShow=false">Nej</a>
-                    <a class="button pink" href="" ng-click="ctrl.userPerformed()">Ja</a>
-
+                    <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
+                    <a class="button pink" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
                 </div>
             </section>
         </div>
 
         <div class="candidate-chat arriver-chat" ng-show="userModalPerformShow==3">
-            <h3>Meddelanden</h3>
+            <h3>{{'common.messages' | translate}}</h3>
             <div>
                 <ul>
-                    <li>
+                    <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                         <div class="bubble">
-                            <div>Amir Khermand</div>
-                            <div>Hej, jag kan komma imorgon vid 10.00. Fungerar det?</div>
+                            <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
+                            <div ng-if="chatMessage.attributes.body_translated_from == chatMessage.attributes.body_translated_to">
+                                {{chatMessage.attributes.body}}
+                            </div>
+                            <div ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
+                                {{chatMessage.attributes.body_translated}}
+                                <p><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from}}</strong><br>
+                                    {{chatMessage.attributes.body}}
+                                </p>
+                            </div>
                         </div>
-                        <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
-                        </div>
-                    </li>
-                    <li class="right">
-                        <div class="bubble">
-                            <div>Ove Martinnson</div>
-                            <div>Ja, det blir perfekt. Valkommen</div>
-                        </div>
-                        <div class="profile-image" style="background-image: url(assets/images/content/antrop-logo.png)">
+                        <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
                         </div>
                     </li>
                 </ul>
-                <form name="form" ng-submit="ctr.submitChat()">
+                <form name="formChat" ng-submit="ctrl.submitChat()">
                     <div>
-                        <div><input type="text" required/></div>
+                        <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
+                        <div><input type="submit" value="{{'common.submit' | translate}}"></div>
                     </div>
                 </form>
-                <div class="translate"><span>Översätt från svenska</span></div>
+                <div class="translate" ><span style="cursor:pointer;" ng-click="ctrl.translationWord();">{{'common.translate.from' | translate}} svenska</span></div>
             </div>
         </div>
 

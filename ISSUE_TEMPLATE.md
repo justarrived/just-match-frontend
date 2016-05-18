@@ -2,7 +2,16 @@ __Description__
 
 Short description of the problem
 
-__Severity__: Can't complete action / Broken styling / Wrong translation
+__Severity__:
+
+_Chose one of the below:_
+
+* Can not perform action
+* Can perform with problem
+* Can perform without problem but looks wrong
+* Translation error
+* New feature / suggestion
+
 
 __URL__: The URL that the error occurred on.
 
@@ -19,10 +28,6 @@ __How to recreate it__
 __What happend__
 
 __Expected outcome__
-
-No error message.
-
-__System__: Windows/OSX/Linux
 
 __Browser (check what browser you're running at https://whatbrowser.org)__: Chrome/Firefox/Internet explorer version X
 

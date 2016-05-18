@@ -24,6 +24,12 @@
     width: auto;
     max-width: none;
   }
+  button:disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+  }
 }
 
 .job-header {
@@ -127,7 +133,7 @@
       content: '\e813';
     }
 
-    .job-review {
+    .job-report {
       border-bottom: 0;
       margin-left: 0;
       text-align: center;
@@ -219,7 +225,7 @@ button.map-zoom-in {
   }
 
   h1 {
-    margin: -5px auto 20px;
+    margin: -5px auto 5px;
   }
 
   .custom-select > a.dropdown-toggle > b::before {
@@ -432,6 +438,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     border: 1px solid $midgrey;
     margin-bottom: 35px;
   }
+  .translate span {
+    cursor: pointer;
+  }
 
   ul {
     display: block;
@@ -528,6 +537,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
           background: none;
           padding: 0;
           border-radius: 0;
+          text-align: left;
 
           > div:last-child {
             border-radius: 5px;
@@ -578,13 +588,13 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         padding: 15px 25px;
       }
       > div:first-child {
-        //padding-right: 15px;
+        padding-right: 15px;
       }
       > div:last-child {
-        width: 90px;
+        width: 82px;
         text-align: center;
         text-align: right;
-        //padding-left: 0;
+        padding-left: 0;
       }
     }
   }
@@ -602,6 +612,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     }
   }
 }
+
 .arriver-chat {
   margin: -25px -20px -20px;
   > div {
@@ -613,8 +624,10 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   input[type="submit"] {
     padding: 0 !important;
     margin: 0 !important;
+    min-width: none;
   }
 }
+
 job-body, job-comment {
   max-width: 800px;
   margin: 0 auto;
@@ -633,14 +646,15 @@ job-body, job-comment {
       bottom: 0;
       left: 0;
       right: 0;
+      z-index: 2;
     }
   }
 }
 
 .sticy-button {
-  margin: 25px -25px -25px;
+  margin: 0 -25px;
 
-  .button {
+  .button,.button-disabled {
     text-align: center;
     background: $pink;
     color: $white;
@@ -652,10 +666,18 @@ job-body, job-comment {
     line-height: 1.1em;
     padding: 18px;
   }
+  .button-disabled {
+    background-color: $lightHalfBlue;
+    opacity: 0;
+    -webkit-animation: fadeIn .2s 1s forwards;
+    animation: fadeIn .2s 1s forwards;
+    cursor: default;
+  }
 }
 
 .job-more-wrapper {
   margin: 0 -25px -25px;
+  padding-top: 2px;
 
   .main-title, .button {
     padding: 18px;
@@ -694,6 +716,12 @@ job-body, job-comment {
 .new-job-form {
   .cate-group {
     position: relative;
+    .form-group {
+      margin-bottom: 0;
+    }
+    .form-error-detail {
+      margin-bottom: 15px;
+    }
   }
 }
 
@@ -714,7 +742,7 @@ job-body, job-comment {
     > li {
       display: table-cell;
     }
-    > li:first-child {
+    > li.sel {
       border-bottom: 5px solid $pink;
     }
 
@@ -929,7 +957,7 @@ job-body, job-comment {
   > ul {
     display: table;
     width: 100%;
-    margin: 0;
+    margin: 35px 0 0;
     padding: 0;
     list-style: none;
     > li {
@@ -957,9 +985,6 @@ job-body, job-comment {
       }
       > div:first-child {
         width: 85px;
-      }
-      > div:last-child {
-        text-align: center;
       }
     }
   }
@@ -1137,7 +1162,7 @@ job-body, job-comment {
   }
   .button.pink {
     @include button-pink;
-    max-width: 115px;
+    min-width: 115px;
     margin: 15px 5px;
     &:disabled {
       opacity: $btnOpacityDisabled;
@@ -1145,7 +1170,7 @@ job-body, job-comment {
   }
   .button.dark {
     @include button-dark;
-    max-width: 115px;
+    min-width: 115px;
     margin: 15px 5px;
   }
   .button.submit {
@@ -1155,7 +1180,6 @@ job-body, job-comment {
   input[type="submit"] {
     margin-top: 10px;
     @include button-pink;
-    max-width: 250px;
   }
 }
 
@@ -1193,13 +1217,6 @@ job-body, job-comment {
     > div:first-child {
       width: 80px;
     }
-    > div:last-child {
-      text-align: right;
-      > div {
-        text-align: center;
-        display: inline-block;
-      }
-    }
   }
   .user-info-image {
     @include circle(70px);
@@ -1220,7 +1237,7 @@ job-body, job-comment {
 .user-job-candidate-topmenu {
   background: $lightBlue;
   color: $white;
-  > div:first-child {
+  .message-botton {
     padding-left: 105px;
     padding-bottom: 20px;
     a {
@@ -1234,17 +1251,17 @@ job-body, job-comment {
   > ul {
     display: table;
     width: 100%;
-    table-layout: fixed;
+    max-width: 1024px;
     list-style: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     li {
       display: table-cell;
       text-align: center;
-      padding: 0 0 3px;
+      padding: 0 5px 5px;
       a {
-        display: block;
-        padding: 5px;
+        display: inline-block;
+        padding: 5px 0 2px;
         border-bottom: 6px solid $lightBlue;
         text-transform: uppercase;
       }

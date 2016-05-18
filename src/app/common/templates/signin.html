@@ -1,29 +1,41 @@
 <section>
     <div class="login-form">
-        <h1>{{'menu.signin' | translate}}</h1>
+        <h1>{{'login.title' | translate}}</h1>
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
-                <validation form="form" field="email" errormsg="register.form.email.validation_error">
+                <validation2 form="form" field="email" errormsg="login.form.username.validation">
                     <div class="group">
-                        <input type="email" name="email" required ng-model="ctrl.data.email">
-                        <label>{{'register.form.email' | translate}}</label>
+                        <input type="email" name="email" required ng-model="ctrl.data.email" ng-keyup="form.email.error_detail = undefined">
+                        <label>{{'login.form.username' | translate}}</label>
                     </div>
-                </validation>
+                </validation2>
 
-                <validation form="form" field="password" errormsg="register.form.password.validation_error">
+                <validation form="form" field="password" errormsg="login.form.password.validation">
                     <div class="group">
                         <input type="password" name="password" required ng-model="ctrl.data.password">
-                        <label>{{'register.form.password' | translate}}</label>
+                        <label>{{'login.form.password' | translate}}</label>
                     </div>
                 </validation>
 
                 <div>
                     <div class="error-message">{{ctrl.message.data.errors[0].detail}}</div>
-                    <input type="submit" ng-disabled="form.$invalid"/>
+                    <input type="submit" ng-disabled="form.$invalid" ng-value="'common.login' | translate"/>
                 </div>
 
-                <div><a href="">Glömt lösenord?</a></div>
+                <div><a href="#{{routes.global.forgot_password.url}}">{{'login.forgot_password' | translate}}</a></div>
             </div>
         </form>
     </div>
+    <div class="complete job-approved" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;"
+         ng-show="ctrl.resetSuccess">
+        <div>
+            <div>
+                <p><i class="demo-icon icon-ic-check2"></i></p>
+                <h1>{{"user.reset_password.title" | translate}}</h1>
+                <p>{{"user.reset_password.description" | translate}} {{ctrl.data.email}}.</p>
+                <button ng-click="ctrl.resetSuccess=false;" type="button">{{'common.close' | translate}}</button>
+            </div>
+        </div>
+    </div>
 </section>
+

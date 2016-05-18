@@ -14,7 +14,8 @@
 
     input[type="submit"] {
         @include button-pink;
-        margin: 30px auto;
+        margin: 15px auto 30px;
+        min-width: 200px;
     }
 
     form {

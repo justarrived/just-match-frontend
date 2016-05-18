@@ -2,23 +2,23 @@
     <div class="hero__slider">
         <slick class="hero-slick" ng-hide="showvdo" dots="true" prev-arrow="false" next-arrow="false">
             <div>
+                <img src="assets/images/content/hero.png">
+                <h2 class="section-title section-title--white">
+                    {{'start.hero_section.slide_3' | translate}}
+                </h2>
+            </div>
+            <div>
                 <img src="http://img.youtube.com/vi/ScMzIvxBSi4/default.jpg">
                 <h2 class="section-title section-title--white">
-                    {{'start.title' | translate}}<br><i ng-click="showvdo=1"
+                    {{'start.hero_section.slide_1' | translate}}<br><i ng-click="showvdo=1"
                                                         class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
             <div>
                 <img ng-hide="showvdo2" src="http://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg">
                 <h2 class="section-title section-title--white">
-                    {{'start.title' | translate}}<br><i ng-click="showvdo=2"
+                    {{'start.hero_section.slide_2' | translate}}<br><i ng-click="showvdo=2"
                                                         class="demo-icon icon-ic-arrow-right2"></i>
-                </h2>
-            </div>
-            <div>
-                <img src="assets/images/content/hero.png">
-                <h2 class="section-title section-title--white">
-                    {{'start.title' | translate}}
                 </h2>
             </div>
         </slick>
@@ -34,17 +34,17 @@
     </div>
     <div class="hero__col hero__col--left">
         <div class="hero__col__content">
-            <h3> {{'start.job.create.title' | translate}} </h3>
+            <h3> {{'start.hero_section.left.title' | translate}} </h3>
             <h4>
-                <a href="#{{routes.job.create.url}}">{{'start.job.create.description' | translate}}</a>
+                <a href="#{{routes.job.create.url}}">{{'start.hero_section.left.text' | translate}}</a>
             </h4>
         </div>
     </div>
     <div class="hero__col hero__col--right">
         <div class="hero__col__content">
-            <h3> {{'start.job.list.title' | translate}} </h3>
+            <h3> {{'start.hero_section.right.title' | translate}} </h3>
             <h4>
-                <a href="#{{routes.user.register.url}}">{{'start.signup' | translate}}</a>
+                <a href="#{{routes.user.register.url}}">{{'start.hero_section.right.text' | translate}}</a>
             </h4>
         </div>
     </div>
@@ -53,8 +53,8 @@
     <div class="section-jobs__content">
         <h3>
             <div class="calendar">{{today | date: 'dd'}}</div>
-            {{'start.new.job.title' | translate}}
-            <div class="section-jobs__content-right"><a href="#{{routes.job.list.url}}"><span>{{'start.new.job.showall' |
+            {{'start.job_section.title' | translate}}
+            <div class="section-jobs__content-right"><a href="#{{routes.job.list.url}}"><span>{{'common.show_all' |
                 translate}}</span></a></div>
         </h3>
         <slick class="slick-job" infinite="false" prev-arrow="false" next-arrow="false"
@@ -66,105 +66,98 @@
                         <div style="background-image: url({{job.company_image}});"></div>
                         <b>{{ job.max_rate | number}} {{ job.currency }}</b>
                     </div>
-                    <a href="#{{ routes.job.get.resolve(job) }}">
-                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                    <span>
+                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
                         '...' }}
-                    </a>
+                    </span>
                 </a>
             </div>
         </slick>
     </div>
 </section>
 <section class="section-categories">
-    <h2> {{'start.help.title' | translate}} </h2>
-    <p> {{'start.help.description' | translate}} </p>
-    <p> {{'start.help.what' | translate}} </p>
+    <h2> {{'start.category_section.title' | translate}} </h2>
+    <p> {{'start.category_section.text_1' | translate}} </p>
+    <p> {{'start.category_section.text_2' | translate}} </p>
     <div>
-        <a class="button" href="#{{routes.job.create.url}}">Skapa uppdrag</a>
+        <a class="button" href="#{{routes.job.create.url}}">{{'start.category_section.btn' | translate}}</a>
     </div>
-
 </section>
 <section class="section-steps">
     <div class="section-steps__content">
-        <h2 class="section-title section-title--white"> {{'start.how.work.title' | translate}} </h2>
+        <h2 class="section-title section-title--white"> {{'start.steps_section.title' | translate}} </h2>
         <ol>
-            <li>{{'start.how.work.step1' | translate}}</li>
-            <li>{{'start.how.work.step2' | translate}}</li>
-            <li>{{'start.how.work.step3' | translate}}</li>
-            <li>{{'start.how.work.step4' | translate}}</li>
+            <li>{{'start.steps_section.step_1' | translate}}</li>
+            <li>{{'start.steps_section.step_2' | translate}}</li>
+            <li>{{'start.steps_section.step_3' | translate}}</li>
+            <li>{{'start.steps_section.step_4' | translate}}</li>
         </ol>
     </div>
 </section>
 <section class="section-instructions">
-    <h2 class="section-title"> {{'start.how.start.title' | translate}} </h2>
+    <h2 class="section-title"> {{'start.instruction_section.title' | translate}} </h2>
     <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
            slides-to-show="3" responsive="instructionsResponsive" on-directive-init="onDirectiveInit()">
         <div>
+            <div>
+                <h3>{{'start.instruction_section.slide_1.title' | translate}}</h3>
+                <!--<p>Description</p>-->
+            </div>
             <div class="pink">
                 <ul>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>{{'start.instruction_section.slide_1.text_1' | translate}}</li>
+                    <li>{{'start.instruction_section.slide_1.text_2' | translate}}</li>
+                    <li>{{'start.instruction_section.slide_1.text_3' | translate}}</li>
                 </ul>
-                <button>Starta här!</button>
-            </div>
-            <div>
-                <h3>Skapa din profil</h3>
-                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
+                <p><a href="#{{routes.job.list.url}}">{{'common.start_here' | translate}}</a></p>
             </div>
         </div>
         <div>
             <div>
-                <ul>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                </ul>
-                <button>Starta här!</button>
+                <h3>{{'start.instruction_section.slide_2.title' | translate}}</h3>
+                <!--<p>Description</p>-->
             </div>
             <div>
-                <h3>Skapa din profil</h3>
-                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
+                <p>{{'start.instruction_section.slide_2.text_1' | translate}}</p>
+                <ul>
+                    <li>{{'start.instruction_section.slide_2.text_2' | translate}}</li>
+                    <li>{{'start.instruction_section.slide_2.text_3' | translate}}</li>
+                    <li>{{'start.instruction_section.slide_2.text_4' | translate}}</li>
+                </ul>
+                <p><a href="#{{routes.user.register.url}}">{{'common.start_here' | translate}}</a></p>
             </div>
         </div>
+        <!--
         <div>
             <div class="blue">
                 <ul>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
+                    <li>Description</li>
+                    <li>Description</li>
+                    <li>Description</li>
                 </ul>
-                <button>Starta här!</button>
+                <p><a>Starta här!</a></p>
             </div>
             <div>
-                <h3>Skapa din profil</h3>
-                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
+                <h3>Title</h3>
+                <p>Description</p>
             </div>
         </div>
-        <div>
-            <div>
-                <ul>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                    <li>Lorem ipsum dolor sitamet</li>
-                </ul>
-                <button>Starta här!</button>
-            </div>
-            <div>
-                <h3>Skapa din profil</h3>
-                <p>Lorem ipsum dolor sit amet, consectutuer adipiscing elit, sed diam nonummy nibh</p>
-            </div>
-        </div>
+        -->
     </slick>
 
 </section>
 <section class="section-partners">
-    <h3> {{'start.partners.title' | translate}} </h3>
-    <p> {{'start.partners.description' | translate}} </p>
+    <h3> {{'start.partner_section.title' | translate}} </h3>
+    <p> {{'start.partner_section.text' | translate}} </p>
     <div class="section group">
         <div><img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="universum-logo"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="wntrgarden-logo"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/antrop-logo2.png" alt="antrop-logo"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="nem-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/wgni-logo.png" alt="nem-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/frilans_finans-logo.png" alt="nem-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/jacob_burenstam-logo.png" alt="nem-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/jansson_norin-logo.png" alt="nem-logo"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/nova-logo.png" alt="nem-logo"></div>
     </div>
 </section>

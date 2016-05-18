@@ -1,9 +1,10 @@
 <section class="row lang-page" ng-controller="LanguageCtrl as ctrl" ng-show="routes.global.isSelectLanguageOpen">
-
+    <button class="close-x" ng-click="ctrl.hideLanguageCtrl()" style="z-index:2;"><i class="demo-icon icon-ic-close"></i></button>
+    <span class="close-bar" ng-click="ctrl.hideLanguageCtrl()"></span>
     <div class="lang-wrapper">
         <div>
             <div class="just-arrived-logo"></div>
-            <h2 class="text-center">{{ 'language.select.title' | translate }}</h2>
+            <h2 class="text-center">{{ 'menu.language.title' | translate }}</h2>
             <div>
                 <button data-ng-repeat="lang in ctrl.languages" ng-click="ctrl.useLanguage(lang)"
                         ng-class="{ select: lang['lang-code']==ctrl.language['lang-code'] }" type="button">
@@ -11,9 +12,17 @@
                         class="lang-text">{{lang["local-name"]}}</span>
                 </button>
             </div>
-            <p>{{ 'language.select.body' | translate }}</p>
-            <p><a href="">{{ 'common.click-here' | translate }}</a></p>
+            <p>{{ 'menu.language.text_1' | translate }}</p>
+            <p>{{ 'menu.language.text_2' | translate }}</p>
+            <p><a href="">{{ 'common.click_here' | translate }}</a></p>
+
+            <section class="credentials">
+                <p class="prominent">The translations have been performed as pro-bono contribution to the project by:</p>
+                <img src="assets/images/content/semantix-logo.png" alt="Semantix"/>
+                <p>Farshid Fadaee</p>
+                <p>Nick Chipperfield</p>
+                <p>Hans-Erik Täpp</p>
+              </section>
         </div>
     </div>
 </section>
-

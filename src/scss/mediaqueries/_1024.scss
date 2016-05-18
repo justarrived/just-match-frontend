@@ -52,7 +52,7 @@ button.map-zoom-in {
 .candidate-chat > div ul,
 .candidate-chat form > div,
 .candidate-chat .translate,
-.setting-page form,
+.setting-page > div > div > div,
 .arriver-chat ul {
   width: 70% !important;
   margin: 0 auto !important;
@@ -136,4 +136,21 @@ button.map-zoom-in {
     background: rgba(34, 37, 49, 0.95);
     float: right;
   }
+}
+.job-owner-header {
+  > div {
+    display: table;
+    table-layout: fixed;
+    width: 70%;
+    margin: 0 auto;
+    padding-bottom: 0;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+
+    }
+  }
+}
+.close-bar {
+  display: block;
 }

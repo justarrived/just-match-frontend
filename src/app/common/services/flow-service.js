@@ -40,10 +40,22 @@ angular.module('just.service')
       $location.path(path);
     };
 
+    this.replace = function(path, onComplete){
+      if (angular.isFunction(onComplete)) {
+        that.stack.push(onComplete);
+      }
+      $location.path(path).replace();
+    };
+
     this.push = function(fn) {
       if (angular.isFunction(fn)) {
         that.stack.push(fn);
       }
+    };
+
+    this.next_replace = function(path, data){
+      that.next_data = data;
+      $location.path(path).replace();
     };
 
     this.next = function(path, data) {

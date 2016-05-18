@@ -63,6 +63,8 @@ angular.module('just.common')
                 userOwnedJobs: crud("users/:user_id/owned-jobs"),  //for owner
                 userImage: crud("users/images"),
                 userImageId: crud("users/:user_id/images/:id"),
+                userResetPassword: crud("users/reset-password"),
+                userChangePassword: crud("users/change-password"),
 
                 userNotifications: crud("users/notifications"),
                 userMessages: crud("users/:user_id/messages"),
@@ -73,6 +75,7 @@ angular.module('just.common')
 
                 chats: crud("chats"),
                 chat: crud("chats/:id"),
+                userChat: crud("users/:user_id/chats"),
 
                 languages: crud("languages"),
                 userLanguage: crud("users/:user_id/languages"),
@@ -109,7 +112,8 @@ angular.module('just.common')
                 userRating: crud("users/:id/ratings"),
 
 
-                invoice: crud("jobs/:job_id/users/:job_user_id/invoices")
+                invoice: crud("jobs/:job_id/users/:job_user_id/invoices"),
+                finance: crud("users/:user_id/frilans-finans")
 
             };
         }

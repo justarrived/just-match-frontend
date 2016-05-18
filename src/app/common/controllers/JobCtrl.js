@@ -7,8 +7,8 @@
             function (jobService, authService, i18nService, flow, routes, userService, $scope, $q, Resources) {
                 var that = this;
                 this.text = {
-                    title: 'assignment.new.title',
-                    submit: 'assignment.new.form.next'
+                    title: 'assignment.create.title',
+                    submit: 'common.next_step'
                 };
 
                 userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
@@ -16,6 +16,27 @@
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
                 this.model.data.attributes.hours = 2;
+
+
+                $scope.$watch('form', function(form) {
+                    if(form) {
+                        if (that.message.data) {
+                            angular.forEach(that.message.data.errors, function (obj, key) {
+                                var pointer_arr = obj.source.pointer.split("/");
+                                var field_name = pointer_arr[pointer_arr.length - 1];
+
+                                field_name = field_name.replace(/-/g, "_");
+
+                                switch(field_name){
+                                    case 'job_date': field_name = 'from_date'; break;
+                                    case 'job_end_date': field_name = 'to_date'; break;
+                                }
+                                $scope.form[field_name].error_detail = obj.detail;
+                            });
+
+                        }
+                    }
+                });
 
                 this.rates = {};
                 $scope.getRate = function (hp_id) {
@@ -75,7 +96,7 @@
             var that = this;
             this.text = {
                 title: 'assignment.update.title',
-                submit: 'assignment.update.form.next'
+                submit: 'common.next_step'
             };
 
             this.model = jobService.getJob($routeParams.id);
@@ -125,8 +146,8 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter',
-            function (jobService, $scope, settings, Resources, $q, $filter) {
+        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
+            function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
                 $scope.categoryOptions = {
@@ -167,23 +188,47 @@
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
-                $scope.map = {
-                    zoom: 7,
-                    options: {
-                        draggable: true,
-                        disableDefaultUI: true,
-                        panControl: false,
-                        navigationControl: false,
-                        scrollwheel: false,
-                        scaleControl: false
-                    }
-                };
+                uiGmapGoogleMapApi.then(function (maps) {
+                    maps.visualRefresh = true;
+                    $scope.map = {
+                        zoom: 7,
+                        options: {
+                            draggable: true,
+                            disableDefaultUI: true,
+                            panControl: false,
+                            navigationControl: false,
+                            scrollwheel: false,
+                            scaleControl: false
+                        }
+                    };
+                });
+
+                uiGmapIsReady.promise(1).then(function (instances) {
+                    instances.forEach(function (inst) {
+                        $scope.mapObj = inst.map;
+                        $scope.uuid = $scope.mapObj.uiGmap_id;
+                        var mapInstanceNumber = inst.instance; // Starts at 1.
+                    });
+                });
+
 
                 $scope.zoomInOut = function () {
                     if ($scope.map_class === '') {
+                        $scope.zoomOutHeight = angular.element("#map_canvas").height() + "px";
+                        $scope.zoomOutWidth = angular.element("#map_canvas").width() + "px";
                         $scope.map_class = "full-screen";
+                        angular.element(".angular-google-map-container").css("height", window.innerHeight + "px");
+                        angular.element(".angular-google-map-container").css("width", window.innerWidth + "px");
+                        google.maps.event.trigger($scope.mapObj, 'resize');
+                        //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
+                        $scope.mapObj.fitBounds($scope.bounds);
                     } else {
                         $scope.map_class = "";
+                        angular.element(".angular-google-map-container").css("height", $scope.zoomOutHeight);
+                        angular.element(".angular-google-map-container").css("width", $scope.zoomOutWidth);
+                        google.maps.event.trigger($scope.mapObj, 'resize');
+                        //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
+                        $scope.mapObj.fitBounds($scope.bounds);
                     }
 
                     if ($scope.zoom_class === 'map-zoom-in') {
@@ -192,7 +237,7 @@
                         $scope.zoom_class = "map-zoom-in";
                     }
 
-                    window.google.maps.event.trigger($scope.map, 'resize');
+
                 };
 
                 $scope.getJobsPage = function (mode) {
@@ -255,12 +300,6 @@
                                     },
                                     job: obj
                                 });
-                                if (i === 0) {
-                                    $scope.map.center = {
-                                        latitude: value["zip-latitude"],
-                                        longitude: value["zip-longitude"]
-                                    };
-                                }
                                 i++;
                             }
 
@@ -272,6 +311,19 @@
                                 }
                             });
                         });
+
+                        $scope.bounds = new google.maps.LatLngBounds();
+                        angular.forEach($scope.markers, function (value, key) {
+                            var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
+                            $scope.bounds.extend(myLatLng);
+                        });
+                        $scope.map = {
+                            center: {
+                                latitude: $scope.bounds.getCenter().lat(),
+                                longitude: $scope.bounds.getCenter().lng()
+                            }, zoom: 4
+                        };
+
                     });
 
                 };
@@ -280,26 +332,39 @@
 
 
             }])
-        .controller('ViewJobCtrl', ['authService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location',
-            function (authService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location) {
+        .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
+            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
+                this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
-                $scope.map = {
-                    zoom: 7,
-                    options: {
-                        draggable: true,
-                        disableDefaultUI: true,
-                        panControl: false,
-                        navigationControl: false,
-                        scrollwheel: false,
-                        scaleControl: false
-                    }
-                };
+                uiGmapGoogleMapApi.then(function (maps) {
+                    maps.visualRefresh = true;
+                    $scope.map = {
+                        zoom: 7,
+                        options: {
+                            draggable: true,
+                            disableDefaultUI: true,
+                            panControl: false,
+                            navigationControl: false,
+                            scrollwheel: false,
+                            scaleControl: false
+                        }
+                    };
+                });
+
+                uiGmapIsReady.promise(1).then(function (instances) {
+                    instances.forEach(function (inst) {
+                        $scope.mapObj = inst.map;
+                        $scope.uuid = $scope.mapObj.uiGmap_id;
+                        var mapInstanceNumber = inst.instance; // Starts at 1.
+                    });
+                });
 
                 this.signedIn = function () {
                     return authService.isAuthenticated();
@@ -308,20 +373,56 @@
                 this.accept_job = function () {
                     //flow.next(routes.user.user.url, $routeParams.id);
                     var path = $location.path();
+                    var job_id = $routeParams.id;
                     if (authService.isAuthenticated()) {
                         jobService.acceptJob($routeParams.id);
                     } else {
+                        userService.apply_job_id = $routeParams.id;
                         flow.redirect(routes.user.select.url, function () {
-                            flow.redirect(path);
+                            //flow.redirect(path);
+                            jobService.acceptJob(job_id);
                         });
                     }
                 };
+
+                if(authService.isAuthenticated()){
+                    that.userModel = userService.userModel();
+                    if(that.userModel.$promise){
+                        that.userModel.$promise.then(function(result){
+                            that.isCompany = userService.isCompany;
+                        });
+                    }else{
+                        that.isCompany = userService.isCompany;
+                    }
+                }
+
+
 
                 $scope.isSignIn = this.signedIn();
 
                 $scope.company_image = "assets/images/content/placeholder-logo.png";
 
-                Resources.job.get({id: $routeParams.id, "include": "owner,company,hourly-pay"}, function (result) {
+                if (authService.isAuthenticated()) {
+                    $scope.job_user = jobService.getUserJobs({
+                        user_id: authService.userId().id,
+                        'filter[job-id]': $routeParams.id
+                    });
+                    $scope.job_user.$promise.then(function (response) {
+                        if (response.data.length > 0) {
+                            that.canApplyJob = 0;
+                        } else {
+                            that.canApplyJob = 1;
+                        }
+                    });
+                } else {
+                    that.canApplyJob = 1;
+                }
+
+
+                Resources.job.get({
+                    id: $routeParams.id,
+                    "include": "owner,company,hourly-pay,job-users"
+                }, function (result) {
                     $scope.job = result.data;
                     $scope.job.owner = result.included[0];
                     $scope.job.company = result.included[1];
@@ -338,10 +439,19 @@
                         });
 
                     }
+
+
+                    if (authService.isAuthenticated()) {
+                        var found_job_users = $filter('filter')(result.included, {
+                            type: 'job-users',
+                            relationships: {user: {data: {id: authService.userId().id}}}
+                        }, true);
+                    }
+
                 });
 
                 this.getComments = function (job_id) {
-                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,user-images');
+                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
                     $scope.comments.$promise.then(function (response) {
                         var deferd = $q.defer();
                         $scope.comments = [];
@@ -355,18 +465,30 @@
                                 obj.attributes["first-name"] = found[0].attributes["first-name"];
                                 obj.attributes["last-name"] = found[0].attributes["last-name"];
                             }
-                            if (authService.userId().id === obj.relationships.owner.data.id) {
-                                obj.attributes.isOwner = 1;
+                            if (authService.isAuthenticated()) {
+                                if (authService.userId().id === obj.relationships.owner.data.id) {
+                                    obj.attributes.isOwner = 1;
+                                } else {
+                                    obj.attributes.isOwner = 0;
+                                }
                             } else {
                                 obj.attributes.isOwner = 0;
                             }
 
-                            /*if (curr_user_id === obj.relationships.owner.data.id) {
-                             $scope.comments[$scope.comments.length - 1].attributes.body = obj.attributes.body + '<br />' + $scope.comments[$scope.comments.length - 1].attributes.body;
-                             } else {
-                             curr_user_id = obj.relationships.owner.data.id;
-                             $scope.comments.push(obj);
-                             }*/
+                            obj.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                            if (found[0].relationships["user-images"].data.length > 0) {
+                                var found_image = $filter('filter')(response.included, {
+                                    id: "" + found[0].relationships["user-images"].data[0].id,
+                                    type: "user-images"
+                                }, true);
+                                if(found_image.length > 0){
+                                    obj.user_image = found_image[0].attributes["image-url-small"];
+                                }
+                            }
+
+
+
                             $scope.comments.push(obj);
                         });
                         deferd.resolve($scope.comments);
@@ -377,14 +499,14 @@
                 this.getComments($routeParams.id);
 
                 this.submitComment = function () {
-                    if (!that.commentForm.data.attributes["language-id"]) {
-                        that.commentForm.data.attributes["language-id"] = i18nService.getLanguage().id;
-                    }
+                    that.commentForm.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                    var formData = {};
+                    angular.copy(that.commentForm, formData);
+                    that.commentForm.data.attributes.body = "";
                     Resources.comments.create({
                         resource_name: "jobs",
                         resource_id: $routeParams.id
-                    }, that.commentForm, function (response) {
-                        that.commentForm.data.attributes.body = "";
+                    }, formData, function (response) {
                         that.getComments($routeParams.id);
                     });
                 };
@@ -465,8 +587,19 @@
                                 }
                             });
                         });
-                    });
 
+                        $scope.bounds = new google.maps.LatLngBounds();
+                        angular.forEach($scope.markers, function (value, key) {
+                            var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
+                            $scope.bounds.extend(myLatLng);
+                        });
+                        $scope.map = {
+                            center: {
+                                latitude: $scope.bounds.getCenter().lat(),
+                                longitude: $scope.bounds.getCenter().lng()
+                            }, zoom: 4
+                        };
+                    });
                 };
 
                 $scope.getJobsPage('owner,company,hourly-pay');

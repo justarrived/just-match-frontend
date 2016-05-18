@@ -1,0 +1,10 @@
+<div class="form-group"
+     ng-class="{'has-error': (form[field].$invalid && form[field].$touched) || form[field].error_detail!==undefined, 'has-success': form[field].$valid}">
+    <div>
+        <ng-transclude/>
+    </div>
+    <div class="form-error-detail" ng-show="(form[field].$invalid && form[field].$touched) || form[field].error_detail">
+        <span class="text-danger" ng-show="form[field].$invalid && form[field].$touched">{{errormsg | translate}}</span>
+        <span class="text-danger return" ng-show="form[field].error_detail">{{form[field].error_detail}}</span>
+    </div>
+</div>

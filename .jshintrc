@@ -87,6 +87,7 @@
     "$":       false,
     "moment":  false,
     "module": true,
-    "_": false
+    "_": false,
+    "google": false
   }        // additional predefined global variables
 }

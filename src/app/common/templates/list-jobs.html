@@ -2,13 +2,13 @@
     <div class="main-title">
         <div class="job-list-title">
             <div>
-                <h1>{{ 'assignment.list.title' | translate }} ({{jobs.meta.total}})</h1>
+                <h1>{{ 'find_assignment.title' | translate }} ({{jobs.meta.total}})</h1>
             </div>
-            <div>
+            <!--<div>
                 <div class="dropdown-white-border"
                      custom-select="category.id as category.name for category in searchAsync($searchTerm)"
                      custom-select-options="categoryOptions" ng-model="categorySelected"></div>
-            </div>
+            </div>-->
         </div>
     </div>
     <div id="map_canvas" ng-class="map_class">
@@ -19,7 +19,7 @@
                         <h2>{{m.job.attributes.name}}</h2>
                         <p>{{m.job.attributes.description}}</p>
                         <p>{{m.job.totalRate}} {{m.job.currency}}</p>
-                        <a href="#{{routes.job.get.resolve(m.job)}}">Click Here</a>
+                        <a href="#{{routes.job.get.resolve(m.job)}}">{{'common.click_here' | translate}}</a>
                     </div>
                 </ui-gmap-window>
             </ui-gmap-marker>

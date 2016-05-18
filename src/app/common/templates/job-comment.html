@@ -1,5 +1,5 @@
 <div class="job-comment-list">
-    <h3>{{"job-body.comment.title" | translate}}</h3>
+    <h3>{{"assignment.comments.title" | translate}}</h3>
     <ul>
         <li ng-repeat="comment in comments" ng-class="{'right': comment.attributes.isOwner===1}">
             <div class="bubble">{{comment.attributes.body}}
@@ -8,7 +8,7 @@
                     {{ owner.attributes["first-name"] }}
                 </span>
             </div>
-            <div class="profile-image" style="background-image: url(assets/images/content/hero.png)">
+            <div class="profile-image" style="background-image: url({{comment.user_image}})">
 
             </div>
         </li>
@@ -16,7 +16,7 @@
     <div ng-show="isSignIn">
         <form name="form" ng-submit="ctrl.submitComment()">
             <div class="form-group">
-                <input type="text" name="comment_text" required placeholder="{{'job-body.comment.write' | translate}}"
+                <input type="text" name="comment_text" required placeholder="{{'assignment.comments.description' | translate}}"
                        ng-model="ctrl.commentForm.data.attributes['body']"/>
             </div>
         </form>

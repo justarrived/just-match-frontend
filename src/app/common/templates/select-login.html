@@ -1,19 +1,18 @@
 <section>
     <div class="grey-header">
-        <h1>{{'login.select.title' | translate}}</h1>
+        <h1>{{'login.apply.assignment.title' | translate}}</h1>
         <!--<p>Description</p>-->
     </div>
     <div class="select-login">
-
         <p>
-            Du behöver skapa en profil innan du kan söka uppdraget
+            {{'login.apply.assignment.description' | translate}}
             <br>
-            <a href="#{{routes.user.register.url}}">{{'login.select.register-email' | translate}}</a>
+            <a href="#{{routes.user.register.url}}">{{'common.register_account' | translate}}</a>
         </p>
         <p>
-            Har du redan ett konto?
+            {{'common.have_account' | translate}}
             <br>
-            <a href="#{{routes.user.signin.url}}">{{'login.select.signin' | translate}}</a>
+            <a href="#{{routes.user.signin.url}}">{{'common.login' | translate}}</a>
         </p>
     </div>
 </section>
