@@ -2,12 +2,21 @@
     <h3>{{"assignment.comments.title" | translate}}</h3>
     <ul>
         <li ng-repeat="comment in comments" ng-class="{'right': comment.attributes.isOwner===1}">
-            <div class="bubble">{{comment.attributes.body}}
-                <span class="comment-owner"
-                      ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}">
+            <div class="bubble">
+                <div ng-if="comment.translation.from == comment.translation.to">
+                    {{comment.attributes.body}}
+                </div>
+                <div ng-class="comment.translation.to_direction === 'rtl' ? 'rtl' : ''" ng-if="comment.translation.from != comment.translation.to">
+                    {{comment.translation.text}}
+                    <p ng-class="comment.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from '"><strong>{{'common.translated.from' | translate}} {{comment.translation.from_name}}</strong><br>
+                        {{comment.attributes.body}}
+                    </p>
+                </div>
+                <span class="comment-owner" ng-repeat="owner in comments.included | filter:{'id': comment.relationships.owner.data.id}">
                     {{ owner.attributes["first-name"] }}
                 </span>
             </div>
+            <br><span class="datetime">{{comment.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span>
             <div class="profile-image" style="background-image: url({{comment.user_image}})">
 
             </div>
