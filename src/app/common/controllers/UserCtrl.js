@@ -7,7 +7,7 @@ angular.module('just.common')
             //this.saveSuccessFromRegister = 0;
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
-            this.saveButtonText = "common.continue";
+            this.saveButtonText = "common.save";
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -20,11 +20,9 @@ angular.module('just.common')
             this.model.data.attributes = {};
 
             if(flow.next_data){
-                if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
-                    this.saveButtonText = "common.save";
+                if(flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register'){
+                    this.saveButtonText = "common.continue";
                 }
-            }else{
-                this.saveButtonText = "common.save";
             }
 
 
