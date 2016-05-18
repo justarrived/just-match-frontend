@@ -572,8 +572,8 @@ angular.module('just.common')
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
-        'MyDate', '$interval', 'Resources', '$http','settings',
-        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, settings) {
+        'MyDate', '$interval', 'Resources', '$http', 'settings', 'gtService',
+        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, settings, gtService) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -865,28 +865,19 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
                             }
-                            if (that.chatMessages.data[key].attributes.body) {
-                                var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessages.data[key].attributes.body) + "&target=" + target_lang;
-                                $http({method: 'GET', url: url}).then(function (response) {
-                                    that.chatMessages.data[key].attributes.body_translated = response.data.data.translations[0].translatedText;
-                                    that.chatMessages.data[key].attributes.body_translated_from = response.data.data.translations[0].detectedSourceLanguage;
-                                    that.chatMessages.data[key].attributes.body_translated_to = target_lang;
+                        }
+                        if (that.chatMessages.data[key].attributes.body) {
+                            gtService.translate(that.chatMessages.data[key].attributes.body)
+                                .then(function (translation) {
+                                    that.chatMessages.data[key].attributes.body_translated = translation.translatedText;
+                                    that.chatMessages.data[key].attributes.body_translated_from = translation.detectedSourceLanguage;
+                                    that.chatMessages.data[key].attributes.body_translated_to = translation.targetLanguage;
+                                    that.chatMessages.data[key].attributes.body_translated_to_name = translation.targetLanguageName;
+                                    that.chatMessages.data[key].attributes.body_translated_direction = translation.targetLanguageDirection;
                                 });
-                            }
                         }
                     });
                 });
-            };
-
-            this.translationWord = function () {
-                var source_lang = 'sv';
-                var target_lang = 'en';
-                if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
-                    $http({method: 'GET', url: url}).then(function (response) {
-                        that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
-                    });
-                }
             };
 
             this.fn = function (result) {
