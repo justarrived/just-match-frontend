@@ -1,18 +1,30 @@
 /**
  * @ngdoc service
- * @name just.service.service:commentService
+ * @name just.service.service:gtService
  * @description
- * # commentService
- * Service to handle comments.
+ * # gtService
+ * Service to handle translation via google translate api.
  */
 angular.module('just.service')
     .service('gtService', ['i18nService', '$http', 'settings', function (i18nService, $http, settings) {
         var that = this;
 
-        this.setLanguage = function () {
-            this.targetLanguage = i18nService.getLanguage().$$state.value['lang-code'];
-            this.targetLanguageName = i18nService.getLanguage().$$state.value['en-name'];
-            this.targetLanguageDirection = i18nService.getLanguage().$$state.value['direction'];
+        i18nService.supportedLanguages()
+            .then(function (langs) {
+                that.allLanguages = langs;
+            });
+        i18nService.getLanguage()
+            .then(function (lang) {
+                that.setLanguage(lang);
+            });
+        i18nService.addLanguageChangeListener(function (lang) {
+            that.setLanguage(lang);
+        });
+
+        this.setLanguage = function (lang) {
+            this.targetLanguage = lang['lang-code'];
+            this.targetLanguageName = lang['en-name'];
+            this.targetLanguageDirection = lang.direction;
         };
 
         this.translate = function (content) {
@@ -25,6 +37,7 @@ angular.module('just.service')
                     return {
                         translatedText: response.data.data.translations[0].translatedText,
                         detectedSourceLanguage: response.data.data.translations[0].detectedSourceLanguage,
+                        detectedSourceLanguageName: that.getLanguageName(response.data.data.translations[0].detectedSourceLanguage),
                         targetLanguage: that.targetLanguage,
                         targetLanguageName: that.targetLanguageName,
                         targetLanguageDirection: that.targetLanguageDirection
@@ -33,10 +46,11 @@ angular.module('just.service')
             );
         };
 
-        i18nService.addLanguageChangeListener(function () {
-                that.setLanguage();
-            }
-        );
-
-        setLanguage();
+        this.getLanguageName = function(langCode) {
+            angular.forEach(that.allLanguages, function (obj, key) {
+                if(obj['lang-code'] === langCode) {
+                    return obj['en-name'];
+                }
+            });
+        };
     }]);
