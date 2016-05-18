@@ -28,7 +28,9 @@ angular.module('just.common')
             this.message = userService.registerMessage;
 
             if (flow.next_data) {
-                this.data.company_id = flow.next_data.data.id;
+                if(flow.next_data.data){
+                    this.data.company_id = flow.next_data.data.id;
+                }
             }
 
             $scope.$watch('form', function (form) {
