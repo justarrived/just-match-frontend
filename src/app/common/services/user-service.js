@@ -31,8 +31,10 @@ angular.module('just.service')
                         if (that.isCompanyRegister === 1) {
                             // Go to job new if register user from company register page
                             that.isCompanyRegister = -1;
+                            that.isCompany = 1;
                             flow.completed(routes.job.create.url, ok);
                         } else if (that.isCompanyRegister === 0) {
+                            that.isCompany = 0;
                             that.isCompanyRegister = -1;
                             if (that.apply_job_id === 0) {
                                 flow.next(routes.user.user.url, {type: 'arriver_user_register'});
