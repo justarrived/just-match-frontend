@@ -19,9 +19,12 @@ angular.module('just.common')
             this.model.data = {};
             this.model.data.attributes = {};
 
-            if(flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register'){
-                this.saveButtonText = "common.continue";
+            if(flow.next_data){
+                if(flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register'){
+                    this.saveButtonText = "common.continue";
+                }
             }
+
 
             if (authService.isAuthenticated()) {
                 this.model = userService.userModel();
