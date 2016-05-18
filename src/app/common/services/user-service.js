@@ -37,7 +37,11 @@ angular.module('just.service')
                             if (that.apply_job_id === 0) {
                                 flow.next(routes.user.user.url, {type: 'arriver_user_register'});
                             } else {
-                                flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
+                                if (that.isCompany === 0) {
+                                    flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
+                                } else {
+                                    flow.completed(routes.job.get.resolve({id: that.apply_job_id}));
+                                }
                             }
                         } else {
                             flow.completed(routes.global.start.url);

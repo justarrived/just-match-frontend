@@ -380,7 +380,11 @@
                         userService.apply_job_id = $routeParams.id;
                         flow.redirect(routes.user.select.url, function () {
                             //flow.redirect(path);
-                            jobService.acceptJob(job_id);
+                            if (userService.isCompany === 0) {
+                                jobService.acceptJob(job_id);
+                            }else{
+                                flow.redirect(routes.job.get.resolve({id: job_id}));
+                            }
                         });
                     }
                 };
