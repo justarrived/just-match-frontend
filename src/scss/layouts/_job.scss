@@ -517,12 +517,15 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 
 .candidate-chat {
   .translate-from {
-    text-align: right;
     margin: 10px 0px 1px;
+    text-align: left;
     strong {
       font-weight: normal;
       font-size: .8em;
     }
+  }
+  .rtl {
+    text-align: right;
   }
   .messenger,
   .datetime {

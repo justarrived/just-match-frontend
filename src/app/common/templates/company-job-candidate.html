@@ -98,9 +98,9 @@
                         <div ng-if="chatMessage.attributes.body_translated_from == chatMessage.attributes.body_translated_to">
                             {{chatMessage.attributes.body}}
                         </div>
-                        <div ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
+                        <div class="ltr" ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
                             {{chatMessage.attributes.body_translated}}
-                            <p class="translate-from"><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from}}</strong><br>
+                            <p class="translate-from ltr"><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from}}</strong><br>
                                 {{chatMessage.attributes.body}}
                             </p>
                         </div>
