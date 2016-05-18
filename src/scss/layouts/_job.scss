@@ -516,6 +516,19 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 }
 
 .candidate-chat {
+  .translate-from {
+    text-align: right;
+    margin: 10px 0px 1px;
+    strong {
+      font-weight: normal;
+      font-size: .8em;
+    }
+  }
+  .messenger,
+  .datetime {
+    padding: 0 3px;
+    display: inline-block;
+  }
   h3 {
     padding: 20px;
     margin: 0;
@@ -716,6 +729,12 @@ job-body, job-comment {
 .new-job-form {
   .cate-group {
     position: relative;
+    .form-group {
+      margin-bottom: 0;
+    }
+    .form-error-detail {
+      margin-bottom: 15px;
+    }
   }
 }
 

@@ -88,7 +88,11 @@ angular.module('just.service')
                     that.signin(attributes);
                 }, function (error) {
                     that.registerMessage = error;
-                    flow.reload(routes.user.register.url);
+                    if (attributes.company_id) {
+                        flow.reload(routes.company.register.url);
+                    }else{
+                        flow.reload(routes.user.register.url);    
+                    }
                 });
             };
 

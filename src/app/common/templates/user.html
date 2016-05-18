@@ -7,8 +7,10 @@
                 <div>
                     <div class="upload-button">
                         <!--<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />-->
-                        <input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
-                        <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>{{'profile.form.photo.choose' | translate}}</span></div>
+                        <input type="file" id="file_upload" name="file"
+                               onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
+                        <div class="icon-camera"><i class="demo-icon icon-ic-camera"></i><span>{{'profile.form.photo.choose' | translate}}</span>
+                        </div>
                         <div class="user-info-image"
                              style="background-image: url('{{ctrl.user_image}}');"></div>
                     </div>
@@ -18,54 +20,60 @@
         </div>
         <div class="user-form">
 
-            <validation form="form" field="presentation" errormsg="profile.form.presentation.validation">
-                <div class="form-group presentation">
-                    <label>{{ 'profile.form.presentation' | translate }}*</label>
+            <div class="wrap-icon">
+                <validation form="form" field="presentation" errormsg="profile.form.presentation.validation">
+                    <div class="form-group presentation">
+                        <label>{{ 'profile.form.presentation' | translate }}*</label>
                     <textarea name="presentation" required minlength="10"
                               ng-model="ctrl.model.data.attributes.description"></textarea>
-                </div>
-            </validation>
+                    </div>
+                </validation>
 
-            <validation form="form" field="language_skills" errormsg="profile.form.languages.validation">
-                <div class="form-group language">
-                    <label>{{ "profile.form.languages" | translate }}*</label>
-                    <oi-select
-                            oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
-                            ng-model="ctrl.language_bundle"
-                            multiple
-                            placeholder="Select"
-                    ></oi-select>
-                    <input type="hidden" name="language_skills" value="{{ctrl.language_bundle}}" required>
-                </div>
-            </validation>
+                <validation form="form" field="language_skills" errormsg="profile.form.languages.validation">
+                    <div class="form-group language">
+                        <label>{{ "profile.form.languages" | translate }}*</label>
+                        <oi-select
+                                oi-options="item.attributes['en-name'] for item in languagesArrFn($query) track by item.id"
+                                ng-model="ctrl.language_bundle"
+                                multiple
+                                placeholder="Select"
+                        ></oi-select>
+                        <input type="hidden" name="language_skills" value="{{ctrl.language_bundle}}" required>
+                    </div>
+                </validation>
 
-            <validation form="form" field="job_experience" errormsg="profile.form.experience.validation">
-                <div class="form-group experience">
-                    <label>{{ "profile.form.experience" | translate }}</label>
-                    <textarea name="job_experience" ng-model="ctrl.model.data.attributes['job-experience']"></textarea>
-                </div>
-            </validation>
+                <validation form="form" field="job_experience" errormsg="profile.form.experience.validation">
+                    <div class="form-group experience">
+                        <label>{{ "profile.form.experience" | translate }}</label>
+                        <textarea name="job_experience"
+                                  ng-model="ctrl.model.data.attributes['job-experience']"></textarea>
+                    </div>
+                </validation>
 
-            <validation form="form" field="education" errormsg="profile.form.education.validation">
-                <div class="form-group education">
-                    <label>{{ "profile.form.education" | translate }}</label>
-                    <textarea name="education" ng-model="ctrl.model.data.attributes.education"></textarea>
-                </div>
-            </validation>
+                <validation form="form" field="education" errormsg="profile.form.education.validation">
+                    <div class="form-group education">
+                        <label>{{ "profile.form.education" | translate }}</label>
+                        <textarea name="education" ng-model="ctrl.model.data.attributes.education"></textarea>
+                    </div>
+                </validation>
 
-            <validation form="form" field="competence_text" errormsg="profile.form.skills.validation">
-                <div class="form-group competences">
-                    <label>{{ "profile.form.skills" | translate }}</label>
-                    <textarea name="competence_text" ng-model="ctrl.model.data.attributes['competence-text']"></textarea>
-                </div>
-            </validation>
-
+                <validation form="form" field="competence_text" errormsg="profile.form.skills.validation">
+                    <div class="form-group competences">
+                        <label>{{ "profile.form.skills" | translate }}</label>
+                        <textarea name="competence_text"
+                                  ng-model="ctrl.model.data.attributes['competence-text']"></textarea>
+                    </div>
+                </validation>
+            </div>
             <div>
                 <hr>
-                <p><p>{{'profile.create.notification' | translate}}</p></p>
+                <p>
+                <p>{{'profile.create.notification' | translate}}</p></p>
             </div>
             <div class="form-group">
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
+                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' |
+                    translate}}
+                </button>
             </div>
 
 
