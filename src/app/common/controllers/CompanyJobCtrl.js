@@ -872,9 +872,10 @@ angular.module('just.common')
                                     that.chatMessages.data[key].attributes.body_translated = translation.translatedText;
                                     that.chatMessages.data[key].attributes.body_translated_from = translation.detectedSourceLanguage;
                                     that.chatMessages.data[key].attributes.body_translated_from_name = translation.detectedSourceLanguageName;
+                                    that.chatMessages.data[key].attributes.body_translated_from_direction = translation.detectedSourceLanguageDirection;
                                     that.chatMessages.data[key].attributes.body_translated_to = translation.targetLanguage;
                                     that.chatMessages.data[key].attributes.body_translated_to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].attributes.body_translated_direction = translation.targetLanguageDirection;
+                                    that.chatMessages.data[key].attributes.body_translated_to_direction = translation.targetLanguageDirection;
                                 });
                         }
                     });
