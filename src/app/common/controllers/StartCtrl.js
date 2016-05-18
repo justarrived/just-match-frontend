@@ -15,12 +15,13 @@
  */
 
 angular.module('just.common')
-    .controller('StartCtrl', ['i18nService', 'jobService', '$scope', '$filter', '$q', 'Resources',
-        function (i18nService, jobService, $scope, $filter, $q, Resources) {
+    .controller('StartCtrl', ['i18nService', 'jobService', '$rootScope', '$scope', '$filter', '$q', 'Resources',
+        function (i18nService, jobService, $rootScope, $scope, $filter, $q, Resources) {
             var that = this;
 
             $scope.today = new Date();
 
+            $rootScope.$broadcast('onLoading', true);
             $scope.$parent.ctrl.isStartPage = true;
 
             this.languages = i18nService.supportedLanguages();
@@ -43,7 +44,6 @@ angular.module('just.common')
                         that.jobs.data[idx].currency = found_hourly_pay[0].attributes.currency;
                     }
 
-
                     var found = $filter('filter')(response.included, {
                         id: "" + obj.relationships.company.data.id,
                         type: "companies"
@@ -61,6 +61,7 @@ angular.module('just.common')
                     }
                 });
 
+                $rootScope.$broadcast('onLoading', false);
                 return deferd.promise;
             });
 

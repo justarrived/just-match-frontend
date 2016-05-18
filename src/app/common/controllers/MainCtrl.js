@@ -88,6 +88,7 @@ angular.module('just.common')
             that.isCompany = -1;
             this.backStep = -1;
             this.menuShowCreateAccount = false;
+            this.isLoading = false;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
@@ -139,6 +140,10 @@ angular.module('just.common')
             $scope.$on('onSigninSetmenu', function (event) {
                 that.getUser();
                 that.setProfile();
+            });
+
+            $scope.$on('onLoading', function (event, visible) {
+                that.isLoading = visible;
             });
 
             this.getUser = function () {
