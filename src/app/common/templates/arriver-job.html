@@ -19,16 +19,16 @@
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
                 <!-- Job finish report your boss -->
-                <div ng-show="!that.canPerformed">
+                <div ng-show="!ctrl.canPerformed">
                     <h2>{{'assignment.status.hired' | translate}}</h2>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
                 </div>
-                <div ng-show="that.canPerformed">
+                <div ng-show="ctrl.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
                 </div>
             </div>
@@ -81,16 +81,6 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="account_number"
-                                    errormsg="finance.form.account_number.validation">
-                            <div class="group">
-                                <input type="text" name="account_number"
-                                       ng-required="ctrl.financeModel.data.attributes['account-clearing-number']"
-                                       ng-model="ctrl.financeModel.data.attributes['account-number']"/>
-                                <label>{{'user.account.cardnr' | translate}}</label>
-                            </div>
-                        </validation>
-
                         <validation form="form" field="iban" errormsg="finance.form.iban.validation">
                             <div class="group">
                                 <input type="text" name="iban"
@@ -127,7 +117,6 @@
                 <div>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
                     <a class="button pink" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
-
                 </div>
             </section>
         </div>
@@ -139,7 +128,15 @@
                     <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                         <div class="bubble">
                             <div>{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</div>
-                            <div>{{chatMessage.attributes.body}}</div>
+                            <div ng-if="chatMessage.attributes.body_translated_from == chatMessage.attributes.body_translated_to">
+                                {{chatMessage.attributes.body}}
+                            </div>
+                            <div ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
+                                {{chatMessage.attributes.body_translated}}
+                                <p><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from}}</strong><br>
+                                    {{chatMessage.attributes.body}}
+                                </p>
+                            </div>
                         </div>
                         <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
                         </div>

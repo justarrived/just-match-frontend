@@ -29,6 +29,7 @@
     "common.good_work": "Bra jobbat!",
     "common.messages": "Meddelanden",
     "common.translate.from": "Översätt från",
+    "common.translated.from": "Översatt från",
     "common.you_have": "Du har",
     "common.have": "har",
     "common.references": "Referencer",
@@ -48,6 +49,7 @@
     "menu.main.login": "Log in",
     "menu.main.logout": "Log out",
     "menu.main.create_account": "Create account",
+    "menu.main.create_account.choose": "Användare eller företag?",
     "menu.settings.title": "Inställningar",
     "menu.settings.notifications": "Email notifications",
     "menu.settings.personal_data": "Personuppgifter",
@@ -216,6 +218,7 @@
     "assignment.total_cost.description": "\"This price includes employer contributions and social costs,\" \"excluding VAT.\"",
     "assignment.recommendation.title": "How do you think the (job-seeker) carried out the job? Provide a star rating, (1-5), and write a review that will be added to the (job-seeker's) profile.",
     "assignment.recommendation.description": "Write a recommendation",
+    "user": "Användare",
     "user.create.title": "Create account",
     "user.create.description": "Welcome! To get jobs and to ensure that everything is done fairly, you need to provide a personal number or co-ordination number.",
     "user.form.ssn": "Personal number",
@@ -239,6 +242,7 @@
     "user.form.street.validation": "Enter address",
     "user.form.zip.validation": "Enter five-digit post code",
     "user.form.password.validation": "Your password should contain at least eight characters ",
+    "user.form.passwordCompare.validation": "Lösenorden stämmer inte överens",
     "user.reset_password.title": "Glömt lösenord",
     "user.reset_password.description": "Återställ bekräftelse lösenord mail har skickats till",
     "profile": "Profile",
@@ -333,5 +337,9 @@
     "cookies.read_more": "Läs mer.",
     "cookies.accept": "Jag förstår.",
     "cookies.info.title": "Om cookies",
-    "cookies.info.description": "Vi använder cookies av tekniska skäl, för att underlätta användningen av våra tjänster och för att ge dig som användare relevant information när du besöker vår webbplats. Cookies används även för att mäta trafiken på vår webbplats, för insamling av statistik och för att förbättra våra tjänster. Genom att använda våra tjänster godkänner du att vi använder cookies, såvida du inte har inaktiverat dessa genom att ändra inställningarna för cookies i din webbläsare."
+    "cookies.info.description": "Vi använder cookies av tekniska skäl, för att underlätta användningen av våra tjänster och för att ge dig som användare relevant information när du besöker vår webbplats. Cookies används även för att mäta trafiken på vår webbplats, för insamling av statistik och för att förbättra våra tjänster. Genom att använda våra tjänster godkänner du att vi använder cookies, såvida du inte har inaktiverat dessa genom att ändra inställningarna för cookies i din webbläsare.",
+    "terms": "villkor",
+    "terms.accept": "Jag accepterar just Arriveds",
+    "terms.title": "title för villkor",
+    "terms.description": "villkors text"
 }

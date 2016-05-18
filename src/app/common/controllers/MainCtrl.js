@@ -11,8 +11,10 @@ angular.module('just.common')
                 }
 
                 var footerHeight = angular.element("footer").height();
+                var jobMore = document.getElementsByClassName("job-more-wrapper");
+                var jobMoreHeight = angular.element(jobMore).height();
                 var windowHeight = window.innerHeight;
-                var docHeight = getDocHeight() - footerHeight;
+                var docHeight = getDocHeight() - jobMoreHeight - footerHeight;
                 if ((this.pageYOffset + windowHeight) <= docHeight) {
                     element.addClass('sticky');
                 } else {
@@ -85,6 +87,7 @@ angular.module('just.common')
             this.showSetting = false;
             that.isCompany = -1;
             this.backStep = -1;
+            this.menuShowCreateAccount = false;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
@@ -132,6 +135,7 @@ angular.module('just.common')
                 //show = undefined : toggle
                 show = show | !routes.global.isMainMenuOpen;
                 routes.global.isMainMenuOpen = show;
+                this.menuShowCreateAccount = false;
             };
 
             this.setProfile = function () {

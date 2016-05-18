@@ -29,6 +29,7 @@
     "common.good_work": "Bra jobbat!",
     "common.messages": "Meddelanden",
     "common.translate.from": "Översätt från",
+    "common.translated.from": "Översatt från",
     "common.you_have": "Du har",
     "common.have": "har",
     "common.references": "Referencer",
@@ -48,6 +49,7 @@
     "menu.main.login": "Têkeve",
     "menu.main.logout": "Derkeve",
     "menu.main.create_account": "Hesabekê biafirîne",
+    "menu.main.create_account.choose": "Användare eller företag?",
     "menu.settings.title": "Inställningar",
     "menu.settings.notifications": "Haydarkirin bi rêya mailê",
     "menu.settings.personal_data": "Personuppgifter",
@@ -216,6 +218,7 @@
     "assignment.total_cost.description": "“Baca kardêrîyê û bacên civakî di heqî de ne”, “bêyî baca bikaranînê”",
     "assignment.recommendation.title": "Bi dîtina te, (uppdragstagaren) çawa kar bi cih anî? Hejmara stêran (1-5) bide û nirxandinekê ku li profîla (uppdragstagaren) tê zêde kirin binivîse.",
     "assignment.recommendation.description": "Tewsîyeykê binivîse",
+    "user": "Användare",
     "user.create.title": "Hesabekê biafirîne",
     "user.create.description": "Bi xêr hatî! Hewce ye tu nimreyeka şexsî yan nimreyeka hevahengî bidî da karî bigirî û her tişt saxlem bi rê ve biçe.",
     "user.form.ssn": "Nimreya şexsî",
@@ -239,6 +242,7 @@
     "user.form.street.validation": "Navnîşanê bide",
     "user.form.zip.validation": "Nimreya postê bi pênc reqeman bide",
     "user.form.password.validation": "Şîfre divê herî kêm 8 nîşan be",
+    "user.form.passwordCompare.validation": "Lösenorden stämmer inte överens",
     "user.reset_password.title": "Glömt lösenord",
     "user.reset_password.description": "Återställ bekräftelse lösenord mail har skickats till",
     "profile": "Profîl",
@@ -333,5 +337,9 @@
     "cookies.read_more": "Läs mer.",
     "cookies.accept": "Jag förstår.",
     "cookies.info.title": "Om cookies",
-    "cookies.info.description": "Vi använder cookies av tekniska skäl, för att underlätta användningen av våra tjänster och för att ge dig som användare relevant information när du besöker vår webbplats. Cookies används även för att mäta trafiken på vår webbplats, för insamling av statistik och för att förbättra våra tjänster. Genom att använda våra tjänster godkänner du att vi använder cookies, såvida du inte har inaktiverat dessa genom att ändra inställningarna för cookies i din webbläsare."
+    "cookies.info.description": "Vi använder cookies av tekniska skäl, för att underlätta användningen av våra tjänster och för att ge dig som användare relevant information när du besöker vår webbplats. Cookies används även för att mäta trafiken på vår webbplats, för insamling av statistik och för att förbättra våra tjänster. Genom att använda våra tjänster godkänner du att vi använder cookies, såvida du inte har inaktiverat dessa genom att ändra inställningarna för cookies i din webbläsare.",
+    "terms": "villkor",
+    "terms.accept": "Jag accepterar just Arriveds",
+    "terms.title": "title för villkor",
+    "terms.description": "villkors text"
 }

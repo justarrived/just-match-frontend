@@ -7,6 +7,7 @@ input[type="password"],
 input[type="text"],
 input[type="number"],
 input[type="url"],
+input[type="date"],
 textarea,
 select {
   border: 1px solid $lightBlue;
@@ -16,7 +17,10 @@ select {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
 }
-
+input[type="date"] {
+  min-height: 42px;
+  text-transform: uppercase;
+}
 label {
   font-weight: 400;
 }
@@ -31,14 +35,16 @@ label {
   display: none;
 }
 
-.text-danger {
-  color: $pink;
-  display: block;
+.form-error-detail {
   margin-top: -22px;
   font-size: 0.9em;
   text-align: left;
+  line-height: 1.3em;
 }
-
+.text-danger {
+  color: $pink;
+  display: block;
+}
 .ng-valid.ng-touched {
 }
 
@@ -252,6 +258,7 @@ oi-select .select-search {
     border: 1px solid $lightBlue;
     padding: 6px 10px;
     height: 42px;
+    line-height: 28px;
     color: $dark;
   }
 
@@ -270,6 +277,35 @@ oi-select .select-search {
   }
   h1 {
     margin-top: 0;
+  }
+}
+
+.company-register-form {
+  .material-input {
+    h1, h2, p {
+      text-align: center;
+      margin: 0 0 20px;
+    }
+    h2 {
+      font-size: 1.25em;
+      font-weight: 600;
+    }
+    p {
+      margin-bottom: 30px;
+    }
+
+  }
+
+  .select-group {
+    position: relative;
+    label {
+      position: absolute;
+      background: $white;
+      z-index: 2;
+      top: -5px;
+      line-height: 10px;
+      padding: 0 5px;
+    }
   }
 }
 
@@ -311,7 +347,7 @@ oi-select .select-search {
   label {
     text-transform: uppercase;
   }
-  .text-danger {
+  .form-error-detail {
     margin-top: -15px;
   }
   hr {
@@ -472,7 +508,7 @@ oi-select .select-search {
     position: relative;
     margin-bottom: 26px;
 
-    span.text-danger {
+    .form-error-detail {
       margin-top: -12px;
     }
 
@@ -610,6 +646,13 @@ textarea:focus, input:focus, select:focus, option:focus {
     margin: 15px 0 0;
     text-align: center;
   }
+  p.main {
+    margin: 0;
+    line-height: 1.8em;
+  }
+  a {
+    color: $brightBlue;
+  }
 }
 
 .error-message {
@@ -651,6 +694,7 @@ textarea {
     margin-top: -1px;
   }
 }
+
 .terms-page {
   top: 0;
   bottom: 0;

@@ -18,16 +18,19 @@
                 </validation2>
             </div>
 
-            <validation2 form="form" field="category_id" errormsg="assignment.form.category.validation">
-                <input type="hidden" name="category_id" required ng-model="ctrl.model.data.attributes['category-id']"/>
-                <input type="hidden" name="category_name" required ng-model="ctrl.model.data.attributes.category_name"/>
-            </validation2>
+
 
             <div class="cate-group">
                 <label>{{'assignment.form.category' | translate}}</label>
                 <div custom-select="category.id as category.name for category in searchAsync($searchTerm)"
                      custom-select-options="categoryOptions" ng-model="categorySelected"></div>
+
+                <validation2 form="form" field="category_id" errormsg="assignment.form.category.validation">
+                    <input type="hidden" name="category_id" required ng-model="ctrl.model.data.attributes['category-id']"/>
+                    <input type="hidden" name="category_name" required ng-model="ctrl.model.data.attributes.category_name"/>
+                </validation2>
             </div>
+
             <div class="material-input">
                 <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
@@ -59,9 +62,10 @@
             <div class="job-date">
                 <validation2 form="form" field="from_date" errormsg="assignment.form.from_date.validation">
                     <div class="form-group">
-                        <input type="text" id="job_date" name="from_date" required
+                        <input type="date" id="job_date" name="from_date" required
                                ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
                                ng-model="ctrl.model.data.attributes['job-date']"
+                               value="@Model.StartDate.ToString('yyyy-MM-dd')"
                                placeholder="YYYY-MM-DD" ng-keyup="form.from_date.error_detail = undefined">
                         <label>{{'assignment.form.from_date' | translate}}</label>
                     </div>
@@ -73,7 +77,7 @@
                              errormsg="assignment.form.to_date.validation">
                     <div class="form-group">
 
-                        <input type="text" id="job_end_date" name="to_date" required
+                        <input type="date" id="job_end_date" name="to_date" required
                                ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
                                ng-model="ctrl.model.data.attributes['job-end-date']"
                                placeholder="YYYY-MM-DD" ng-keyup="form.to_date.error_detail = undefined">

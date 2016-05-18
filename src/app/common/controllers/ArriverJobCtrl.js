@@ -136,7 +136,6 @@ angular.module('just.common')
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http',
         function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
             var that = this;
-            this.maxWaitMinutes = 1080; //18 hours
             this.job_user_id = null;
             this.accepted = false; //owner choosed
             this.accepted_at = null; // datetime owner choosed
@@ -159,6 +158,12 @@ angular.module('just.common')
             this.chatModel.data.attributes["user-ids"] = [];
 
             this.chatId = chatService.chatId;
+
+            i18nService.addLanguageChangeListener(function () {
+                    that.getChatMessage();
+                }
+            );
+
 
             $scope.currTab = 1;
 
@@ -323,6 +328,7 @@ angular.module('just.common')
             };
 
             this.getChatMessage = function () {
+                var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
                 that.chatMessages.$promise.then(function (response) {
@@ -342,6 +348,14 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author = found_author[0];
                                 that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
                             }
+                        }
+                        if (that.chatMessages.data[key].attributes.body) {
+                            var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessages.data[key].attributes.body) + "&target=" + target_lang;
+                            $http({method: 'GET', url: url}).then(function (response) {
+                                that.chatMessages.data[key].attributes.body_translated = response.data.data.translations[0].translatedText;
+                                that.chatMessages.data[key].attributes.body_translated_from = response.data.data.translations[0].detectedSourceLanguage;
+                                that.chatMessages.data[key].attributes.body_translated_to = target_lang;
+                            });
                         }
                     });
                 });
@@ -366,7 +380,7 @@ angular.module('just.common')
                 var source_lang = 'sv';
                 var target_lang = 'en';
                 if (that.chatMessageModel.data.attributes.body) {
-                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source="+source_lang+"&target=" + target_lang;
+                    var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac&q=" + encodeURIComponent(that.chatMessageModel.data.attributes.body) + "&source=" + source_lang + "&target=" + target_lang;
                     $http({method: 'GET', url: url}).then(function (response) {
                         that.chatMessageModel.data.attributes.body = response.data.translations.translatedText;
                     });
