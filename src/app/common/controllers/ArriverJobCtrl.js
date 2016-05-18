@@ -133,8 +133,8 @@ angular.module('just.common')
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
-        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http',
-        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http) {
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http', 'gtService',
+        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, gtService) {
             var that = this;
             this.job_user_id = null;
             this.accepted = false; //owner choosed
@@ -163,7 +163,6 @@ angular.module('just.common')
                     that.getChatMessage();
                 }
             );
-
 
             $scope.currTab = 1;
 
@@ -350,12 +349,16 @@ angular.module('just.common')
                             }
                         }
                         if (that.chatMessages.data[key].attributes.body) {
-                            var url = "https://www.googleapis.com/language/translate/v2?key=AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0&q=" + encodeURIComponent(that.chatMessages.data[key].attributes.body) + "&target=" + target_lang;
-                            $http({method: 'GET', url: url}).then(function (response) {
-                                that.chatMessages.data[key].attributes.body_translated = response.data.data.translations[0].translatedText;
-                                that.chatMessages.data[key].attributes.body_translated_from = response.data.data.translations[0].detectedSourceLanguage;
-                                that.chatMessages.data[key].attributes.body_translated_to = target_lang;
-                            });
+                            gtService.translate(that.chatMessages.data[key].attributes.body)
+                                .then(function (translation) {
+                                    that.chatMessages.data[key].attributes.body_translated = translation.translatedText;
+                                    that.chatMessages.data[key].attributes.body_translated_from = translation.detectedSourceLanguage;
+                                    that.chatMessages.data[key].attributes.body_translated_from_name = translation.detectedSourceLanguageName;
+                                    that.chatMessages.data[key].attributes.body_translated_from_direction = translation.detectedSourceLanguageDirection;
+                                    that.chatMessages.data[key].attributes.body_translated_to = translation.targetLanguage;
+                                    that.chatMessages.data[key].attributes.body_translated_to_name = translation.targetLanguageName;
+                                    that.chatMessages.data[key].attributes.body_translated_to_direction = translation.targetLanguageDirection;
+                                });
                         }
                     });
                 });

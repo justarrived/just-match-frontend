@@ -516,6 +516,22 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 }
 
 .candidate-chat {
+  .translate-from {
+    margin: 10px 0px 1px;
+    text-align: left;
+    strong {
+      font-weight: normal;
+      font-size: .8em;
+    }
+  }
+  .rtl {
+    text-align: right;
+  }
+  .messenger,
+  .datetime {
+    padding: 0 3px;
+    display: inline-block;
+  }
   h3 {
     padding: 20px;
     margin: 0;
