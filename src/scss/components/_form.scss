@@ -343,7 +343,9 @@ oi-select .select-search {
 
 .user-form {
   padding-top: 35px;
-  padding-left: 35px;
+  .wrap-icon {
+    padding-left: 35px;
+  }
   label {
     text-transform: uppercase;
   }
