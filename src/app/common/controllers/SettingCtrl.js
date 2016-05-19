@@ -6,20 +6,19 @@ angular.module('just.common')
             this.model = {data: {attributes: {}}};
             $scope.userModel = {};
             this.updateMessage = {};
-            this.user_image = "assets/images/content/placeholder-logo.png";
 
             this.setUserModel = function () {
                 $scope.userModel = userService.userModel();
                 if ($scope.userModel.$promise) {
                     $scope.userModel.$promise.then(function (result) {
                         angular.copy(result.data.attributes, that.model.data.attributes);
-                        that.user_image = result.data.user_image;
+                        angular.copy(result.data.user_image, that.user_image);
                         angular.element(".user-info-image").css("background-image","url("+result.data.user_image+")");
                         that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
                     });
                 } else {
                     angular.copy($scope.userModel.data.attributes, that.model.data.attributes);
-                    that.user_image = $scope.userModel.data.user_image;
+                    angular.copy($scope.userModel.data.user_image, that.user_image);
                     angular.element(".user-info-image").css("background-image","url("+$scope.userModel.data.user_image+")");
                     that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
                 }
