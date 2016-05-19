@@ -37,7 +37,7 @@ angular.module('just.service')
                             that.isCompany = 0;
                             that.isCompanyRegister = -1;
                             if (that.apply_job_id === 0) {
-                                flow.next(routes.user.user.url, {type: 'arriver_user_register'});
+                                flow.next_replace(routes.user.user.url, {type: 'arriver_user_register'});
                             } else {
                                 if (that.isCompany === 0) {
                                     flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
