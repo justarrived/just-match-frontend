@@ -31,13 +31,19 @@ angular.module('just.service')
                         if (that.isCompanyRegister === 1) {
                             // Go to job new if register user from company register page
                             that.isCompanyRegister = -1;
+                            that.isCompany = 1;
                             flow.completed(routes.job.create.url, ok);
                         } else if (that.isCompanyRegister === 0) {
+                            that.isCompany = 0;
                             that.isCompanyRegister = -1;
                             if (that.apply_job_id === 0) {
                                 flow.next(routes.user.user.url, {type: 'arriver_user_register'});
                             } else {
-                                flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
+                                if (that.isCompany === 0) {
+                                    flow.next(routes.user.user.url, {type: 'apply_job', job_id: that.apply_job_id});
+                                } else {
+                                    flow.completed(routes.job.get.resolve({id: that.apply_job_id}));
+                                }
                             }
                         } else {
                             flow.completed(routes.global.start.url);
@@ -190,7 +196,7 @@ angular.module('just.service')
             this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
-                    flow.redirect(routes.user.select.url, function () {
+                    flow.replace(routes.user.select.url, function () {
                         flow.redirect(path);
                     });
                 } else {
@@ -208,13 +214,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() !== null) {
-                                flow.completed(routes.global.warning.url, warning);
+                                flow.next_replace(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() !== null) {
-                            flow.completed(routes.global.warning.url, warning);
+                            flow.next_replace(routes.global.warning.url, warning);
                         }
                     }
                 }
@@ -241,13 +247,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() === null) {
-                                flow.replace(routes.global.warning.url, warning);
+                                flow.next_replace(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() === null) {
-                            flow.replace(routes.global.warning.url, warning);
+                            flow.next_replace(routes.global.warning.url, warning);
                         }
                     }
                 }

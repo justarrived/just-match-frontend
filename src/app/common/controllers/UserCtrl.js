@@ -4,21 +4,31 @@ angular.module('just.common')
             var that = this;
 
             this.isStart = 1;
-            this.saveSuccessFromRegister = 0;
-            this.saveSuccessFromJobApply = 0;
-            this.saveSuccessDefault = 0;
+            //this.saveSuccessFromRegister = 0;
+            //this.saveSuccessFromJobApply = 0;
+            //this.saveSuccessDefault = 0;
+            this.saveButtonText = "common.save";
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
                     flow.redirect(routes.user.user.url);
                 });
+            }else{
+                userService.checkArriverUser();
             }
 
             this.model = {};
             this.model.data = {};
             this.model.data.attributes = {};
 
-            if(authService.isAuthenticated()){
+            if(flow.next_data){
+                if(flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register'){
+                    this.saveButtonText = "common.continue";
+                }
+            }
+
+
+            if (authService.isAuthenticated()) {
                 this.model = userService.userModel();
                 this.message = userService.userMessage;
 
@@ -93,7 +103,6 @@ angular.module('just.common')
                     return deferd.promise;
                 };
             }
-
 
 
             /*Image upload and submit*/
@@ -235,26 +244,81 @@ angular.module('just.common')
 
                 // UPDATE USER PROFILE
                 Resources.user.save({id: that.model.data.id}, update_data, function (response) {
+                    /*
+                     if (flow.next_data) {
+                     var job_id = flow.next_data.job_id;
+                     if (flow.next_data.type === 'apply_job') {
+                     jobService.acceptJob(job_id, that.showAppliedJob);
+                     } else if (flow.next_data.type === 'arriver_user_register') {
+                     that.saveSuccessFromRegister = 1;
+                     }
+                     } else {
+                     that.saveSuccessDefault = 1;
+                     }*/
+
+
                     if (flow.next_data) {
-                        var job_id = flow.next_data.job_id;
-                        if (flow.next_data.type === 'apply_job') {
-                            jobService.acceptJob(job_id, that.showAppliedJob);
-                        } else if (flow.next_data.type === 'arriver_user_register') {
-                            that.saveSuccessFromRegister = 1;
+                        if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
+                            //from menu
+                            flow.push(function () {
+                                flow.completed(routes.global.start.url);
+                            });
+                            flow.next(routes.global.confirmation.url, {
+                                title: 'common.updated',
+                                description: 'profile.updated',
+                                submit: 'common.back'
+                            });
+                        } else if (flow.next_data) {
+                            //from apply job, register
+                            var job_id = flow.next_data.job_id;
+                            if (flow.next_data.type === 'apply_job') {
+                                jobService.acceptJob(job_id, that.showAppliedJob);
+                            } else if (flow.next_data.type === 'arriver_user_register') {
+                                //that.saveSuccessFromRegister = 1;
+
+                                flow.push(function () {
+                                    flow.completed(routes.job.list.url);
+                                });
+                                flow.next(routes.global.confirmation.url, {
+                                    title: 'profile.create.confirmation.title',
+                                    description: 'profile.create.confirmation.description',
+                                    submit: 'common.find_assignment'
+                                });
+                            }
                         }
                     } else {
-                        that.saveSuccessDefault = 1;
+                        flow.push(function () {
+                            flow.completed(routes.user.user.url);
+                        });
+                        flow.next(routes.global.confirmation.url, {
+                            title: 'common.updated',
+                            description: 'profile.updated',
+                            submit: 'common.back'
+                        });
                     }
+                    /* else {
+                     that.saveSuccessDefault = 1;
+                     }*/
                 });
             };
 
             this.showAppliedJob = function () {
-                that.saveSuccessFromJobApply = 1;
+                //that.saveSuccessFromJobApply = 1;
+
+                flow.push(function () {
+                    flow.completed(routes.job.list.url);
+                });
+                flow.next(routes.global.confirmation.url, {
+                    title: 'assignment.status.applied',
+                    description: 'assignment.status.applied.description',
+                    submit: 'user.apply.find_more'
+                });
             };
 
             this.gotoJobList = function () {
                 flow.redirect(routes.job.list.url);
             };
+
             this.refreshPage = function () {
                 that.getLanguages();
                 var path = $location.path();

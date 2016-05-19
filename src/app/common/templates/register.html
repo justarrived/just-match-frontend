@@ -37,20 +37,10 @@
                 <validation2 form="form" field="description" errormsg="profile.form.presentation.validation"
                              ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5"
+                        <textarea name="description" msd-elastic ng-required='ctrl.data.company_id' ng-minlength="5"
                                   ng-model="ctrl.data.description"
                                   ng-keyup="form.description.error_detail = undefined"></textarea>
                         <label>{{ 'profile.form.presentation' | translate }}</label>
-                    </div>
-                </validation2>
-
-                <validation2 form="form" field="email" errormsg="user.form.email.validation">
-                    <div class="group">
-                        <input name="email" type="email" required
-                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
-                               ng-model="ctrl.data.email"
-                               ng-keyup="form.email.error_detail = undefined">
-                        <label>{{ 'user.form.email' | translate }}</label>
                     </div>
                 </validation2>
 
@@ -77,6 +67,16 @@
                         <input name="zip" type="text" ng-required='ctrl.data.company_id' ng-minlength="5"
                                ng-model="ctrl.data.zip" ng-keyup="form.zip.error_detail = undefined">
                         <label>{{ 'user.form.zip' | translate }}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="email" errormsg="user.form.email.validation">
+                    <div class="group">
+                        <input name="email" type="email" required
+                               ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                               ng-model="ctrl.data.email"
+                               ng-keyup="form.email.error_detail = undefined">
+                        <label>{{ 'user.form.email' | translate }}</label>
                     </div>
                 </validation2>
 

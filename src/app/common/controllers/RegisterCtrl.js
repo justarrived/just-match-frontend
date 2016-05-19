@@ -21,18 +21,20 @@ angular.module('just.common')
             var that = this;
 
             if (authService.isAuthenticated()) {
-                flow.redirect(routes.user.user.url);
+                flow.replace(routes.user.user.url);
             }
 
             this.data = userService.registerModel;
             this.message = userService.registerMessage;
 
             if (flow.next_data) {
-                this.data.company_id = flow.next_data.data.id;
+                if(flow.next_data.data){
+                    this.data.company_id = flow.next_data.data.id;
+                }
             }
 
-            $scope.$watch('form', function(form) {
-                if(form) {
+            $scope.$watch('form', function (form) {
+                if (form) {
                     if (that.message.data) {
                         angular.forEach(that.message.data.errors, function (obj, key) {
                             var pointer_arr = obj.source.pointer.split("/");
@@ -44,8 +46,6 @@ angular.module('just.common')
                     }
                 }
             });
-
-
 
             this.process = function () {
                 var element0 = angular.element("#file_upload");

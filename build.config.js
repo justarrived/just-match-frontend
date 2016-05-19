@@ -55,7 +55,8 @@ module.exports = {
       'bower_components/angular-simple-logger/dist/angular-simple-logger.min.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.min.js',
       'bower_components/js-custom-select/js/customSelect.js',
-      'bower_components/oi.select/dist/select.min.js'
+      'bower_components/oi.select/dist/select.min.js',
+      'bower_components/angular-elastic/elastic.js'
     ],
     css: [
       'bower_components/bootstrap/dist/css/bootstrap.min.css',

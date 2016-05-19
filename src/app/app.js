@@ -6,23 +6,24 @@
  * The main module just for the Just Arrived application.
  */
 angular.module('just', [
-        'templates-app',
-        'ngRoute',
-        'ngResource',
-        'ngSanitize',
-        'just.constant',
-        'just.common',
-        'just.service',
-        'pascalprecht.translate',
-        'tmh.dynamicLocale',
-        'LocalStorageModule',
-        'beauby.jsonApiDataStore',
-        'just.translate',
-        'slick',
-        'uiGmapgoogle-maps',
-        'AxelSoft',
-        'oi.select'
-    ])
+    'templates-app',
+    'ngRoute',
+    'ngResource',
+    'ngSanitize',
+    'just.constant',
+    'just.common',
+    'just.service',
+    'pascalprecht.translate',
+    'tmh.dynamicLocale',
+    'LocalStorageModule',
+    'beauby.jsonApiDataStore',
+    'just.translate',
+    'slick',
+    'uiGmapgoogle-maps',
+    'AxelSoft',
+    'oi.select',
+    'monospaced.elastic'
+])
     .constant('justRoutes', {
         global: {
             start: {
@@ -81,7 +82,14 @@ angular.module('just', [
                     templateUrl: 'common/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl as ctrl'
                 }
-            }
+            },
+            confirmation: {
+                url: '/confirmation',
+                handler: {
+                    templateUrl: 'common/templates/confirmation.html',
+                    controller: 'ConfirmationCtrl as ctrl'
+                }
+            },
         },
         user: {
             select: {
@@ -318,4 +326,7 @@ angular.module('just', [
     }])
     .config(['$compileProvider', 'settings', function ($compileProvider, settings) {
         $compileProvider.debugInfoEnabled(settings.debug_enable);
+    }])
+    .config(['msdElasticConfig', function (msdElasticConfig) {
+        msdElasticConfig.append = '\n';
     }]);
