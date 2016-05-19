@@ -1,4 +1,4 @@
-<div class="job-more-wrapper">
+<div id="job-more-list" class="job-more-wrapper">
     <div class="main-title">
         <h2>{{ "assignment.more" | translate }}</h2>
     </div>
@@ -29,11 +29,11 @@
                 </li>
             </ul>
             <div class="nav-job-list-bottom">
-                <button class="button-first" ng-click="getJobsPage('first')"
+                <button class="button-first" ng-click="ctrl.changePage = 1; getJobsPage('first');"
                         ng-disabled="!jobs_more.links.first"></button>
-                <button class="button-prev" ng-click="getJobsPage('prev')" ng-disabled="!jobs_more.links.prev"></button>
-                <button class="button-next" ng-click="getJobsPage('next')" ng-disabled="!jobs_more.links.next"></button>
-                <button class="button-last" ng-click="getJobsPage('last')" ng-disabled="!jobs_more.links.last"></button>
+                <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');" ng-disabled="!jobs_more.links.prev"></button>
+                <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');" ng-disabled="!jobs_more.links.next"></button>
+                <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');" ng-disabled="!jobs_more.links.last"></button>
             </div>
         </div>
         <div>

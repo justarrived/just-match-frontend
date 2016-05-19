@@ -150,6 +150,8 @@
             function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
+                this.changePage = 0;
+
                 $scope.categoryOptions = {
                     async: true,
                     onSelect: function (item) {
@@ -269,6 +271,11 @@
                     $scope.jobs.$promise.then(function (result) {
                         i = 0;
 
+                        if(that.changePage === 1){
+                            that.changePage = 0;
+                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top }, 500);
+                        }
+
                         angular.forEach(result.data, function (obj, idx) {
                             $scope.jobs.data[idx].company_image = "assets/images/content/placeholder-logo.png";
                         });
@@ -339,6 +346,7 @@
 
                 this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
+                this.changePage = 0;
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
@@ -543,6 +551,12 @@
 
                     $scope.jobs_more.$promise.then(function (result) {
                         i = 0;
+
+                        if(that.changePage === 1){
+                            that.changePage = 0;
+                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top }, 500);
+                        }
+
 
                         angular.forEach(result.data, function (obj, idx) {
                             $scope.jobs_more.data[idx].company_image = "assets/images/content/placeholder-logo.png";

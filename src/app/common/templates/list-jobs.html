@@ -26,7 +26,7 @@
         </ui-gmap-google-map>
         <button ng-class="zoom_class" ng-click="zoomInOut()"></button>
     </div>
-    <div>
+    <div id="job-more-list">
         <ul class="job-list-wrapper">
             <li ng-repeat="job in jobs.data">
                 <div class="job-image"><a href="#{{routes.job.get.resolve(job)}}"
@@ -53,10 +53,10 @@
             </li>
         </ul>
         <div class="nav-job-list-bottom">
-            <button class="button-first" ng-click="getJobsPage('first')" ng-disabled="!jobs.links.first"></button>
-            <button class="button-prev" ng-click="getJobsPage('prev')" ng-disabled="!jobs.links.prev"></button>
-            <button class="button-next" ng-click="getJobsPage('next')" ng-disabled="!jobs.links.next"></button>
-            <button class="button-last" ng-click="getJobsPage('last')" ng-disabled="!jobs.links.last"></button>
+            <button class="button-first" ng-click="ctrl.changePage = 1; getJobsPage('first');" ng-disabled="!jobs.links.first"></button>
+            <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');" ng-disabled="!jobs.links.prev"></button>
+            <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');" ng-disabled="!jobs.links.next"></button>
+            <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');" ng-disabled="!jobs.links.last"></button>
         </div>
         <div>
             <p><i>{{ ctrl.message | json}}</i></p>
