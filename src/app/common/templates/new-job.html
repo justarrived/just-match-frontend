@@ -11,8 +11,8 @@
             <div class="material-input">
                 <validation2 form="form" field="name" errormsg="assignment.form.title.validation">
                     <div class="group">
-                        <input type="text" name="name" required ng-model="ctrl.model.data.attributes.name"
-                               ng-keyup="form.title.error_detail = undefined">
+                        <input type="text" name="name" required ng-minlength="2" ng-model="ctrl.model.data.attributes.name"
+                               ng-keyup="form.name.error_detail = undefined">
                         <label>{{'assignment.form.title' | translate}}</label>
                     </div>
                 </validation2>
@@ -34,7 +34,7 @@
             <div class="material-input">
                 <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
-                        <textarea name="description" required  msd-elastic 
+                        <textarea name="description" required ng-minlength="10" msd-elastic
                                   ng-model="ctrl.model.data.attributes.description"
                                   ng-keyup="form.description.error_detail = undefined"></textarea>
                         <label>{{'assignment.form.description' | translate}}</label>
@@ -43,7 +43,7 @@
 
                 <validation2 form="form" field="street" errormsg="assignment.form.address.validation">
                     <div class="group">
-                        <input type="text" name="street" required ng-model="ctrl.model.data.attributes.street"
+                        <input type="text" name="street" required ng-minlength="5" ng-model="ctrl.model.data.attributes.street"
                                ng-keyup="form.street.error_detail = undefined">
                         <label>{{'assignment.form.address' | translate}}</label>
                     </div>
