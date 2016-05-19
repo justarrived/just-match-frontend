@@ -128,12 +128,12 @@
                     <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                         <div class="bubble">
                             <div><span class="messenger">{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</span><span class="datetime">{{chatMessage.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span></div>
-                            <div ng-if="chatMessage.attributes.body_translated_from == chatMessage.attributes.body_translated_to">
+                            <div ng-if="chatMessage.translation.from == chatMessage.translation.to">
                                 {{chatMessage.attributes.body}}
                             </div>
-                            <div ng-class="chatMessage.attributes.body_translated_to_direction === 'rtl' ? 'rtl' : ''" ng-if="chatMessage.attributes.body_translated_from != chatMessage.attributes.body_translated_to">
-                                {{chatMessage.attributes.body_translated}}
-                                <p ng-class="chatMessage.attributes.body_translated_from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from '"><strong>{{'common.translated.from' | translate}} {{chatMessage.attributes.body_translated_from_name}}</strong><br>
+                            <div ng-class="chatMessage.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'" ng-if="chatMessage.translation.from != chatMessage.translation.to">
+                                {{chatMessage.translation.text}}
+                                <p ng-class="chatMessage.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'"><strong>{{'common.translated.from' | translate}} {{chatMessage.translation.from_name}}</strong><br>
                                     {{chatMessage.attributes.body}}
                                 </p>
                             </div>

@@ -340,8 +340,8 @@
 
             }])
         .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
-            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
-            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady) {
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady','gtService',
+            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady,gtService) {
                 var that = this;
 
                 this.canApplyJob = 0;
@@ -350,6 +350,11 @@
 
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
+
+                i18nService.addLanguageChangeListener(function () {
+                        that.getComments($routeParams.id);
+                    }
+                );
 
                 uiGmapGoogleMapApi.then(function (maps) {
                     maps.visualRefresh = true;
@@ -499,7 +504,19 @@
                                 }
                             }
 
-
+                            if (obj.attributes.body) {
+                                gtService.translate(obj.attributes.body)
+                                    .then(function (translation) {
+                                        obj.translation = {};
+                                        obj.translation.text = translation.translatedText;
+                                        obj.translation.from = translation.detectedSourceLanguage;
+                                        obj.translation.from_name = translation.detectedSourceLanguageName;
+                                        obj.translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        obj.translation.to = translation.targetLanguage;
+                                        obj.translation.to_name = translation.targetLanguageName;
+                                        obj.translation.to_direction = translation.targetLanguageDirection;
+                                    });
+                            }
 
                             $scope.comments.push(obj);
                         });
