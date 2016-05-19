@@ -14,7 +14,7 @@ angular.module('just.common')
                     flow.redirect(routes.user.user.url);
                 });
             }else{
-                userService.checkArriverUser();
+                userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
             }
 
             this.model = {};
