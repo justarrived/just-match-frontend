@@ -70,6 +70,7 @@ angular.module('just.common')
                     });
                 } else {
                     that.setUserModel();
+                    $scope.$parent.ctrl.saveSettingsSuccess = true;
                     $scope.$parent.ctrl.showSetting = false;
                     $scope.$parent.ctrl.getUser();
                 }

@@ -21,7 +21,7 @@ angular.module('just.common')
             var that = this;
 
             if (authService.isAuthenticated()) {
-                flow.redirect(routes.user.user.url);
+                flow.replace(routes.user.user.url);
             }
 
             this.data = userService.registerModel;

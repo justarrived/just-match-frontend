@@ -37,7 +37,7 @@
                 <validation2 form="form" field="description" errormsg="profile.form.presentation.validation"
                              ng-hide="!ctrl.data.company_id">
                     <div class="group">
-                        <textarea name="description" ng-required='ctrl.data.company_id' ng-minlength="5"
+                        <textarea name="description" msd-elastic ng-required='ctrl.data.company_id' ng-minlength="5"
                                   ng-model="ctrl.data.description"
                                   ng-keyup="form.description.error_detail = undefined"></textarea>
                         <label>{{ 'profile.form.presentation' | translate }}</label>

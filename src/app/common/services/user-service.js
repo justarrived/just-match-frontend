@@ -196,7 +196,7 @@ angular.module('just.service')
             this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
-                    flow.redirect(routes.user.select.url, function () {
+                    flow.replace(routes.user.select.url, function () {
                         flow.redirect(path);
                     });
                 } else {
@@ -214,13 +214,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() !== null) {
-                                flow.completed(routes.global.warning.url, warning);
+                                flow.next_replace(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() !== null) {
-                            flow.completed(routes.global.warning.url, warning);
+                            flow.next_replace(routes.global.warning.url, warning);
                         }
                     }
                 }
@@ -247,13 +247,13 @@ angular.module('just.service')
                         that.user.$promise.then(function (response) {
                             var deferd = $q.defer();
                             if (that.companyId() === null) {
-                                flow.replace(routes.global.warning.url, warning);
+                                flow.next_replace(routes.global.warning.url, warning);
                             }
                             return deferd.promise;
                         });
                     } else {
                         if (that.companyId() === null) {
-                            flow.replace(routes.global.warning.url, warning);
+                            flow.next_replace(routes.global.warning.url, warning);
                         }
                     }
                 }

@@ -11,14 +11,14 @@
                 <img src="http://img.youtube.com/vi/ScMzIvxBSi4/default.jpg">
                 <h2 class="section-title section-title--white">
                     {{'start.hero_section.slide_1' | translate}}<br><i ng-click="showvdo=1"
-                                                        class="demo-icon icon-ic-arrow-right2"></i>
+                                                                       class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
             <div>
                 <img ng-hide="showvdo2" src="http://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg">
                 <h2 class="section-title section-title--white">
                     {{'start.hero_section.slide_2' | translate}}<br><i ng-click="showvdo=2"
-                                                        class="demo-icon icon-ic-arrow-right2"></i>
+                                                                       class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
         </slick>
@@ -32,22 +32,26 @@
             <div class="close-x" ng-click="showvdo=false"><i class="demo-icon icon-ic-close"></i></div>
         </div>
     </div>
-    <div class="hero__col hero__col--left">
-        <div class="hero__col__content">
-            <h3> {{'start.hero_section.left.title' | translate}} </h3>
-            <h4>
-                <a href="#{{routes.job.create.url}}">{{'start.hero_section.left.text' | translate}}</a>
-            </h4>
+    <a href="#{{routes.job.create.url}}">
+        <div class="hero__col hero__col--left" ng-click="next(routes.job.create.url);">
+            <div class="hero__col__content">
+                <h3> {{'start.hero_section.left.title' | translate}} </h3>
+                <h4>
+                    {{'start.hero_section.left.text' | translate}}
+                </h4>
+            </div>
         </div>
-    </div>
-    <div class="hero__col hero__col--right">
-        <div class="hero__col__content">
-            <h3> {{'start.hero_section.right.title' | translate}} </h3>
-            <h4>
-                <a href="#{{routes.user.register.url}}">{{'start.hero_section.right.text' | translate}}</a>
-            </h4>
+    </a>
+    <a href="#{{routes.user.register.url}}">
+        <div class="hero__col hero__col--right">
+            <div class="hero__col__content">
+                <h3> {{'start.hero_section.right.title' | translate}} </h3>
+                <h4>
+                    {{'start.hero_section.right.text' | translate}}
+                </h4>
+            </div>
         </div>
-    </div>
+    </a>
 </section>
 <section class="section-jobs">
     <div class="section-jobs__content">

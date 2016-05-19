@@ -13,6 +13,8 @@ angular.module('just.common')
                 flow.redirect(routes.user.select.url, function () {
                     flow.redirect(routes.user.user.url);
                 });
+            }else{
+                userService.checkArriverUser();
             }
 
             this.model = {};

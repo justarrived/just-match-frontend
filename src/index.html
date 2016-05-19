@@ -82,5 +82,16 @@
 <ng-include src="'common/templates/menu.html'"></ng-include>
 <ng-include src="'common/templates/select-language.html'"></ng-include>
 <ng-include src="'common/templates/settings.html'"></ng-include>
+<div class="complete job-approved" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;"
+     ng-show="ctrl.saveSettingsSuccess">
+    <div>
+        <div>
+            <p><i class="demo-icon icon-ic-check2"></i></p>
+            <h1>{{'common.updated' | translate}}</h1>
+            <p>{{'profile.updated' | translate}}</p>
+            <button ng-click="ctrl.saveSettingsSuccess = false;" type="button">{{'common.back' | translate}}</button>
+        </div>
+    </div>
+</div>
 
 </body>

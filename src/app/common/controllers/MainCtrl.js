@@ -88,6 +88,7 @@ angular.module('just.common')
             that.isCompany = -1;
             this.backStep = -1;
             this.menuShowCreateAccount = false;
+            this.saveSettingsSuccess = false;
 
             this.signedIn = function () {
                 return authService.isAuthenticated();
