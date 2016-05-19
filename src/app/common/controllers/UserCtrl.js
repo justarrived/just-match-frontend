@@ -255,8 +255,6 @@ angular.module('just.common')
                      } else {
                      that.saveSuccessDefault = 1;
                      }*/
-
-
                     if (flow.next_data) {
                         if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
                             //from menu
@@ -284,17 +282,14 @@ angular.module('just.common')
                                     description: 'profile.create.confirmation.description',
                                     submit: 'common.find_assignment'
                                 });
+                            }else{
+                                that.defaultConfirm();
                             }
+                        }else{
+                            that.defaultConfirm();
                         }
                     } else {
-                        flow.push(function () {
-                            flow.completed(routes.user.user.url);
-                        });
-                        flow.next(routes.global.confirmation.url, {
-                            title: 'common.updated',
-                            description: 'profile.updated',
-                            submit: 'common.back'
-                        });
+                        that.defaultConfirm();
                     }
                     /* else {
                      that.saveSuccessDefault = 1;
@@ -317,6 +312,17 @@ angular.module('just.common')
 
             this.gotoJobList = function () {
                 flow.redirect(routes.job.list.url);
+            };
+
+            this.defaultConfirm = function(){
+                flow.push(function () {
+                    flow.completed(routes.user.user.url);
+                });
+                flow.next(routes.global.confirmation.url, {
+                    title: 'common.updated',
+                    description: 'profile.updated',
+                    submit: 'common.back'
+                });
             };
 
             this.refreshPage = function () {
