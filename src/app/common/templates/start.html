@@ -79,29 +79,26 @@
         </slick>
     </div>
 </section>
-<section class="section-categories">
-    <h2> {{'start.category_section.title' | translate}} </h2>
-    <p> {{'start.category_section.text_1' | translate}} </p>
-    <p> {{'start.category_section.text_2' | translate}} </p>
-    <div>
-        <a class="button" href="#{{routes.job.create.url}}">{{'start.category_section.btn' | translate}}</a>
-    </div>
-</section>
-<section class="section-steps">
-    <div class="section-steps__content">
-        <h2 class="section-title section-title--white"> {{'start.steps_section.title' | translate}} </h2>
-        <ol>
-            <li>{{'start.steps_section.step_1' | translate}}</li>
-            <li>{{'start.steps_section.step_2' | translate}}</li>
-            <li>{{'start.steps_section.step_3' | translate}}</li>
-            <li>{{'start.steps_section.step_4' | translate}}</li>
-        </ol>
-    </div>
-</section>
 <section class="section-instructions">
-    <h2 class="section-title"> {{'start.instruction_section.title' | translate}} </h2>
     <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
            slides-to-show="3" responsive="instructionsResponsive" on-directive-init="onDirectiveInit()">
+        <!--TODO: MAKE THIS ONE PERFECT SIMILAR TO OTHERS: SKAPA PROFIL-->
+        <div>
+            <div class="section-steps">
+                <h3>{{'start.steps_section.title' | translate}}</h3>
+                <!--<p>Description</p>-->
+            </div>
+            <div class="blue">
+                <ul>
+                    <li>{{'start.steps_section.step_1' | translate}}</li>
+                    <li>{{'start.steps_section.step_2' | translate}}</li>
+                    <li>{{'start.steps_section.step_3' | translate}}</li>
+                    <li>{{'start.steps_section.step_4' | translate}}</li>
+                </ul>
+                <p><a href="#{{routes.job.create.url}}">{{'common.start_here' | translate}}</a></p>
+            </div>
+        </div>
+        <!--END NEW ONE-->
         <div>
             <div>
                 <h3>{{'start.instruction_section.slide_1.title' | translate}}</h3>
