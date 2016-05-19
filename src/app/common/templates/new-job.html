@@ -34,7 +34,7 @@
             <div class="material-input">
                 <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
-                        <textarea name="description" required
+                        <textarea name="description" required  msd-elastic 
                                   ng-model="ctrl.model.data.attributes.description"
                                   ng-keyup="form.description.error_detail = undefined"></textarea>
                         <label>{{'assignment.form.description' | translate}}</label>
