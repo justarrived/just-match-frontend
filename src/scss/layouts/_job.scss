@@ -585,6 +585,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   .rtl {
     text-align: right;
   }
+  .ltr {
+    text-align: left;
+  }
   .messenger,
   .datetime {
     padding: 0 3px;

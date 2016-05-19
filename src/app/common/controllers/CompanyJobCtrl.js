@@ -887,13 +887,14 @@ angular.module('just.common')
                         if (that.chatMessages.data[key].attributes.body) {
                             gtService.translate(that.chatMessages.data[key].attributes.body)
                                 .then(function (translation) {
-                                    that.chatMessages.data[key].attributes.body_translated = translation.translatedText;
-                                    that.chatMessages.data[key].attributes.body_translated_from = translation.detectedSourceLanguage;
-                                    that.chatMessages.data[key].attributes.body_translated_from_name = translation.detectedSourceLanguageName;
-                                    that.chatMessages.data[key].attributes.body_translated_from_direction = translation.detectedSourceLanguageDirection;
-                                    that.chatMessages.data[key].attributes.body_translated_to = translation.targetLanguage;
-                                    that.chatMessages.data[key].attributes.body_translated_to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].attributes.body_translated_to_direction = translation.targetLanguageDirection;
+                                    that.chatMessages.data[key].translation = {};
+                                    that.chatMessages.data[key].translation.text = translation.translatedText;
+                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
+                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
+                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
+                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
+                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
                                 });
                         }
                     });
