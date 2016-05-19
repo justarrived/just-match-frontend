@@ -420,7 +420,7 @@ angular.module('just.common')
             this.message = {};
 
             i18nService.addLanguageChangeListener(function () {
-                    that.getComments();
+                    that.getComments($routeParams.id);
                 }
             );
 
@@ -483,6 +483,7 @@ angular.module('just.common')
                         if ($scope.comments[key].attributes.body) {
                             gtService.translate($scope.comments[key].attributes.body)
                                 .then(function (translation) {
+                                    $scope.comments[key].translation = {};
                                     $scope.comments[key].translation.text = translation.translatedText;
                                     $scope.comments[key].translation.from = translation.detectedSourceLanguage;
                                     $scope.comments[key].translation.from_name = translation.detectedSourceLanguageName;

@@ -344,7 +344,7 @@
                 $scope.zoom_class = "map-zoom-in";
 
                 i18nService.addLanguageChangeListener(function () {
-                        that.getComments();
+                        that.getComments($routeParams.id);
                     }
                 );
 
@@ -495,6 +495,7 @@
                             if (obj.attributes.body) {
                                 gtService.translate(obj.attributes.body)
                                     .then(function (translation) {
+                                        obj.translation = {};
                                         obj.translation.text = translation.translatedText;
                                         obj.translation.from = translation.detectedSourceLanguage;
                                         obj.translation.from_name = translation.detectedSourceLanguageName;

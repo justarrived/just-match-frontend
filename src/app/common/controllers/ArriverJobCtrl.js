@@ -398,11 +398,16 @@ angular.module('just.common')
                 $scope.userModalPerformShow = false;
             };
         }])
-    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources) {
+    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources','gtService',
+        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources,gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
+
+            i18nService.addLanguageChangeListener(function () {
+                    that.getComments($routeParams.id);
+                }
+            );
 
             $scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
             $scope.jobb.$promise.then(function (response) {
@@ -460,6 +465,21 @@ angular.module('just.common')
                                 $scope.comments[key].user_image = found_image[0].attributes["image-url-small"];
                             }
                         }
+
+                        if ($scope.comments[key].attributes.body) {
+                            gtService.translate($scope.comments[key].attributes.body)
+                                .then(function (translation) {
+                                    $scope.comments[key].translation = {};
+                                    $scope.comments[key].translation.text = translation.translatedText;
+                                    $scope.comments[key].translation.from = translation.detectedSourceLanguage;
+                                    $scope.comments[key].translation.from_name = translation.detectedSourceLanguageName;
+                                    $scope.comments[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    $scope.comments[key].translation.to = translation.targetLanguage;
+                                    $scope.comments[key].translation.to_name = translation.targetLanguageName;
+                                    $scope.comments[key].translation.to_direction = translation.targetLanguageDirection;
+                                });
+                        }
+
                     });
                 });
             };

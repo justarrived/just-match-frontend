@@ -470,6 +470,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         padding: 10px 15px;
       }
     }
+
     li.right {
       position: relative;
       > div:last-child {
@@ -479,6 +480,43 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         float: left;
       }
     }
+  }
+  .right {
+    > div:first-child {
+      text-align: right;
+    }
+  }
+  ul li > div:first-child {
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    > div:last-child {
+      border-radius: 5px;
+      background: $midgrey;
+      padding: 10px 15px;
+      margin-top: 3px;
+    }
+  }
+
+  .translate-from {
+    margin: 10px 0px 1px;
+    text-align: left;
+    strong {
+      font-weight: normal;
+      font-size: .8em;
+    }
+  }
+  .rtl {
+    text-align: right;
+  }
+  .ltr {
+    text-align: left;
+  }
+
+  .messenger,
+  .datetime {
+    padding: 0 3px;
+    display: inline-block;
   }
 }
 
@@ -512,6 +550,26 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     > div:first-child {
       text-align: right;
     }
+  }
+  .translate-from {
+    margin: 10px 0px 1px;
+    text-align: left;
+    strong {
+      font-weight: normal;
+      font-size: .8em;
+    }
+  }
+  .rtl {
+    text-align: right;
+  }
+  .ltr {
+    text-align: left;
+  }
+
+  .messenger,
+  .datetime {
+    padding: 0 3px;
+    display: inline-block;
   }
 }
 
@@ -670,7 +728,7 @@ job-body, job-comment {
 .sticy-button {
   margin: 0 -25px;
 
-  .button,.button-disabled {
+  .button, .button-disabled {
     text-align: center;
     background: $pink;
     color: $white;
