@@ -18,8 +18,8 @@
                 this.model.data.attributes.hours = 2;
 
 
-                $scope.$watch('form', function(form) {
-                    if(form) {
+                $scope.$watch('form', function (form) {
+                    if (form) {
                         if (that.message.data) {
                             angular.forEach(that.message.data.errors, function (obj, key) {
                                 var pointer_arr = obj.source.pointer.split("/");
@@ -27,9 +27,13 @@
 
                                 field_name = field_name.replace(/-/g, "_");
 
-                                switch(field_name){
-                                    case 'job_date': field_name = 'from_date'; break;
-                                    case 'job_end_date': field_name = 'to_date'; break;
+                                switch (field_name) {
+                                    case 'job_date':
+                                        field_name = 'from_date';
+                                        break;
+                                    case 'job_end_date':
+                                        field_name = 'to_date';
+                                        break;
                                 }
                                 $scope.form[field_name].error_detail = obj.detail;
                             });
@@ -271,9 +275,9 @@
                     $scope.jobs.$promise.then(function (result) {
                         i = 0;
 
-                        if(that.changePage === 1){
+                        if (that.changePage === 1) {
                             that.changePage = 0;
-                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top }, 500);
+                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top}, 500);
                         }
 
                         angular.forEach(result.data, function (obj, idx) {
@@ -340,21 +344,32 @@
 
             }])
         .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
-            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady','gtService',
-            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady,gtService) {
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
+            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
                 var that = this;
 
                 this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
                 this.changePage = 0;
-
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
                 i18nService.addLanguageChangeListener(function () {
                         that.getComments($routeParams.id);
+                        $scope.getJobsPage('self');
+                        that.getJobDetail();
                     }
                 );
+
+                //handle different dynamic translations
+                $scope.dt = {
+                    job_description: true,
+                    job_name: true,
+                    joblist_name: true
+                };
+                this.toggleDT = function(textId) {
+                    $scope.dt[textId] = !$scope.dt[textId];
+                };
 
                 uiGmapGoogleMapApi.then(function (maps) {
                     maps.visualRefresh = true;
@@ -395,25 +410,23 @@
                             //flow.redirect(path);
                             if (userService.isCompany === 0) {
                                 jobService.acceptJob(job_id);
-                            }else{
+                            } else {
                                 flow.redirect(routes.job.get.resolve({id: job_id}));
                             }
                         });
                     }
                 };
 
-                if(authService.isAuthenticated()){
+                if (authService.isAuthenticated()) {
                     that.userModel = userService.userModel();
-                    if(that.userModel.$promise){
-                        that.userModel.$promise.then(function(result){
+                    if (that.userModel.$promise) {
+                        that.userModel.$promise.then(function (result) {
                             that.isCompany = userService.isCompany;
                         });
-                    }else{
+                    } else {
                         that.isCompany = userService.isCompany;
                     }
                 }
-
-
 
                 $scope.isSignIn = this.signedIn();
 
@@ -436,36 +449,67 @@
                 }
 
 
-                Resources.job.get({
-                    id: $routeParams.id,
-                    "include": "owner,company,hourly-pay,job-users"
-                }, function (result) {
-                    $scope.job = result.data;
-                    $scope.job.owner = result.included[0];
-                    $scope.job.company = result.included[1];
-                    $scope.job.max_rate = result.included[2].attributes.rate;
-                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
-                    $scope.job.currency = result.included[2].attributes.currency;
-                    var company_image_arr = result.included[1].relationships["company-images"].data;
-                    if (company_image_arr.length > 0) {
-                        Resources.companyImage.get({
-                            company_id: result.data.relationships.company.data.id,
-                            id: company_image_arr[0].id
-                        }, function (resultImage) {
-                            $scope.company_image = resultImage.data.attributes["image-url-small"];
-                        });
+                this.getJobDetail = function() {
+                    Resources.job.get({
+                        id: $routeParams.id,
+                        "include": "owner,company,hourly-pay,job-users"
+                    }, function (result) {
+                        $scope.job = result.data;
+                        $scope.job.owner = result.included[0];
+                        $scope.job.company = result.included[1];
+                        $scope.job.max_rate = result.included[2].attributes.rate;
+                        $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                        $scope.job.currency = result.included[2].attributes.currency;
+                        var company_image_arr = result.included[1].relationships["company-images"].data;
+                        if (company_image_arr.length > 0) {
+                            Resources.companyImage.get({
+                                company_id: result.data.relationships.company.data.id,
+                                id: company_image_arr[0].id
+                            }, function (resultImage) {
+                                $scope.company_image = resultImage.data.attributes["image-url-small"];
+                            });
+                        }
 
-                    }
+                        if (authService.isAuthenticated()) {
+                            var found_job_users = $filter('filter')(result.included, {
+                                type: 'job-users',
+                                relationships: {user: {data: {id: authService.userId().id}}}
+                            }, true);
+                        }
 
-
-                    if (authService.isAuthenticated()) {
-                        var found_job_users = $filter('filter')(result.included, {
-                            type: 'job-users',
-                            relationships: {user: {data: {id: authService.userId().id}}}
-                        }, true);
-                    }
-
-                });
+                        if (result.data.attributes.description) {
+                            gtService.translate(result.data.attributes.description)
+                                .then(function (translation) {
+                                    if(!$scope.job.attributes.description_translation) {
+                                        $scope.job.attributes.description_translation = {};
+                                    }
+                                    $scope.job.attributes.description_translation.text = translation.translatedText;
+                                    $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
+                                    $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
+                                    $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    $scope.job.attributes.description_translation.to = translation.targetLanguage;
+                                    $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
+                                    $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
+                                });
+                        }
+                        if (result.data.attributes.name) {
+                            gtService.translate(result.data.attributes.name)
+                                .then(function (translation) {
+                                    if(!$scope.job.attributes.name_translation) {
+                                        $scope.job.attributes.name_translation = {};
+                                    }
+                                    $scope.job.attributes.name_translation.text = translation.translatedText;
+                                    $scope.job.attributes.name_translation.from = translation.detectedSourceLanguage;
+                                    $scope.job.attributes.name_translation.from_name = translation.detectedSourceLanguageName;
+                                    $scope.job.attributes.name_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    $scope.job.attributes.name_translation.to = translation.targetLanguage;
+                                    $scope.job.attributes.name_translation.to_name = translation.targetLanguageName;
+                                    $scope.job.attributes.name_translation.to_direction = translation.targetLanguageDirection;
+                                });
+                        }
+                    });
+                };
+                this.getJobDetail();
 
                 this.getComments = function (job_id) {
                     $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
@@ -499,7 +543,7 @@
                                     id: "" + found[0].relationships["user-images"].data[0].id,
                                     type: "user-images"
                                 }, true);
-                                if(found_image.length > 0){
+                                if (found_image.length > 0) {
                                     obj.user_image = found_image[0].attributes["image-url-small"];
                                 }
                             }
@@ -545,7 +589,7 @@
                     var isNav = 0;
                     var i = 0;
                     $scope.markers = [];
-                    if (['first', 'prev', 'next', 'last'].indexOf(mode) > -1) {
+                    if (['first', 'prev', 'next', 'last','self'].indexOf(mode) > -1) {
                         url = $scope.jobs_more.links[mode];
                         isNav = 1;
                     } else {
@@ -569,14 +613,28 @@
                     $scope.jobs_more.$promise.then(function (result) {
                         i = 0;
 
-                        if(that.changePage === 1){
+                        if (that.changePage === 1) {
                             that.changePage = 0;
-                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top }, 500);
+                            $("html, body").delay(300).animate({scrollTop: $('#job-more-list').offset().top}, 500);
                         }
-
 
                         angular.forEach(result.data, function (obj, idx) {
                             $scope.jobs_more.data[idx].company_image = "assets/images/content/placeholder-logo.png";
+                            if (obj.attributes.name) {
+                                gtService.translate(obj.attributes.name)
+                                    .then(function (translation) {
+                                        if(!$scope.jobs_more.data[idx].name_translation) {
+                                            $scope.jobs_more.data[idx].name_translation = {};
+                                        }
+                                        $scope.jobs_more.data[idx].name_translation.text = translation.translatedText;
+                                        $scope.jobs_more.data[idx].name_translation.from = translation.detectedSourceLanguage;
+                                        $scope.jobs_more.data[idx].name_translation.from_name = translation.detectedSourceLanguageName;
+                                        $scope.jobs_more.data[idx].name_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        $scope.jobs_more.data[idx].name_translation.to = translation.targetLanguage;
+                                        $scope.jobs_more.data[idx].name_translation.to_name = translation.targetLanguageName;
+                                        $scope.jobs_more.data[idx].name_translation.to_direction = translation.targetLanguageDirection;
+                                    });
+                            }
                         });
 
                         angular.forEach(result.data, function (obj, key) {

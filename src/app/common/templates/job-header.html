@@ -6,7 +6,14 @@
         <div>
             <ul>
                 <li><h1>{{ job.company.attributes.name }}</h1></li>
-                <li><h2>{{ job.attributes.name }}</h2></li>
+                <li ng-if="job.attributes.name_translation.from == job.attributes.name_translation.to">
+                    <h2>{{ job.attributes.name }}</h2>
+                </li>
+                <li ng-if="job.attributes.name_translation.from != job.attributes.name_translation.to">
+                    <h2 class="translated" ng-show="dt.job_name">{{ job.attributes.name_translation.text }}</h2>
+                    <h2 ng-show="!dt.job_name">{{ job.attributes.name }}</h2>
+                    <a href="" ng-click="ctrl.toggleDT('job_name')">Dynamic translation: {{dt.job_name}}</a>
+                </li>
             </ul>
             <ul>
                 <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
