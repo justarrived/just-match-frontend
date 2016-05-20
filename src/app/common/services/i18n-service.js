@@ -13,7 +13,7 @@ angular.module('just.service')
         'datastoreService', '$http', function ($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService, $http) {
             this.listeners = [];
             var that = this;
-
+            
             this.getDefaultLang = function (langs) {
                 var defLang = langs.filter(function (lang) {
                     return lang['lang-code'] === 'sv';
