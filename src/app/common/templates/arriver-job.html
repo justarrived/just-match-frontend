@@ -81,6 +81,16 @@
                             </div>
                         </validation>
 
+                        <validation form="form" field="account_number"
+                                    errormsg="finance.form.account_number.validation">
+                            <div class="group">
+                                <input type="text" name="account_number"
+                                       ng-required="ctrl.financeModel.data.attributes['account-clearing-number']"
+                                       ng-model="ctrl.financeModel.data.attributes['account-number']"/>
+                                <label>{{'user.account.cardnr' | translate}}</label>
+                            </div>
+                        </validation>
+
                         <validation form="form" field="iban" errormsg="finance.form.iban.validation">
                             <div class="group">
                                 <input type="text" name="iban"
