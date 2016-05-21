@@ -428,9 +428,10 @@
 
     ul {
       list-style: none;
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
       text-align: left;
+      max-width: 300px;
 
       li {
         padding: 10px 0 10px 30px;
