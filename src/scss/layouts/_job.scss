@@ -211,10 +211,14 @@ button.map-zoom-in {
       font-size: 50px;
       z-index: -1;
     }
+
+    top: 15px;
+    margin: 0;
   }
   position: absolute;
   right: 10px;
-  top: calc(50% - 30px);
+  top: 50%;
+  margin: -30px 0 0;
 }
 
 .job-list-title {
