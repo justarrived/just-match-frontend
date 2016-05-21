@@ -15,8 +15,8 @@
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
             <ui-gmap-marker ng-repeat="m in markers" coords="m.coords" idkey="m.id" options="m.options">
                 <ui-gmap-window>
-                    <div>
-                        <h2>{{m.job.attributes.name}}</h2>
+                    <div class="map-infobox">
+                        <h2><a href="#{{routes.job.get.resolve(m.job)}}">{{m.job.attributes.name}}</a></h2>
                         <p>{{m.job.attributes.description}}</p>
                         <p>{{m.job.totalRate}} {{m.job.currency}}</p>
                         <a href="#{{routes.job.get.resolve(m.job)}}">{{'common.click_here' | translate}}</a>

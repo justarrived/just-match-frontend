@@ -195,6 +195,14 @@ button.map-zoom-in {
     position: absolute;
     z-index: -1;
   }
+
+  &:hover,
+  &:focus {
+    &::after {
+      color: $lightBlueHover;
+    }
+  }
+
   &.map-zoom-out {
     &::after {
       font-family: "fontello";
@@ -211,10 +219,20 @@ button.map-zoom-in {
       font-size: 50px;
       z-index: -1;
     }
+
+    top: 15px;
+    margin: 0;
   }
   position: absolute;
   right: 10px;
-  top: calc(50% - 30px);
+  top: 50%;
+  margin: -30px 0 0;
+}
+
+.map-infobox {
+  h2 a {
+    color: inherit;
+  }
 }
 
 .job-list-title {
@@ -742,6 +760,11 @@ job-body, job-comment {
     text-decoration: none;
     line-height: 1.1em;
     padding: 18px;
+
+    &:hover,
+    &:focus {
+      background: $pinkHover;
+    }
   }
   .button-disabled {
     background-color: $lightHalfBlue;
@@ -749,6 +772,11 @@ job-body, job-comment {
     -webkit-animation: fadeIn .2s 1s forwards;
     animation: fadeIn .2s 1s forwards;
     cursor: default;
+
+    &:hover,
+    &:focus {
+      background-color: $lightHalfBlue;
+    }
   }
 }
 
