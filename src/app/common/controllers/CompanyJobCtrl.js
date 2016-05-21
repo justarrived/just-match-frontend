@@ -758,6 +758,15 @@ angular.module('just.common')
 
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
+
+                        var found_user_languages = $filter('filter')(response.included, {
+                            type: "languages"
+                        }, true);
+
+                        if (found_user_languages.length > 0) {
+                            that.candidate_model.languages = found_user_languages;
+                        }
+
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
                     }
