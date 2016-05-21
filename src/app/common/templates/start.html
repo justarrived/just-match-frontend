@@ -77,8 +77,10 @@
                         <b>{{ job.max_rate | number}} {{ job.currency }}</b>
                     </div>
                     <span>
-                        {{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                        {{ job.attributes.name | limitTo: 35 }} {{ job.attributes.name.length < 80 ? '' :
                         '...' }}
+                        <!--{{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
+                        '...' }}-->
                     </span>
                 </a>
             </div>
