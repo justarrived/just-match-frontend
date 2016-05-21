@@ -112,6 +112,11 @@
   border-radius: 23px;
   text-decoration: none;
   display: inline-block;
+
+  &:hover,
+  &:focus {
+    background: $pinkHover;
+  }
 }
 @mixin button-dark {
   height: 45px;
@@ -126,6 +131,11 @@
   border-radius: 23px;
   text-decoration: none;
   display: inline-block;
+
+  &:hover,
+  &:focus {
+    background: $lightBlueHover;
+  }
 }
 @mixin button-white-border {
   border: 1px solid $white;
@@ -141,6 +151,12 @@
   margin-top: 15px;
   font-size: 1.2em;
   display: inline-block;
+
+  &:hover,
+  &:focus {
+    background: $transparentHover;
+    opacity: .95;
+  }
 }
 @mixin button-white-border-small {
   border: 1px solid $white;
@@ -188,4 +204,9 @@
   border: 0;
   margin: 0;
   padding: 0;
+
+  &:hover,
+  &:focus {
+    opacity: .7;
+  }
 }

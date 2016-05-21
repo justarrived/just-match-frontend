@@ -195,6 +195,14 @@ button.map-zoom-in {
     position: absolute;
     z-index: -1;
   }
+
+  &:hover,
+  &:focus {
+    &::after {
+      color: $lightBlueHover;
+    }
+  }
+
   &.map-zoom-out {
     &::after {
       font-family: "fontello";
@@ -746,6 +754,11 @@ job-body, job-comment {
     text-decoration: none;
     line-height: 1.1em;
     padding: 18px;
+
+    &:hover,
+    &:focus {
+      background: $pinkHover;
+    }
   }
   .button-disabled {
     background-color: $lightHalfBlue;
@@ -753,6 +766,11 @@ job-body, job-comment {
     -webkit-animation: fadeIn .2s 1s forwards;
     animation: fadeIn .2s 1s forwards;
     cursor: default;
+
+    &:hover,
+    &:focus {
+      background-color: $lightHalfBlue;
+    }
   }
 }
 

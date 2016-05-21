@@ -62,6 +62,15 @@
     font-size: 14px;
     margin: 12px;
 
+    &:hover,
+    &:focus {
+      opacity: .95;
+
+      .lang-icon {
+        background: $transparentHover;
+      }
+    }
+
     span {
       display: block;
       margin: 0 auto;
@@ -86,6 +95,13 @@
     }
   }
   button.select {
+    &:hover,
+    &:focus {
+      .lang-icon {
+        background: $pinkHover;
+      }
+    }
+
     .lang-icon {
       border: 1px solid $pink;
       background: $pink;

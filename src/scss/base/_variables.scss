@@ -32,3 +32,13 @@ $btnTxtColorNegative: #fff;
 $btnTxtColorDisabled: #eee;
 $btnOpacityDisabled: 0.5;
 $btnBorderRadius: 24px;
+
+// Hover states
+$lightBlueHover: darken($lightBlue, 10%);
+$greyHover: darken($grey, 10%);
+$pinkHover: darken($pink, 5%);
+
+$btnBgColorPositiveHover: darken($btnBgColorPositive, 5%);
+$btnBgColorNegativeHover: darken($btnBgColorNegative, 5%);
+
+$transparentHover: rgba(0,0,0,.2);
