@@ -11,10 +11,23 @@
   }
 
   .credentials {
+    display: block;
     text-align: center;
     position: relative;
     top: 3em;
     transform: scale(0.75);
+
+    img {
+      max-height: 50px;
+      max-width: 130px;
+      width: auto;
+      margin: 0 auto;
+      padding: 5px 10px 10px 10px;
+    }
+
+    .start_name {
+      padding-top: 5px;
+    }
   }
 
   .prominent {
