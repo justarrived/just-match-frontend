@@ -41,6 +41,10 @@ angular
                 that.termsAgreements = result.data.attributes.url;
             });
 
+            Resources.arriverTermsAgreements.get(function(result){
+                that.termsAgreementsFrilan = result.data.attributes.url;
+            });
+
             $scope.$watch('form', function (form) {
                 if (form) {
                     if (that.message.data) {
