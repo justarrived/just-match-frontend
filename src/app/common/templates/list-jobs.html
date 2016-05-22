@@ -2,7 +2,7 @@
     <div class="main-title">
         <div class="job-list-title">
             <div>
-                <h1>{{ 'find_assignment.title' | translate }} ({{jobs.meta.total}}) <a href="" ng-click="ctrl.toggleDT('joblist_item')">Dynamic translation: {{dt.joblist_item}}</a></h1>
+                <h1>{{ 'find_assignment.title' | translate }} ({{jobs.meta.total}}) <a href="" ng-click="ctrl.toggleDT('joblist_item')"><i ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a></h1>
             </div>
             <!--<div>
                 <div class="dropdown-white-border"
