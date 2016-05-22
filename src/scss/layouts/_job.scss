@@ -240,7 +240,14 @@ button.map-zoom-in {
   }
 
   h1 {
-    margin: -5px auto 5px;
+    margin: 0;
+    text-align: left;
+
+    .icon-switch-language {
+      color: $white;
+      float: right;
+      margin-top: -4px;
+    }
   }
 
   .custom-select > a.dropdown-toggle > b::before {
@@ -320,22 +327,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         font-size: 0.95em;
         line-height: 1.3em;
       }
-      > div {
-        display: table;
-        width: 100%;
-        height: 80px;
-        > div {
-          display: table-row;
-          > div {
-            display: table-cell;
 
-          }
-        }
-        > div:last-child > div {
-          vertical-align: bottom;
-          padding-right: 55px;
-        }
-      }
       .location {
 
         span {
@@ -353,16 +345,9 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 
     }
     .job-rate {
-      vertical-align: middle;
-      position: relative;
-      text-align: center;
-      padding: 0;
-
+      margin-top: 5px;
       span {
-        position: absolute;
         display: block;
-        bottom: 17px;
-        right: 0;
         color: $pink;
         font-weight: 600;
         font-size: 1.3em;
@@ -786,6 +771,7 @@ job-body, job-comment {
       font-weight: 400;
       font-size: 1.3em;
       text-transform: uppercase;
+      text-align: left;
     }
   }
   h3 {
@@ -1401,6 +1387,13 @@ job-body, job-comment {
 
 .candidate-profile {
   padding: 25px;
+
+  .icon-switch-language {
+    float: right;
+    color: $lightBlue;
+    margin-top: 6px;
+  }
+
   h3 {
     @include header-light;
     position: relative;

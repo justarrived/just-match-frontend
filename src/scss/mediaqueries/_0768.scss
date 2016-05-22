@@ -3,9 +3,10 @@
 }
 
 .job-list-wrapper > li .job-rate {
-  padding-right: 10px;
-  padding-left: 18px;
   font-size: 1.2em;
+  padding: 0 20px;
+  width: 35%;
+  text-align: center;
 
   span {
     position: static;
@@ -29,4 +30,12 @@
 .setting-page > div > div > div {
   width: 80%;
   margin: 0 auto;
+}
+.job-desc-inner {
+  display: table;
+  width: 100%;
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+  }
 }
