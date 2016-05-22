@@ -153,3 +153,10 @@ a {
     margin: 10px 0 0;
   }
 }
+.icon-switch-language {
+  font-size: 26px;
+  opacity: 0.5;
+}
+.icon-switch-language.on {
+  opacity: 1;
+}
