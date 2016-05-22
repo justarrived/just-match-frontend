@@ -198,8 +198,7 @@
 
                 //handle different dynamic translations
                 $scope.dt = {
-                    joblist_name: true,
-                    joblist_description: true
+                    joblist_item: true
                 };
                 this.toggleDT = function (textId) {
                     $scope.dt[textId] = !$scope.dt[textId];
@@ -411,7 +410,7 @@
                 $scope.dt = {
                     job_description: true,
                     job_name: true,
-                    joblist_name: true
+                    joblist_item: true
                 };
                 this.toggleDT = function (textId) {
                     $scope.dt[textId] = !$scope.dt[textId];
@@ -523,21 +522,6 @@
                             }, true);
                         }
 
-                        if (result.data.attributes.description) {
-                            gtService.translate(result.data.attributes.description)
-                                .then(function (translation) {
-                                    if (!$scope.job.attributes.description_translation) {
-                                        $scope.job.attributes.description_translation = {};
-                                    }
-                                    $scope.job.attributes.description_translation.text = translation.translatedText;
-                                    $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
-                                    $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
-                                    $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
-                                    $scope.job.attributes.description_translation.to = translation.targetLanguage;
-                                    $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
-                                    $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
-                                });
-                        }
                         if (result.data.attributes.name) {
                             gtService.translate(result.data.attributes.name)
                                 .then(function (translation) {
@@ -551,6 +535,21 @@
                                     $scope.job.attributes.name_translation.to = translation.targetLanguage;
                                     $scope.job.attributes.name_translation.to_name = translation.targetLanguageName;
                                     $scope.job.attributes.name_translation.to_direction = translation.targetLanguageDirection;
+                                });
+                        }
+                        if (result.data.attributes.description) {
+                            gtService.translate(result.data.attributes.description)
+                                .then(function (translation) {
+                                    if (!$scope.job.attributes.description_translation) {
+                                        $scope.job.attributes.description_translation = {};
+                                    }
+                                    $scope.job.attributes.description_translation.text = translation.translatedText;
+                                    $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
+                                    $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
+                                    $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    $scope.job.attributes.description_translation.to = translation.targetLanguage;
+                                    $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
+                                    $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
                                 });
                         }
                     });
@@ -683,6 +682,21 @@
                                         $scope.jobs_more.data[idx].name_translation.to = translation.targetLanguage;
                                         $scope.jobs_more.data[idx].name_translation.to_name = translation.targetLanguageName;
                                         $scope.jobs_more.data[idx].name_translation.to_direction = translation.targetLanguageDirection;
+                                    });
+                            }
+                            if (obj.attributes.description) {
+                                gtService.translate(obj.attributes.description)
+                                    .then(function (translation) {
+                                        if (!$scope.jobs_more.data[idx].description_translation) {
+                                            $scope.jobs_more.data[idx].description_translation = {};
+                                        }
+                                        $scope.jobs_more.data[idx].description_translation.text = translation.translatedText;
+                                        $scope.jobs_more.data[idx].description_translation.from = translation.detectedSourceLanguage;
+                                        $scope.jobs_more.data[idx].description_translation.from_name = translation.detectedSourceLanguageName;
+                                        $scope.jobs_more.data[idx].description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        $scope.jobs_more.data[idx].description_translation.to = translation.targetLanguage;
+                                        $scope.jobs_more.data[idx].description_translation.to_name = translation.targetLanguageName;
+                                        $scope.jobs_more.data[idx].description_translation.to_direction = translation.targetLanguageDirection;
                                     });
                             }
                         });
