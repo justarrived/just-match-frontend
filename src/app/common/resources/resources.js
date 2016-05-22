@@ -117,7 +117,9 @@ angular.module('just.common')
                 arriverTermsAgreements: crud('terms-agreements/current'),
                 companyTermsAgreements: crud('terms-agreements/current-company'),
 
-                termsConsents: crud('terms-consents')
+                termsConsents: crud('terms-consents'),
+
+                promoCode: crud('promo-codes/validate')
 
             };
         }

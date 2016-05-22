@@ -21,6 +21,8 @@ angular.module('just.common')
             var that = this;
             this.uploading = false;
 
+            authService.checkPromoCode();
+
             if (authService.isAuthenticated()) {
                 flow.replace(routes.job.list.url);
             }

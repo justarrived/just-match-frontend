@@ -11,6 +11,8 @@ angular.module('just.common')
 
             that.isCompany = 0;
 
+            authService.checkPromoCode();
+
             userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
 
             $scope.jobbs = jobService.getUserJobs({
@@ -159,6 +161,8 @@ angular.module('just.common')
             this.chatModel.data.attributes["user-ids"] = [];
 
             this.chatId = chatService.chatId;
+
+            authService.checkPromoCode();
 
             i18nService.addLanguageChangeListener(function () {
                     that.getChatMessage();
@@ -440,6 +444,8 @@ angular.module('just.common')
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
+
+            authService.checkPromoCode();
 
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);

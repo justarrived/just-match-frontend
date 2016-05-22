@@ -1,7 +1,9 @@
 angular.module('just.common')
-    .controller('FAQCtrl', ['faqService', function (faqService) {
+    .controller('FAQCtrl', ['faqService', 'authService', function (faqService, authService) {
 
         var that = this;
+
+        authService.checkPromoCode();
 
         this.buildFAQs = function () {
             var faqs = [];

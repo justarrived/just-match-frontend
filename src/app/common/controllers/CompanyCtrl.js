@@ -14,6 +14,7 @@ angular
             this.messageU = userService.registerMessage;
             this.company_image = "assets/images/content/placeholder-logo.png";
 
+            authService.checkPromoCode();
 
             if (authService.isAuthenticated()) {
                 flow.redirect(routes.global.start.url);

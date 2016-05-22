@@ -3,6 +3,8 @@ angular.module('just.common')
         function (userService, $scope, Resources, authService, flow, routes, $location, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
+            authService.checkPromoCode();
+
             this.isStart = 1;
             //this.saveSuccessFromRegister = 0;
             //this.saveSuccessFromJobApply = 0;
