@@ -14,8 +14,8 @@
                     {{'common.total_cost' | translate}} {{job.max_rate}} {{job.hourly_pay.currency}} {{'common.currency_inc_vat' | translate}}
                 </h4>
                 <div>
-                    <a class="button pink" href="" ng-click="isPerformed=true">{{'common.yes' | translate}}</a>
-                    <a class="button dark" href="" ng-click="modalPerformShow=false">{{'common.no' | translate}}</a>
+                    <a class="button pink" href="" ng-click="isPerformed=true" translate="common.yes"></a>
+                    <a class="button dark" href="" ng-click="modalPerformShow=false" translate="common.no"></a>
                 </div>
             </section>
             <section ng-show="isPerformed">
@@ -23,8 +23,8 @@
                     <h3><span class="user-info-image"
                               style="background-image: url({{ctrl.user_apply.user_image}})"></span>
                     </h3>
-                    <h3>{{'common.thanks' | translate}}</h3>
-                    <p>{{'assignment.recommendation.title' | translate}}</p>
+                    <h3 translate="common.thanks"></h3>
+                    <p translate="assignment.recommendation.title"></p>
                     <div>
                         <span class="rating" ng-class="ctrl.ratingClass">
                             <span ng-repeat="i in [1,2,3,4,5]" ng-click="ctrl.ratingModel.data.attributes.score=i; ctrl.ratingClass='score'+i;"></span>
