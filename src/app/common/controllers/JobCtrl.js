@@ -471,7 +471,8 @@
                         $scope.job = result.data;
                         $scope.job.owner = result.included[0];
                         $scope.job.company = result.included[1];
-                        $scope.job.max_rate = result.included[2].attributes.rate;
+                        //$scope.job.max_rate = result.included[2].attributes.rate;
+                        $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-with-fees"] : result.included[2].attributes.rate);
                         $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                         $scope.job.currency = result.included[2].attributes.currency;
                         var company_image_arr = result.included[1].relationships["company-images"].data;
@@ -523,7 +524,7 @@
                         }
                     });
                 };
-                this.getJobDetail();
+
 
                 this.getComments = function (job_id) {
                     $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
@@ -688,7 +689,9 @@
 
                             angular.forEach(result.included, function (obj2, key2) {
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
-                                    $scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
+                                    //$scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
+
+                                    $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
                                     $scope.jobs_more.data[key].currency = obj2.attributes.currency;
                                 }
@@ -709,7 +712,21 @@
                     });
                 };
 
-                $scope.getJobsPage('owner,company,hourly-pay');
+                if (authService.isAuthenticated()) {
+                    if (userService.user.$promise) {
+                        userService.user.$promise.then(function (response) {
+                            that.getJobDetail();
+                            $scope.getJobsPage('owner,company,hourly-pay');
+                        });
+                    } else {
+                        this.getJobDetail();
+                        $scope.getJobsPage('owner,company,hourly-pay');
+                    }
+
+                } else {
+                    this.getJobDetail();
+                    $scope.getJobsPage('owner,company,hourly-pay');
+                }
 
             }])
         .controller('AcceptedJobCtrl', ['justFlowService', 'justRoutes', function (flow, routes) {
