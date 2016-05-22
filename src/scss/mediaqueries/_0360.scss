@@ -52,7 +52,8 @@
     .bank-group > div {
       padding: 5px 0;
     }
-    input[type="submit"] {
+    input[type="submit"],
+    a.button {
       margin-top: 45px;
     }
     .form-error-detail {
