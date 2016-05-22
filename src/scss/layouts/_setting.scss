@@ -84,6 +84,11 @@
     min-width: 220px;
     border: 1px solid $white !important;
   }
+  a.button {
+    @include button-white-border;
+    min-width: 220px;
+    margin-top: 20px;
+  }
   .upload-photo {
     margin-bottom: 5px;
     @include circle(75px);
@@ -173,6 +178,10 @@
         display: table-cell;
         text-align: left;
         border-bottom: 1px solid $grey;
+      }
+      > div:first-child {
+        width: 10%;
+        white-space: nowrap;
       }
     }
     input[type="submit"] {
