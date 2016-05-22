@@ -41,6 +41,9 @@
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
+            <a href="" ng-click="ctrl.toggleDT('joblist_item')"><i ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
+        </div>
+        <div>
             <h3><i class="demo-icon icon-ic-paper"></i>{{"profile.form.presentation" | translate}}</h3>
             <p>{{ctrl.candidate_model.description}}</p>
         </div>
