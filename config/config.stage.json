@@ -1,5 +1,5 @@
 {
-  "just_match_api": "https://just-match-mccracken.herokuapp.com",
+  "just_match_api": "https://just-match-api-staging.herokuapp.com",
   "just_match_api_version": "/api/v1/",
   "google_translate_api_url": "https://www.googleapis.com/language/translate/v2?key=",
   "google_translate_api_key": "AIzaSyDlWrAVYZJePh33mIrqbzvXVB7cwTw71n0",
