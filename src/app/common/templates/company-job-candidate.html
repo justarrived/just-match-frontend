@@ -124,13 +124,12 @@
         <div>
             <div>
                 <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
-                <h3>{{'company.assignments.candidates.send_request' | translate}}</h3>
+                <h3 translate="company.assignments.candidates.send_request"></h3>
                 <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
+                <p translate="user.assignment.confirmation.description" translate-values="{ candidate_name: ctrl.candidate_model['first-name'] }"></p>
                 <p>
-                    {{ctrl.candidate_model["first-name"]}} {{'user.assignment.confirmation.description' | translate}}</p>
-                <p>
-                    <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
-                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
+                    <a class="button dark" href="" ng-click="modalShow = false" translate="common.cancel"></a>
+                    <a class="button pink" href="" ng-click="ctrl.acceptJob()" translate="common.submit"></a>
                 </p>
             </div>
         </div>

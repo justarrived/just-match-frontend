@@ -832,7 +832,6 @@ angular.module('just.common')
                             });
                         });
                     }
-
                 });
             };
 

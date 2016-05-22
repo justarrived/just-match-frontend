@@ -10,16 +10,15 @@
 </div>
 
 <div class="job-body-description">
-    <h3>{{"assignment.assignments.title" | translate}} <a href="" ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to" ng-click="ctrl.toggleDT('job_description')">Dynamic translation: {{dt.job_description}}</a></h3>
+    <h3>{{"assignment.assignments.title" | translate}} <a href="" ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to" ng-click="ctrl.toggleDT('job_item')" title="{{'translation.dynamic.title' | translate}}"><i ng-class="dt.job_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a></h3>
     <div>
         <ul ng-if="job.attributes.description_translation.from == job.attributes.description_translation.to">
             <li class="job-description">{{ job.attributes.description }}</li>
         </ul>
         <ul ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to">
-            <li class="job-description translated" ng-show="dt.job_description">{{ job.attributes.description_translation.text }}</li>
-            <li class="job-description" ng-show="!dt.job_description">{{ job.attributes.description }}</li>
+            <li class="job-description translated" ng-show="dt.job_item">{{ job.attributes.description_translation.text }}</li>
+            <li class="job-description translated" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
         </ul>
-
         <ul>
             <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>
             <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
