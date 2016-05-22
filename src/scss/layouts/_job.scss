@@ -812,6 +812,16 @@ job-body, job-comment {
     }
   }
 }
+.job-more-wrapper .icon-switch-language {
+  float: right;
+  color: $white;
+  margin-top: -4px;
+}
+.job-body-description .icon-switch-language {
+  float: right;
+  color: $lightBlue;
+  margin-top: -8px;
+}
 
 job-body, job-comment {
   max-width: 800px;

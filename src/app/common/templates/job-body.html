@@ -10,7 +10,7 @@
 </div>
 
 <div class="job-body-description">
-    <h3>{{"assignment.assignments.title" | translate}} <a href="" ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to" ng-click="ctrl.toggleDT('job_description')">Dynamic translation: {{dt.job_description}}</a></h3>
+    <h3>{{"assignment.assignments.title" | translate}} <a href="" ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to" ng-click="ctrl.toggleDT('job_description')"><i class="demo-icon icon-switch-language on"></i></a></h3>
     <div>
         <ul ng-if="job.attributes.description_translation.from == job.attributes.description_translation.to">
             <li class="job-description">{{ job.attributes.description }}</li>
