@@ -829,7 +829,6 @@ angular.module('just.common')
                             });
                         });
                     }
-
                 });
             };
 
