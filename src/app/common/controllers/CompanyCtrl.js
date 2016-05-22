@@ -38,6 +38,7 @@ angular
             }
 
             Resources.companyTermsAgreements.get(function(result){
+                that.termsId = result.data.id;
                 that.termsAgreements = result.data.attributes.url;
             });
 
@@ -69,6 +70,7 @@ angular
             });
 
             this.process = function () {
+                that.data.terms_id = that.termsId;
                 if ($scope.isNew === 1) {
                     // Register and choose new company
                     companyService.register(that.data);

@@ -35,7 +35,21 @@ angular.module('just.service')
                             // Go to job new if register user from company register page
                             that.isCompanyRegister = -1;
                             that.isCompany = 1;
-                            flow.completed(routes.job.create.url, ok);
+                            if(attributes.terms_id){
+                                var consentData = {
+                                    data: {
+                                        attributes: {
+                                            "terms-agreement-id": attributes.terms_id,
+                                            "user-id": authService.userId().id
+                                        }
+                                    }
+                                };
+                                Resources.termsConsents.create({}, consentData, function (result) {
+                                    flow.completed(routes.job.create.url, ok);
+                                }, function (err) {
+                                    flow.completed(routes.job.create.url, ok);
+                                });
+                            }
                         } else if (that.isCompanyRegister === 0) {
                             that.isCompany = 0;
                             that.isCompanyRegister = -1;
@@ -83,7 +97,7 @@ angular.module('just.service')
 
                 that.registerModel = attributes;
 
-                var user = Resources.user.create({data: {attributes: attributes}}, function () {
+                var user = Resources.user.create({data: {attributes: attributes}}, function (responseData) {
                     /*
                      flow.push(function () {
                      flow.completed(routes.user.created.url, user);
@@ -94,7 +108,9 @@ angular.module('just.service')
                     } else {
                         that.isCompanyRegister = 0;
                     }
+
                     that.signin(attributes);
+
                 }, function (error) {
                     that.registerMessage = error;
                     if (attributes.company_id) {
