@@ -150,8 +150,8 @@
                 jobService.edit(that.model);
             };
         }])
-        .controller('ListJobCtrl', ['jobService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
-            function (jobService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady) {
+        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady',
+            function (jobService, authService, userService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady) {
                 var that = this;
 
                 this.changePage = 0;
@@ -316,7 +316,10 @@
 
                             angular.forEach(result.included, function (obj2, key2) {
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
-                                    $scope.jobs.data[key].max_rate = obj2.attributes.rate;
+                                    //$scope.jobs.data[key].max_rate = obj2.attributes.rate;
+
+                                    $scope.jobs.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
+
                                     $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
                                     $scope.jobs.data[key].currency = obj2.attributes.currency;
                                 }
@@ -336,10 +339,21 @@
                         };
 
                     });
-
                 };
 
-                $scope.getJobsPage('owner,company,hourly-pay');
+
+                if (authService.isAuthenticated()) {
+                    if (userService.user.$promise) {
+                        userService.user.$promise.then(function (response) {
+                            $scope.getJobsPage('owner,company,hourly-pay');
+                        });
+                    } else {
+                        $scope.getJobsPage('owner,company,hourly-pay');
+                    }
+
+                } else {
+                    $scope.getJobsPage('owner,company,hourly-pay');
+                }
 
 
             }])
@@ -367,7 +381,7 @@
                     job_name: true,
                     joblist_name: true
                 };
-                this.toggleDT = function(textId) {
+                this.toggleDT = function (textId) {
                     $scope.dt[textId] = !$scope.dt[textId];
                 };
 
@@ -449,7 +463,7 @@
                 }
 
 
-                this.getJobDetail = function() {
+                this.getJobDetail = function () {
                     Resources.job.get({
                         id: $routeParams.id,
                         "include": "owner,company,hourly-pay,job-users"
@@ -480,7 +494,7 @@
                         if (result.data.attributes.description) {
                             gtService.translate(result.data.attributes.description)
                                 .then(function (translation) {
-                                    if(!$scope.job.attributes.description_translation) {
+                                    if (!$scope.job.attributes.description_translation) {
                                         $scope.job.attributes.description_translation = {};
                                     }
                                     $scope.job.attributes.description_translation.text = translation.translatedText;
@@ -495,7 +509,7 @@
                         if (result.data.attributes.name) {
                             gtService.translate(result.data.attributes.name)
                                 .then(function (translation) {
-                                    if(!$scope.job.attributes.name_translation) {
+                                    if (!$scope.job.attributes.name_translation) {
                                         $scope.job.attributes.name_translation = {};
                                     }
                                     $scope.job.attributes.name_translation.text = translation.translatedText;
@@ -589,7 +603,7 @@
                     var isNav = 0;
                     var i = 0;
                     $scope.markers = [];
-                    if (['first', 'prev', 'next', 'last','self'].indexOf(mode) > -1) {
+                    if (['first', 'prev', 'next', 'last', 'self'].indexOf(mode) > -1) {
                         url = $scope.jobs_more.links[mode];
                         isNav = 1;
                     } else {
@@ -623,7 +637,7 @@
                             if (obj.attributes.name) {
                                 gtService.translate(obj.attributes.name)
                                     .then(function (translation) {
-                                        if(!$scope.jobs_more.data[idx].name_translation) {
+                                        if (!$scope.jobs_more.data[idx].name_translation) {
                                             $scope.jobs_more.data[idx].name_translation = {};
                                         }
                                         $scope.jobs_more.data[idx].name_translation.text = translation.translatedText;

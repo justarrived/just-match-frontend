@@ -8,9 +8,6 @@
     letter-spacing: 0.02em;
 
   }
-  span:after {
-    content: ':-';
-  }
 
   em {
     font-style: normal;
@@ -369,9 +366,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         color: $pink;
         font-weight: 600;
         font-size: 1.3em;
-      }
-      span:after {
-        content: ':-';
+        white-space: nowrap;
       }
       em {
         font-style: normal;
