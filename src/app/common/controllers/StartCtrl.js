@@ -15,8 +15,8 @@
  */
 
 angular.module('just.common')
-    .controller('StartCtrl', ['i18nService', 'jobService', '$scope', '$filter', '$q', 'Resources',
-        function (i18nService, jobService, $scope, $filter, $q, Resources) {
+    .controller('StartCtrl', ['i18nService', 'authService', 'userService', 'jobService', '$scope', '$filter', '$q', 'Resources',
+        function (i18nService, authService, userService, jobService, $scope, $filter, $q, Resources) {
             var that = this;
 
             $scope.today = new Date();
@@ -25,44 +25,61 @@ angular.module('just.common')
 
             this.languages = i18nService.supportedLanguages();
 
-            this.jobs = jobService.getJobs('company,hourly-pay');
-            this.jobs.$promise.then(function (response) {
-                var deferd = $q.defer();
+            this.getNewJob = function () {
+                this.jobs = jobService.getJobs('company,hourly-pay');
+                this.jobs.$promise.then(function (response) {
+                    var deferd = $q.defer();
 
-                angular.forEach(response.data, function (obj, idx) {
-                    that.jobs.data[idx].company_image = "assets/images/content/placeholder-logo.png";
-                });
+                    angular.forEach(response.data, function (obj, idx) {
+                        that.jobs.data[idx].company_image = "assets/images/content/placeholder-logo.png";
+                    });
 
-                angular.forEach(response.data, function (obj, idx) {
-                    var found_hourly_pay = $filter('filter')(response.included, {
-                        id: "" + obj.relationships["hourly-pay"].data.id,
-                        type: "hourly-pays"
-                    }, true);
-                    if (found_hourly_pay.length > 0) {
-                        that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes.rate * that.jobs.data[idx].attributes.hours;
-                        that.jobs.data[idx].currency = found_hourly_pay[0].attributes.currency;
-                    }
-
-
-                    var found = $filter('filter')(response.included, {
-                        id: "" + obj.relationships.company.data.id,
-                        type: "companies"
-                    }, true);
-                    if (found.length > 0) {
-                        if (found[0].relationships["company-images"].data.length > 0) {
-                            Resources.companyImage.get({
-                                company_id: found[0].id,
-                                id: found[0].relationships["company-images"].data[0].id
-                            }, function (result) {
-
-                                that.jobs.data[idx].company_image = result.data.attributes["image-url-small"];
-                            });
+                    angular.forEach(response.data, function (obj, idx) {
+                        var found_hourly_pay = $filter('filter')(response.included, {
+                            id: "" + obj.relationships["hourly-pay"].data.id,
+                            type: "hourly-pays"
+                        }, true);
+                        if (found_hourly_pay.length > 0) {
+                            that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-with-fees"] : found_hourly_pay[0].attributes.rate);
+                            that.jobs.data[idx].total_rate = that.jobs.data[idx].max_rate * that.jobs.data[idx].attributes.hours;
+                            that.jobs.data[idx].currency = found_hourly_pay[0].attributes.currency;
                         }
-                    }
-                });
 
-                return deferd.promise;
-            });
+
+                        var found = $filter('filter')(response.included, {
+                            id: "" + obj.relationships.company.data.id,
+                            type: "companies"
+                        }, true);
+                        if (found.length > 0) {
+                            if (found[0].relationships["company-images"].data.length > 0) {
+                                Resources.companyImage.get({
+                                    company_id: found[0].id,
+                                    id: found[0].relationships["company-images"].data[0].id
+                                }, function (result) {
+
+                                    that.jobs.data[idx].company_image = result.data.attributes["image-url-small"];
+                                });
+                            }
+                        }
+                    });
+
+                    return deferd.promise;
+                });
+            };
+
+            if (authService.isAuthenticated()) {
+                if (userService.user.$promise) {
+                    userService.user.$promise.then(function (response) {
+                        that.getNewJob();
+                    });
+                } else {
+                    this.getNewJob();
+                }
+
+            } else {
+                this.getNewJob();
+            }
+
 
             this.language = 'sv';
             this.selectLanguage = function () {

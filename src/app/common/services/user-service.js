@@ -22,8 +22,11 @@ angular.module('just.service')
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
                     .then(function (ok) {
+                        that.clearUserModel();
+                        that.getUserDetail(function(){
+                            $rootScope.$broadcast('onSigninSetmenu');
+                        });
 
-                        $rootScope.$broadcast('onSigninSetmenu');
 
                         if (angular.isFunction(completeCb)) {
                             completeCb();
@@ -46,6 +49,7 @@ angular.module('just.service')
                                 }
                             }
                         } else {
+                            console.log(that.isCompany);
                             flow.completed(routes.global.start.url);
                         }
                         that.apply_job = 0;
@@ -113,7 +117,7 @@ angular.module('just.service')
                 return that.user;
             };
 
-            this.getUserDetail = function () {
+            this.getUserDetail = function (fn) {
                 if (angular.isUndefined(that.user)) {
                     that.user = Resources.user.get({
                         id: authService.userId().id,
@@ -160,6 +164,9 @@ angular.module('just.service')
                             if (found_img.length > 0) {
                                 that.user.data.user_image = found_img[0].attributes["image-url-small"];
                             }
+                        }
+                        if(fn){
+                            fn();
                         }
                     });
                 }

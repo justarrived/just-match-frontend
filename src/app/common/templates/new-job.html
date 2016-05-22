@@ -80,6 +80,7 @@
                         <input type="date" id="job_end_date" name="to_date" required
                                ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
                                ng-model="ctrl.model.data.attributes['job-end-date']"
+                               min="{{ctrl.model.data.attributes['job-date']}}"
                                placeholder="YYYY-MM-DD" ng-keyup="form.to_date.error_detail = undefined">
                         <label>{{'assignment.form.to_date' | translate}}</label>
                     </div>
@@ -101,7 +102,7 @@
                         <select name="hourly_pay_id" ng-model="ctrl.model.data.attributes['hourly-pay-id']" required>
                             <option value="" hidden/>
                             <option ng-repeat="rate in ctrl.rates.data" value="{{rate.id}}">
-                                {{rate.attributes.rate}} {{rate.attributes.currency}}
+                                {{rate.attributes["rate-with-fees"] | number}} {{rate.attributes.currency}}
                             </option>
                         </select>
                         <label class="control-label">{{ 'assignment.form.rate' | translate }}</label>

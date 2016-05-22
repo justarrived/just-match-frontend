@@ -95,9 +95,15 @@ angular.module('just.common')
             };
             this.signout = function () {
                 authService.logout();
+                that.isCompany = -1;
                 userService.clearUserModel();
-                //flow.completed(routes.global.start.url);
-                flow.replace(routes.global.start.url);
+
+                if(that.isStartPage){
+                    $route.reload();
+                }else{
+                    flow.replace(routes.global.start.url);
+                }
+
                 this.menu(0);
             };
             this.signin = function () {

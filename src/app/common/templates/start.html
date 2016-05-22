@@ -74,7 +74,7 @@
                 <a href="#{{ routes.job.get.resolve(job) }}">
                     <div class="image-wrapper">
                         <div style="background-image: url({{job.company_image}});"></div>
-                        <b>{{ job.max_rate | number}} {{ job.currency }}</b>
+                        <b>{{ job.total_rate | number}} {{ job.currency }}</b>
                     </div>
                     <span>
                         {{ job.attributes.name | limitTo: 35 }} {{ job.attributes.name.length < 80 ? '' :
