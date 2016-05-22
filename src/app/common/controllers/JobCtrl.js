@@ -15,7 +15,10 @@
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
-                this.model.data.attributes.hours = 2;
+                if(!this.model.data.attributes.hours){
+                    this.model.data.attributes.hours = 2;
+                }
+
 
 
                 $scope.$watch('form', function (form) {
@@ -122,6 +125,7 @@
 
             this.model = jobService.jobModel;
             $scope.job = jobService.jobModel.data;
+            $scope.job.newjobmode = 1;
 
             this.rates = {};
             $scope.setRate = function () {
@@ -131,7 +135,7 @@
                     that.rates = response.data;
                     angular.forEach(that.rates, function (obj, key) {
                         if (obj.id === $scope.job.attributes["hourly-pay-id"]) {
-                            $scope.job.max_rate = obj.attributes.rate;
+                            $scope.job.max_rate = obj.attributes["rate-with-fees"];
                             $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                             $scope.job.currency = obj.attributes.currency;
                         }
