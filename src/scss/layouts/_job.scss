@@ -243,7 +243,14 @@ button.map-zoom-in {
   }
 
   h1 {
-    margin: -5px auto 5px;
+    margin: 0;
+    text-align: left;
+
+    .icon-switch-language {
+      color: $white;
+      float: right;
+      margin-top: -4px;
+    }
   }
 
   .custom-select > a.dropdown-toggle > b::before {
