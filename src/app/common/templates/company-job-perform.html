@@ -8,10 +8,10 @@
                 <p>{{'assignment.approve.description' | translate}}</p>
                 <h4>
                     <span>{{job.attributes.name}}</span>
-                    <span>{{job.attributes.hours}}{{'common.hour' | translate}} {{job.hourly_pay.rate}} SEK</span>
+                    <span>{{job.attributes.hours}} {{'common.hour' | translate}} {{job.rate | number}} SEK</span>
                 </h4>
                 <h4>
-                    {{'common.total_cost' | translate}} {{job.max_rate}} {{job.hourly_pay.currency}} {{'common.currency_inc_vat' | translate}}
+                    {{'common.total_cost' | translate}} {{job.max_rate | number}} {{job.hourly_pay.currency}} {{'common.currency_inc_vat' | translate}}
                 </h4>
                 <div>
                     <a class="button pink" href="" ng-click="isPerformed=true">{{'common.yes' | translate}}</a>

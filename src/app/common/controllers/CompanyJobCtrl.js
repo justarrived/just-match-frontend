@@ -244,7 +244,8 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
                     var company_image_arr = response.included[0].relationships["company-images"].data;
@@ -437,7 +438,8 @@ angular.module('just.common')
 
                 if (found_hourly_pay.length > 0) {
                     $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                    $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                    $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                 }
 
                 var company_image_arr = response.included[0].relationships["company-images"].data;
@@ -698,7 +700,8 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
                     var company_image_arr = response.included[0].relationships["company-images"].data;
