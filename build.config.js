@@ -36,7 +36,6 @@ module.exports = {
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
       'bower_components/showdown/compressed/showdown.js',
-      'bower_components/respond/dest/respond.min.js',
       'bower_components/lodash/dist/lodash.min.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-route/angular-route.js',
