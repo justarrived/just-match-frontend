@@ -111,9 +111,13 @@ angular.module('just.common')
                 rating: crud("jobs/:job_id/ratings"),
                 userRating: crud("users/:id/ratings"),
 
-
                 invoice: crud("jobs/:job_id/users/:job_user_id/invoices"),
-                finance: crud("users/:user_id/frilans-finans")
+                finance: crud("users/:user_id/frilans-finans"),
+
+                arriverTermsAgreements: crud('terms-agreements/current'),
+                companyTermsAgreements: crud('terms-agreements/current-company'),
+
+                jobTermsConsents: crud('jobs/:job_id/terms-consents ')
 
             };
         }

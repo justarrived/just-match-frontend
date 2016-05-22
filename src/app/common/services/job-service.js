@@ -20,6 +20,14 @@ angular.module('just.service')
             };
             this.jobMessage = {};
 
+            this.clearJobModel = function(){
+                that.jobModel = {
+                    data: {
+                        attributes: {"language-id": "", "max_rate": "80"}
+                    }
+                };
+            };
+
             this.getJob = function (id) {
                 return Resources.job.get({id: id, "include": "owner,company,hourly-pay"});
             };
@@ -55,9 +63,9 @@ angular.module('just.service')
             this.approve = function (job) {
                 Resources.jobs.create(job, function (data) {
                     //flow.next(routes.job.approved.url, data);
-
+                    that.clearJobModel();
                     flow.push(function () {
-                        flow.completed(routes.company.jobs.url);
+                        flow.replace(routes.company.jobs.url);
                     });
                     flow.next(routes.global.confirmation.url, {
                         title: 'assignment.created.title',

@@ -49,7 +49,6 @@ angular.module('just.service')
                                 }
                             }
                         } else {
-                            console.log(that.isCompany);
                             flow.completed(routes.global.start.url);
                         }
                         that.apply_job = 0;

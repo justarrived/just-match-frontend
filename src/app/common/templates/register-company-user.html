@@ -145,7 +145,7 @@
 
                 <div class="terms">
                     <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.accept'
-                        | translate}} <a href="#{{routes.global.terms.url}}">{{'terms' | translate}}</a></p>
+                        | translate}} <a href="{{ctrl.termsAgreements}}" target="_blank" ng-show="ctrl.termsAgreements">{{'terms' | translate}}</a></p>
                 </div>
 
                 <div class="form-group">
