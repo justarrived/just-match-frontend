@@ -342,5 +342,6 @@
   "terms.accept": "Jag accepterar just Arriveds",
   "terms.title": "title för villkor",
   "terms.description": "villkors text",
-  "translation.dynamic.title":"Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten"
+  "translation.dynamic.title":"Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
+  "translation.dynamic.off.title":"Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!"
 }
