@@ -240,7 +240,14 @@ button.map-zoom-in {
   }
 
   h1 {
-    margin: -5px auto 5px;
+    margin: 0;
+    text-align: left;
+
+    .icon-switch-language {
+      color: $white;
+      float: right;
+      margin-top: -4px;
+    }
   }
 
   .custom-select > a.dropdown-toggle > b::before {
@@ -786,6 +793,7 @@ job-body, job-comment {
       font-weight: 400;
       font-size: 1.3em;
       text-transform: uppercase;
+      text-align: left;
     }
   }
   h3 {
