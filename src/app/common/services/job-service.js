@@ -26,7 +26,6 @@ angular.module('just.service')
                         attributes: {"language-id": "", "max_rate": "80"}
                     }
                 };
-                that.jobMessage = {};
             };
 
             this.getJob = function (id) {

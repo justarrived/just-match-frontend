@@ -36,9 +36,10 @@
                                         field_name = 'to_date';
                                         break;
                                 }
-                                $scope.form[field_name].error_detail = obj.detail;
+                                if($scope.form[field_name]){
+                                    $scope.form[field_name].error_detail = obj.detail;
+                                }
                             });
-
                         }
                     }
                 });
