@@ -106,7 +106,7 @@
                 </div>
 
                 <div>
-                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{'common.continue' | translate}}</button>
+                    <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid || ctrl.uploading">{{'common.continue' | translate}}</button>
                 </div>
                 <div class="bottom-text-center">
                     <p>

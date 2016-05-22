@@ -19,6 +19,7 @@ angular.module('just.common')
     .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope', 'httpPostFactory', 'settings',
         function (authService, userService, flow, routes, $scope, httpPostFactory, settings) {
             var that = this;
+            this.uploading = false;
 
             if (authService.isAuthenticated()) {
                 flow.replace(routes.job.list.url);
@@ -56,9 +57,13 @@ angular.module('just.common')
                     var element0 = angular.element("#file_upload");
 
                     formData.append("image", element0[0].files[0]);
+                    that.uploading = true;
                     httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
                         that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
+                        that.uploading = false;
+                    },function(err){
+                        that.uploading = false;
                     });
                 }
             };
