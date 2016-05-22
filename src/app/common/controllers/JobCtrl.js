@@ -38,7 +38,7 @@
                                         field_name = 'to_date';
                                         break;
                                 }
-                                if($scope.form[field_name]){
+                                if ($scope.form[field_name]) {
                                     $scope.form[field_name].error_detail = obj.detail;
                                 }
                             });
@@ -121,8 +121,10 @@
 
             };
         }])
-        .controller('ApproveJobCtrl', ['jobService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, userService, routes, $scope, $q) {
+        .controller('ApproveJobCtrl', ['jobService', 'authService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, authService, userService, routes, $scope, $q) {
             var that = this;
+
+            authService.checkPromoCode();
 
             userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url);
 
@@ -162,6 +164,8 @@
             function (jobService, authService, userService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
 
                 var that = this;
+
+                authService.checkPromoCode();
 
                 this.changePage = 0;
 
@@ -415,6 +419,8 @@
             'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
             function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
                 var that = this;
+
+                authService.checkPromoCode();
 
                 this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
