@@ -1,6 +1,6 @@
 <div id="job-more-list" class="job-more-wrapper">
     <div class="main-title">
-        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_name')"><i class="demo-icon icon-switch-language on"></i></a></h2>
+        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_item')" title="{{'translation.dynamic.title' | translate}}"><i ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a></h2>
     </div>
     <div class="job-more-table">
         <div>

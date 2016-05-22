@@ -408,8 +408,7 @@
 
                 //handle different dynamic translations
                 $scope.dt = {
-                    job_description: true,
-                    job_name: true,
+                    job_item: true,
                     joblist_item: true
                 };
                 this.toggleDT = function (textId) {
