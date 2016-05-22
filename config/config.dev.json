@@ -16,5 +16,7 @@
     }
   ],
   "debug_enable": true,
-  "google_map_api_key": "AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M"
+  "google_map_api_key": "AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M",
+  "promo_code_check": true
+
 }

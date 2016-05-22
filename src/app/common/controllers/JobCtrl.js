@@ -11,6 +11,8 @@
                     submit: 'common.next_step'
                 };
 
+                authService.checkPromoCode();
+
                 userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
 
                 this.model = jobService.jobModel;
@@ -98,12 +100,14 @@
                     jobService.create(that.model);
                 };
             }])
-        .controller('EditJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
+        .controller('EditJobCtrl', ['jobService', 'authService', '$routeParams', function (jobService, authService, $routeParams) {
             var that = this;
             this.text = {
                 title: 'assignment.update.title',
                 submit: 'common.next_step'
             };
+
+            authService.checkPromoCode();
 
             this.model = jobService.getJob($routeParams.id);
 

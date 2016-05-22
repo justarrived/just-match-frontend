@@ -20,6 +20,7 @@ angular.module('just.common')
 
             this.company_jobs_tab = 1;
 
+            authService.checkPromoCode();
 
             userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
 
@@ -181,6 +182,8 @@ angular.module('just.common')
 
             $scope.job_obj = {id: $routeParams.id};
             this.ratingModel = ratingService.ratingModel;
+
+            authService.checkPromoCode();
 
             userService.needSignin();
 
@@ -420,6 +423,8 @@ angular.module('just.common')
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
 
+            authService.checkPromoCode();
+
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);
                 }
@@ -514,10 +519,12 @@ angular.module('just.common')
                 });
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, Resources) {
+    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'authService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
+        function (jobService, flow, authService, userService, $routeParams, $scope, $q, $filter, Resources) {
             var that = this;
             this.job_id = $routeParams.id;
+
+            authService.checkPromoCode();
 
             $scope.candidates = [];
 
@@ -621,6 +628,8 @@ angular.module('just.common')
             this.ratingModel = ratingService.ratingModel;
 
             this.chatModel.data.attributes["user-ids"] = [];
+
+            authService.checkPromoCode();
 
             userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
 
