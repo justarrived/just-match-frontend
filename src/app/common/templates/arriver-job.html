@@ -49,17 +49,14 @@
         <!-- USER modal form will-perform -->
         <div ng-show="userModalPerformShow==1">
             <section ng-show="!isWillPerform">
-
                 <h4>
                     {{'common.congratulation' | translate}}<br/>
-                    {{company_name}} {{'assignment.status.company.approve_user' | translate}}
+                    {{job.company.attributes.name}} {{'assignment.status.company.approve_user' | translate}}
                 </h4>
                 <p>{{'assignment.status.offer.approve' | translate}}</p>
                 <div>
                     <a class="button pink" href="" ng-click="isWillPerform=true">{{'common.yes' | translate}}</a>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
-
-
                 </div>
                 <h3>{{'assignment.status.reply' | translate}}<br>
                     {{'common.in' | translate}}<br>

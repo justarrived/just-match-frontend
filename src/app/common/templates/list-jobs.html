@@ -2,7 +2,7 @@
     <div class="main-title">
         <div class="job-list-title">
             <div>
-                <h1>{{ 'find_assignment.title' | translate }} ({{jobs.meta.total}})</h1>
+                <h1>{{ 'find_assignment.title' | translate }} ({{jobs.meta.total}}) <a href="" ng-click="ctrl.toggleDT('joblist_item')">Dynamic translation: {{dt.joblist_item}}</a></h1>
             </div>
             <!--<div>
                 <div class="dropdown-white-border"
@@ -19,7 +19,7 @@
                         <h2><a href="#{{routes.job.get.resolve(m.job)}}">{{m.job.attributes.name}}</a></h2>
                         <p>{{m.job.attributes.description}}</p>
                         <p>{{m.job.totalRate}} {{m.job.currency}}</p>
-                        <a href="#{{routes.job.get.resolve(m.job)}}">{{'common.click_here' | translate}}</a>
+                        <a href="#{{routes.job.get.resolve(m.job)}}" translate="common.click_here"></a>
                     </div>
                 </ui-gmap-window>
             </ui-gmap-marker>
@@ -35,8 +35,12 @@
                 <div class="job-desc">
                     <div>
                         <div>
-                            <h3><a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a></h3>
-                            <p>{{job.attributes.description}}</p>
+                            <h3 ng-if="job.name_translation" ng-show="dt.joblist_item" class="translated"><a href="#{{routes.job.get.resolve(job)}}">{{job.name_translation.text}}</a></h3>
+                            <h3 ng-if="job.name_translation" ng-show="!dt.joblist_item"><a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a></h3>
+                            <p ng-if="job.description_translation"  ng-show="dt.joblist_item" class="translated">{{job.description_translation.text}}</p>
+                            <p ng-if="job.description_translation" ng-show="!dt.joblist_item">{{job.attributes.description}}</p>
+                            <h3 ng-if="!job.name_translation"><a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a></h3>
+                            <p ng-if="!job.description_translation">{{job.attributes.description}}</p>
                         </div>
                         <div>
                             <div class="location"><span>{{job.attributes.street}} {{job.attributes.zip}}</span></div>
@@ -53,10 +57,14 @@
             </li>
         </ul>
         <div class="nav-job-list-bottom">
-            <button class="button-first" ng-click="ctrl.changePage = 1; getJobsPage('first');" ng-disabled="!jobs.links.first"></button>
-            <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');" ng-disabled="!jobs.links.prev"></button>
-            <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');" ng-disabled="!jobs.links.next"></button>
-            <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');" ng-disabled="!jobs.links.last"></button>
+            <button class="button-first" ng-click="ctrl.changePage = 1; getJobsPage('first');"
+                    ng-disabled="!jobs.links.first"></button>
+            <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');"
+                    ng-disabled="!jobs.links.prev"></button>
+            <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');"
+                    ng-disabled="!jobs.links.next"></button>
+            <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');"
+                    ng-disabled="!jobs.links.last"></button>
         </div>
         <div>
             <p><i>{{ ctrl.message | json}}</i></p>

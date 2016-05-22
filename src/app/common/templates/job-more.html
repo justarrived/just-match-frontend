@@ -1,6 +1,6 @@
 <div id="job-more-list" class="job-more-wrapper">
     <div class="main-title">
-        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_name')">Dynamic translation: {{dt.joblist_name}}</a></h2>
+        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_item')">Dynamic translation: {{dt.joblist_item}}</a></h2>
     </div>
     <div class="job-more-table">
         <div>
@@ -10,18 +10,18 @@
                                               style="background-image: url({{job_m.company_image}});"></a></div>
                     <div class="job-desc">
                         <div>
-                            <div ng-if="job_m.name_translation">
-                                <h3 class="translated" ng-show="dt.joblist_name"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.name_translation.text}}</a></h3>
-                                <h3 ng-show="!dt.joblist_name"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
-                            </div>
-                            <div ng-if="!job_m.name_translation">
-                                <h3><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                            <div>
+                                <h3 ng-if="job_m.name_translation" ng-show="dt.joblist_item" class="translated"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.name_translation.text}}</a></h3>
+                                <h3 ng-if="job_m.name_translation" ng-show="!dt.joblist_item"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                                <p ng-if="job_m.description_translation"  ng-show="dt.joblist_item" class="translated">{{job_m.description_translation.text}}</p>
+                                <p ng-if="job_m.description_translation" ng-show="!dt.joblist_item">{{job_m.attributes.description}}</p>
+                                <h3 ng-if="!job_m.name_translation"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                                <p ng-if="!job_m.description_translation">{{job_m.attributes.description}}</p>
                             </div>
                             <div>
                                 <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span></div>
                             </div>
                         </div>
-
                     </div>
                     <div class="job-rate">
                         <span>{{job_m.totalRate | number}}</span>
