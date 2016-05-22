@@ -14,6 +14,7 @@ angular
             this.messageU = userService.registerMessage;
             this.company_image = "assets/images/content/placeholder-logo.png";
 
+
             if (authService.isAuthenticated()) {
                 flow.redirect(routes.global.start.url);
             }
@@ -35,6 +36,10 @@ angular
             } else {
                 this.data.cin = "";
             }
+
+            Resources.companyTermsAgreements.get(function(result){
+                that.termsAgreements = result.data.attributes.url;
+            });
 
             $scope.$watch('form', function (form) {
                 if (form) {

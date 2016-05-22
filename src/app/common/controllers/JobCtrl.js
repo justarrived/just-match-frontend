@@ -15,11 +15,9 @@
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
-                if(!this.model.data.attributes.hours){
+                if (!this.model.data.attributes.hours) {
                     this.model.data.attributes.hours = 2;
                 }
-
-
 
                 $scope.$watch('form', function (form) {
                     if (form) {
@@ -270,7 +268,7 @@
                     var isNav = 0;
                     var i = 0;
                     $scope.markers = [];
-                    if (['first', 'prev', 'next', 'last','self'].indexOf(mode) > -1) {
+                    if (['first', 'prev', 'next', 'last', 'self'].indexOf(mode) > -1) {
                         url = $scope.jobs.links[mode];
                         isNav = 1;
                     } else {
