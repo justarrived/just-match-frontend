@@ -4,8 +4,8 @@
             <section ng-show="!isPerformed">
                 <h3><span class="user-info-image" style="background-image: url({{ctrl.user_apply.user_image}})"></span>
                 </h3>
-                <h3>{{'assignment.is_approved' | translate}}</h3>
-                <p>{{'assignment.approve.description' | translate}}</p>
+                <h3 translate="assignment.is_approved"></h3>
+                <p translate="assignment.approve.description"></p>
                 <h4>
                     <span>{{job.attributes.name}}</span>
                     <span>{{job.attributes.hours}}{{'common.hour' | translate}} {{job.hourly_pay.rate}} SEK</span>

@@ -820,9 +820,6 @@ angular.module('just.common')
                             });
                         });
                     }
-
-                    //for static translation variables
-                    $scope.st = {candidate_name: that.candidate_model["first-name"] + " " + that.candidate_model["last-name"]};
                 });
             };
 
