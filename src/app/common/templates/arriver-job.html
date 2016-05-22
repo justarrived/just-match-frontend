@@ -11,10 +11,12 @@
             <div ng-show="ctrl.accepted && !ctrl.will_perform">
                 <!-- Owner choose you -->
                 <div>
-                    <h2>{{'assignment.status.offer' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}min</h2>
+                    <h2>{{'assignment.status.offer' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}}
+                        {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow=1">{{ "assignment.status.reply" | translate }}</a>
+                    <a class="button" href="" ng-click="terms=0; isWillPerform=false; userModalPerformShow=1;">{{ "assignment.status.reply" | translate
+                        }}</a>
                 </div>
             </div>
             <div ng-show="ctrl.will_perform && !ctrl.performed">
@@ -26,7 +28,8 @@
                     <h2>{{'assignment.is_approved' | translate}}</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message' | translate}}</a>
+                    <a class="button" href="" ng-click="userModalPerformShow = 3-userModalPerformShow">{{'profile.overview.send_message'
+                        | translate}}</a>
                 </div>
                 <div ng-show="ctrl.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
@@ -37,10 +40,11 @@
     </div>
     <div class="main-content" ng-hide="userModalPerformShow">
         <ul>
-            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>{{'user.assignments.comments' | translate}}</span><br />
+            <li class="select"><a href="#{{routes.arriver.job_comments.resolve(job_obj)}}"><span>{{'user.assignments.comments' | translate}}</span><br/>
                 {{comments_amt}} {{'user.assignments.comment_count' | translate}}</a></li>
             <li class="select" ng-repeat="chat in ctrl.userChats.data">
-                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>{{'user.assignments.chat' | translate}}</span><br>{{'user.assignments.conversation' | translate}} {{job.company.attributes.name}}</a>
+                <a href="" ng-click="ctrl.gotoChat(chat.id);"><span>{{'user.assignments.chat' | translate}}</span><br>{{'user.assignments.conversation'
+                    | translate}} {{job.company.attributes.name}}</a>
             </li>
         </ul>
     </div>
@@ -54,8 +58,14 @@
                     {{job.company.attributes.name}} {{'assignment.status.company.approve_user' | translate}}
                 </h4>
                 <p>{{'assignment.status.offer.approve' | translate}}</p>
+                <div class="terms">
+                    <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.accept'
+                        | translate}} <a href="{{ctrl.termsAgreements}}" target="_blank" ng-show="ctrl.termsAgreements">{{'terms'
+                            | translate}}</a></p>
+                </div>
                 <div>
-                    <a class="button pink" href="" ng-click="isWillPerform=true">{{'common.yes' | translate}}</a>
+                    <button class="button" ng-class="{pink : terms,dark : !terms}" href="" ng-disabled="!terms" ng-click="isWillPerform=true">{{'common.yes'
+                        | translate}}</button>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
                 </div>
                 <h3>{{'assignment.status.reply' | translate}}<br>
@@ -121,6 +131,7 @@
                     {{company_name}} {{'user.assignment.company_approved' | translate}}
                 </h4>
                 <p>{{'assignment.status.approve_for_payment' | translate}}</p>
+
                 <div>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
                     <a class="button pink" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
@@ -132,15 +143,21 @@
             <h3>{{'common.messages' | translate}}</h3>
             <div>
                 <ul>
-                    <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
+                    <li ng-repeat="chatMessage in ctrl.chatMessages.data"
+                        ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
                         <div class="bubble">
-                            <div><span class="messenger">{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</span><span class="datetime">{{chatMessage.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span></div>
+                            <div><span class="messenger">{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</span><span
+                                    class="datetime">{{chatMessage.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span>
+                            </div>
                             <div ng-if="chatMessage.translation.from == chatMessage.translation.to">
                                 {{chatMessage.attributes.body}}
                             </div>
-                            <div ng-class="chatMessage.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'" ng-if="chatMessage.translation.from != chatMessage.translation.to">
+                            <div ng-class="chatMessage.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'"
+                                 ng-if="chatMessage.translation.from != chatMessage.translation.to">
                                 {{chatMessage.translation.text}}
-                                <p ng-class="chatMessage.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'"><strong>{{'common.translated.from' | translate}} {{chatMessage.translation.from_name}}</strong><br>
+                                <p ng-class="chatMessage.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'">
+                                    <strong>{{'common.translated.from' | translate}}
+                                        {{chatMessage.translation.from_name}}</strong><br>
                                     {{chatMessage.attributes.body}}
                                 </p>
                             </div>

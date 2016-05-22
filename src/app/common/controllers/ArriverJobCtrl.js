@@ -31,15 +31,16 @@ angular.module('just.common')
                         if (found[0].relationships.invoice.data === null) {
                             obj["job-users"] = found[0];
                             if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "Du har sökt uppdraget";
+                                obj.attributes.text_status = "user.apply.confirmation";
                             }
                             if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
                                 Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                    obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
+                                    //obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
+                                    obj.attributes.text_status = "Company vill anlita dig";
                                 });
                             }
                             if (found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "Du är anlitad";
+                                obj.attributes.text_status = "assignment.status.you_hired";
                             }
 
                             $scope.jobs.push(obj);
@@ -163,6 +164,11 @@ angular.module('just.common')
                     that.getChatMessage();
                 }
             );
+
+            Resources.arriverTermsAgreements.get(function (result) {
+                that.termsId = result.data.id;
+                that.termsAgreements = result.data.attributes.url;
+            });
 
             $scope.currTab = 1;
 
@@ -367,7 +373,37 @@ angular.module('just.common')
 
             // Create Bank Account for USER
             this.createBankAccount = function () {
-                financeService.createBankAccount(that.userWillPerform);
+                if ($scope.terms) {
+                    that.termsConsentAccept(financeService.createBankAccount(that.userWillPerform));
+                } else {
+                    $scope.terms = 0;
+                    $scope.isWillPerform = false;
+                    $scope.userModalPerformShow = 1;
+                }
+            };
+
+            this.termsConsentAccept = function (fn) {
+                var consentData = {
+                    data: {
+                        attributes: {
+                            "terms-agreement-id": that.termsId,
+                            "user-id": authService.userId().id,
+                            "job-id": $routeParams.id
+                        }
+                    }
+                };
+                Resources.termsConsents.create({}, consentData, function (result) {
+                    if(fn){
+                        fn();
+                    }
+                }, function (err) {
+                    /*$scope.terms = 0;
+                    $scope.isWillPerform = false;
+                    $scope.userModalPerformShow = 1;*/
+                    if(fn){
+                        fn();
+                    }
+                });
             };
 
             // USER Accept to do a job
@@ -399,8 +435,8 @@ angular.module('just.common')
                 $scope.userModalPerformShow = false;
             };
         }])
-    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources','gtService',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources,gtService) {
+    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
+        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};

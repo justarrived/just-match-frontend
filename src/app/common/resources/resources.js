@@ -117,7 +117,7 @@ angular.module('just.common')
                 arriverTermsAgreements: crud('terms-agreements/current'),
                 companyTermsAgreements: crud('terms-agreements/current-company'),
 
-                jobTermsConsents: crud('jobs/:job_id/terms-consents ')
+                termsConsents: crud('terms-consents')
 
             };
         }
