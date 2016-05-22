@@ -1387,6 +1387,13 @@ job-body, job-comment {
 
 .candidate-profile {
   padding: 25px;
+
+  .icon-switch-language {
+    float: right;
+    color: $lightBlue;
+    margin-top: 6px;
+  }
+
   h3 {
     @include header-light;
     position: relative;
