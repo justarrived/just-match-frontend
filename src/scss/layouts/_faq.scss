@@ -4,6 +4,15 @@
     box-shadow: none;
     border: 1px solid $grey;
     padding: 20px 15px;
+
+    &:hover,
+    &:focus {
+      border-color: $greyHover;
+      
+      .question:before {
+        color: $lightBlueHover;
+      }
+    }
   }
   .well:last-child {
     margin-bottom: 0;
@@ -23,6 +32,7 @@
       -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
     }
+
     &.select:before {
       content: '\e81c';
     }

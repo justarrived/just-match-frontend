@@ -18,6 +18,8 @@
 
                 <div ng-show="curr_tab!==2">
                     <form name="form_profile" class="form-profile" ng-submit="sCtrl.companyProfileUpdate();">
+                        <input type="text" name="username" style="display:none" value="" />
+                        <input type="password" name="spassword" style="display:none" value="" />
                         <div ng-show="ctrl.isCompany===1">
                             <div>
                                 <div class="upload-photo">
@@ -87,6 +89,18 @@
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-password"></i></label></div>
+                                <div><input type="password" name="old_password"
+                                            placeholder="{{'user.form.password' | translate}}"
+                                            ng-minlength="6"
+                                            ng-required="sCtrl.model.data.attributes.password"
+                                            ng-model="sCtrl.model.data.attributes.old_password"
+                                            ng-class="{'has-error': form_profile.old_password.error_detail!==undefined}"
+                                            ng-keyup="form_profile.old_password.error_detail = undefined"
+                                            autocomplete="off">
+                                    <label class="error"></label></div>
+                            </div>
+                            <div>
+                                <div><label><i class="demo-icon icon-ic-password"></i></label></div>
                                 <div><input type="password" name="password"
                                             placeholder="{{'user.form.password' | translate}}"
                                             ng-minlength="6"
@@ -113,7 +127,9 @@
                     </form>
                 </div>
                 <div ng-show="curr_tab===2">
-                    <form name="form" class="setting-bank-form" novalidate ng-submit="ctrl.createBankAccount()">
+                    <form name="form" class="setting-bank-form" novalidate ng-submit="ctrl.createBankAccount()" autocomplete="false">
+                        <input type="text" name="username" style="display:none" value="" />
+                        <input type="password" name="spassword" style="display:none" value="" />
                         <validation2 form="form" field="account_clearing_number"
                                      errormsg="finance.form.account_clearing_number.validation">
                             <div class="bank-group">
@@ -151,7 +167,7 @@
                                 <div><input type="text" name="bic"
                                             ng-required="sCtrl.financeModel.data.attributes.iban"
                                             ng-model="sCtrl.financeModel.data.attributes.bic"
-                                            ng-keyup="form.bic.error_detail = undefined"/></div>
+                                            ng-keyup="form.bic.error_detail = undefined" autocomplete="nope"/></div>
                             </div>
                         </validation2>
                         <validation2 form="form" field="password" errormsg="user.form.password.validation">
@@ -161,7 +177,7 @@
                                             placeholder="{{'user.form.password' | translate}}"
                                             required
                                             ng-model="sCtrl.financeModel.data.attributes.password"
-                                            ng-keyup="form.password.error_detail = undefined" autocomplete="off"></div>
+                                            ng-keyup="form.password.error_detail = undefined" autocomplete="nope"></div>
                             </div>
                         </validation2>
 

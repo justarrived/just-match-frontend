@@ -11,10 +11,23 @@
   }
 
   .credentials {
+    display: block;
     text-align: center;
     position: relative;
     top: 3em;
     transform: scale(0.75);
+
+    img {
+      max-height: 50px;
+      max-width: 130px;
+      width: auto;
+      margin: 0 auto;
+      padding: 5px 10px 10px 10px;
+    }
+
+    .start_name {
+      padding-top: 5px;
+    }
   }
 
   .prominent {
@@ -62,6 +75,15 @@
     font-size: 14px;
     margin: 12px;
 
+    &:hover,
+    &:focus {
+      opacity: .95;
+
+      .lang-icon {
+        background: $transparentHover;
+      }
+    }
+
     span {
       display: block;
       margin: 0 auto;
@@ -86,6 +108,13 @@
     }
   }
   button.select {
+    &:hover,
+    &:focus {
+      .lang-icon {
+        background: $pinkHover;
+      }
+    }
+
     .lang-icon {
       border: 1px solid $pink;
       background: $pink;

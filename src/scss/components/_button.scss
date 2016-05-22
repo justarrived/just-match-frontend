@@ -3,17 +3,27 @@
 @import '../base/mixins';
 
 .btn-pos, .btn-pos[disabled], .btn-pos.disabled, .btn-neg, .btn-neg[disabled], .btn-neg.disabled {
-  @include border-radius($btnBorderRadius);
+  border-radius: $btnBorderRadius;
 }
 
 .btn-pos, .btn-pos[disabled], .btn-pos.disabled {
   background-color: $btnBgColorPositive;
   color: $btnTxtColorPositive;
+
+  &:hover,
+  &:focus {
+    background-color: $btnBgColorPositiveHover;
+  }
 }
 
 .btn-neg, .btn-neg[disabled], .btn-neg.disabled {
   background-color: $btnBgColorNegative;
   color: $btnTxtColorNegative;
+
+  &:hover,
+  &:focus {
+    background-color: $btnBgColorNegativeHover;
+  }
 }
 
 .btn-pos[disabled], .btn-pos.disabled, .btn-neg[disabled], .btn-neg.disabled {

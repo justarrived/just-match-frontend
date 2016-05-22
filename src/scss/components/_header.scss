@@ -21,12 +21,18 @@ header {
     vertical-align: middle;
     padding-left: 10px;
     text-align: right;
+    
     button {
       background: none;
       border: 0;
       font-weight: 300;
       padding: 0;
       outline: 0;
+
+      &:hover,
+      &:focus {
+        opacity: .7;
+      }
 
       span {
         display: block;
@@ -91,6 +97,10 @@ header {
 
     a {
       color: $white;
+
+      &:hover {
+        opacity: .7;
+      }
     }
   }
 }
