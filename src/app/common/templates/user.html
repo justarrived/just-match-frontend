@@ -71,7 +71,7 @@
                 <p>{{'profile.create.notification' | translate}}</p></p>
             </div>
             <div class="form-group">
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid">{{
+                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid || ctrl.uploading">{{
                     ctrl.saveButtonText | translate }}
                 </button>
             </div>

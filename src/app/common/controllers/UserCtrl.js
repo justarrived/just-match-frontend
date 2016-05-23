@@ -6,6 +6,7 @@ angular.module('just.common')
             authService.checkPromoCode();
 
             this.isStart = 1;
+            this.uploading = false;
             //this.saveSuccessFromRegister = 0;
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
@@ -62,12 +63,16 @@ angular.module('just.common')
                             });
                         });
 
-                        var found_img = $filter('filter')(response.included, {
+                        /*var found_img = $filter('filter')(response.included, {
                             type: 'user-images'
                         }, true);
                         if (found_img.length > 0) {
                             that.user_image = found_img[0].attributes["image-url-small"];
+                        }*/
+                        if(response.data.user_image){
+                            that.user_image = response.data.user_image;
                         }
+
 
                         deferd.resolve(that.language_bundle);
                         deferd.resolve(that.user_image);
@@ -185,9 +190,13 @@ angular.module('just.common')
                     var element0 = angular.element("#file_upload");
 
                     formData.append("image", element0[0].files[0]);
+                    that.uploading = true;
                     httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
                         that.model.data.attributes['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
+                        that.uploading = false;
+                    },function(err){
+                        that.uploading = false;
                     });
                 }
 
@@ -257,6 +266,10 @@ angular.module('just.common')
                      } else {
                      that.saveSuccessDefault = 1;
                      }*/
+                    if(that.user_image){
+                        userService.setNewUserImage(that.user_image);
+                    }
+
                     if (flow.next_data) {
                         if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
                             //from menu
