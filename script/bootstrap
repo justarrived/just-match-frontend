@@ -29,11 +29,11 @@ which sass 2>&1 >/dev/null || {
 echo -e '\n== Installing project dependencies =='
 echo -e '\n== Installing npm dependencies =='
 npm install
-echo -e '\n== Installing bower dependencies =='
-bower install
+#echo -e '\n== Installing bower dependencies =='
+#bower install
 
-echo -e '\n== Running grunt build =='
-grunt build
+#echo -e '\n== Running grunt build =='
+#grunt build
 
 echo -e '\n== Setup finished =='
 echo 'Run `grunt watch` to continuously watch for file changes.'
