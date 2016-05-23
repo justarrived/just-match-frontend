@@ -18,6 +18,7 @@ angular.module('just.service')
             this.user = undefined;
             this.apply_job_id = 0;
             this.message = {};
+            this.userList = [];
 
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
@@ -295,5 +296,21 @@ angular.module('just.service')
             };
 
             this.userMessage = {};
+
+            this.addList = function (userData) {
+                var found = $filter('filter')(that.userList, {id: "" + userData.data.id}, true);
+                if (found.length === 0) {
+                    that.userList.push(userData);
+                }
+            };
+
+            this.getUserById = function(id) {
+                var found = $filter('filter')(that.userList, {id: "" + id}, true);
+                if (found.length > 0) {
+                    return found[0];
+                }else{
+                    return null;
+                }
+            };
 
         }]);

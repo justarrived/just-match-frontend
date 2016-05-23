@@ -67,7 +67,7 @@
             <div ng-repeat="job in ctrl.jobs.data">
                 <a href="#{{ routes.job.get.resolve(job) }}">
                     <div class="image-wrapper">
-                        <div backImg="{{job.company_image}}"></div>
+                        <div back-img="{{job.company_image}}"></div>
                         <b>{{ job.total_rate | number}} {{ job.currency }}</b>
                     </div>
                     <span>

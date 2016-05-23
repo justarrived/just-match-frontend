@@ -70,7 +70,7 @@
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
             <li ng-repeat="job in userPerformedJobs">
-                <div><span class="user-info-image" backImg="{{job.company_image}}"></span></div>
+                <div><span class="user-info-image" back-img="{{job.company_image}}"></span></div>
                 <div>
                     <h4>{{job.attributes.name}}</h4>
                     <p>{{job.company.attributes.name}}</p>
@@ -109,7 +109,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="profile-image" backImg="{{chatMessage.author.user_image}}">
+                    <div class="profile-image" back-img="{{chatMessage.author.user_image}}">
                     </div>
                 </li>
             </ul>
