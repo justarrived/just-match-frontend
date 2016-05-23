@@ -35,6 +35,7 @@ module.exports = function (grunt) {
         var baseConfig = buildConfig.config_dir + 'config.json',
             envConfig = buildConfig.config_dir + 'config.' + environment + '.json';
 
+        console.log('Read environment config:', envConfig);
         return grunt.util._.extend(grunt.file.readJSON(baseConfig), grunt.file.readJSON(envConfig));
     })();
 
