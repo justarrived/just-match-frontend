@@ -27,8 +27,7 @@
                                            onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>
                                     <input type="text" name="user_image_one_time_token"
                                            ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
-                                    <div class="user-info-image"
-                                         style="background-image:url({{sCtrl.user_image}})"></div>
+                                    <div class="user-info-image" back-img="{{sCtrl.user_image}}"></div>
                                     <div><i class="demo-icon icon-ic-camera"></i></div>
                                 </div>
                                 <div>{{'menu.settings.upload_logo' | translate}}</div>
