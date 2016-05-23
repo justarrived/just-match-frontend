@@ -38,6 +38,7 @@
     "common.thanks": "Thank you!",
     "common.updated": "Updated",
     "common.error.404": "Page not found",
+    "common.or": "eller",
     "menu.language.title": "Select language",
     "menu.language.text_1": "You can go back and change your selected language later if you like.",
     "menu.language.text_2": "Jobs, comments and messages are translated automatically.",
@@ -55,6 +56,7 @@
     "menu.settings.personal_data": "Personal details",
     "menu.settings.bank_details": "Bank details",
     "menu.settings.upload_logo": "Upload logo",
+    "menu.settings.contact_support": "Contact support",
     "login.title": "Log in",
     "login.form.username": "Username",
     "login.form.password": "Password",
@@ -192,7 +194,7 @@
     "company.assignments.candidates.select.title": "Select candidate",
     "company.assignments.candidates.select.description": "Click on the candidate to view their full profile.",
     "company.assignments.candidates.select.favourite": "Favourite",
-    "company.assignments.candidates.send_request": "You are sending an offer to {{candidate_name}}",
+    "company.assignments.candidates.send_request": "Du skickar en förfrågan till {{candidate_name}}",
     "company.assignments.chat": "Chat",
     "company.assignments.candidates.chat": "Chat with candidates",
     "profile.overview.hire": "Hire",
@@ -341,5 +343,10 @@
     "terms": "conditions",
     "terms.accept": "I accept Just Arrived's",
     "terms.title": "title for terms and conditions",
-    "terms.description": "terms and conditions text"
+    "terms.frilans_finans.accept": "Jag accepterar Frilans Finans",
+    "terms.description": "terms and conditions text",
+    "translation.dynamic.title": "Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
+    "translation.dynamic.off.title": "Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!",
+    "promo.title": "Välkommen till Just Arrived!",
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmenheten."
 }
