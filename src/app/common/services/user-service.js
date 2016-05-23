@@ -297,6 +297,13 @@ angular.module('just.service')
 
             this.userMessage = {};
 
+            this.setNewUserImage = function(url){
+                if(that.user){
+                    that.user.data.user_image = url;
+                    $rootScope.$broadcast('onSigninSetmenu');
+                }
+            };
+
             this.addList = function (userData) {
                 var found = $filter('filter')(that.userList, {id: "" + userData.data.id}, true);
                 if (found.length === 0) {
