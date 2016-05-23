@@ -6,8 +6,8 @@ angular.module('just.service')
  *
  * Handles auth_token and signin/signout of users.
  */
-    .service('authService', ['$http', '$q', 'settings', 'localStorageService', 'i18nService', '$location', 'justFlowService', 'justRoutes', 'Resources', '$route',
-        function ($http, $q, settings, storage, i18nService, $location, flow, routes, Resources, $route) {
+    .service('authService', ['$http', '$q', 'settings', 'localStorageService', 'i18nService', '$location', 'justFlowService', 'justRoutes', 'Resources',
+        function ($http, $q, settings, storage, i18nService, $location, flow, routes, Resources) {
             var that = this;
             var current_auth_token = storage.get('auth_token');
             if (current_auth_token) {
@@ -91,7 +91,8 @@ angular.module('just.service')
                                 storage.set("promocode", promocode);
                                 if(!$http.defaults.headers.common["X-API-PROMO-CODE"]){
                                     $http.defaults.headers.common["X-API-PROMO-CODE"] = promocode;
-                                    $route.reload();
+                                    //$route.reload();
+                                    i18nService.reloadLang();
                                 }else{
                                     $http.defaults.headers.common["X-API-PROMO-CODE"] = promocode;
                                 }
