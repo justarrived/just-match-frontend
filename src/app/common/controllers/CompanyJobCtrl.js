@@ -74,9 +74,12 @@ angular.module('just.common')
                                             }
 
                                             $scope.jobs_invoice.push(obj);
-                                            var jobIdx = $scope.jobs_invoice.length -1;
+                                            var jobIdx = $scope.jobs_invoice.length - 1;
 
-                                            Resources.userRating.get({id: result.data.relationships.user.data.id,'filter[job-id]':obj.id}, function (ratingResp) {
+                                            Resources.userRating.get({
+                                                id: result.data.relationships.user.data.id,
+                                                'filter[job-id]': obj.id
+                                            }, function (ratingResp) {
                                                 $scope.jobs_invoice[jobIdx].rating = ratingResp.meta["average-score"];
                                             });
                                         });
@@ -645,8 +648,16 @@ angular.module('just.common')
 
             i18nService.addLanguageChangeListener(function () {
                     that.getChatMessage();
+                    that.translateCandidate(that.candidate_model);
                 }
             );
+            //handle different dynamic translations
+            $scope.dt = {
+                candidate_item: true
+            };
+            this.toggleDT = function (textId) {
+                $scope.dt[textId] = !$scope.dt[textId];
+            };
 
             this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
@@ -698,7 +709,6 @@ angular.module('just.common')
                     });
                 });
             };
-
 
             this.getJobData = function () {
                 $scope.jobb = jobService.getJob(that.job_id, 'company,hourly-pay');
@@ -787,6 +797,8 @@ angular.module('just.common')
 
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
+
+                        that.translateCandidate(that.candidate_model);
                     }
 
                     if (response.data.attributes.accepted || response.data.attributes["will-perform"] || response.data.attributes.performed) {
@@ -852,6 +864,72 @@ angular.module('just.common')
 
             this.getJobData();
 
+            this.translateCandidate = function (model) {
+                if (model.description) {
+                    gtService.translate(model.description)
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.description = {};
+                            model.translation.description.text = translation.translatedText;
+                            model.translation.description.from = translation.detectedSourceLanguage;
+                            model.translation.description.from_name = translation.detectedSourceLanguageName;
+                            model.translation.description.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.description.to = translation.targetLanguage;
+                            model.translation.description.to_name = translation.targetLanguageName;
+                            model.translation.description.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model["job-experience"]) {
+                    gtService.translate(model["job-experience"])
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.job_experience = {};
+                            model.translation.job_experience.text = translation.translatedText;
+                            model.translation.job_experience.from = translation.detectedSourceLanguage;
+                            model.translation.job_experience.from_name = translation.detectedSourceLanguageName;
+                            model.translation.job_experience.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.job_experience.to = translation.targetLanguage;
+                            model.translation.job_experience.to_name = translation.targetLanguageName;
+                            model.translation.job_experience.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model.education) {
+                    gtService.translate(model.education)
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.education = {};
+                            model.translation.education.text = translation.translatedText;
+                            model.translation.education.from = translation.detectedSourceLanguage;
+                            model.translation.education.from_name = translation.detectedSourceLanguageName;
+                            model.translation.education.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.education.to = translation.targetLanguage;
+                            model.translation.education.to_name = translation.targetLanguageName;
+                            model.translation.education.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model["competence-text"]) {
+                    gtService.translate(model["competence-text"])
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.competence_text = {};
+                            model.translation.competence_text.text = translation.translatedText;
+                            model.translation.competence_text.from = translation.detectedSourceLanguage;
+                            model.translation.competence_text.from_name = translation.detectedSourceLanguageName;
+                            model.translation.competence_text.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.competence_text.to = translation.targetLanguage;
+                            model.translation.competence_text.to_name = translation.targetLanguageName;
+                            model.translation.competence_text.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+            };
 
             this.acceptJob = function () {
                 jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
