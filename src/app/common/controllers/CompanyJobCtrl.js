@@ -849,9 +849,7 @@ angular.module('just.common')
                     }
                 });
             };
-
             this.getJobData();
-
 
             this.acceptJob = function () {
                 jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
