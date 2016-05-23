@@ -14,8 +14,8 @@
                     {{'common.total_cost' | translate}} {{job.max_rate | number:0}} {{job.hourly_pay.currency}} {{'common.currency_inc_vat' | translate}}
                 </h4>
                 <div>
-                    <a class="button pink" href="" ng-click="isPerformed=true" translate="common.yes"></a>
-                    <a class="button dark" href="" ng-click="modalPerformShow=false" translate="common.no"></a>
+                    <a class="button pink" href="" ng-click="ctrl.showRatingform()" translate="common.yes"></a>
+                    <a class="button dark" href="" ng-click="ctrl.hideConfirm()" translate="common.no"></a>
                 </div>
             </section>
             <section ng-show="isPerformed">
