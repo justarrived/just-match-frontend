@@ -6,12 +6,13 @@
  * Service to handle companies.
  */
 angular.module('just.service')
-    .service('companyService', ['$q', 'justFlowService', 'authService', 'userService', 'Resources', 'justRoutes', 'i18nService', 'httpPostFactory', 'settings',
-        function ($q, flow, authService, userService, Resources, routes, i18nService, httpPostFactory, settings) {
+    .service('companyService', ['$q', 'justFlowService', 'authService', 'userService', 'Resources', 'justRoutes', 'i18nService', 'httpPostFactory', 'settings', '$filter',
+        function ($q, flow, authService, userService, Resources, routes, i18nService, httpPostFactory, settings, $filter) {
             var that = this;
 
             this.registerModel = {};
             this.registerMessage = {};
+            this.companyList = [];
 
             this.register = function (attributes, formData) {
                 if (formData) {
@@ -45,5 +46,21 @@ angular.module('just.service')
 
             this.choose = function (attributes) {
                 userService.register(attributes);
+            };
+
+            this.addList = function (companyData) {
+                var found = $filter('filter')(that.companyList, {id: "" + companyData.data.id}, true);
+                if (found.length === 0) {
+                    that.companyList.push(companyData);
+                }
+            };
+
+            this.getCompanyById = function(id) {
+                var found = $filter('filter')(that.companyList, {id: "" + id}, true);
+                if (found.length > 0) {
+                    return found[0];
+                }else{
+                    return null;
+                }
             };
         }]);
