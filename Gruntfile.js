@@ -7,6 +7,7 @@ module.exports = function (grunt) {
     var buildConfig,
         taskConfig,
         environment,
+        configEnvironment,
         appConstants,
         appTranslations;
 
@@ -30,10 +31,11 @@ module.exports = function (grunt) {
     buildConfig = require('./build.config.js');
 
     environment = process.env.NODE_ENV || 'dev';
+    configEnvironment = process.env.NODE_CONFIG_ENV || environment;
 
     appConstants = (function () {
         var baseConfig = buildConfig.config_dir + 'config.json',
-            envConfig = buildConfig.config_dir + 'config.' + environment + '.json';
+            envConfig = buildConfig.config_dir + 'config.' + configEnvironment + '.json';
 
         console.log('Read environment config:', envConfig);
         return grunt.util._.extend(grunt.file.readJSON(baseConfig), grunt.file.readJSON(envConfig));
