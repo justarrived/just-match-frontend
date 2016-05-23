@@ -30,7 +30,7 @@
             <li class="job-description translated" ng-show="dt.job_item">{{ job.attributes.description_translation.text
                 }}
             </li>
-            <li class="job-description translated" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
+            <li class="job-description" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
         </ul>
         <ul>
             <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>
