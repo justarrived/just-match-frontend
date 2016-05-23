@@ -423,6 +423,21 @@ angular.module('just.common')
                 $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
+
+            this.showConfirm = function(){
+                $scope.modalPerformShow=true;
+                $scope.isPerformed=false;
+            };
+
+            this.hideConfirm = function(){
+                $scope.modalPerformShow=false;
+                $scope.isPerformed=true;
+            };
+
+            this.showRatingform = function(){
+                $scope.modalPerformShow=true;
+                $scope.isPerformed=true;
+            };
         }
     ])
     .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams',
@@ -1045,6 +1060,21 @@ angular.module('just.common')
                 } else {
                     return true;
                 }
+            };
+
+            this.showConfirm = function(){
+                $scope.modalPerformShow=true;
+                $scope.isPerformed=false;
+            };
+
+            this.hideConfirm = function(){
+                $scope.modalPerformShow=false;
+                $scope.isPerformed=true;
+            };
+
+            this.showRatingform = function(){
+                $scope.modalPerformShow=true;
+                $scope.isPerformed=true;
             };
 
         }]);
