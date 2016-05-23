@@ -9,8 +9,7 @@
         <div>
             <ul class="job-list-wrapper">
                 <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}">
-                    <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}"
-                                              style="background-image: url({{job_m.company_image}});"></a></div>
+                    <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}" backImg="{{job_m.company_image}}"></a></div>
                     <div class="job-desc">
                         <div class="job-desc-inner">
                             <div>

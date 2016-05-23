@@ -81,6 +81,15 @@ angular.module('just.common')
 
         return MyDate;
     })
+    .directive('backImg', function(){
+        return function(scope, element, attrs){
+            var url = attrs.backImg;
+            element.css({
+                'background-image': 'url(' + url +')',
+                'background-size' : 'cover'
+            });
+        };
+    })
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q','$route',
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q,$route) {
             var that = this;

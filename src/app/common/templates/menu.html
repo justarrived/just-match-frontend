@@ -59,11 +59,11 @@
                 <div class="user-info">
                     <div>
                         <a class="user-table" href="#{{routes.user.user.url}}" ng-click="ctrl.menu(0)" ng-Show="ctrl.isCompany === 0">
-                            <span><span class="user-info-image" style="background-image: url({{ctrl.user.data.user_image}})"></span></span>
+                            <span><span class="user-info-image" back-img="{{ctrl.user.data.user_image}}"></span></span>
                             <span>{{ctrl.user.data.attributes["first-name"]}} {{ctrl.user.data.attributes["last-name"]}}</span>
                         </a>
                         <span class="user-table" ng-Show="ctrl.isCompany === 1">
-                            <span><span class="user-info-image" style="background-image: url({{ctrl.user.data.user_image}})"></span></span>
+                            <span><span class="user-info-image" backImg="{{ctrl.user.data.user_image}}"></span></span>
                             <span>{{ctrl.user.data.attributes["first-name"]}} {{ctrl.user.data.attributes["last-name"]}}</span>
                         </span>
                     </div>

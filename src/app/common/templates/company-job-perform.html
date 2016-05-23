@@ -2,7 +2,7 @@
     <div>
         <div>
             <section ng-show="!isPerformed">
-                <h3><span class="user-info-image" style="background-image: url({{ctrl.user_apply.user_image}})"></span>
+                <h3><span class="user-info-image" backImg="{{ctrl.user_apply.user_image}}"></span>
                 </h3>
                 <h3 translate="assignment.is_approved"></h3>
                 <p translate="assignment.approve.description"></p>
@@ -20,8 +20,7 @@
             </section>
             <section ng-show="isPerformed">
                 <form name="form" novalidate ng-submit="ctrl.userPerformed()">
-                    <h3><span class="user-info-image"
-                              style="background-image: url({{ctrl.user_apply.user_image}})"></span>
+                    <h3><span class="user-info-image" backImg="{{ctrl.user_apply.user_image}}"></span>
                     </h3>
                     <h3 translate="common.thanks"></h3>
                     <p translate="assignment.recommendation.title"></p>

@@ -36,8 +36,7 @@
     <div id="job-more-list">
         <ul class="job-list-wrapper">
             <li ng-repeat="job in jobs.data">
-                <div class="job-image"><a href="#{{routes.job.get.resolve(job)}}"
-                                          style="background-image: url({{job.company_image}});"></a>
+                <div class="job-image"><a href="#{{routes.job.get.resolve(job)}}" backImg="{{job.company_image}}"></a>
                 </div>
                 <div class="job-desc">
                     <div class="job-desc-inner">
