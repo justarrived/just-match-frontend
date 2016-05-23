@@ -29,8 +29,8 @@
                                 </div>
                             </div>
                             <div class="job-rate">
-                                <span>{{job_m.totalRate | number}} {{ job_m.currency }}</span>
-                                <em>5 h ({{ job_m.max_rate | number }} {{ job_m.currency }}/h)</em>
+                                <span>{{job_m.totalRate | number:0}} {{ job_m.currency }}</span>
+                                <em>{{job_m.attributes.hours}} h ({{ job_m.max_rate | number:0 }} {{ job_m.currency }}/h)</em>
                             </div>
                         </div>
                     </div>
