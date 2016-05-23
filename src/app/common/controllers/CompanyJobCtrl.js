@@ -72,7 +72,13 @@ angular.module('just.common')
                                                     }
                                                 }
                                             }
+
                                             $scope.jobs_invoice.push(obj);
+                                            var jobIdx = $scope.jobs_invoice.length -1;
+
+                                            Resources.userRating.get({id: result.data.relationships.user.data.id,'filter[job-id]':obj.id}, function (ratingResp) {
+                                                $scope.jobs_invoice[jobIdx].rating = ratingResp.meta["average-score"];
+                                            });
                                         });
                                     }
                                 }

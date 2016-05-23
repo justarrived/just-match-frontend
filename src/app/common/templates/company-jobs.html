@@ -69,7 +69,9 @@
                     <div>
                         <h3>{{job.attributes.name}}</h3>
                         <p><em>{{'assignment.status.you_hired' | translate}} {{job.attributes["first-name"]}} {{job.attributes["last-name"]}}</em></p>
-                        <p>{{'assignment.status.rate' | translate}}:<br><span class="stars">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+                        <p>{{'assignment.status.rate' | translate}}:<br>
+                            <span class="stars_i"><span style="width : calc( 0{{job.rating}} * 16px );" title="{{job.rating}}"></span></span>
+                        </p>
                     </div>
                     <div>
                         <div class="user-info-image" back-img="{{job.attributes['image-url-small']}}"></div>
