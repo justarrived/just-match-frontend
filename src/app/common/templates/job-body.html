@@ -1,7 +1,7 @@
 <div class="job-body-heading">
     <div>
-        <span>{{ job.totalRate | number }}</span><br>
-        <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number }} {{ job.currency
+        <span>{{ job.totalRate | number:0 }} {{ job.currency }}</span><br>
+        <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number:0 }} {{ job.currency
             }}/{{'common.hour' | translate}})</em>
     </div>
     <div>
@@ -30,7 +30,7 @@
             <li class="job-description translated" ng-show="dt.job_item">{{ job.attributes.description_translation.text
                 }}
             </li>
-            <li class="job-description translated" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
+            <li class="job-description" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
         </ul>
         <ul>
             <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>

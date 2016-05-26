@@ -32,6 +32,17 @@ angular.module('just.service')
                     }, reject);
             });
 
+            this.reloadLang = function(){
+                if(!this.allLanguages){
+                    this.allLanguages = $q(function (resolve, reject) {
+                        datastoreService.fetch('languages?filter[system_language]=true')
+                            .then(function (data) {
+                                resolve(data.store.findAll('languages'));
+                            }, reject);
+                    });
+                }
+            };
+
             this.langResolve = function () {
                 return $q(function (resolve, reject) {
                     that.allLanguages.then(function (langs) {

@@ -41,23 +41,47 @@
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
-            <a href="" ng-click="ctrl.toggleDT('joblist_item')"><i ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
+            <a href="" ng-click="ctrl.toggleDT('candidate_item')"><i ng-class="dt.candidate_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-paper"></i>{{"profile.form.presentation" | translate}}</h3>
-            <p>{{ctrl.candidate_model.description}}</p>
+            <div ng-if="ctrl.candidate_model.translation.description.from == ctrl.candidate_model.translation.description.to">
+                <p>{{ctrl.candidate_model.description}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.description.from != ctrl.candidate_model.translation.description.to" >
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model.description}}</p>
+                <p ng-show="dt.candidate_item" class="translated">{{ctrl.candidate_model.translation.description.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-star"></i>{{"profile.form.experience" | translate}}</h3>
-            <p>{{ctrl.candidate_model["job-experience"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.job_experience.from == ctrl.candidate_model.translation.job_experience.to">
+                <p>{{ctrl.candidate_model['job-experience']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.job_experience.from != ctrl.candidate_model.translation.job_experience.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['job-experience']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">{{ctrl.candidate_model.translation.job_experience.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-education"></i>{{"profile.form.education" | translate}}</h3>
-            <p>{{ctrl.candidate_model["education"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.education.from == ctrl.candidate_model.translation.education.to">
+                <p>{{ctrl.candidate_model['education']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.education.from != ctrl.candidate_model.translation.education.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['education']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">{{ctrl.candidate_model.translation.education.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-tool"></i>{{"profile.form.skills" | translate}}</h3>
-            <p>{{ctrl.candidate_model["competence-text"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.competence_text.from == ctrl.candidate_model.translation.competence_text.to">
+                <p>{{ctrl.candidate_model['job-experience']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.competence_text.from != ctrl.candidate_model.translation.competence_text.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['competence-text']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">{{ctrl.candidate_model.translation.competence_text.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-user3"></i>{{"profile.form.languages" | translate}}</h3>

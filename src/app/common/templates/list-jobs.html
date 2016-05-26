@@ -55,8 +55,8 @@
                             <div class="location"><span>{{job.attributes.street}} {{job.attributes.zip}}</span></div>
                         </div>
                         <div class="job-rate">
-                            <span>{{ job.totalRate | number }} {{ job.currency }}</span>
-                            <em>{{job.attributes.hours}} h ({{ job.max_rate | number }} {{ job.currency }}/h)</em>
+                            <span>{{ job.totalRate | number:0 }} {{ job.currency }}</span>
+                            <em>{{job.attributes.hours}} h ({{ job.max_rate | number:0 }} {{ job.currency }}/h)</em>
                         </div>
                     </div>
                 </div>
