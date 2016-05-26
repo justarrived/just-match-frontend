@@ -303,7 +303,7 @@ module.exports = function (grunt) {
                     // And more servers here
                 ],
                 options: {
-                    port: 9000,
+                    port: process.env.SERVER_PORT || 9000,
                     hostname: '0.0.0.0',
                     base: '<%= build_dir %>',
                     open: false,
