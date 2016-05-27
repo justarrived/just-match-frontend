@@ -330,6 +330,7 @@ angular.module('just.common')
             };
 
             this.defaultConfirm = function(){
+                userService.clearUserModel();
                 flow.push(function () {
                     flow.completed(routes.user.user.url);
                 });
