@@ -6,7 +6,7 @@
  * Service to handle Chat.
  */
 angular.module('just.service')
-    .service('chatService', ['i18nService', 'Resources', 'authService', function (i18nService, Resources, authService) {
+    .service('chatService', ['i18nService', 'Resources', 'authService','$q', function (i18nService, Resources, authService,$q) {
 
         var that = this;
 
@@ -21,13 +21,17 @@ angular.module('just.service')
             return Resources.chats.get();
         };
 
+        this.getChat = function () {
+            return Resources.chat.get({id: that.chatId, 'include': 'user-images'});
+        };
+
         this.getChatMessage = function () {
             if (angular.isObject(that.chatId)) {
+                that.chatMessages = {data: []};
                 return that.chatMessages;
-            }else{
-                return Resources.chatMessage.get({id: that.chatId, 'include': 'author,author.user-images'});
+            } else {
+                return Resources.chatMessage.get({id: that.chatId, 'include': 'author'});
             }
-
         };
 
         this.getUserChat = function () {
@@ -48,6 +52,7 @@ angular.module('just.service')
                 that.chatId = undefined;
             } else {
                 that.chatId = chat_id;
+                that.chatDetail = that.getChat();
             }
         };
 
