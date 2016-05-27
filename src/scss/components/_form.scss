@@ -17,10 +17,12 @@ select {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
 }
+
 input[type="date"] {
   min-height: 42px;
   text-transform: uppercase;
 }
+
 label {
   font-weight: 400;
 }
@@ -41,10 +43,12 @@ label {
   text-align: left;
   line-height: 1.3em;
 }
+
 .text-danger {
   color: $pink;
   display: block;
 }
+
 .ng-valid.ng-touched {
 }
 
@@ -424,6 +428,10 @@ oi-select .select-search {
     -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
 
+    &.cursor-auto {
+      cursor: auto !important;
+    }
+
     input[type="file"] {
       width: 85px;
       height: 85px;
@@ -482,6 +490,10 @@ oi-select .select-search {
     }
     .icon-camera {
       opacity: 1;
+    }
+    .user-info-image.noblur {
+      -webkit-filter: blur(0px);
+      filter: blur(0px);
     }
   }
 
