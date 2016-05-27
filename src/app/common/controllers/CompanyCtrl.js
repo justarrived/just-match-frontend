@@ -13,6 +13,8 @@ angular
             this.message = companyService.registerMessage;
             this.messageU = userService.registerMessage;
             this.company_image = "assets/images/content/placeholder-logo.png";
+            this.uploadingCompany = false;
+            this.uploadingUser = false;
 
             authService.checkPromoCode();
 
@@ -182,11 +184,14 @@ angular
                     var formData = new FormData();
 
                     var element0 = angular.element("#file_upload");
-
+                    that.uploadingCompany = true;
                     formData.append("image", element0[0].files[0]);
                     httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'companies/images', formData, function (callback) {
                         that.data['company-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.company_image = callback.data.attributes["image-url-small"];
+                        that.uploadingCompany = false;
+                    },function(err){
+                        that.uploadingCompany = false;
                     });
                 }
             };
@@ -198,11 +203,14 @@ angular
                     var formData = new FormData();
 
                     var element0 = angular.element("#file_upload2");
-
+                    that.uploadingUser = true;
                     formData.append("image", element0[0].files[0]);
                     httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
                         that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
+                        that.uploadingUser = false;
+                    },function(err){
+                        that.uploadingUser = false;
                     });
                 }
             };
