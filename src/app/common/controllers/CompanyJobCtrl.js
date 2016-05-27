@@ -979,6 +979,7 @@ angular.module('just.common')
 
             this.setChatId_get = function (chat_id) {
                 that.chatId = chat_id;
+                that.getChatMessage();
             };
 
             this.getChatMessage = function () {
@@ -1001,6 +1002,7 @@ angular.module('just.common')
                                 that.chatMessages.data[key].author.user_image = $scope.job.company_image;
                             } else {
                                 that.chatMessages.data[key].author = found_author[0];
+
                                 if (found_author[0].relationships["user-images"].data.length > 0) {
                                     var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
                                     if (found_image.length > 0) {

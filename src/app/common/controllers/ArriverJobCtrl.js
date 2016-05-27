@@ -340,7 +340,7 @@ angular.module('just.common')
                 var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
-                if(that.chatMessages.$promise){
+                if (that.chatMessages.$promise) {
                     that.chatMessages.$promise.then(function (response) {
                         angular.forEach(response.data, function (obj, key) {
                             var found_author = $filter('filter')(response.included, {
@@ -355,6 +355,7 @@ angular.module('just.common')
                                     that.chatMessages.data[key].author.user_image = $scope.job.company_image;
                                 } else {
                                     that.chatMessages.data[key].author = found_author[0];
+
                                     if (found_author[0].relationships["user-images"].data.length > 0) {
                                         var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
                                         if (found_image.length > 0) {
@@ -407,14 +408,14 @@ angular.module('just.common')
                     }
                 };
                 Resources.termsConsents.create({}, consentData, function (result) {
-                    if(fn){
+                    if (fn) {
                         fn();
                     }
                 }, function (err) {
                     /*$scope.terms = 0;
-                    $scope.isWillPerform = false;
-                    $scope.userModalPerformShow = 1;*/
-                    if(fn){
+                     $scope.isWillPerform = false;
+                     $scope.userModalPerformShow = 1;*/
+                    if (fn) {
                         fn();
                     }
                 });
