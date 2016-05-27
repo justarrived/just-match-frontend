@@ -340,39 +340,40 @@ angular.module('just.common')
                 var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
-                that.chatMessages.$promise.then(function (response) {
-                    //console.log(that.chatMessages);
-                    angular.forEach(response.data, function (obj, key) {
-                        var found_author = $filter('filter')(response.included, {
-                            type: 'users',
-                            id: obj.relationships.author.data.id
-                        }, true);
-                        if (found_author.length > 0) {
-                            if (found_author[0].relationships.company.data) {
-                                // is company
-                                that.chatMessages.data[key].author = {attributes: {}};
-                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
-                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
-                            } else {
-                                that.chatMessages.data[key].author = found_author[0];
-                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                if(that.chatMessages.$promise){
+                    that.chatMessages.$promise.then(function (response) {
+                        angular.forEach(response.data, function (obj, key) {
+                            var found_author = $filter('filter')(response.included, {
+                                type: 'users',
+                                id: obj.relationships.author.data.id
+                            }, true);
+                            if (found_author.length > 0) {
+                                if (found_author[0].relationships.company.data) {
+                                    // is company
+                                    that.chatMessages.data[key].author = {attributes: {}};
+                                    that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                    that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                                } else {
+                                    that.chatMessages.data[key].author = found_author[0];
+                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                }
                             }
-                        }
-                        if (that.chatMessages.data[key].attributes.body) {
-                            gtService.translate(that.chatMessages.data[key].attributes.body)
-                                .then(function (translation) {
-                                    that.chatMessages.data[key].translation = {};
-                                    that.chatMessages.data[key].translation.text = translation.translatedText;
-                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
-                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
-                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
-                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
-                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
-                                });
-                        }
+                            if (that.chatMessages.data[key].attributes.body) {
+                                gtService.translate(that.chatMessages.data[key].attributes.body)
+                                    .then(function (translation) {
+                                        that.chatMessages.data[key].translation = {};
+                                        that.chatMessages.data[key].translation.text = translation.translatedText;
+                                        that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
+                                        that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
+                                        that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        that.chatMessages.data[key].translation.to = translation.targetLanguage;
+                                        that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
+                                        that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                    });
+                            }
+                        });
                     });
-                });
+                }
             };
 
             // Create Bank Account for USER
