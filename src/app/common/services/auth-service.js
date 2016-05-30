@@ -69,6 +69,7 @@ angular.module('just.service')
             };
 
             this.checkPromoCode = function () {
+                var d = $q.defer();
                 if (!that.isAuthenticated()) {
                     if (settings.promo_code_check) {
                         //get promocode from querystring
@@ -86,6 +87,7 @@ angular.module('just.service')
                             storage.remove('promocode');
                             delete $http.defaults.headers.common["X-API-PROMO-CODE"];
                             flow.completed(routes.global.promo.url, 0);
+                            d.resolve(0);
                         } else {
                             Resources.promoCode.create({}, promoData, function (response) {
                                 storage.set("promocode", promocode);
@@ -97,16 +99,23 @@ angular.module('just.service')
                                     $http.defaults.headers.common["X-API-PROMO-CODE"] = promocode;
                                 }
 
+                                d.resolve(1);
+
                             }, function (err) {
                                 storage.remove('promocode');
                                 delete $http.defaults.headers.common["X-API-PROMO-CODE"];
                                 flow.completed(routes.global.promo.url, 0);
+                                d.resolve(0);
                             });
                         }
+                    }else{
+                        d.resolve(1);
                     }
                 } else {
                     delete $http.defaults.headers.common["X-API-PROMO-CODE"];
+                    d.resolve(1);
                 }
+                return d.promise;
             };
         }]
     );
