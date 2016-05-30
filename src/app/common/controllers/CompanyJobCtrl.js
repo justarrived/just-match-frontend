@@ -1000,8 +1000,6 @@ angular.module('just.common')
                 $scope.modalPerformShow = true;
                 $scope.isPerformed = true;
             };
-
-            $scope.currTab = 3;
         }])
     .controller('CompanyJobsCandidateChatCtrl', ['authService', 'i18nService', 'chatService', 'justFlowService', 'justRoutes',
         'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources', '$http', 'settings', 'gtService',
@@ -1112,8 +1110,5 @@ angular.module('just.common')
                         }
                     });
                 });
-
             };
-
         }]);
-

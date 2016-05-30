@@ -656,7 +656,12 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         background: none;
         font-size: 1.2em;
         white-space: nowrap;
+        &[disabled]{
+          background: none !important;
+          color: $midgrey !important;
+        }
       }
+
       > div {
         display: table-cell;
         vertical-align: middle;
