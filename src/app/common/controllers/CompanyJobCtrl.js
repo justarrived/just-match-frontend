@@ -20,9 +20,13 @@ angular.module('just.common')
 
             this.company_jobs_tab = 1;
 
-            authService.checkPromoCode();
-
-            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job-users");
 
@@ -192,9 +196,13 @@ angular.module('just.common')
             $scope.job_obj = {id: $routeParams.id};
             this.ratingModel = ratingService.ratingModel;
 
-            authService.checkPromoCode();
-
-            userService.needSignin();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
 
             this.model = userService.userModel();
@@ -440,14 +448,20 @@ angular.module('just.common')
             };
         }
     ])
-    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams',
+    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', 'justRoutes', '$routeParams',
         '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService', 'gtService',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
+        function (jobService, authService, i18nService, commentService, flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
 
-            authService.checkPromoCode();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);
@@ -543,12 +557,18 @@ angular.module('just.common')
                 });
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'authService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
-        function (jobService, flow, authService, userService, $routeParams, $scope, $q, $filter, Resources) {
+    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
+        function (jobService, flow, routes, authService, userService, $routeParams, $scope, $q, $filter, Resources) {
             var that = this;
             this.job_id = $routeParams.id;
 
-            authService.checkPromoCode();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.candidates = [];
 
@@ -653,9 +673,13 @@ angular.module('just.common')
 
             this.chatModel.data.attributes["user-ids"] = [];
 
-            authService.checkPromoCode();
-
-            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
