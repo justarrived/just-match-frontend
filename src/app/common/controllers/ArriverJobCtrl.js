@@ -11,9 +11,13 @@ angular.module('just.common')
 
             that.isCompany = 0;
 
-            authService.checkPromoCode();
-
-            userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.jobbs = jobService.getUserJobs({
                 user_id: authService.userId().id,
@@ -80,59 +84,10 @@ angular.module('just.common')
                 });
             });
 
-            /*this.getUserPerformedJobs = function (user_id) {
-             $scope.userPerformedJobss = jobService.getUserJobs({
-             user_id: user_id,
-             "include": "job",
-             "filter[will-perform]": true
-             });
-
-             $scope.userPerformedJobss.$promise.then(function (response) {
-
-             var found_job = $filter('filter')(response.included, {type: 'jobs'}, true);
-             if(found_job.length>0){
-             angular.forEacj
-             }
-
-
-             $scope.userPerformedJobs = $filter('filter')(response.included, {type: 'jobs'}, true);
-
-             if ($scope.userPerformedJobs) {
-             Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-             if (found_rating.length > 0) {
-             $scope.userPerformedJobs[idx].rating = found_rating[0];
-             }
-             });
-             });
-             }
-
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
-             });
-
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             Resources.company.get({
-             company_id: "" + obj.relationships.company.data.id,
-             "include": "company-images"
-             }, function (result) {
-             if (result.included) {
-             $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
-             }
-             });
-
-
-             });
-
-             });
-             };*/
-
             this.gotoUserJobPage = function (obj) {
                 flow.redirect(routes.arriver.job_manage.resolve(obj));
             };
 
-            //this.getUserPerformedJobs(parseInt(authService.userId().id));
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
@@ -162,7 +117,13 @@ angular.module('just.common')
 
             this.chatId = chatService.chatId;
 
-            authService.checkPromoCode();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             i18nService.addLanguageChangeListener(function () {
                     that.getChatMessage();
@@ -177,8 +138,6 @@ angular.module('just.common')
             $scope.currTab = 1;
 
             $scope.job_obj = {id: $routeParams.id};
-
-            userService.needSignin();
 
             this.model = userService.userModel();
             if (this.model) {
@@ -450,13 +409,21 @@ angular.module('just.common')
                 $scope.userModalPerformShow = false;
             };
         }])
-    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService) {
+    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'commentService',
+        'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
+        function (jobService, authService, i18nService, userService, commentService,
+                  flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
 
-            authService.checkPromoCode();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);
