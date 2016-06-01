@@ -663,15 +663,10 @@ angular.module('just.common')
             this.hasInvoice = false;
 
             chatService.clearChat();
-            this.chatModel = chatService.chatModel;
-            this.chatMessageModel = chatService.chatMessageModel;
             this.chatId = undefined;
-            this.chatMessages = undefined;
             this.canPerformed = false;
 
             this.ratingModel = ratingService.ratingModel;
-
-            this.chatModel.data.attributes["user-ids"] = [];
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
@@ -686,7 +681,6 @@ angular.module('just.common')
             };
 
             i18nService.addLanguageChangeListener(function () {
-                    that.getChatMessage();
                     that.translateCandidate(that.candidate_model);
                 }
             );
@@ -697,6 +691,12 @@ angular.module('just.common')
             this.toggleDT = function (textId) {
                 $scope.dt[textId] = !$scope.dt[textId];
             };
+
+            if (flow.next_data) {
+                that.chatId = flow.next_data;
+                $scope.currTab = 3;
+                flow.next_data = undefined;
+            }
 
             this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
@@ -776,14 +776,6 @@ angular.module('just.common')
                         }, function (resultImage) {
                             $scope.job.company_image = resultImage.data.attributes["image-url-small"];
                         });
-                    }
-
-                    if (flow.next_data) {
-                        that.chatId = flow.next_data;
-                        chatService.setChatId(that.chatId);
-                        that.getChatMessage();
-                        $scope.currTab = 3;
-                        flow.next_data = undefined;
                     }
                 });
 
@@ -878,25 +870,6 @@ angular.module('just.common')
                                  }*/
                             }, 6000);
                         }
-                    }
-
-                    if (!that.chatId) {
-                        that.userChats = chatService.getUserChat();
-                        that.userChats.$promise.then(function (response) {
-                            var keepGoing = true;
-                            angular.forEach(response.data, function (obj, key) {
-                                if (keepGoing) {
-                                    that.user_id = authService.userId().id;
-                                    var found = $filter('filter')(obj.relationships.users.data, {id: that.user_apply.id}, true);
-                                    if (found.length > 0) {
-                                        that.chatId = obj.id;
-                                        chatService.setChatId(that.chatId);
-                                        that.getChatMessage();
-                                        keepGoing = false;
-                                    }
-                                }
-                            });
-                        });
                     }
                 });
             };
@@ -995,8 +968,115 @@ angular.module('just.common')
                 ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
             };
 
+            this.fn = function (result) {
+                if (result === 1) {
+                    that.getJobData();
+                }
+                $scope.modalShow = false;
+
+                // clear owner create invoice
+                $scope.isPerformed = false;
+                $scope.modalPerformShow = false;
+            };
+
+            this.calcRemainTime = function () {
+                var acceptedDate = new MyDate(new Date());
+                acceptedDate.setISO8601(that.accepted_at);
+                var willPeformDate = new MyDate(new Date());
+                willPeformDate.setISO8601(that.will_perform_confirmation_by);
+                var nowDate = new Date();
+                var diffMs = (willPeformDate.date - nowDate);
+                var diffMins = Math.round(diffMs / 60000); // minutes
+                var remainTime = diffMins;
+                that.remainHours = Math.floor((remainTime) / 60);
+                that.remainMinutes = remainTime - (that.remainHours * 60);
+                /*if (remainTime <= 0) {
+                 that.accepted = false;
+                 that.accepted_at = null;
+                 that.user_apply = {};
+                 }*/
+                return remainTime;
+            };
+
+            this.checkJobDate = function (job_date) {
+                var jobDate = new MyDate(new Date());
+                jobDate.setISO8601(job_date);
+                var nowDate = new Date();
+
+                if (nowDate < jobDate.date) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            this.showConfirm = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = false;
+            };
+
+            this.hideConfirm = function () {
+                $scope.modalPerformShow = false;
+                $scope.isPerformed = true;
+            };
+
+            this.showRatingform = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = true;
+            };
+        }])
+    .controller('CompanyJobsCandidateChatCtrl', ['authService', 'i18nService', 'chatService', 'justFlowService', 'justRoutes',
+        'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources', '$http', 'settings', 'gtService',
+        function (authService, i18nService, chatService, flow, routes, userService, $routeParams, $scope, $q, $filter, Resources, $http, settings, gtService) {
+            var that = this;
+
+            this.disableChat = true;
+
+            this.chatId = $scope.ctrl.chatId;
+            this.chatModel = chatService.chatModel;
+            this.chatMessageModel = chatService.chatMessageModel;
+            this.chatModel.data.attributes["user-ids"] = [];
+
+            $scope.$watch('ctrl.user_apply', function (data) {
+                if (data.id) {
+                    that.setChatValue(data);
+                }
+            });
+
+            i18nService.addLanguageChangeListener(function () {
+                    that.getChatMessage();
+                }
+            );
+
+            this.setChatValue = function (user_apply) {
+                if (!that.chatId) {
+                    that.userChats = chatService.getUserChat();
+                    that.userChats.$promise.then(function (response) {
+                        var keepGoing = true;
+                        angular.forEach(response.data, function (obj, key) {
+                            if (keepGoing) {
+                                that.user_id = authService.userId().id;
+                                var found = $filter('filter')(obj.relationships.users.data, {id: user_apply.id}, true);
+                                if (found.length > 0) {
+                                    that.chatId = obj.id;
+                                    chatService.setChatId(that.chatId);
+                                    that.getChatMessage();
+                                    keepGoing = false;
+                                }
+                            }
+                        });
+                        that.disableChat = false;
+                    });
+                } else {
+                    chatService.setChatId(that.chatId);
+                    that.getChatMessage();
+                    that.disableChat = false;
+                }
+            };
+
+
             this.submitChat = function () {
-                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, that.user_apply.id];
+                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, $scope.ctrl.user_apply.id];
                 that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
                 chatService.newChatMessage(that.setChatId_get);
             };
@@ -1054,65 +1134,5 @@ angular.module('just.common')
                         }
                     });
                 });
-
             };
-
-            this.fn = function (result) {
-                if (result === 1) {
-                    that.getJobData();
-                }
-                $scope.modalShow = false;
-
-                // clear owner create invoice
-                $scope.isPerformed = false;
-                $scope.modalPerformShow = false;
-            };
-
-            this.calcRemainTime = function () {
-                var acceptedDate = new MyDate(new Date());
-                acceptedDate.setISO8601(that.accepted_at);
-                var willPeformDate = new MyDate(new Date());
-                willPeformDate.setISO8601(that.will_perform_confirmation_by);
-                var nowDate = new Date();
-                var diffMs = (willPeformDate.date - nowDate);
-                var diffMins = Math.round(diffMs / 60000); // minutes
-                var remainTime = diffMins;
-                that.remainHours = Math.floor((remainTime) / 60);
-                that.remainMinutes = remainTime - (that.remainHours * 60);
-                /*if (remainTime <= 0) {
-                 that.accepted = false;
-                 that.accepted_at = null;
-                 that.user_apply = {};
-                 }*/
-                return remainTime;
-            };
-
-            this.checkJobDate = function (job_date) {
-                var jobDate = new MyDate(new Date());
-                jobDate.setISO8601(job_date);
-                var nowDate = new Date();
-
-                if (nowDate < jobDate.date) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-            this.showConfirm = function () {
-                $scope.modalPerformShow = true;
-                $scope.isPerformed = false;
-            };
-
-            this.hideConfirm = function () {
-                $scope.modalPerformShow = false;
-                $scope.isPerformed = true;
-            };
-
-            this.showRatingform = function () {
-                $scope.modalPerformShow = true;
-                $scope.isPerformed = true;
-            };
-
         }]);
-
