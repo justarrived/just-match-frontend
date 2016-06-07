@@ -13,7 +13,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -40,10 +40,10 @@ angular.module('just.common')
                                 obj.attributes.text_status = "user.apply.confirmation";
                             }
                             if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                    //obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
-                                    obj.attributes.text_status = "Company vill anlita dig";
-                                });
+                                obj.attributes.text_status = "assignment.status.user_company_hire";
+                                /*Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                    $scope.company_name_hiring = result.included[0].attributes.name;
+                                });*/
                             }
                             if (found[0].attributes["will-perform"]) {
                                 obj.attributes.text_status = "assignment.status.you_hired";
@@ -101,8 +101,6 @@ angular.module('just.common')
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 18;
-            this.remainMinutes = 0;
             this.hasInvoice = false;
             this.isCompany = 0;
             this.canPerformed = false;
@@ -119,7 +117,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -191,6 +189,7 @@ angular.module('just.common')
             this.getJobData = function () {
                 $scope.jobb = jobService.getJob($routeParams.id, 'company');
                 $scope.jobb.$promise.then(function (response) {
+                    console.log(response.data);
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
                     that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
@@ -317,10 +316,11 @@ angular.module('just.common')
 
                                     if (found_author[0].relationships["user-images"].data.length > 0) {
                                         var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
-                                        if (found_image.length > 0) {
-                                            that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
-                                        } else {
-                                            that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                        if(found_image){
+                                            if (found_image.length > 0) {
+                                                that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
+                                            }
                                         }
                                     } else {
                                         that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
@@ -419,7 +419,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }

@@ -13,7 +13,7 @@
 
                 authService.checkPromoCode();
 
-                userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
+                userService.checkCompanyUser(routes.global.start.url);
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
@@ -126,7 +126,7 @@
 
             authService.checkPromoCode();
 
-            userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url);
+            userService.checkCompanyUser(routes.global.start.url);
 
             this.model = jobService.jobModel;
             $scope.job = jobService.jobModel.data;
