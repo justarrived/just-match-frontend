@@ -13,7 +13,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -42,7 +42,7 @@ angular.module('just.common')
                             if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
                                 Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
                                     //obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
-                                    obj.attributes.text_status = "Company vill anlita dig";
+                                    obj.attributes.text_status = "assignment.status.user_company_hire";
                                 });
                             }
                             if (found[0].attributes["will-perform"]) {

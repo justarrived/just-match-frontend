@@ -298,6 +298,7 @@
   "assignment.status.user_application": "{{candidate_name}} har sökt uppdraget",
   "assignment.status.user_application.approve": "Anlita",
   "assignment.status.user_application.approved": "Du har erbjudit {{candidate_name}} att ta uppdraget",
+  "assignment.status.user_company_hire": "Company vill anlita dig",
   "assignment.status.user_application.time_remaining": "kvar att acceptera uppdraget",
   "assignment.status.user_application.will_perform": "{{candidate_name}} kommer utföra uppdraget",
   "assignment.status.user_application.rejected": "{{candidate_name}} har tackat nej till att utföra uppdraget",
