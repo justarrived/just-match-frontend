@@ -216,7 +216,7 @@ angular.module('just.service')
                 });
             };
 
-            this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
+            this.checkArriverUser = function (warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
                     flow.replace(routes.user.select.url, function () {
@@ -224,9 +224,7 @@ angular.module('just.service')
                     });
                 } else {
                     var warning = {
-                        text: warningText,
                         redirect: {
-                            title: warningLabel,
                             url: warningUrl
                         }
                     };
@@ -249,7 +247,7 @@ angular.module('just.service')
                 }
             };
 
-            this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
+            this.checkCompanyUser = function (warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
                     flow.replace(routes.user.selectCompany.url, function () {
@@ -257,9 +255,7 @@ angular.module('just.service')
                     });
                 } else {
                     var warning = {
-                        text: warningText,
                         redirect: {
-                            title: warningLabel,
                             url: warningUrl
                         }
                     };

@@ -119,7 +119,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -419,7 +419,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                    userService.checkArriverUser(routes.global.start.url);
                 } else {
                     return;
                 }

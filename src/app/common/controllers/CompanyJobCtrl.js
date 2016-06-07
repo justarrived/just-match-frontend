@@ -22,7 +22,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                    userService.checkCompanyUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -198,7 +198,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                    userService.checkCompanyUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -457,7 +457,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                    userService.checkCompanyUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -564,7 +564,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                    userService.checkCompanyUser(routes.global.start.url);
                 } else {
                     return;
                 }
@@ -670,7 +670,7 @@ angular.module('just.common')
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
-                    userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+                    userService.checkCompanyUser(routes.global.start.url);
                 } else {
                     return;
                 }
