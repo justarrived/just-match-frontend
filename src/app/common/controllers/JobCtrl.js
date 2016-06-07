@@ -295,7 +295,7 @@
                         }
                         $scope.jobs = jobService.getJobsPage(paramVal);
                     } else {
-                        $scope.jobs = jobService.getJobs(url);
+                        $scope.jobs = jobService.getJobsNoFilled(url);
                     }
 
                     $scope.jobs.$promise.then(function (result) {
@@ -681,7 +681,7 @@
                         }
                         $scope.jobs_more = jobService.getJobsPage(paramVal);
                     } else {
-                        $scope.jobs_more = jobService.getJobs(url);
+                        $scope.jobs_more = jobService.getJobsNoFilled(url);
                     }
 
                     $scope.jobs_more.$promise.then(function (result) {
