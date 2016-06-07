@@ -2,9 +2,7 @@ angular.module('just.common')
     .controller('WarningCtrl', ['justFlowService', 'justRoutes', function (flow, routes) {
         var that = this;
         that.warning = {
-            text: 'warning text',
             redirect: {
-                title: "Home",
                 url: routes.global.start.url
             }
         };
