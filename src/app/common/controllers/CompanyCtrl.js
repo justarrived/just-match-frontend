@@ -5,8 +5,8 @@ angular
      * @name just.common.controller:CompanyCtrl
      *
      */
-    .controller('RegisterCompanyCtrl', ['companyService', 'authService', 'userService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', 'settings', 'httpPostFactory',
-        function (companyService, authService, userService, $scope, flow, routes, Resources, $q, $filter, settings, httpPostFactory) {
+    .controller('RegisterCompanyCtrl', ['companyService', 'authService', 'userService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', 'settings', 'httpPostFactory', '$translate',
+        function (companyService, authService, userService, $scope, flow, routes, Resources, $q, $filter, settings, httpPostFactory, $translate) {
             var that = this;
 
             this.data = companyService.registerModel;
@@ -40,7 +40,7 @@ angular
                 this.data.cin = "";
             }
 
-            Resources.companyTermsAgreements.get(function(result){
+            Resources.companyTermsAgreements.get(function (result) {
                 that.termsId = result.data.id;
                 that.termsAgreements = result.data.attributes.url;
             });
@@ -107,7 +107,7 @@ angular
                     $scope.isNew = 0;
                     that.selectedCompany.data = item;
                 },
-                addText: 'Create new company',
+
                 onAdd: function () {
                     $scope.isAddNewCIN = true;
                     that.data.cin = $scope.searchTerm;
@@ -190,7 +190,7 @@ angular
                         that.data['company-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.company_image = callback.data.attributes["image-url-small"];
                         that.uploadingCompany = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploadingCompany = false;
                     });
                 }
@@ -209,7 +209,7 @@ angular
                         that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
                         that.uploadingUser = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploadingUser = false;
                     });
                 }
