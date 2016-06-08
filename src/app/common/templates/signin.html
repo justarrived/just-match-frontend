@@ -3,10 +3,10 @@
         <h1>{{'login.title' | translate}}</h1>
         <form name="form" novalidate ng-submit="ctrl.process()">
             <div class="material-input">
-                <validation2 form="form" field="email" errormsg="login.form.username.validation">
+                <validation2 form="form" field="email" errormsg="user.form.email.validation">
                     <div class="group">
                         <input type="email" name="email" required ng-model="ctrl.data.email" ng-keyup="form.email.error_detail = undefined">
-                        <label>{{'login.form.username' | translate}}</label>
+                        <label>{{'user.form.email' | translate}}</label>
                     </div>
                 </validation2>
 
