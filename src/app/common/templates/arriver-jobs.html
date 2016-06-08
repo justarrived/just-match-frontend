@@ -21,6 +21,16 @@
                     </div>
                 </li>
             </ul>
+            <div class="nav-job-list-bottom">
+                <button class="button-first" ng-click="getUserJobsPage('first');"
+                        ng-disabled="!jobbs.links.first"></button>
+                <button class="button-prev" ng-click="getUserJobsPage('prev');"
+                        ng-disabled="!jobbs.links.prev"></button>
+                <button class="button-next" ng-click="getUserJobsPage('next');"
+                        ng-disabled="!jobbs.links.next"></button>
+                <button class="button-last" ng-click="getUserJobsPage('last');"
+                        ng-disabled="!jobbs.links.last"></button>
+            </div>
         </div>
         <div ng-show="ctrl.arriver_jobs_tab===2">
             <div class="candidate-referencer">

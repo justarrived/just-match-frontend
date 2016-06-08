@@ -1,8 +1,8 @@
 angular.module('just.common')
 
 
-    .controller('ArriverJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources',
-        function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources) {
+    .controller('ArriverJobsCtrl', ['authService', 'justFlowService', 'justRoutes', 'userService', 'jobService', '$scope', '$q', '$filter', 'Resources', 'settings',
+        function (authService, flow, routes, userService, jobService, $scope, $q, $filter, Resources, settings) {
             var that = this;
 
             $scope.jobs = {};
@@ -19,70 +19,164 @@ angular.module('just.common')
                 }
             });
 
-            $scope.jobbs = jobService.getUserJobs({
-                user_id: authService.userId().id,
-                "include": "job",
-                "page[size]": 50
-            });
-            $scope.jobbs.$promise.then(function (response) {
-                $scope.jobs = [];
-                $scope.userPerformedJobs = [];
+            $scope.getUserJobsPage = function (mode) {
+                var url = 'job';
+                var isNav = 0;
+                var i = 0;
 
-                angular.forEach(response.included, function (obj, key) {
+                if (['first', 'prev', 'next', 'last', 'self'].indexOf(mode) > -1) {
+                    url = $scope.jobbs.links[mode];
+                    isNav = 1;
+                } else {
+                    url = mode;
+                }
+
+                url = decodeURIComponent(url);
+                url = url.replace(settings.just_match_api + settings.just_match_api_version + 'users/' + authService.userId().id + '/jobs?', '');
+
+                var paramVal = {user_id: authService.userId().id};
+                if (isNav === 1) {
+                    var param = url.split('&');
+
+                    for (i = 0; i < param.length; i++) {
+                        var val = param[i].split('=');
+                        paramVal[val[0]] = val[1];
+                    }
+                } else {
+                    if (!url) {
+                        url = 'job';
+                    }
+                    paramVal.include = url;
+                }
+                $scope.jobbs = jobService.getUserJobs(paramVal);
+
+                $scope.jobbs.$promise.then(function (response) {
+                    $scope.jobs = [];
+                    $scope.userPerformedJobs = [];
+
+                    angular.forEach(response.included, function (obj, key) {
 
 
-                    var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-                    if (found.length > 0) {
+                        var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                        if (found.length > 0) {
 
-                        if (found[0].relationships.invoice.data === null) {
-                            obj["job-users"] = found[0];
-                            if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "user.apply.confirmation";
+                            if (found[0].relationships.invoice.data === null) {
+                                obj["job-users"] = found[0];
+                                if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                    obj.attributes.text_status = "user.apply.confirmation";
+                                }
+                                if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+                                    obj.attributes.text_status = "assignment.status.user_company_hire";
+                                    /*Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                     $scope.company_name_hiring = result.included[0].attributes.name;
+                                     });*/
+                                }
+                                if (found[0].attributes["will-perform"]) {
+                                    obj.attributes.text_status = "assignment.status.you_hired";
+                                }
+
+                                $scope.jobs.push(obj);
+                            } else {
+                                $scope.userPerformedJobs.push(obj);
                             }
-                            if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "assignment.status.user_company_hire";
-                                /*Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                    $scope.company_name_hiring = result.included[0].attributes.name;
-                                });*/
-                            }
-                            if (found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "assignment.status.you_hired";
-                            }
-
-                            $scope.jobs.push(obj);
-                        } else {
-                            $scope.userPerformedJobs.push(obj);
                         }
+
+                    });
+
+                    if ($scope.userPerformedJobs) {
+                        Resources.userRating.get({
+                            id: authService.userId().id,
+                            'include': 'comment'
+                        }, function (result) {
+                            angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                                var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+                                if (found_rating.length > 0) {
+                                    $scope.userPerformedJobs[idx].rating = found_rating[0];
+                                }
+                            });
+                        });
                     }
 
-                });
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
+                    });
 
-                if ($scope.userPerformedJobs) {
-                    Resources.userRating.get({id: authService.userId().id, 'include': 'comment'}, function (result) {
-                        angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-                            var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-                            if (found_rating.length > 0) {
-                                $scope.userPerformedJobs[idx].rating = found_rating[0];
+                    angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+                        Resources.company.get({
+                            company_id: "" + obj.relationships.company.data.id,
+                            "include": "company-images"
+                        }, function (result) {
+                            if (result.included) {
+                                $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
                             }
                         });
                     });
-                }
-
-                angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-                    $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
                 });
+            };
 
-                angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-                    Resources.company.get({
-                        company_id: "" + obj.relationships.company.data.id,
-                        "include": "company-images"
-                    }, function (result) {
-                        if (result.included) {
-                            $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
-                        }
-                    });
-                });
-            });
+            $scope.getUserJobsPage('job');
+
+            /*$scope.jobbs = jobService.getUserJobs({
+             user_id: authService.userId().id,
+             "include": "job",
+             "page[size]": 50
+             });
+             $scope.jobbs.$promise.then(function (response) {
+             $scope.jobs = [];
+             $scope.userPerformedJobs = [];
+
+             angular.forEach(response.included, function (obj, key) {
+
+
+             var found = $filter('filter')(response.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+             if (found.length > 0) {
+
+             if (found[0].relationships.invoice.data === null) {
+             obj["job-users"] = found[0];
+             if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+             obj.attributes.text_status = "user.apply.confirmation";
+             }
+             if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
+             obj.attributes.text_status = "assignment.status.user_company_hire";
+             }
+             if (found[0].attributes["will-perform"]) {
+             obj.attributes.text_status = "assignment.status.you_hired";
+             }
+
+             $scope.jobs.push(obj);
+             } else {
+             $scope.userPerformedJobs.push(obj);
+             }
+             }
+
+             });
+
+             if ($scope.userPerformedJobs) {
+             Resources.userRating.get({id: authService.userId().id, 'include': 'comment'}, function (result) {
+             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+             var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
+             if (found_rating.length > 0) {
+             $scope.userPerformedJobs[idx].rating = found_rating[0];
+             }
+             });
+             });
+             }
+
+             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+             $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
+             });
+
+             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
+             Resources.company.get({
+             company_id: "" + obj.relationships.company.data.id,
+             "include": "company-images"
+             }, function (result) {
+             if (result.included) {
+             $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
+             }
+             });
+             });
+             });*/
 
             this.gotoUserJobPage = function (obj) {
                 flow.redirect(routes.arriver.job_manage.resolve(obj));
@@ -317,7 +411,7 @@ angular.module('just.common')
                                     if (found_author[0].relationships["user-images"].data.length > 0) {
                                         var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
                                         that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
-                                        if(found_image){
+                                        if (found_image) {
                                             if (found_image.length > 0) {
                                                 that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
                                             }
