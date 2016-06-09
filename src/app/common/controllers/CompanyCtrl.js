@@ -5,8 +5,8 @@ angular
      * @name just.common.controller:CompanyCtrl
      *
      */
-    .controller('RegisterCompanyCtrl', ['companyService', 'authService', 'userService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', 'settings', 'httpPostFactory',
-        function (companyService, authService, userService, $scope, flow, routes, Resources, $q, $filter, settings, httpPostFactory) {
+    .controller('RegisterCompanyCtrl', ['companyService', 'authService', 'userService', '$scope', 'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', 'settings', 'httpPostFactory', '$translate',
+        function (companyService, authService, userService, $scope, flow, routes, Resources, $q, $filter, settings, httpPostFactory, $translate) {
             var that = this;
 
             this.data = companyService.registerModel;
@@ -40,46 +40,56 @@ angular
                 this.data.cin = "";
             }
 
-            Resources.companyTermsAgreements.get(function(result){
+            Resources.companyTermsAgreements.get(function (result) {
                 that.termsId = result.data.id;
                 that.termsAgreements = result.data.attributes.url;
             });
 
-            $scope.$watch('form', function (form) {
-                if (form) {
-                    if (that.message.data) {
-                        angular.forEach(that.message.data.errors, function (obj, key) {
-                            var pointer_arr = obj.source.pointer.split("/");
-                            var field_name = pointer_arr[pointer_arr.length - 1];
-                            field_name = field_name.replace(/-/g, "_");
-                            if ($scope.form[field_name]) {
-                                $scope.form[field_name].error_detail = obj.detail;
-                            }
-                        });
-
-                    }
-                    if (that.messageU.data) {
-                        angular.forEach(that.messageU.data.errors, function (obj, key) {
-                            var pointer_arr = obj.source.pointer.split("/");
-                            var field_name = pointer_arr[pointer_arr.length - 1];
-                            field_name = field_name.replace(/-/g, "_");
-                            if ($scope.form[field_name]) {
-                                $scope.form[field_name].error_detail = obj.detail;
-                            }
-                        });
-
-                    }
-                }
-            });
 
             this.process = function () {
                 that.data.terms_id = that.termsId;
+                that.message = {};
+                that.messageU = {};
                 if ($scope.isNew === 1) {
                     // Register and choose new company
-                    companyService.register(that.data);
+                    companyService.register(that.data, that.errorMessage, that.companyRegisterSuccess);
                 } else {
                     //Choose stored company
-                    companyService.choose(that.data);
+                    companyService.choose(that.data, that.errorMessage);
+                }
+            };
+
+            this.companyRegisterSuccess = function () {
+                $scope.isShowLogo = 1;
+                $scope.disableInput = true;
+                $scope.isNew = 0;
+            };
+
+            this.errorMessage = function () {
+                that.message = companyService.registerMessage;
+
+                if (that.message.data) {
+                    angular.forEach(that.message.data.errors, function (obj, key) {
+                        var pointer_arr = obj.source.pointer.split("/");
+                        var field_name = pointer_arr[pointer_arr.length - 1];
+                        field_name = field_name.replace(/-/g, "_");
+                        if ($scope.form[field_name]) {
+                            $scope.form[field_name].error_detail = obj.detail;
+                        }
+                    });
+                }
+
+                that.messageU = userService.registerMessage;
+                if (that.messageU.data) {
+                    angular.forEach(that.messageU.data.errors, function (obj, key) {
+                        var pointer_arr = obj.source.pointer.split("/");
+                        var field_name = pointer_arr[pointer_arr.length - 1];
+                        field_name = field_name.replace(/-/g, "_");
+                        if ($scope.form[field_name]) {
+                            $scope.form[field_name].error_detail = obj.detail;
+                        }
+                    });
+
                 }
             };
 
@@ -107,7 +117,7 @@ angular
                     $scope.isNew = 0;
                     that.selectedCompany.data = item;
                 },
-                addText: 'Create new company',
+
                 onAdd: function () {
                     $scope.isAddNewCIN = true;
                     that.data.cin = $scope.searchTerm;
@@ -190,7 +200,7 @@ angular
                         that.data['company-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.company_image = callback.data.attributes["image-url-small"];
                         that.uploadingCompany = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploadingCompany = false;
                     });
                 }
@@ -209,7 +219,7 @@ angular
                         that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
                         that.uploadingUser = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploadingUser = false;
                     });
                 }

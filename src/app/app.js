@@ -90,7 +90,7 @@ angular.module('just', [
                     controller: 'ConfirmationCtrl as ctrl'
                 }
             },
-            promo:{
+            promo: {
                 url: '/promo',
                 handler: {
                     templateUrl: 'common/templates/promo.html',
@@ -295,7 +295,7 @@ angular.module('just', [
             }
         }
     })
-    .run(['$rootScope', 'justRoutes', 'justFlowService', '$location', function ($rootScope, routes, flow, $location) {
+    .run(['$rootScope', 'justRoutes', 'justFlowService', '$location', '$translate','customSelectDefaults', function ($rootScope, routes, flow, $location, $translate,customSelectDefaults) {
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             $rootScope.$$childHead.ctrl.isStartPage = false;
             $rootScope.$$childHead.ctrl.isBackUrl = false;
@@ -311,6 +311,13 @@ angular.module('just', [
                 // then append only new params, but that's additional feature.
                 newUrl += '?' + oldUrl.split('?')[1];
             }
+        });
+
+        $translate('common.new_company').then(function (addText) {
+            customSelectDefaults.addText = addText;
+        });
+        $translate('common.select_company').then(function (selectText) {
+            customSelectDefaults.displayText = selectText;
         });
     }])
     .config(function ($routeProvider, $locationProvider, justRoutes, settings) {

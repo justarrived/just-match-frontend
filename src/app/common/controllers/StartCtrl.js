@@ -28,7 +28,7 @@ angular.module('just.common')
             authService.checkPromoCode();
 
             this.getNewJob = function () {
-                this.jobs = jobService.getJobs('company,hourly-pay');
+                this.jobs = jobService.getJobsNoFilled('company,hourly-pay');
                 this.jobs.$promise.then(function (response) {
                     var deferd = $q.defer();
 

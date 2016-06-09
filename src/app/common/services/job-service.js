@@ -40,6 +40,9 @@ angular.module('just.service')
             this.getJobs = function (include) {
                 return Resources.jobs.get({'include': include});
             };
+            this.getJobsNoFilled = function (include) {
+                return Resources.jobs.get({'include': include,'filter[filled]':'false'});
+            };
             this.getJobsPage = function (paramObj) {
                 return Resources.jobs.get(paramObj);
             };
