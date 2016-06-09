@@ -14,38 +14,33 @@ angular.module('just.service')
             this.registerMessage = {};
             this.companyList = [];
 
-            this.register = function (attributes, formData) {
-                if (formData) {
-                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'companies/images', formData, function (callback) {
-                        var image_token = {};
-                        image_token.data = {};
-                        image_token.data.attributes = {};
-                        image_token.data.attributes["user-image-one-time-token"] = callback.data.attributes["one-time-token"];
-                        attributes["company-image-one-time-token"] = image_token.data.attributes["user-image-one-time-token"];
-                        that.registerConfirm(attributes);
-                    });
-                } else {
-                    that.registerConfirm(attributes);
-                }
+            this.register = function (attributes, fn, fnSuccess) {
+                that.registerConfirm(attributes, fn, fnSuccess);
             };
 
-            this.registerConfirm = function (attributes) {
+            this.registerConfirm = function (attributes ,fn, fnSuccess) {
                 attributes.language_id = i18nService.getLanguage().$$state.value.id;
                 that.registerModel = attributes;
 
                 Resources.companies.create({data: {attributes: attributes}}, function (data) {
                     //flow.next(routes.user.register.url, data);
+                    if(fnSuccess){
+                        fnSuccess();
+                    }
                     attributes.company_id = data.data.id;
-                    userService.register(attributes);
+                    userService.register(attributes ,fn);
 
                 }, function (error) {
                     that.registerMessage = error;
-                    flow.reload(routes.company.register.url);
+                    if(fn){
+                        fn();
+                    }
+                    //flow.reload(routes.company.register.url);
                 });
             };
 
-            this.choose = function (attributes) {
-                userService.register(attributes);
+            this.choose = function (attributes, fn) {
+                userService.register(attributes ,fn);
             };
 
             this.addList = function (companyData) {
