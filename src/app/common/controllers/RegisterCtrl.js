@@ -36,20 +36,6 @@ angular.module('just.common')
                 }
             }
 
-            $scope.$watch('form', function (form) {
-                if (form) {
-                    if (that.message.data) {
-                        angular.forEach(that.message.data.errors, function (obj, key) {
-                            var pointer_arr = obj.source.pointer.split("/");
-                            var field_name = pointer_arr[pointer_arr.length - 1];
-                            field_name = field_name.replace(/-/g, "_");
-                            $scope.form[field_name].error_detail = obj.detail;
-                        });
-
-                    }
-                }
-            });
-
             $scope.fileNameChanged = function () {
                 // UPLOAD IMAGE
                 var element = angular.element("#file_upload");
@@ -71,15 +57,19 @@ angular.module('just.common')
             };
 
             this.process = function () {
-                /*var element0 = angular.element("#file_upload");
-                 if (element0[0].files[0]) {
-                 var formData = new FormData();
-                 var element = angular.element("#file_upload");
-                 formData.append("image", element[0].files[0]);
-                 userService.register(that.data, formData);
-                 } else {
-                 userService.register(that.data);
-                 }*/
-                userService.register(that.data);
+                that.message = {};
+                userService.register(that.data, that.errorMessage);
+            };
+
+            this.errorMessage = function () {
+                that.message = userService.registerMessage;
+                if (that.message.data) {
+                    angular.forEach(that.message.data.errors, function (obj, key) {
+                        var pointer_arr = obj.source.pointer.split("/");
+                        var field_name = pointer_arr[pointer_arr.length - 1];
+                        field_name = field_name.replace(/-/g, "_");
+                        $scope.form[field_name].error_detail = obj.detail;
+                    });
+                }
             };
         }]);

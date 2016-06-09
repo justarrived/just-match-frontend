@@ -45,41 +45,51 @@ angular
                 that.termsAgreements = result.data.attributes.url;
             });
 
-            $scope.$watch('form', function (form) {
-                if (form) {
-                    if (that.message.data) {
-                        angular.forEach(that.message.data.errors, function (obj, key) {
-                            var pointer_arr = obj.source.pointer.split("/");
-                            var field_name = pointer_arr[pointer_arr.length - 1];
-                            field_name = field_name.replace(/-/g, "_");
-                            if ($scope.form[field_name]) {
-                                $scope.form[field_name].error_detail = obj.detail;
-                            }
-                        });
-
-                    }
-                    if (that.messageU.data) {
-                        angular.forEach(that.messageU.data.errors, function (obj, key) {
-                            var pointer_arr = obj.source.pointer.split("/");
-                            var field_name = pointer_arr[pointer_arr.length - 1];
-                            field_name = field_name.replace(/-/g, "_");
-                            if ($scope.form[field_name]) {
-                                $scope.form[field_name].error_detail = obj.detail;
-                            }
-                        });
-
-                    }
-                }
-            });
 
             this.process = function () {
                 that.data.terms_id = that.termsId;
+                that.message = {};
+                that.messageU = {};
                 if ($scope.isNew === 1) {
                     // Register and choose new company
-                    companyService.register(that.data);
+                    companyService.register(that.data, that.errorMessage, that.companyRegisterSuccess);
                 } else {
                     //Choose stored company
-                    companyService.choose(that.data);
+                    companyService.choose(that.data, that.errorMessage);
+                }
+            };
+
+            this.companyRegisterSuccess = function () {
+                $scope.isShowLogo = 1;
+                $scope.disableInput = true;
+                $scope.isNew = 0;
+            };
+
+            this.errorMessage = function () {
+                that.message = companyService.registerMessage;
+
+                if (that.message.data) {
+                    angular.forEach(that.message.data.errors, function (obj, key) {
+                        var pointer_arr = obj.source.pointer.split("/");
+                        var field_name = pointer_arr[pointer_arr.length - 1];
+                        field_name = field_name.replace(/-/g, "_");
+                        if ($scope.form[field_name]) {
+                            $scope.form[field_name].error_detail = obj.detail;
+                        }
+                    });
+                }
+
+                that.messageU = userService.registerMessage;
+                if (that.messageU.data) {
+                    angular.forEach(that.messageU.data.errors, function (obj, key) {
+                        var pointer_arr = obj.source.pointer.split("/");
+                        var field_name = pointer_arr[pointer_arr.length - 1];
+                        field_name = field_name.replace(/-/g, "_");
+                        if ($scope.form[field_name]) {
+                            $scope.form[field_name].error_detail = obj.detail;
+                        }
+                    });
+
                 }
             };
 
