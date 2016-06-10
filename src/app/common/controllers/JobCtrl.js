@@ -11,9 +11,13 @@
                     submit: 'common.next_step'
                 };
 
-                authService.checkPromoCode();
-
-                userService.checkCompanyUser(routes.global.start.url);
+                authService.checkPromoCode().then(function (resp) {
+                    if (resp !== 0) {
+                        userService.checkCompanyUser(routes.global.start.url);
+                    } else {
+                        return;
+                    }
+                });
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
@@ -124,9 +128,13 @@
         .controller('ApproveJobCtrl', ['jobService', 'authService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, authService, userService, routes, $scope, $q) {
             var that = this;
 
-            authService.checkPromoCode();
-
-            userService.checkCompanyUser(routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             this.model = jobService.jobModel;
             $scope.job = jobService.jobModel.data;
