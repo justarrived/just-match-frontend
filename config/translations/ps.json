@@ -15,6 +15,8 @@
     "common.no": "نه",
     "common.edit": "ایډیټ",
     "common.register_account": "د نوي حساب راجستر کول",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "دمخه حساب لرئ؟",
     "common.login": "ننوتل",
     "common.password": "رمز",
@@ -39,6 +41,7 @@
     "common.updated": "Uppdaterad",
     "common.error.404": "Page not found",
     "common.or": "eller",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "د ژبې انتخاب کول",
     "menu.language.text_1": "تاسې کولی شئ بیرته لاړ شئ او وروسته ژبه بدل کړئ که تاسو غواړئ.",
     "menu.language.text_2": "ګومارنې، نظریات او پیغامونه په اتومات ډول ژباړل کیږي.",
@@ -162,6 +165,7 @@
     "assignment.created.title": "Uppdraget har skapats!",
     "assignment.created.description": "Så fort din e-post är bekräftad kommer uppdraget att publiceras.",
     "assignment.created.continue": "Vidare till mina uppdrag",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "سوداګري",
     "company.create.title": "ښه راغلاست! د قراردادیانو ښه او مناسب چلند څخه ډاډ په موخه موږ ستاسې د سازمان شمیرې ته اړتیا لرو. د یوې ګومارنې اخیستلو لپاره، تاسې اړ یاست د شخصي پیژند شمیره یا د همغږۍ شمیره دننه کړئ.",
     "company.create.description": "Välkommen! För att anlita uppdragstagare på ett bra och rättvist sätt till behöver vi ditt organisationsnummer. För att ta uppdrag behöver du ange ett personnummer eller samordningsnummer.",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "(قراردادیانو) د ګومارنې لپاره غوښتنه کړې ده",
     "assignment.status.user_application.approve": "ګومارل",
     "assignment.status.user_application.approved": "تاسې (قراردادي) ته ګومارنه وړاندیز کړې",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "قبلولو لپاره (وخت) پاتې دی",
     "assignment.status.user_application.will_perform": "{{candidate_name}} kommer utföra uppdraget",
     "assignment.status.user_application.rejected": "(قراردادي) ګومارنه رد کړې ده",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
     "translation.dynamic.off.title": "Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!",
     "promo.title": "Välkommen till Just Arrived!",
-    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmenheten."
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }
