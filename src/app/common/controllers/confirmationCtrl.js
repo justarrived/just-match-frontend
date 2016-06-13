@@ -2,12 +2,14 @@ angular.module('just.common')
     .controller('ConfirmationCtrl', ['justFlowService', 'justRoutes', 'localStorageService',
         function (flow, routes, storage) {
             var that = this;
+            
             if (flow.next_data) {
                 that.text = {
                     title: flow.next_data.title,
                     description: flow.next_data.description,
                     submit: flow.next_data.submit,
-                    showViewProfileButton: flow.next_data.showViewProfileButton
+                    showViewProfileButton: flow.next_data.showViewProfileButton,
+                    url : flow.next_data.url
                 };
                 storage.set("confirmationObject", that.text);
             }else{
@@ -15,7 +17,11 @@ angular.module('just.common')
             }
 
             this.process = function () {
-                flow.completed();
+                if(flow.next_data){
+                    flow.completed();
+                }else{
+                    flow.replace(that.text.url);
+                }
             };
 
             this.gotoViewProfilePage = function () {

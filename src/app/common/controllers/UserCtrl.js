@@ -279,7 +279,8 @@ angular.module('just.common')
                             flow.next(routes.global.confirmation.url, {
                                 title: 'common.updated',
                                 description: 'profile.updated',
-                                submit: 'common.back'
+                                submit: 'common.back',
+								url: routes.global.start.url
                             });
                         } else if (flow.next_data) {
                             //from apply job, register
@@ -296,7 +297,8 @@ angular.module('just.common')
                                     title: 'profile.create.confirmation.title',
                                     //description: 'profile.create.confirmation.description',
                                     submit: 'common.find_assignment',
-                                    showViewProfileButton: true
+                                    showViewProfileButton: true,
+									url: routes.job.list.url
                                 });
                             }else{
                                 that.defaultConfirm();
@@ -322,7 +324,8 @@ angular.module('just.common')
                 flow.next(routes.global.confirmation.url, {
                     title: 'assignment.status.applied',
                     description: 'assignment.status.applied.description',
-                    submit: 'user.apply.find_more'
+                    submit: 'user.apply.find_more',
+					url: routes.job.list.url
                 });
             };
 
@@ -338,7 +341,8 @@ angular.module('just.common')
                 flow.next(routes.global.confirmation.url, {
                     title: 'common.updated',
                     description: 'profile.updated',
-                    submit: 'common.back'
+                    submit: 'common.back',
+					url: routes.user.user.url
                 });
             };
 

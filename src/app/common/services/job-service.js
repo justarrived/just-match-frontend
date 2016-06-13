@@ -73,7 +73,8 @@ angular.module('just.service')
                     flow.next(routes.global.confirmation.url, {
                         title: 'assignment.created.title',
                         description: 'assignment.created.description',
-                        submit: 'assignment.created.continue'
+                        submit: 'assignment.created.continue',
+						url: routes.company.jobs.url
                     });
 
                 }, function (error) {
@@ -105,7 +106,8 @@ angular.module('just.service')
                         flow.next(routes.global.confirmation.url, {
                             title: 'user.apply.confirmation',
                             description: 'user.apply.confirmation.text.',
-                            submit: 'user.apply.find_more'
+                            submit: 'user.apply.find_more',
+							url: routes.job.list.url
                         });
 
                     }).error(function (data, status) {
