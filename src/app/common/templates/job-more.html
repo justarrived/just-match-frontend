@@ -1,43 +1,54 @@
 <div id="job-more-list" class="job-more-wrapper">
     <div class="main-title">
-        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_item')" title="{{'translation.dynamic.title' | translate}}"><i ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a></h2>
+        <h2>{{ "assignment.more" | translate }} <a href="" ng-click="ctrl.toggleDT('joblist_item')"
+                                                   title="{{'translation.dynamic.title' | translate}}"><i
+                ng-class="dt.joblist_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
+        </h2>
     </div>
     <div class="job-more-table">
         <div>
             <ul class="job-list-wrapper">
                 <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}">
-                    <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}"
-                                              style="background-image: url({{job_m.company_image}});"></a></div>
+                    <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}" back-img="{{job_m.company_image}}"></a></div>
                     <div class="job-desc">
-                        <div>
+                        <div class="job-desc-inner">
                             <div>
-                                <h3 ng-if="job_m.name_translation" ng-show="dt.joblist_item" class="translated"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.name_translation.text}}</a></h3>
-                                <h3 ng-if="job_m.name_translation" ng-show="!dt.joblist_item"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
-                                <p ng-if="job_m.description_translation"  ng-show="dt.joblist_item" class="translated">{{job_m.description_translation.text}}</p>
-                                <p ng-if="job_m.description_translation" ng-show="!dt.joblist_item">{{job_m.attributes.description}}</p>
-                                <h3 ng-if="!job_m.name_translation"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                                <h3 ng-if="job_m.name_translation" ng-show="dt.joblist_item" class="translated"><a
+                                        href="#{{routes.job.get.resolve(job_m)}}">{{job_m.name_translation.text}}</a>
+                                </h3>
+                                <h3 ng-if="job_m.name_translation" ng-show="!dt.joblist_item"><a
+                                        href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
+                                <p ng-if="job_m.description_translation" ng-show="dt.joblist_item" class="translated">
+                                    {{job_m.description_translation.text}}</p>
+                                <p ng-if="job_m.description_translation" ng-show="!dt.joblist_item">
+                                    {{job_m.attributes.description}}</p>
+                                <h3 ng-if="!job_m.name_translation"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a>
+                                </h3>
                                 <p ng-if="!job_m.description_translation">{{job_m.attributes.description}}</p>
+                                <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span>
+                                </div>
                             </div>
-                            <div>
-                                <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span></div>
+                            <div class="job-rate">
+                                <span>{{job_m.totalRate | number:0}} {{ job_m.currency }}</span>
+                                <em>{{job_m.attributes.hours}} h ({{ job_m.max_rate | number:0 }} {{ job_m.currency }}/h)</em>
                             </div>
                         </div>
                     </div>
-                    <div class="job-rate">
-                        <span>{{job_m.totalRate | number}} {{ job_m.currency }}</span>
-                        <em>5 h ({{ job_m.max_rate | number }} {{ job_m.currency }}/h)</em>
-                    </div>
                     <div>
-                        <a href="#{{routes.job.get.resolve(job_m)}}"><i class="demo-icon icon-ic-arrow-right"></i></a>
+                        <a href="#{{routes.job.get.resolve(job_m)}}"><i
+                                class="demo-icon icon-ic-arrow-right"></i></a>
                     </div>
                 </li>
             </ul>
             <div class="nav-job-list-bottom">
                 <button class="button-first" ng-click="ctrl.changePage = 1; getJobsPage('first');"
                         ng-disabled="!jobs_more.links.first"></button>
-                <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');" ng-disabled="!jobs_more.links.prev"></button>
-                <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');" ng-disabled="!jobs_more.links.next"></button>
-                <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');" ng-disabled="!jobs_more.links.last"></button>
+                <button class="button-prev" ng-click="ctrl.changePage = 1; getJobsPage('prev');"
+                        ng-disabled="!jobs_more.links.prev"></button>
+                <button class="button-next" ng-click="ctrl.changePage = 1; getJobsPage('next');"
+                        ng-disabled="!jobs_more.links.next"></button>
+                <button class="button-last" ng-click="ctrl.changePage = 1; getJobsPage('last');"
+                        ng-disabled="!jobs_more.links.last"></button>
             </div>
         </div>
         <div>

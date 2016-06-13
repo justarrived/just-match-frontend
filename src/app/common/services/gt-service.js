@@ -68,4 +68,66 @@ angular.module('just.service')
             return "ltr";
         };
 
+
+        this.translateCandidate = function(model) {
+
+            that.translate(model.description)
+                .then(function (translation) {
+                    if(!model.translation) {
+                        model.translation  = {};
+                    }
+                    model.translation.description = {};
+                    model.translation.description.text = translation.translatedText;
+                    model.translation.description.from = translation.detectedSourceLanguage;
+                    model.translation.description.from_name = translation.detectedSourceLanguageName;
+                    model.translation.description.from_direction = translation.detectedSourceLanguageDirection;
+                    model.translation.description.to = translation.targetLanguage;
+                    model.translation.description.to_name = translation.targetLanguageName;
+                    model.translation.description.to_direction = translation.targetLanguageDirection;
+                });
+            that.translate(model["job-experience"])
+                .then(function (translation) {
+                    if(!model.translation) {
+                        model.translation  = {};
+                    }
+                    model.translation.job_experience = {};
+                    model.translation.job_experience.text = translation.translatedText;
+                    model.translation.job_experience.from = translation.detectedSourceLanguage;
+                    model.translation.job_experience.from_name = translation.detectedSourceLanguageName;
+                    model.translation.job_experience.from_direction = translation.detectedSourceLanguageDirection;
+                    model.translation.job_experience.to = translation.targetLanguage;
+                    model.translation.job_experience.to_name = translation.targetLanguageName;
+                    model.translation.job_experience.to_direction = translation.targetLanguageDirection;
+                });
+            that.translate(model["competence-text"])
+                .then(function (translation) {
+                    if(!model.translation) {
+                        model.translation  = {};
+                    }
+                    model.translation.competence_text = {};
+                    model.translation.competence_text.text = translation.translatedText;
+                    model.translation.competence_text.from = translation.detectedSourceLanguage;
+                    model.translation.competence_text.from_name = translation.detectedSourceLanguageName;
+                    model.translation.competence_text.from_direction = translation.detectedSourceLanguageDirection;
+                    model.translation.competence_text.to = translation.targetLanguage;
+                    model.translation.competence_text.to_name = translation.targetLanguageName;
+                    model.translation.competence_text.to_direction = translation.targetLanguageDirection;
+                });
+            that.translate(model["competence-text"])
+                .then(function (translation) {
+                    if(!model.translation) {
+                        model.translation  = {};
+                    }
+                    model.translation.competence_text = {};
+                    model.translation.competence_text.text = translation.translatedText;
+                    model.translation.competence_text.from = translation.detectedSourceLanguage;
+                    model.translation.competence_text.from_name = translation.detectedSourceLanguageName;
+                    model.translation.competence_text.from_direction = translation.detectedSourceLanguageDirection;
+                    model.translation.competence_text.to = translation.targetLanguage;
+                    model.translation.competence_text.to_name = translation.targetLanguageName;
+                    model.translation.competence_text.to_direction = translation.targetLanguageDirection;
+                });
+        };
+
+
     }]);

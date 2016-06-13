@@ -18,6 +18,7 @@ angular.module('just.service')
             this.user = undefined;
             this.apply_job_id = 0;
             this.message = {};
+            this.userList = [];
 
             this.signin = function (attributes, completeCb) {
                 authService.login({data: {attributes: attributes}})
@@ -35,7 +36,21 @@ angular.module('just.service')
                             // Go to job new if register user from company register page
                             that.isCompanyRegister = -1;
                             that.isCompany = 1;
-                            flow.completed(routes.job.create.url, ok);
+                            if(attributes.terms_id){
+                                var consentData = {
+                                    data: {
+                                        attributes: {
+                                            "terms-agreement-id": attributes.terms_id,
+                                            "user-id": authService.userId().id
+                                        }
+                                    }
+                                };
+                                Resources.termsConsents.create({}, consentData, function (result) {
+                                    flow.completed(routes.job.create.url, ok);
+                                }, function (err) {
+                                    flow.completed(routes.job.create.url, ok);
+                                });
+                            }
                         } else if (that.isCompanyRegister === 0) {
                             that.isCompany = 0;
                             that.isCompanyRegister = -1;
@@ -61,46 +76,42 @@ angular.module('just.service')
             this.registerModel = {};
             this.registerMessage = {};
 
-            this.register = function (attributes, formData) {
-                if (formData) {
-                    httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
-                        var image_token = {};
-                        image_token.data = {};
-                        image_token.data.attributes = {};
-                        image_token.data.attributes["user-image-one-time-token"] = callback.data.attributes["one-time-token"];
-                        attributes["user-image-one-time-token"] = image_token.data.attributes["user-image-one-time-token"];
-                        that.registerConfirm(attributes);
-                    });
-                } else {
-                    that.registerConfirm(attributes);
-                }
+            this.register = function (attributes, fn) {
+                that.registerConfirm(attributes, fn);
             };
 
-            this.registerConfirm = function (attributes) {
+            this.registerConfirm = function (attributes, fn) {
 
                 attributes.language_id = parseInt(i18nService.getLanguage().$$state.value.id);
                 attributes.language_ids = [parseInt(i18nService.getLanguage().$$state.value.id)];
 
                 that.registerModel = attributes;
 
-                var user = Resources.user.create({data: {attributes: attributes}}, function () {
+                var user = Resources.user.create({data: {attributes: attributes}}, function (responseData) {
                     /*
                      flow.push(function () {
                      flow.completed(routes.user.created.url, user);
                      });
                      */
+                    this.registerModel = {};
                     if (attributes.company_id) {
                         that.isCompanyRegister = 1;
                     } else {
                         that.isCompanyRegister = 0;
                     }
+
                     that.signin(attributes);
+
                 }, function (error) {
                     that.registerMessage = error;
-                    if (attributes.company_id) {
-                        flow.reload(routes.company.register.url);
+                    if(fn){
+                        fn();
                     }else{
-                        flow.reload(routes.user.register.url);    
+                        if (attributes.company_id) {
+                            flow.reload(routes.company.register.url);
+                        }else{
+                            flow.reload(routes.user.register.url);
+                        }
                     }
                 });
             };
@@ -199,7 +210,7 @@ angular.module('just.service')
                 });
             };
 
-            this.checkArriverUser = function (warningText, warningLabel, warningUrl) {
+            this.checkArriverUser = function (warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
                     flow.replace(routes.user.select.url, function () {
@@ -207,9 +218,7 @@ angular.module('just.service')
                     });
                 } else {
                     var warning = {
-                        text: warningText,
                         redirect: {
-                            title: warningLabel,
                             url: warningUrl
                         }
                     };
@@ -232,7 +241,7 @@ angular.module('just.service')
                 }
             };
 
-            this.checkCompanyUser = function (warningText, warningLabel, warningUrl) {
+            this.checkCompanyUser = function (warningUrl) {
                 if (!authService.isAuthenticated()) {
                     var path = $location.path();
                     flow.replace(routes.user.selectCompany.url, function () {
@@ -240,9 +249,7 @@ angular.module('just.service')
                     });
                 } else {
                     var warning = {
-                        text: warningText,
                         redirect: {
-                            title: warningLabel,
                             url: warningUrl
                         }
                     };
@@ -279,5 +286,28 @@ angular.module('just.service')
             };
 
             this.userMessage = {};
+
+            this.setNewUserImage = function(url){
+                if(that.user){
+                    that.user.data.user_image = url;
+                    $rootScope.$broadcast('onSigninSetmenu');
+                }
+            };
+
+            this.addList = function (userData) {
+                var found = $filter('filter')(that.userList, {id: "" + userData.data.id}, true);
+                if (found.length === 0) {
+                    that.userList.push(userData);
+                }
+            };
+
+            this.getUserById = function(id) {
+                var found = $filter('filter')(that.userList, {id: "" + id}, true);
+                if (found.length > 0) {
+                    return found[0];
+                }else{
+                    return null;
+                }
+            };
 
         }]);

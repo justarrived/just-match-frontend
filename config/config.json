@@ -1,3 +1,8 @@
 {
-  "translationModules": []
+  "just_match_api": "https://api.justarrived.se",
+  "just_match_api_version": "/api/v1/",
+  "google_translate_api_url": "https://www.googleapis.com/language/translate/v2?key=",
+  "google_translate_api_key": "AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac",
+  "debug_enable": false,
+  "google_map_api_key": "AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M"
 }

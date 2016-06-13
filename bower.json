@@ -26,7 +26,6 @@
     "angular-dynamic-locale": "^0.1.30",
     "angular-local-storage": "^0.2.5",
     "angular-mocks": "1.5.x",
-    "respond": "~1.4.0",
     "modernizr": "~2.7.1",
     "normalize-less": "*",
     "bootstrap": "^3.3.6",

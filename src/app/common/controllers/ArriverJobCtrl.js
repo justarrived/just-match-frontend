@@ -11,7 +11,13 @@ angular.module('just.common')
 
             that.isCompany = 0;
 
-            userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.jobbs = jobService.getUserJobs({
                 user_id: authService.userId().id,
@@ -31,15 +37,16 @@ angular.module('just.common')
                         if (found[0].relationships.invoice.data === null) {
                             obj["job-users"] = found[0];
                             if (!found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "Du har sökt uppdraget";
+                                obj.attributes.text_status = "user.apply.confirmation";
                             }
                             if (found[0].attributes.accepted && !found[0].attributes["will-perform"]) {
-                                Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
-                                    obj.attributes.text_status = result.included[0].attributes.name + " vill anlita dig";
-                                });
+                                obj.attributes.text_status = "assignment.status.user_company_hire";
+                                /*Resources.job.get({id: "" + obj.id, 'include': 'company'}, function (result) {
+                                    $scope.company_name_hiring = result.included[0].attributes.name;
+                                });*/
                             }
                             if (found[0].attributes["will-perform"]) {
-                                obj.attributes.text_status = "Du är anlitad";
+                                obj.attributes.text_status = "assignment.status.you_hired";
                             }
 
                             $scope.jobs.push(obj);
@@ -77,59 +84,10 @@ angular.module('just.common')
                 });
             });
 
-            /*this.getUserPerformedJobs = function (user_id) {
-             $scope.userPerformedJobss = jobService.getUserJobs({
-             user_id: user_id,
-             "include": "job",
-             "filter[will-perform]": true
-             });
-
-             $scope.userPerformedJobss.$promise.then(function (response) {
-
-             var found_job = $filter('filter')(response.included, {type: 'jobs'}, true);
-             if(found_job.length>0){
-             angular.forEacj
-             }
-
-
-             $scope.userPerformedJobs = $filter('filter')(response.included, {type: 'jobs'}, true);
-
-             if ($scope.userPerformedJobs) {
-             Resources.userRating.get({id: user_id, 'include': 'comment'}, function (result) {
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             var found_rating = $filter('filter')(result.data, {relationships: {job: {data: {id: "" + obj.id}}}}, true);
-             if (found_rating.length > 0) {
-             $scope.userPerformedJobs[idx].rating = found_rating[0];
-             }
-             });
-             });
-             }
-
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             $scope.userPerformedJobs[idx].company_image = "assets/images/content/placeholder-logo.png";
-             });
-
-             angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-             Resources.company.get({
-             company_id: "" + obj.relationships.company.data.id,
-             "include": "company-images"
-             }, function (result) {
-             if (result.included) {
-             $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
-             }
-             });
-
-
-             });
-
-             });
-             };*/
-
             this.gotoUserJobPage = function (obj) {
                 flow.redirect(routes.arriver.job_manage.resolve(obj));
             };
 
-            //this.getUserPerformedJobs(parseInt(authService.userId().id));
         }])
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
@@ -143,8 +101,6 @@ angular.module('just.common')
             this.will_perform = false; //wait user confirm start work
             this.performed = false; // work end
             this.user_apply = {};
-            this.remainHours = 18;
-            this.remainMinutes = 0;
             this.hasInvoice = false;
             this.isCompany = 0;
             this.canPerformed = false;
@@ -159,16 +115,27 @@ angular.module('just.common')
 
             this.chatId = chatService.chatId;
 
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
+
             i18nService.addLanguageChangeListener(function () {
                     that.getChatMessage();
                 }
             );
 
+            Resources.arriverTermsAgreements.get(function (result) {
+                that.termsId = result.data.id;
+                that.termsAgreements = result.data.attributes.url;
+            });
+
             $scope.currTab = 1;
 
             $scope.job_obj = {id: $routeParams.id};
-
-            userService.needSignin();
 
             this.model = userService.userModel();
             if (this.model) {
@@ -330,44 +297,86 @@ angular.module('just.common')
                 var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
                 that.chatMessages = chatService.getChatMessage();
-                that.chatMessages.$promise.then(function (response) {
-                    //console.log(that.chatMessages);
-                    angular.forEach(response.data, function (obj, key) {
-                        var found_author = $filter('filter')(response.included, {
-                            type: 'users',
-                            id: obj.relationships.author.data.id
-                        }, true);
-                        if (found_author.length > 0) {
-                            if (found_author[0].relationships.company.data) {
-                                // is company
-                                that.chatMessages.data[key].author = {attributes: {}};
-                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
-                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
-                            } else {
-                                that.chatMessages.data[key].author = found_author[0];
-                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                if (that.chatMessages.$promise) {
+                    that.chatMessages.$promise.then(function (response) {
+                        angular.forEach(response.data, function (obj, key) {
+                            var found_author = $filter('filter')(response.included, {
+                                type: 'users',
+                                id: obj.relationships.author.data.id
+                            }, true);
+                            if (found_author.length > 0) {
+                                if (found_author[0].relationships.company.data) {
+                                    // is company
+                                    that.chatMessages.data[key].author = {attributes: {}};
+                                    that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                    that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                                } else {
+                                    that.chatMessages.data[key].author = found_author[0];
+
+                                    if (found_author[0].relationships["user-images"].data.length > 0) {
+                                        var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
+                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                        if(found_image){
+                                            if (found_image.length > 0) {
+                                                that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                    } else {
+                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    }
+                                }
                             }
-                        }
-                        if (that.chatMessages.data[key].attributes.body) {
-                            gtService.translate(that.chatMessages.data[key].attributes.body)
-                                .then(function (translation) {
-                                    that.chatMessages.data[key].translation = {};
-                                    that.chatMessages.data[key].translation.text = translation.translatedText;
-                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
-                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
-                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
-                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
-                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
-                                });
-                        }
+                            if (that.chatMessages.data[key].attributes.body) {
+                                gtService.translate(that.chatMessages.data[key].attributes.body)
+                                    .then(function (translation) {
+                                        that.chatMessages.data[key].translation = {};
+                                        that.chatMessages.data[key].translation.text = translation.translatedText;
+                                        that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
+                                        that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
+                                        that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        that.chatMessages.data[key].translation.to = translation.targetLanguage;
+                                        that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
+                                        that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                    });
+                            }
+                        });
                     });
-                });
+                }
             };
 
             // Create Bank Account for USER
             this.createBankAccount = function () {
-                financeService.createBankAccount(that.userWillPerform);
+                if ($scope.terms) {
+                    that.termsConsentAccept(financeService.createBankAccount(that.userWillPerform));
+                } else {
+                    $scope.terms = 0;
+                    $scope.isWillPerform = false;
+                    $scope.userModalPerformShow = 1;
+                }
+            };
+
+            this.termsConsentAccept = function (fn) {
+                var consentData = {
+                    data: {
+                        attributes: {
+                            "terms-agreement-id": that.termsId,
+                            "user-id": authService.userId().id,
+                            "job-id": $routeParams.id
+                        }
+                    }
+                };
+                Resources.termsConsents.create({}, consentData, function (result) {
+                    if (fn) {
+                        fn();
+                    }
+                }, function (err) {
+                    /*$scope.terms = 0;
+                     $scope.isWillPerform = false;
+                     $scope.userModalPerformShow = 1;*/
+                    if (fn) {
+                        fn();
+                    }
+                });
             };
 
             // USER Accept to do a job
@@ -398,12 +407,34 @@ angular.module('just.common')
                 $scope.isWillPerform = false;
                 $scope.userModalPerformShow = false;
             };
+
+            this.showBIC = function(){
+                $scope.isShowBIC = true;
+                that.financeModel.data.attributes['account-clearing-number'] = "";
+                that.financeModel.data.attributes['account-number'] = "";
+            };
+
+            this.hideBIC = function(){
+                $scope.isShowBIC = false;
+                that.financeModel.data.attributes.bic = "";
+                that.financeModel.data.attributes.iban = "";
+            };
         }])
-    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources','gtService',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources,gtService) {
+    .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'commentService',
+        'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
+        function (jobService, authService, i18nService, userService, commentService,
+                  flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
+
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkArriverUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);

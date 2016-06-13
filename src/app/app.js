@@ -90,6 +90,12 @@ angular.module('just', [
                     controller: 'ConfirmationCtrl as ctrl'
                 }
             },
+            promo: {
+                url: '/promo',
+                handler: {
+                    templateUrl: 'common/templates/promo.html',
+                }
+            }
         },
         user: {
             select: {
@@ -289,7 +295,7 @@ angular.module('just', [
             }
         }
     })
-    .run(['$rootScope', 'justRoutes', 'justFlowService', function ($rootScope, routes, flow) {
+    .run(['$rootScope', 'justRoutes', 'justFlowService', '$location', '$translate','customSelectDefaults', function ($rootScope, routes, flow, $location, $translate,customSelectDefaults) {
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             $rootScope.$$childHead.ctrl.isStartPage = false;
             $rootScope.$$childHead.ctrl.isBackUrl = false;
@@ -298,8 +304,23 @@ angular.module('just', [
         $rootScope.next = function (url) {
             flow.next(url);
         };
+        $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+            // If we have queryString on currentURL , then we will add it to the next url
+            if (oldUrl.indexOf('?') >= 0) {
+                // this can be optimized if we want to check first for queryString in the new url,
+                // then append only new params, but that's additional feature.
+                newUrl += '?' + oldUrl.split('?')[1];
+            }
+        });
+
+        $translate('common.new_company').then(function (addText) {
+            customSelectDefaults.addText = addText;
+        });
+        $translate('common.select_company').then(function (selectText) {
+            customSelectDefaults.displayText = selectText;
+        });
     }])
-    .config(function ($routeProvider, $locationProvider, justRoutes) {
+    .config(function ($routeProvider, $locationProvider, justRoutes, settings) {
         angular.forEach(justRoutes, function (comp) {
             angular.forEach(comp, function (route) {
                 $routeProvider.when(route.url, route.handler);

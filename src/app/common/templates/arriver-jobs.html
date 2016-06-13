@@ -17,7 +17,7 @@
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
                         <p>{{job.attributes["street"]}}</p>
-                        <p>{{job.attributes.text_status}}</p>
+                        <p>{{job.attributes.text_status | translate}}</p>
                     </div>
                 </li>
             </ul>
@@ -26,8 +26,7 @@
             <div class="candidate-referencer">
                 <ul>
                     <li ng-repeat="job in userPerformedJobs">
-                        <div><span class="user-info-image"
-                                   style="background-image: url({{job.company_image}})"></span></div>
+                        <div><span class="user-info-image" back-img="{{job.company_image}}"></span></div>
                         <div>
                             <h4>{{job.attributes.name}}</h4>
                             <p>{{job.company.attributes.name}}</p>

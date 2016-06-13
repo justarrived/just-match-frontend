@@ -11,7 +11,13 @@
                     submit: 'common.next_step'
                 };
 
-                userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url, routes.job.create.url);
+                authService.checkPromoCode().then(function (resp) {
+                    if (resp !== 0) {
+                        userService.checkCompanyUser(routes.global.start.url);
+                    } else {
+                        return;
+                    }
+                });
 
                 this.model = jobService.jobModel;
                 this.message = jobService.jobMessage;
@@ -36,7 +42,7 @@
                                         field_name = 'to_date';
                                         break;
                                 }
-                                if($scope.form[field_name]){
+                                if ($scope.form[field_name]) {
                                     $scope.form[field_name].error_detail = obj.detail;
                                 }
                             });
@@ -98,12 +104,14 @@
                     jobService.create(that.model);
                 };
             }])
-        .controller('EditJobCtrl', ['jobService', '$routeParams', function (jobService, $routeParams) {
+        .controller('EditJobCtrl', ['jobService', 'authService', '$routeParams', function (jobService, authService, $routeParams) {
             var that = this;
             this.text = {
                 title: 'assignment.update.title',
                 submit: 'common.next_step'
             };
+
+            authService.checkPromoCode();
 
             this.model = jobService.getJob($routeParams.id);
 
@@ -117,10 +125,16 @@
 
             };
         }])
-        .controller('ApproveJobCtrl', ['jobService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, userService, routes, $scope, $q) {
+        .controller('ApproveJobCtrl', ['jobService', 'authService', 'userService', 'justRoutes', '$scope', '$q', function (jobService, authService, userService, routes, $scope, $q) {
             var that = this;
 
-            userService.checkCompanyUser('Arriver user cannot create a job', 'Back to home', routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             this.model = jobService.jobModel;
             $scope.job = jobService.jobModel.data;
@@ -158,6 +172,8 @@
             function (jobService, authService, userService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
 
                 var that = this;
+
+                authService.checkPromoCode();
 
                 this.changePage = 0;
 
@@ -287,7 +303,7 @@
                         }
                         $scope.jobs = jobService.getJobsPage(paramVal);
                     } else {
-                        $scope.jobs = jobService.getJobs(url);
+                        $scope.jobs = jobService.getJobsNoFilled(url);
                     }
 
                     $scope.jobs.$promise.then(function (result) {
@@ -411,6 +427,8 @@
             'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
             function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
                 var that = this;
+
+                authService.checkPromoCode();
 
                 this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
@@ -671,7 +689,7 @@
                         }
                         $scope.jobs_more = jobService.getJobsPage(paramVal);
                     } else {
-                        $scope.jobs_more = jobService.getJobs(url);
+                        $scope.jobs_more = jobService.getJobsNoFilled(url);
                     }
 
                     $scope.jobs_more.$promise.then(function (result) {

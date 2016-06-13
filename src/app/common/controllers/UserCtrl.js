@@ -3,7 +3,10 @@ angular.module('just.common')
         function (userService, $scope, Resources, authService, flow, routes, $location, $q, $filter, jobService, settings, httpPostFactory) {
             var that = this;
 
+            authService.checkPromoCode();
+
             this.isStart = 1;
+            this.uploading = false;
             //this.saveSuccessFromRegister = 0;
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
@@ -14,7 +17,7 @@ angular.module('just.common')
                     flow.redirect(routes.user.user.url);
                 });
             }else{
-                userService.checkArriverUser("Available for Arriver user", "Back to Home", routes.global.start.url);
+                userService.checkArriverUser(routes.global.start.url);
             }
 
             this.model = {};
@@ -60,12 +63,16 @@ angular.module('just.common')
                             });
                         });
 
-                        var found_img = $filter('filter')(response.included, {
+                        /*var found_img = $filter('filter')(response.included, {
                             type: 'user-images'
                         }, true);
                         if (found_img.length > 0) {
                             that.user_image = found_img[0].attributes["image-url-small"];
+                        }*/
+                        if(response.data.user_image){
+                            that.user_image = response.data.user_image;
                         }
+
 
                         deferd.resolve(that.language_bundle);
                         deferd.resolve(that.user_image);
@@ -183,9 +190,13 @@ angular.module('just.common')
                     var element0 = angular.element("#file_upload");
 
                     formData.append("image", element0[0].files[0]);
+                    that.uploading = true;
                     httpPostFactory(settings.just_match_api + settings.just_match_api_version + 'users/images', formData, function (callback) {
                         that.model.data.attributes['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
+                        that.uploading = false;
+                    },function(err){
+                        that.uploading = false;
                     });
                 }
 
@@ -255,6 +266,10 @@ angular.module('just.common')
                      } else {
                      that.saveSuccessDefault = 1;
                      }*/
+                    if(that.user_image){
+                        userService.setNewUserImage(that.user_image);
+                    }
+
                     if (flow.next_data) {
                         if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
                             //from menu
@@ -264,7 +279,8 @@ angular.module('just.common')
                             flow.next(routes.global.confirmation.url, {
                                 title: 'common.updated',
                                 description: 'profile.updated',
-                                submit: 'common.back'
+                                submit: 'common.back',
+								url: routes.global.start.url
                             });
                         } else if (flow.next_data) {
                             //from apply job, register
@@ -279,8 +295,10 @@ angular.module('just.common')
                                 });
                                 flow.next(routes.global.confirmation.url, {
                                     title: 'profile.create.confirmation.title',
-                                    description: 'profile.create.confirmation.description',
-                                    submit: 'common.find_assignment'
+                                    //description: 'profile.create.confirmation.description',
+                                    submit: 'common.find_assignment',
+                                    showViewProfileButton: true,
+									url: routes.job.list.url
                                 });
                             }else{
                                 that.defaultConfirm();
@@ -306,7 +324,8 @@ angular.module('just.common')
                 flow.next(routes.global.confirmation.url, {
                     title: 'assignment.status.applied',
                     description: 'assignment.status.applied.description',
-                    submit: 'user.apply.find_more'
+                    submit: 'user.apply.find_more',
+					url: routes.job.list.url
                 });
             };
 
@@ -315,13 +334,15 @@ angular.module('just.common')
             };
 
             this.defaultConfirm = function(){
+                userService.clearUserModel();
                 flow.push(function () {
                     flow.completed(routes.user.user.url);
                 });
                 flow.next(routes.global.confirmation.url, {
                     title: 'common.updated',
                     description: 'profile.updated',
-                    submit: 'common.back'
+                    submit: 'common.back',
+					url: routes.user.user.url
                 });
             };
 

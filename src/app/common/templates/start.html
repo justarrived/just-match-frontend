@@ -8,14 +8,14 @@
                 </h2>
             </div>
             <div>
-                <img src="http://img.youtube.com/vi/ScMzIvxBSi4/default.jpg" alt>
+                <img src="https://img.youtube.com/vi/ScMzIvxBSi4/default.jpg" alt>
                 <h2 class="section-title section-title--white">
                     {{'start.hero_section.slide_1' | translate}}<br><i ng-click="showvdo=1"
                                                                        class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
             <div>
-                <img ng-hide="showvdo2" src="http://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg" alt>
+                <img ng-hide="showvdo2" src="https://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg" alt>
                 <h2 class="section-title section-title--white">
                     {{'start.hero_section.slide_2' | translate}}<br><i ng-click="showvdo=2"
                                                                        class="demo-icon icon-ic-arrow-right2"></i>
@@ -67,8 +67,8 @@
             <div ng-repeat="job in ctrl.jobs.data">
                 <a href="#{{ routes.job.get.resolve(job) }}">
                     <div class="image-wrapper">
-                        <div style="background-image: url({{job.company_image}});"></div>
-                        <b>{{ job.total_rate | number}} {{ job.currency }}</b>
+                        <div back-img="{{job.company_image}}"></div>
+                        <b>{{ job.total_rate | number:0}} {{ job.currency }}</b>
                     </div>
                     <span>
                         {{ job.attributes.name | limitTo: 35 }} {{ job.attributes.name.length < 80 ? '' :
@@ -156,10 +156,10 @@
         <div><img class="col span_1_of_2" src="assets/images/content/logo-universum.png" alt="Universum"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/logo-wntrgarden.png" alt="Wintrgarden"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/antrop-logo2.png" alt="Antrop"></div>
-        <div><img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="Never Ending Monday"></div>
+        <div><img class="col span_1_of_2 extra-padding" src="assets/images/content/jacob_burenstam-logo.png" alt="Jacob Burenstam"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/wgni-logo.png" alt="Cyngi"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/frilans_finans-logo.png" alt="Frilans Finans"></div>
-        <div><img class="col span_1_of_2 extra-padding" src="assets/images/content/jacob_burenstam-logo.png" alt="Jacob Burenstam"></div>
+        <div><img class="col span_1_of_2" src="assets/images/content/nem-logo.png" alt="Never Ending Monday"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/jansson_norin-logo.png" alt="Jansson Norin"></div>
         <div><img class="col span_1_of_2 left-padding" src="assets/images/content/nova-logo.png" alt="Nova"></div>
         <div><img class="col span_1_of_2" src="assets/images/content/bond_street_film_sthlm.png" alt="Bond Street Film"></div>

@@ -27,8 +27,7 @@
                                            onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>
                                     <input type="text" name="user_image_one_time_token"
                                            ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
-                                    <div class="user-info-image"
-                                         style="background-image:url({{sCtrl.user_image}})"></div>
+                                    <div class="user-info-image" back-img="{{sCtrl.user_image}}"></div>
                                     <div><i class="demo-icon icon-ic-camera"></i></div>
                                 </div>
                                 <div>{{'menu.settings.upload_logo' | translate}}</div>
@@ -90,7 +89,7 @@
                             <div>
                                 <div><label><i class="demo-icon icon-ic-password"></i></label></div>
                                 <div><input type="password" name="old_password"
-                                            placeholder="{{'user.form.password' | translate}}"
+                                            placeholder="Old Password"
                                             ng-minlength="6"
                                             ng-required="sCtrl.model.data.attributes.password"
                                             ng-model="sCtrl.model.data.attributes.old_password"
@@ -134,7 +133,7 @@
                                      errormsg="finance.form.account_clearing_number.validation">
                             <div class="bank-group">
                                 <div><label>{{'user.account.bank' | translate}}:</label></div>
-                                <div><input type="text" name="account_clearing_number"
+                                <div><input disabled type="text" name="account_clearing_number"
                                             ng-required="sCtrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
                                             ng-model="sCtrl.financeModel.data.attributes['account-clearing-number']"
                                             ng-keyup="form.account_clearing_number.error_detail = undefined"/>
@@ -146,7 +145,7 @@
                                      errormsg="finance.form.account_number.validation">
                             <div class="bank-group">
                                 <div><label>{{'user.account.cardnr' | translate}}:</label></div>
-                                <div><input type="text" name="account_number"
+                                <div><input disabled type="text" name="account_number"
                                             ng-required="sCtrl.financeModel.data.attributes['account-clearing-number']"
                                             ng-model="sCtrl.financeModel.data.attributes['account-number']"
                                             ng-keyup="form.account_number.error_detail = undefined"/></div>
@@ -155,7 +154,7 @@
                         <validation2 form="form" field="iban" errormsg="finance.form.iban.validation">
                             <div class="bank-group">
                                 <div><label>{{'user.account.iban' | translate}}:</label></div>
-                                <div><input type="text" name="iban"
+                                <div><input disabled type="text" name="iban"
                                             ng-required="sCtrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
                                             ng-model="sCtrl.financeModel.data.attributes.iban"
                                             ng-keyup="form.iban.error_detail = undefined"/></div>
@@ -164,25 +163,27 @@
                         <validation2 form="form" field="bic" errormsg="finance.form.bic.validation">
                             <div class="bank-group">
                                 <div><label>{{'user.account.bic' | translate}}:</label></div>
-                                <div><input type="text" name="bic"
+                                <div><input disabled type="text" name="bic"
                                             ng-required="sCtrl.financeModel.data.attributes.iban"
                                             ng-model="sCtrl.financeModel.data.attributes.bic"
                                             ng-keyup="form.bic.error_detail = undefined" autocomplete="nope"/></div>
                             </div>
                         </validation2>
+                        <!--
                         <validation2 form="form" field="password" errormsg="user.form.password.validation">
                             <div class="bank-group">
                                 <div><label>{{'login.form.password' | translate}}:</label></div>
-                                <div><input name="password" type="password"
+                                <div><input disabled name="password" type="password"
                                             placeholder="{{'user.form.password' | translate}}"
                                             required
                                             ng-model="sCtrl.financeModel.data.attributes.password"
                                             ng-keyup="form.password.error_detail = undefined" autocomplete="nope"></div>
                             </div>
                         </validation2>
-
+                        -->
                         <div>
-                            <input type="submit" ng-disabled="form.$invalid" value="{{'common.save' | translate}}"/>
+                            <!--<input type="submit" ng-disabled="form.$invalid" value="{{'common.save' | translate}}"/>-->
+                            <a href="#{{routes.contact.form.url}}" ng-click="ctrl.showSetting=false;ctrl.menu(0)" class="button">{{'menu.settings.contact_support' | translate}}</a>
                         </div>
                     </form>
                 </div>

@@ -81,8 +81,17 @@ angular.module('just.common')
 
         return MyDate;
     })
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q','$route',
-        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q,$route) {
+    .directive('backImg', function () {
+        return function (scope, element, attrs) {
+            attrs.$observe('backImg', function (value) {
+                element.css({
+                    'background-image': 'url(' + value + ')'
+                });
+            });
+        };
+    })
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route) {
             var that = this;
             this.showSetting = false;
             that.isCompany = -1;
@@ -98,9 +107,9 @@ angular.module('just.common')
                 that.isCompany = -1;
                 userService.clearUserModel();
 
-                if(that.isStartPage){
+                if (that.isStartPage) {
                     $route.reload();
-                }else{
+                } else {
                     flow.replace(routes.global.start.url);
                 }
 

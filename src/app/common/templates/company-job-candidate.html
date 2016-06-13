@@ -3,8 +3,10 @@
     <div class="user-job-candidate-topmenu">
         <ul>
             <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
-            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a></li>
-            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a></li>
+            <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a>
+            </li>
+            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a>
+            </li>
         </ul>
 
     </div>
@@ -20,7 +22,8 @@
 
             <!-- Wait user accepted -->
             <div class="user-job-status-title" ng-show="ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}{{'common.hour' | translate}} {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
+                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}{{'common.hour' | translate}}
+                {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
                 {{'assignment.status.user_application.time_remaining' | translate}}
             </div>
 
@@ -34,27 +37,61 @@
                 {{ 'assignment.status.is_successful' | translate}}
             </div>
             <div class="buttons" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
-                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' | translate}}</a>
-                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes' | translate}}</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' |
+                    translate}}</a>
+                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes'
+                    | translate}}</a>
             </div>
         </div>
     </div>
     <div class="candidate-profile" ng-show="currTab === 1">
         <div>
+            <a href="" ng-click="ctrl.toggleDT('candidate_item')"><i
+                    ng-class="dt.candidate_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
+        </div>
+        <div>
             <h3><i class="demo-icon icon-ic-paper"></i>{{"profile.form.presentation" | translate}}</h3>
-            <p>{{ctrl.candidate_model.description}}</p>
+            <div ng-if="ctrl.candidate_model.translation.description.from == ctrl.candidate_model.translation.description.to">
+                <p>{{ctrl.candidate_model.description}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.description.from != ctrl.candidate_model.translation.description.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model.description}}</p>
+                <p ng-show="dt.candidate_item" class="translated">
+                    {{ctrl.candidate_model.translation.description.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-star"></i>{{"profile.form.experience" | translate}}</h3>
-            <p>{{ctrl.candidate_model["job-experience"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.job_experience.from == ctrl.candidate_model.translation.job_experience.to">
+                <p>{{ctrl.candidate_model['job-experience']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.job_experience.from != ctrl.candidate_model.translation.job_experience.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['job-experience']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">
+                    {{ctrl.candidate_model.translation.job_experience.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-education"></i>{{"profile.form.education" | translate}}</h3>
-            <p>{{ctrl.candidate_model["education"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.education.from == ctrl.candidate_model.translation.education.to">
+                <p>{{ctrl.candidate_model['education']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.education.from != ctrl.candidate_model.translation.education.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['education']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">
+                    {{ctrl.candidate_model.translation.education.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-tool"></i>{{"profile.form.skills" | translate}}</h3>
-            <p>{{ctrl.candidate_model["competence-text"]}}</p>
+            <div ng-if="ctrl.candidate_model.translation.competence_text.from == ctrl.candidate_model.translation.competence_text.to">
+                <p>{{ctrl.candidate_model['job-experience']}}</p>
+            </div>
+            <div ng-if="ctrl.candidate_model.translation.competence_text.from != ctrl.candidate_model.translation.competence_text.to">
+                <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['competence-text']}}</p>
+                <p ng-show="dt.candidate_item" class="translated">
+                    {{ctrl.candidate_model.translation.competence_text.text}}</p>
+            </div>
         </div>
         <div>
             <h3><i class="demo-icon icon-ic-user3"></i>{{"profile.form.languages" | translate}}</h3>
@@ -67,7 +104,7 @@
     <div class="candidate-referencer" ng-show="currTab === 2">
         <ul>
             <li ng-repeat="job in userPerformedJobs">
-                <div><span class="user-info-image" style="background-image: url({{job.company_image}})"></span></div>
+                <div><span class="user-info-image" back-img="{{job.company_image}}"></span></div>
                 <div>
                     <h4>{{job.attributes.name}}</h4>
                     <p>{{job.company.attributes.name}}</p>
@@ -89,35 +126,8 @@
         </ul>
     </div>
 
-    <div class="candidate-chat" ng-show="currTab === 3">
-        <div>
-            <ul>
-
-                <li ng-repeat="chatMessage in ctrl.chatMessages.data" ng-class="{'right':chatMessage.relationships.author.data.id === ctrl.user_id}">
-                    <div class="bubble">
-                        <div><span class="messenger">{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</span><span class="datetime">{{chatMessage.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span></div>
-                        <div ng-if="chatMessage.translation.from == chatMessage.translation.to">
-                            {{chatMessage.attributes.body}}
-                        </div>
-                        <div ng-class="chatMessage.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'" ng-if="chatMessage.translation.from != chatMessage.translation.to">
-                            {{chatMessage.translation.text}}
-                            <p ng-class="chatMessage.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'"><strong>{{'common.translated.from' | translate}} {{chatMessage.translation.from_name}}</strong><br>
-                                {{chatMessage.attributes.body}}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="profile-image" style="background-image: url({{chatMessage.author.user_image}})">
-                    </div>
-                </li>
-            </ul>
-            <form name="form" ng-submit="ctrl.submitChat()">
-                <div>
-                    <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
-                    <div><input type="submit" ng-value="'common.submit' | translate"></div>
-                </div>
-            </form>
-
-        </div>
+    <div ng-show="currTab === 3">
+        <company-job-chat></company-job-chat>
     </div>
 
     <div class="modal-assign-job" ng-show="modalShow">
@@ -126,10 +136,11 @@
                 <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
                 <h3 translate="company.assignments.candidates.send_request"></h3>
                 <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
-                <p translate="user.assignment.confirmation.description" translate-values="{ candidate_name: ctrl.candidate_model['first-name'] }"></p>
+                <p translate="user.assignment.confirmation.description"
+                   translate-values="{ candidate_name: ctrl.candidate_model['first-name'] }"></p>
                 <p>
-                    <a class="button dark" href="" ng-click="modalShow = false" translate="common.cancel"></a>
-                    <a class="button pink" href="" ng-click="ctrl.acceptJob()" translate="common.submit"></a>
+                    <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
+                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
                 </p>
             </div>
         </div>

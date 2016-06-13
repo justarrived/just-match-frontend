@@ -25,8 +25,10 @@ angular.module('just.common')
 
             this.languages = i18nService.supportedLanguages();
 
+            authService.checkPromoCode();
+
             this.getNewJob = function () {
-                this.jobs = jobService.getJobs('company,hourly-pay');
+                this.jobs = jobService.getJobsNoFilled('company,hourly-pay');
                 this.jobs.$promise.then(function (response) {
                     var deferd = $q.defer();
 
@@ -40,7 +42,12 @@ angular.module('just.common')
                             type: "hourly-pays"
                         }, true);
                         if (found_hourly_pay.length > 0) {
-                            that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-with-fees"] : found_hourly_pay[0].attributes.rate);
+                            if($scope.$parent){
+                                that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-with-fees"] : found_hourly_pay[0].attributes.rate);
+                            }else{
+                                that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes.rate;
+                            }
+
                             that.jobs.data[idx].total_rate = that.jobs.data[idx].max_rate * that.jobs.data[idx].attributes.hours;
                             that.jobs.data[idx].currency = found_hourly_pay[0].attributes.currency;
                         }
@@ -66,7 +73,6 @@ angular.module('just.common')
                     return deferd.promise;
                 });
             };
-
             if (authService.isAuthenticated()) {
                 if (userService.user.$promise) {
                     userService.user.$promise.then(function (response) {
@@ -79,7 +85,6 @@ angular.module('just.common')
             } else {
                 this.getNewJob();
             }
-
 
             this.language = 'sv';
             this.selectLanguage = function () {

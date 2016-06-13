@@ -5,7 +5,8 @@
                 <p><i class="demo-icon icon-ic-check2"></i></p>
                 <h1>{{ ctrl.text.title | translate }}</h1>
                 <p>{{ ctrl.text.description | translate }}</p>
-                <button ng-click="ctrl.process()" type="button">{{ ctrl.text.submit | translate }}</button>
+                <button ng-click="ctrl.process()" type="button">{{ ctrl.text.submit | translate }}</button><br/>
+                <button ng-click="ctrl.gotoViewProfilePage()" type="button" class="nomargin" ng-show="ctrl.text.showViewProfileButton">{{ 'common.view_profile' | translate }}</button>
             </div>
         </div>
     </div>

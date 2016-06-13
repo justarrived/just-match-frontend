@@ -20,8 +20,13 @@ angular.module('just.common')
 
             this.company_jobs_tab = 1;
 
-
-            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.jobs = jobService.getOwnedJobs(authService.userId().id, "job-users");
 
@@ -71,7 +76,16 @@ angular.module('just.common')
                                                     }
                                                 }
                                             }
+
                                             $scope.jobs_invoice.push(obj);
+                                            var jobIdx = $scope.jobs_invoice.length - 1;
+
+                                            Resources.userRating.get({
+                                                id: result.data.relationships.user.data.id,
+                                                'filter[job-id]': obj.id
+                                            }, function (ratingResp) {
+                                                $scope.jobs_invoice[jobIdx].rating = ratingResp.meta["average-score"];
+                                            });
                                         });
                                     }
                                 }
@@ -182,7 +196,13 @@ angular.module('just.common')
             $scope.job_obj = {id: $routeParams.id};
             this.ratingModel = ratingService.ratingModel;
 
-            userService.needSignin();
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
 
             this.model = userService.userModel();
@@ -411,14 +431,37 @@ angular.module('just.common')
                 $scope.isPerformed = false;
                 $scope.modalPerformShow = false;
             };
+
+            this.showConfirm = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = false;
+            };
+
+            this.hideConfirm = function () {
+                $scope.modalPerformShow = false;
+                $scope.isPerformed = true;
+            };
+
+            this.showRatingform = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = true;
+            };
         }
     ])
-    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', '$routeParams',
+    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', 'justRoutes', '$routeParams',
         '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService', 'gtService',
-        function (jobService, authService, i18nService, commentService, flow, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
+        function (jobService, authService, i18nService, commentService, flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
+
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             i18nService.addLanguageChangeListener(function () {
                     that.getComments($routeParams.id);
@@ -514,10 +557,18 @@ angular.module('just.common')
                 });
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
-        function (jobService, flow, userService, $routeParams, $scope, $q, $filter, Resources) {
+    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
+        function (jobService, flow, routes, authService, userService, $routeParams, $scope, $q, $filter, Resources) {
             var that = this;
             this.job_id = $routeParams.id;
+
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.candidates = [];
 
@@ -612,26 +663,40 @@ angular.module('just.common')
             this.hasInvoice = false;
 
             chatService.clearChat();
-            this.chatModel = chatService.chatModel;
-            this.chatMessageModel = chatService.chatMessageModel;
             this.chatId = undefined;
-            this.chatMessages = undefined;
             this.canPerformed = false;
 
             this.ratingModel = ratingService.ratingModel;
 
-            this.chatModel.data.attributes["user-ids"] = [];
-
-            userService.checkCompanyUser("Available for Company user", "Back to Home", routes.global.start.url);
+            authService.checkPromoCode().then(function (resp) {
+                if (resp !== 0) {
+                    userService.checkCompanyUser(routes.global.start.url);
+                } else {
+                    return;
+                }
+            });
 
             $scope.getNumber = function (num) {
                 return new Array(parseInt(num));
             };
 
             i18nService.addLanguageChangeListener(function () {
-                    that.getChatMessage();
+                    that.translateCandidate(that.candidate_model);
                 }
             );
+            //handle different dynamic translations
+            $scope.dt = {
+                candidate_item: true
+            };
+            this.toggleDT = function (textId) {
+                $scope.dt[textId] = !$scope.dt[textId];
+            };
+
+            if (flow.next_data) {
+                that.chatId = flow.next_data;
+                $scope.currTab = 3;
+                flow.next_data = undefined;
+            }
 
             this.getUserPerformedJobs = function (user_id) {
                 $scope.userPerformedJobss = jobService.getUserJobs({
@@ -684,7 +749,6 @@ angular.module('just.common')
                 });
             };
 
-
             this.getJobData = function () {
                 $scope.jobb = jobService.getJob(that.job_id, 'company,hourly-pay');
                 $scope.jobb.$promise.then(function (response) {
@@ -712,14 +776,6 @@ angular.module('just.common')
                         }, function (resultImage) {
                             $scope.job.company_image = resultImage.data.attributes["image-url-small"];
                         });
-                    }
-
-                    if (flow.next_data) {
-                        that.chatId = flow.next_data;
-                        chatService.setChatId(that.chatId);
-                        that.getChatMessage();
-                        $scope.currTab = 3;
-                        flow.next_data = undefined;
                     }
                 });
 
@@ -772,6 +828,8 @@ angular.module('just.common')
 
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
+
+                        that.translateCandidate(that.candidate_model);
                     }
 
                     if (response.data.attributes.accepted || response.data.attributes["will-perform"] || response.data.attributes.performed) {
@@ -813,30 +871,77 @@ angular.module('just.common')
                             }, 6000);
                         }
                     }
-
-                    if (!that.chatId) {
-                        that.userChats = chatService.getUserChat();
-                        that.userChats.$promise.then(function (response) {
-                            var keepGoing = true;
-                            angular.forEach(response.data, function (obj, key) {
-                                if (keepGoing) {
-                                    that.user_id = authService.userId().id;
-                                    var found = $filter('filter')(obj.relationships.users.data, {id: that.user_apply.id}, true);
-                                    if (found.length > 0) {
-                                        that.chatId = obj.id;
-                                        chatService.setChatId(that.chatId);
-                                        that.getChatMessage();
-                                        keepGoing = false;
-                                    }
-                                }
-                            });
-                        });
-                    }
                 });
             };
 
             this.getJobData();
 
+            this.translateCandidate = function (model) {
+                if (model.description) {
+                    gtService.translate(model.description)
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.description = {};
+                            model.translation.description.text = translation.translatedText;
+                            model.translation.description.from = translation.detectedSourceLanguage;
+                            model.translation.description.from_name = translation.detectedSourceLanguageName;
+                            model.translation.description.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.description.to = translation.targetLanguage;
+                            model.translation.description.to_name = translation.targetLanguageName;
+                            model.translation.description.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model["job-experience"]) {
+                    gtService.translate(model["job-experience"])
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.job_experience = {};
+                            model.translation.job_experience.text = translation.translatedText;
+                            model.translation.job_experience.from = translation.detectedSourceLanguage;
+                            model.translation.job_experience.from_name = translation.detectedSourceLanguageName;
+                            model.translation.job_experience.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.job_experience.to = translation.targetLanguage;
+                            model.translation.job_experience.to_name = translation.targetLanguageName;
+                            model.translation.job_experience.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model.education) {
+                    gtService.translate(model.education)
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.education = {};
+                            model.translation.education.text = translation.translatedText;
+                            model.translation.education.from = translation.detectedSourceLanguage;
+                            model.translation.education.from_name = translation.detectedSourceLanguageName;
+                            model.translation.education.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.education.to = translation.targetLanguage;
+                            model.translation.education.to_name = translation.targetLanguageName;
+                            model.translation.education.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+                if (model["competence-text"]) {
+                    gtService.translate(model["competence-text"])
+                        .then(function (translation) {
+                            if (!model.translation) {
+                                model.translation = {};
+                            }
+                            model.translation.competence_text = {};
+                            model.translation.competence_text.text = translation.translatedText;
+                            model.translation.competence_text.from = translation.detectedSourceLanguage;
+                            model.translation.competence_text.from_name = translation.detectedSourceLanguageName;
+                            model.translation.competence_text.from_direction = translation.detectedSourceLanguageDirection;
+                            model.translation.competence_text.to = translation.targetLanguage;
+                            model.translation.competence_text.to_name = translation.targetLanguageName;
+                            model.translation.competence_text.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+            };
 
             this.acceptJob = function () {
                 jobService.ownerAcceptJob(that.job_id, that.job_user_id, that.fn);
@@ -861,55 +966,6 @@ angular.module('just.common')
 
             this.submitJobRating = function () {
                 ratingService.submitRating(that.job_id, that.ratingModel, that.fn);
-            };
-
-            this.submitChat = function () {
-                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, that.user_apply.id];
-                that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
-                chatService.newChatMessage(that.setChatId_get);
-            };
-
-            this.setChatId_get = function (chat_id) {
-                that.chatId = chat_id;
-                that.getChatMessage();
-            };
-
-            this.getChatMessage = function () {
-                var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
-                that.user_id = authService.userId().id;
-                that.chatMessages = chatService.getChatMessage();
-                that.chatMessages.$promise.then(function (response) {
-                    angular.forEach(response.data, function (obj, key) {
-                        var found_author = $filter('filter')(response.included, {
-                            type: 'users',
-                            id: obj.relationships.author.data.id
-                        }, true);
-                        if (found_author.length > 0) {
-                            if (found_author[0].relationships.company.data) {
-                                // is company
-                                that.chatMessages.data[key].author = {attributes: {}};
-                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
-                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
-                            } else {
-                                that.chatMessages.data[key].author = found_author[0];
-                                that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
-                            }
-                        }
-                        if (that.chatMessages.data[key].attributes.body) {
-                            gtService.translate(that.chatMessages.data[key].attributes.body)
-                                .then(function (translation) {
-                                    that.chatMessages.data[key].translation = {};
-                                    that.chatMessages.data[key].translation.text = translation.translatedText;
-                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
-                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
-                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
-                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
-                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
-                                });
-                        }
-                    });
-                });
             };
 
             this.fn = function (result) {
@@ -954,5 +1010,130 @@ angular.module('just.common')
                 }
             };
 
-        }]);
+            this.showConfirm = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = false;
+            };
 
+            this.hideConfirm = function () {
+                $scope.modalPerformShow = false;
+                $scope.isPerformed = true;
+            };
+
+            this.showRatingform = function () {
+                $scope.modalPerformShow = true;
+                $scope.isPerformed = true;
+            };
+        }])
+    .controller('CompanyJobsCandidateChatCtrl', ['authService', 'i18nService', 'chatService', 'justFlowService', 'justRoutes',
+        'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources', '$http', 'settings', 'gtService',
+        function (authService, i18nService, chatService, flow, routes, userService, $routeParams, $scope, $q, $filter, Resources, $http, settings, gtService) {
+            var that = this;
+
+            this.disableChat = true;
+
+            this.chatId = $scope.ctrl.chatId;
+            this.chatModel = chatService.chatModel;
+            this.chatMessageModel = chatService.chatMessageModel;
+            this.chatModel.data.attributes["user-ids"] = [];
+
+            $scope.$watch('ctrl.user_apply', function (data) {
+                if (data.id) {
+                    that.setChatValue(data);
+                }
+            });
+
+            i18nService.addLanguageChangeListener(function () {
+                    that.getChatMessage();
+                }
+            );
+
+            this.setChatValue = function (user_apply) {
+                if (!that.chatId) {
+                    that.userChats = chatService.getUserChat();
+                    that.userChats.$promise.then(function (response) {
+                        var keepGoing = true;
+                        angular.forEach(response.data, function (obj, key) {
+                            if (keepGoing) {
+                                that.user_id = authService.userId().id;
+                                var found = $filter('filter')(obj.relationships.users.data, {id: user_apply.id}, true);
+                                if (found.length > 0) {
+                                    that.chatId = obj.id;
+                                    chatService.setChatId(that.chatId);
+                                    that.getChatMessage();
+                                    keepGoing = false;
+                                }
+                            }
+                        });
+                        that.disableChat = false;
+                    });
+                } else {
+                    chatService.setChatId(that.chatId);
+                    that.getChatMessage();
+                    that.disableChat = false;
+                }
+            };
+
+
+            this.submitChat = function () {
+                that.chatModel.data.attributes["user-ids"] = [authService.userId().id, $scope.ctrl.user_apply.id];
+                that.chatMessageModel.data.attributes["language-id"] = parseInt(i18nService.getLanguage().$$state.value.id);
+                chatService.newChatMessage(that.setChatId_get);
+            };
+
+            this.setChatId_get = function (chat_id) {
+                that.chatId = chat_id;
+                that.getChatMessage();
+            };
+
+            this.getChatMessage = function () {
+                var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
+                that.user_id = authService.userId().id;
+
+                that.chatMessages = chatService.getChatMessage();
+
+                that.chatMessages.$promise.then(function (response) {
+                    angular.forEach(response.data, function (obj, key) {
+                        var found_author = $filter('filter')(response.included, {
+                            type: 'users',
+                            id: obj.relationships.author.data.id
+                        }, true);
+                        if (found_author.length > 0) {
+                            if (found_author[0].relationships.company.data) {
+                                // is company
+                                that.chatMessages.data[key].author = {attributes: {}};
+                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
+                            } else {
+                                that.chatMessages.data[key].author = found_author[0];
+
+                                if (found_author[0].relationships["user-images"].data.length > 0) {
+                                    var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
+                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    if(found_image){
+                                        if (found_image.length > 0) {
+                                            that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
+                                        }
+                                    }
+                                } else {
+                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                }
+                            }
+                        }
+                        if (that.chatMessages.data[key].attributes.body) {
+                            gtService.translate(that.chatMessages.data[key].attributes.body)
+                                .then(function (translation) {
+                                    that.chatMessages.data[key].translation = {};
+                                    that.chatMessages.data[key].translation.text = translation.translatedText;
+                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
+                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
+                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
+                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
+                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                });
+                        }
+                    });
+                });
+            };
+        }]);
