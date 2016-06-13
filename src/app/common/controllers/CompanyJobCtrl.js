@@ -1109,10 +1109,11 @@ angular.module('just.common')
 
                                 if (found_author[0].relationships["user-images"].data.length > 0) {
                                     var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
-                                    if (found_image.length > 0) {
-                                        that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
-                                    } else {
-                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    if(found_image){
+                                        if (found_image.length > 0) {
+                                            that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
+                                        }
                                     }
                                 } else {
                                     that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";

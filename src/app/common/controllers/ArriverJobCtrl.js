@@ -189,7 +189,6 @@ angular.module('just.common')
             this.getJobData = function () {
                 $scope.jobb = jobService.getJob($routeParams.id, 'company');
                 $scope.jobb.$promise.then(function (response) {
-                    console.log(response.data);
                     $scope.job = response.data;
                     $scope.job.company = response.included[0];
                     that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
@@ -407,6 +406,18 @@ angular.module('just.common')
                 }
                 $scope.isWillPerform = false;
                 $scope.userModalPerformShow = false;
+            };
+
+            this.showBIC = function(){
+                $scope.isShowBIC = true;
+                that.financeModel.data.attributes['account-clearing-number'] = "";
+                that.financeModel.data.attributes['account-number'] = "";
+            };
+
+            this.hideBIC = function(){
+                $scope.isShowBIC = false;
+                that.financeModel.data.attributes.bic = "";
+                that.financeModel.data.attributes.iban = "";
             };
         }])
     .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'commentService',

@@ -77,11 +77,15 @@
             <section ng-show="isWillPerform">
                 <h3>{{'user.account' | translate}}</h3>
                 <p>{{'user.account.description' | translate}}</p>
+                <p>{{'assignment.enable_bic_iban.description' | translate}}</p>
+                <p>
+                    <button class="button pink nomargin" href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">{{'common.click_here' | translate}}</button>
+                    <button class="button dark nomargin" href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">{{'common.cancel' | translate}}</button>
+                </p>
                 <div class="material-input">
-
                     <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
                         <validation form="form" field="account_clearing_number"
-                                    errormsg="finance.form.account_clearing_number.validation">
+                                    errormsg="finance.form.account_clearing_number.validation" ng-hide="isShowBIC">
                             <div class="group">
                                 <input type="text" name="account_clearing_number"
                                        ng-required="ctrl.financeModel.data.attributes['account-number'] || (!ctrl.financeModel.data.attributes.iban && !ctrl.financeModel.data.attributes.bic)"
@@ -91,7 +95,7 @@
                         </validation>
 
                         <validation form="form" field="account_number"
-                                    errormsg="finance.form.account_number.validation">
+                                    errormsg="finance.form.account_number.validation" ng-hide="isShowBIC">
                             <div class="group">
                                 <input type="text" name="account_number"
                                        ng-required="ctrl.financeModel.data.attributes['account-clearing-number']"
@@ -100,7 +104,7 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="iban" errormsg="finance.form.iban.validation">
+                        <validation form="form" field="iban" errormsg="finance.form.iban.validation" ng-show="isShowBIC">
                             <div class="group">
                                 <input type="text" name="iban"
                                        ng-required="ctrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
@@ -109,7 +113,7 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="bic" errormsg="finance.form.bic.validation">
+                        <validation form="form" field="bic" errormsg="finance.form.bic.validation" ng-show="isShowBIC">
                             <div class="group">
                                 <input type="text" name="bic"
                                        ng-required="ctrl.financeModel.data.attributes.iban"

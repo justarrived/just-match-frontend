@@ -164,6 +164,7 @@
   "assignment.created.title": "Uppdraget har skapats!",
   "assignment.created.description": "Så fort din e-post är bekräftad kommer uppdraget att publiceras.",
   "assignment.created.continue": "Vidare till mina uppdrag",
+  "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
   "company": "Företag",
   "company.create.title": "Skapa konto",
   "company.create.description": "Välkommen! För att anlita uppdragstagare på ett bra och rättvist sätt till behöver vi ditt organisationsnummer. För att ta uppdrag behöver du ange ett personnummer eller samordningsnummer.",
