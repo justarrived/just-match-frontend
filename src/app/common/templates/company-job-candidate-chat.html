@@ -2,7 +2,7 @@
     <div class="chat-block">
         <ul>
 
-            <li ng-repeat="chatMessage in cCtrl.chatMessages.data"
+            <li ng-repeat="chatMessage in cCtrl.chatMessages.data | orderBy:'':true"
                 ng-class="{'right':chatMessage.relationships.author.data.id === cCtrl.user_id}">
                 <div class="bubble">
                     <div><span class="messenger">{{chatMessage.author.attributes["first-name"]}} {{chatMessage.author.attributes["last-name"]}}</span><span

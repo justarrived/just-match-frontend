@@ -4,7 +4,7 @@
         <h1>{{"assignment.comments.title" | translate}}</h1>
         <div>
             <ul>
-                <li ng-repeat="comment in comments" ng-class="{'right': comment.attributes.isOwner===1}">
+                <li ng-repeat="comment in comments | orderBy:'':true" ng-class="{'right': comment.attributes.isOwner===1}">
                     <div class="bubble">
                         <div><span class="messenger">{{comment.attributes["first-name"]}} {{comment.attributes["last-name"]}}</span><span class="datetime">{{comment.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span></div>
                         <div ng-if="comment.translation.from == comment.translation.to" ng-bind-html="comment.attributes.body" ng-class="comment.translation.from_direction === 'rtl' ? 'rtl' : 'ltr'"></div>
