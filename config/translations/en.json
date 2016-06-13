@@ -15,6 +15,8 @@
     "common.no": "No",
     "common.edit": "Edit",
     "common.register_account": "Register new account",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "Do you already have an account?",
     "common.login": "Log in",
     "common.password": "Password",
@@ -39,6 +41,7 @@
     "common.updated": "Updated",
     "common.error.404": "Page not found",
     "common.or": "or",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "Select language",
     "menu.language.text_1": "You can go back and change your selected language later if you like.",
     "menu.language.text_2": "Jobs, comments and messages are translated automatically.",
@@ -162,6 +165,7 @@
     "assignment.created.title": "Job created!",
     "assignment.created.description": "As soon as your email is confirmed, your job will be published.",
     "assignment.created.continue": "Continue to my jobs",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "Companies",
     "company.create.title": "Create account",
     "company.create.description": "Welcome! To hire workers in a positive and fair way, we need your organisation number. To take jobs you need to provide a personal number or a co-ordination number.",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "{{candidate_name}} has applied for this job",
     "assignment.status.user_application.approve": "Hire",
     "assignment.status.user_application.approved": "You have offered this job to {{candidate_name}}",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "remaining to accept job",
     "assignment.status.user_application.will_perform": "{{candidate_name}} will do job",
     "assignment.status.user_application.rejected": "{{candidate_name}} has declined this job",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "Here you can turn of automatic translations and see the original text for this section of the site",
     "translation.dynamic.off.title": "Automatic translation is turned of. The original text and the language you have selected is the same for this section of the site.",
     "promo.title": "Welcome to Just Arrived!",
-    "promo.description": "Just Arrived is currently only availible for invited users. We will open up to the public in September. You can already now sign up to get access to the plattform for the official launch in September. "
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }

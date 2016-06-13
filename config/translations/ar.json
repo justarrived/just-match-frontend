@@ -15,6 +15,8 @@
     "common.no": "لا",
     "common.edit": "عدّل",
     "common.register_account": "سجّل حساب جديد",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "عندك حساب في الوقت الحاضر؟",
     "common.login": "ادخل",
     "common.password": "كلمة السر",
@@ -39,6 +41,7 @@
     "common.updated": "مستحدث",
     "common.error.404": "صفحة غير موجودة",
     "common.or": "eller",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "اِختار لغة",
     "menu.language.text_1": "يمكنك العودة الى الوراء وتغيير اللغة في وقت لاحق إذا أردت",
     "menu.language.text_2": "وظائف، تعليقات ورسائل تُترجم تلقائيا",
@@ -162,6 +165,7 @@
     "assignment.created.title": "الوظيفة قد أُنشِئتْ",
     "assignment.created.description": "عند التأكد من بريدك الالكتروني يتمّ نشر الوظيفة",
     "assignment.created.continue": "تباعاً الى وظائفي",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "شركة",
     "company.create.title": "مرحباً! أنت بحاجة لرقم المؤسسة من تعيين مستلمي الوظائف بطريقة جيدة ومحقة عليك أن تذكر الرقم الشخصي أو التنسيقي",
     "company.create.description": "مرحباً! نحن بحاجة لرقم المؤسسة لإشراك مستلمي الوظائف بطريقة جيدة ومحقة  للقيام بوظيفة عليك أن تذكر الرقم الشخصي أو التنسيقي",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "(مستلم) الوظيفة تقدّم على الوظيفة",
     "assignment.status.user_application.approve": "تعيين",
     "assignment.status.user_application.approved": "عرضت على (مستلم الوظيفة) أخذ الوظيفة",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "(الوقت) الباقي للموافقة",
     "assignment.status.user_application.will_perform": "سأنفّذ الوظيفة",
     "assignment.status.user_application.rejected": "(مستلم الوظيفة) رفض القيام بالوظيفة",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
     "translation.dynamic.off.title": "Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!",
     "promo.title": "Välkommen till Just Arrived!",
-    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmenheten."
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }

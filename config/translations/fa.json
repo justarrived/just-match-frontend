@@ -15,6 +15,8 @@
     "common.no": "نه",
     "common.edit": "تصحیح کنید",
     "common.register_account": "یک حساب کاربری باز کنید",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "آیا در حال حاضر دارای یک حساب کاربری هستید؟",
     "common.login": "وارد سیستم شوید",
     "common.password": "کلمه عبور",
@@ -39,6 +41,7 @@
     "common.updated": "به روز شده",
     "common.error.404": "صفحه پیدا نشد",
     "common.or": "یا",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "زبان انتخاب کنید",
     "menu.language.text_1": "شما در صورت تمایل می توانید به صفحه اصلی برگشته و زبان را تغییر دهید.",
     "menu.language.text_2": "ماموریت، نظرات و پیام‌ها بطور اتوماتیک ترجمه می‌شود",
@@ -162,6 +165,7 @@
     "assignment.created.title": "این ماموریت کاری ایجاد گردیده است",
     "assignment.created.description": "بمحض اینکه  ایمیل شما تایید شود، ماموریت کاری  در سایت منتشر خواهد شد. ",
     "assignment.created.continue": "ادامه به قسمت ماموریت‌های کاری من",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "شرکت",
     "company.create.title": "باز کردن حساب کاربری",
     "company.create.description": "خوش آمدید! برای در خدمت گرفتن انجام دهنده کار به شکلی مناسب و عادلانه، بایستی  کد اقتصادی شرکت خود/ شماره سازمانی (organisationsnummer) را ذکر نمایید. برای پذیرفتن ماموریت‌های کاری، بایستی یک شماره شناسایی شخصی/ شماره شناسایی شخصی موقت ذکر کنید.  ",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "(فرد انجام دهنده کار)  برای این ماموریت کاری درخواست  ارسال نموده است.",
     "assignment.status.user_application.approve": "بکار بگیرید",
     "assignment.status.user_application.approved": "شما از (فرد انجام دهنده کار)  برای انجام این ماموریت کاری دعوت بعمل آورده‌اید",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "فقط مانده که مأموریت پذیرفته شود",
     "assignment.status.user_application.will_perform": "{{نام متقاضی}}  این ماموریت کاری را انجام خواهد داد",
     "assignment.status.user_application.rejected": "{{نام متقاضی}}  این ماموریت کاری را نپذیرفته است",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "در اینجا می توانید ترجمۀ اتوماتیک را ببندید و این قسمت از سایت را به زبان اصلی مشاهده کنید",
     "translation.dynamic.off.title": "ترجمۀ اتوماتیک بسته شد. زبان اصلی و زبان انتخابی شما برای این قسمت از سایت یکسان هستند!",
     "promo.title": "به Just Arrived خوش آمدید!",
-    "promo.description": "در حال حاضر Just Arrived فقط برای میهمانان فراخوانده شده قابل دسترسی است. چند روز دیگر که ما سایت را برای بازدید عموم باز کردیم مجدداً از سایت بازدید کنید."
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }
