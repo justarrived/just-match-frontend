@@ -38,6 +38,7 @@
     "common.thanks": "Thank you!",
     "common.updated": "Updated",
     "common.error.404": "Page not found",
+    "common.or": "or",
     "menu.language.title": "Select language",
     "menu.language.text_1": "You can go back and change your selected language later if you like.",
     "menu.language.text_2": "Jobs, comments and messages are translated automatically.",
@@ -55,6 +56,7 @@
     "menu.settings.personal_data": "Personal details",
     "menu.settings.bank_details": "Bank details",
     "menu.settings.upload_logo": "Upload logo",
+    "menu.settings.contact_support": "Contact support",
     "login.title": "Log in",
     "login.form.username": "Username",
     "login.form.password": "Password",
@@ -192,7 +194,7 @@
     "company.assignments.candidates.select.title": "Select candidate",
     "company.assignments.candidates.select.description": "Click on the candidate to view their full profile.",
     "company.assignments.candidates.select.favourite": "Favourite",
-    "company.assignments.candidates.send_request": "You are sending an offer to {{candidate_name}}",
+    "company.assignments.candidates.send_request": "You are sending a request {{candidate_name}}",
     "company.assignments.chat": "Chat",
     "company.assignments.candidates.chat": "Chat with candidates",
     "profile.overview.hire": "Hire",
@@ -341,5 +343,10 @@
     "terms": "conditions",
     "terms.accept": "I accept Just Arrived's",
     "terms.title": "title for terms and conditions",
-    "terms.description": "terms and conditions text"
+    "terms.frilans_finans.accept": "I accept Frilans Finans",
+    "terms.description": "terms and conditions text",
+    "translation.dynamic.title": "Here you can turn of automatic translations and see the original text for this section of the site",
+    "translation.dynamic.off.title": "Automatic translation is turned of. The original text and the language you have selected is the same for this section of the site.",
+    "promo.title": "Welcome to Just Arrived!",
+    "promo.description": "Just Arrived is currently only availible for invited users. We will open up to the public in September. You can already now sign up to get access to the plattform for the official launch in September. "
 }
