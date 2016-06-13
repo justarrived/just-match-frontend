@@ -295,7 +295,8 @@ angular.module('just.common')
                                 flow.next(routes.global.confirmation.url, {
                                     title: 'profile.create.confirmation.title',
                                     //description: 'profile.create.confirmation.description',
-                                    submit: 'common.find_assignment'
+                                    submit: 'common.find_assignment',
+                                    showViewProfileButton: true
                                 });
                             }else{
                                 that.defaultConfirm();
