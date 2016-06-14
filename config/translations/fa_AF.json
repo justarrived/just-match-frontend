@@ -15,6 +15,8 @@
     "common.no": "نه",
     "common.edit": "تصحیح کنید",
     "common.register_account": "یک حساب کاربری باز کنید",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "آیا در حال حاضر هم دارای یک حساب کاربری هستید؟",
     "common.login": "وارد سیستم شوید",
     "common.password": "کلمه عبور",
@@ -39,6 +41,7 @@
     "common.updated": "Uppdaterad",
     "common.error.404": "Page not found",
     "common.or": "eller",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "زبان خود را انتخاب کنید",
     "menu.language.text_1": "شما در صورت تمایل می توانید به صفحه اصلی برگشته و زبان خود را تغییر دهید.",
     "menu.language.text_2": "ماموریت، نظرات و پیام‌ها بطور اتوماتیک ترجمه می‌شود",
@@ -162,6 +165,7 @@
     "assignment.created.title": "Uppdraget har skapats!",
     "assignment.created.description": "Så fort din e-post är bekräftad kommer uppdraget att publiceras.",
     "assignment.created.continue": "Vidare till mina uppdrag",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "شرکت",
     "company.create.title": "Skapa konto",
     "company.create.description": "Välkommen! För att anlita uppdragstagare på ett bra och rättvist sätt till behöver vi ditt organisationsnummer. För att ta uppdrag behöver du ange ett personnummer eller samordningsnummer.",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "(فرد انجام دهنده کار)  برای این ماموریت کاری درخواست  ارسال نموده است.",
     "assignment.status.user_application.approve": "استخدام کنید",
     "assignment.status.user_application.approved": "شما از (فرد انجام دهنده کار)  برای انجام این ماموریت کاری دعوت بعمل آورده‌اید",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "kvar att acceptera uppdraget",
     "assignment.status.user_application.will_perform": "{{candidate_name}} kommer utföra uppdraget",
     "assignment.status.user_application.rejected": "(فرد انجام دهنده کار) این ماموریت کاری را نپذیرفته است.",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
     "translation.dynamic.off.title": "Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!",
     "promo.title": "Välkommen till Just Arrived!",
-    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmenheten."
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }

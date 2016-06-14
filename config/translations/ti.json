@@ -15,6 +15,8 @@
     "common.no": "Na",
     "common.edit": "Biguherîne",
     "common.register_account": "Hesabeka nû qeyd bike",
+    "common.select_company": "Välj...",
+    "common.new_company": "Skapa nytt företag",
     "common.have_account": "Hesabeka te heye?",
     "common.login": "Têkeve",
     "common.password": "Şîfre",
@@ -39,6 +41,7 @@
     "common.updated": "Uppdaterad",
     "common.error.404": "Page not found",
     "common.or": "eller",
+    "common.view_profile": "Visa profil",
     "menu.language.title": "Zimanî bibijêre",
     "menu.language.text_1": "Tu dikarî vegerî û paşê zimanî biguherînî heger bixwazî.",
     "menu.language.text_2": "Kar, têbînî û peyam otomatîk tên wergerandin.",
@@ -162,6 +165,7 @@
     "assignment.created.title": "Uppdraget har skapats!",
     "assignment.created.description": "Så fort din e-post är bekräftad kommer uppdraget att publiceras.",
     "assignment.created.continue": "Vidare till mina uppdrag",
+    "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "Şîrket",
     "company.create.title": "Skapa konto",
     "company.create.description": "Välkommen! För att anlita uppdragstagare på ett bra och rättvist sätt till behöver vi ditt organisationsnummer. För att ta uppdrag behöver du ange ett personnummer eller samordningsnummer.",
@@ -298,6 +302,7 @@
     "assignment.status.user_application": "{{candidate_name}} li vî karî geryaye",
     "assignment.status.user_application.approve": "Wezîfedar bike",
     "assignment.status.user_application.approved": "Te ji {{candidate_name}} re pêşnîyaz kiriye ku vî karî bigire",
+    "assignment.status.user_company_hire": "Företaget vill anlita dig",
     "assignment.status.user_application.time_remaining": "kvar att acceptera uppdraget",
     "assignment.status.user_application.will_perform": "{{candidate_name}} kommer utföra uppdraget",
     "assignment.status.user_application.rejected": "{{candidate_name}} kirina vî karî red kiriye",
@@ -348,5 +353,5 @@
     "translation.dynamic.title": "Här kan du stänga av automatisk översättning och se original språket för denna avdelning av siten",
     "translation.dynamic.off.title": "Automatisk översättning är avstängd. Original språket och ditt valde språk är samma för denna avdelning av siten!",
     "promo.title": "Välkommen till Just Arrived!",
-    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmenheten."
+    "promo.description": "För tillfället är Just Arrived endast tillgängligt för inbjudna gäster. Titta gärna tillbaka om ett par dagar då vi öppnar för allmänheten."
 }
