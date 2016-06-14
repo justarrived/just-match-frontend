@@ -168,8 +168,8 @@
             };
         }])
 
-        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService',
-            function (jobService, authService, userService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
+        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService',
+            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
 
                 var that = this;
 
@@ -322,12 +322,28 @@
                             var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
                             if (found.length > 0) {
                                 if (found[0].relationships["company-images"].data.length > 0) {
-                                    Resources.companyImage.get({
-                                        company_id: found[0].id,
-                                        id: found[0].relationships["company-images"].data[0].id
-                                    }, function (result0) {
-                                        $scope.jobs.data[key].company_image = result0.data.attributes["image-url-small"];
-                                    });
+                                    var getCompany = companyService.getCompanyById(found[0].id);
+                                    if (getCompany) {
+                                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                        if (found_image) {
+                                            if (found_image.length > 0) {
+                                                $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                    } else {
+                                        Resources.company.get({
+                                            company_id: found[0].id,
+                                            'include': 'company-images'
+                                        }, function (result0) {
+                                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                            if (found_image) {
+                                                if (found_image.length > 0) {
+                                                    $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                                }
+                                            }
+                                            companyService.addList(result0);
+                                        });
+                                    }
                                 }
                             }
 
@@ -423,9 +439,9 @@
 
 
             }])
-        .controller('ViewJobCtrl', ['authService', 'userService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
+        .controller('ViewJobCtrl', ['authService', 'userService', 'companyService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
             'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
-            function (authService, userService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
+            function (authService, userService, companyService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
                 var that = this;
 
                 authService.checkPromoCode();
@@ -538,18 +554,36 @@
                         $scope.job = result.data;
                         $scope.job.owner = result.included[0];
                         $scope.job.company = result.included[1];
-                        //$scope.job.max_rate = result.included[2].attributes.rate;
-                        $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-with-fees"] : result.included[2].attributes.rate);
+                        $scope.job.max_rate = result.included[2].attributes.rate;
+                        if($scope.$parent){
+                            $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-with-fees"] : result.included[2].attributes.rate);
+                        }
                         $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                         $scope.job.currency = result.included[2].attributes.currency;
                         var company_image_arr = result.included[1].relationships["company-images"].data;
                         if (company_image_arr.length > 0) {
-                            Resources.companyImage.get({
-                                company_id: result.data.relationships.company.data.id,
-                                id: company_image_arr[0].id
-                            }, function (resultImage) {
-                                $scope.company_image = resultImage.data.attributes["image-url-small"];
-                            });
+                            var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
+                            if (getCompany) {
+                                var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                if (found_image) {
+                                    if (found_image.length > 0) {
+                                        $scope.company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                            } else {
+                                Resources.company.get({
+                                    company_id: result.data.relationships.company.data.id,
+                                    'include': 'company-images'
+                                }, function (result0) {
+                                    var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                    if (found_image) {
+                                        if (found_image.length > 0) {
+                                            $scope.company_image = found_image[0].attributes["image-url-small"];
+                                        }
+                                    }
+                                    companyService.addList(result0);
+                                });
+                            }
                         }
 
                         if (authService.isAuthenticated()) {
@@ -592,7 +626,7 @@
                     });
                 };
 
-
+                $scope.comments = [];
                 this.getComments = function (job_id) {
                     $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
                     $scope.comments.$promise.then(function (response) {
@@ -605,8 +639,55 @@
                                 type: "users"
                             }, true);
                             if (found.length > 0) {
-                                obj.attributes["first-name"] = found[0].attributes["first-name"];
-                                obj.attributes["last-name"] = found[0].attributes["last-name"];
+                                if (found[0].relationships.company.data !== null) {
+                                    obj.attributes["first-name"] = found[0].attributes["first-name"];
+                                    obj.attributes["last-name"] = '';
+
+                                    obj.user_image = "assets/images/content/placeholder-logo.png";
+
+                                    var getCompany = companyService.getCompanyById(found[0].relationships.company.data.id);
+
+                                    if (getCompany) {
+                                        obj.attributes["first-name"] = getCompany.data.attributes.name;
+                                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                        if (found_image) {
+                                            if (found_image.length > 0) {
+                                                obj.user_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                    } else {
+                                        Resources.company.get({
+                                            company_id: found[0].relationships.company.data.id,
+                                            'include': 'company-images'
+                                        }, function (result0) {
+                                            obj.attributes["first-name"] = result0.data.attributes.name;
+                                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                            if (found_image) {
+                                                if (found_image.length > 0) {
+                                                    obj.user_image = found_image[0].attributes["image-url-small"];
+                                                }
+                                            }
+                                            companyService.addList(result0);
+                                        });
+                                    }
+
+                                } else {
+                                    obj.attributes["first-name"] = found[0].attributes["first-name"];
+                                    obj.attributes["last-name"] = found[0].attributes["last-name"];
+
+                                    obj.user_image = "assets/images/content/placeholder-profile-image.png";
+
+                                    if (found[0].relationships["user-images"].data.length > 0) {
+                                        var found_image0 = $filter('filter')(response.included, {
+                                            id: "" + found[0].relationships["user-images"].data[0].id,
+                                            type: "user-images"
+                                        }, true);
+                                        if (found_image0.length > 0) {
+                                            obj.user_image = found_image0[0].attributes["image-url-small"];
+                                        }
+                                    }
+                                }
+
                             }
                             if (authService.isAuthenticated()) {
                                 if (authService.userId().id === obj.relationships.owner.data.id) {
@@ -618,17 +699,6 @@
                                 obj.attributes.isOwner = 0;
                             }
 
-                            obj.user_image = "assets/images/content/placeholder-profile-image.png";
-
-                            if (found[0].relationships["user-images"].data.length > 0) {
-                                var found_image = $filter('filter')(response.included, {
-                                    id: "" + found[0].relationships["user-images"].data[0].id,
-                                    type: "user-images"
-                                }, true);
-                                if (found_image.length > 0) {
-                                    obj.user_image = found_image[0].attributes["image-url-small"];
-                                }
-                            }
 
                             if (obj.attributes.body) {
                                 gtService.translate(obj.attributes.body)
@@ -742,12 +812,28 @@
                             var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
                             if (found.length > 0) {
                                 if (found[0].relationships["company-images"].data.length > 0) {
-                                    Resources.companyImage.get({
-                                        company_id: found[0].id,
-                                        id: found[0].relationships["company-images"].data[0].id
-                                    }, function (result0) {
-                                        $scope.jobs_more.data[key].company_image = result0.data.attributes["image-url-small"];
-                                    });
+                                    var getCompany = companyService.getCompanyById(found[0].id);
+                                    if (getCompany) {
+                                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                        if (found_image) {
+                                            if (found_image.length > 0) {
+                                                $scope.jobs_more.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                    } else {
+                                        Resources.company.get({
+                                            company_id: found[0].id,
+                                            'include': 'company-images'
+                                        }, function (result0) {
+                                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                            if (found_image) {
+                                                if (found_image.length > 0) {
+                                                    $scope.jobs_more.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                                }
+                                            }
+                                            companyService.addList(result0);
+                                        });
+                                    }
                                 }
                             }
 
@@ -775,9 +861,10 @@
 
                             angular.forEach(result.included, function (obj2, key2) {
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
-                                    //$scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
-
-                                    $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
+                                    $scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
+                                    if($scope.$parent){
+                                        $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
+                                    }
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
                                     $scope.jobs_more.data[key].currency = obj2.attributes.currency;
                                 }
