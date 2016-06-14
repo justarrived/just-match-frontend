@@ -21,7 +21,7 @@
                 <validation2 form="form" field="cin" errormsg="company.form.orgnr.validation">
                     <input type="hidden" name="id" ng-model="ctrl.data.id"/>
                     <div class="group">
-                        <input type="text" name="cin" ng-pattern="/^\d+$/" ng-minlength="10" ng-maxlength="10"
+                        <input type="text" name="cin" ng-pattern="/^[\d\-]+$/" ng-minlength="10"
                                ng-model="ctrl.data.cin"
                                ng-keyup="ctrl.cinKeyup();" ng-disabled="isNew === 1">
                         <label>{{'company.form.orgnr' | translate}}</label>

@@ -64,54 +64,62 @@ angular
             };
 
             this.checkCompanyByCin = function () {
-                var searchParam = {
-                    'include': 'company-images',
-                    'filter[cin]': that.data.cin
-                };
-                $scope.companies = Resources.companies.get(searchParam);
-                $scope.companies.$promise.then(function (response) {
-                    if (response.data.length > 0) {
-                        //found
-                        var item = response.data[0];
-                        item.company_image = "assets/images/content/placeholder-logo.png";
-                        if (item.relationships["company-images"].data.length > 0) {
-                            var found = $filter('filter')(response.included, {
-                                id: item.relationships["company-images"].data[0].id,
-                                type: 'company-images'
-                            }, true);
-                            if (found.length > 0) {
-                                item.company_image = found[0].attributes["image-url-medium"];
+                var tmpCIN = that.data.cin.replace(/-/g,"");
+                if(tmpCIN.length === 10){
+                    var searchParam = {
+                        'include': 'company-images',
+                        'filter[cin]': that.data.cin.replace(/-/g,"")
+                    };
+                    $scope.companies = Resources.companies.get(searchParam);
+                    $scope.companies.$promise.then(function (response) {
+                        if (response.data.length > 0) {
+                            //found
+                            var item = response.data[0];
+                            item.company_image = "assets/images/content/placeholder-logo.png";
+                            if (item.relationships["company-images"].data.length > 0) {
+                                var found = $filter('filter')(response.included, {
+                                    id: item.relationships["company-images"].data[0].id,
+                                    type: 'company-images'
+                                }, true);
+                                if (found.length > 0) {
+                                    item.company_image = found[0].attributes["image-url-medium"];
+                                }
                             }
-                        }
 
-                        that.data.id = item.id;
-                        that.data.name = item.attributes.name;
-                        that.data.website = item.attributes.website;
-                        that.data.firstname = "";
-                        that.data.lastname = "";
-                        //that.data.email = item.attributes.email;
-                        //that.data.phone = item.attributes.phone;
-                        that.data.street = item.attributes.street;
-                        that.data.zip = item.attributes.zip;
-                        that.data.city = item.attributes.city;
-                        that.data.company_id = item.id;
-                        that.data["company-image-one-time-token"] = "";
-                        that.company_image = item.company_image;
-                        $scope.isShowLogo = 1;
-                        $scope.disableInput = true;
-                        $scope.isNew = 0;
-                        companyService.choose(that.data, that.errorMessage);
-                    } else {
-                        //not found
-                        that.clearCompanyData();
-                        $scope.disableInput = false;
-                        that.data.id = "";
-                        $scope.isNew = 1;
-                        setTimeout(function(){
-                            document.getElementById("txt_company_name").focus();
-                        },100);
-                    }
-                });
+                            that.data.id = item.id;
+                            that.data.name = item.attributes.name;
+                            that.data.website = item.attributes.website;
+                            that.data.firstname = "";
+                            that.data.lastname = "";
+                            //that.data.email = item.attributes.email;
+                            //that.data.phone = item.attributes.phone;
+                            that.data.street = item.attributes.street;
+                            that.data.zip = item.attributes.zip;
+                            that.data.city = item.attributes.city;
+                            that.data.company_id = item.id;
+                            that.data["company-image-one-time-token"] = "";
+                            that.company_image = item.company_image;
+                            $scope.isShowLogo = 1;
+                            $scope.disableInput = true;
+                            $scope.isNew = 0;
+                            companyService.choose(that.data, that.errorMessage);
+                        } else {
+                            //not found
+                            that.clearCompanyData();
+                            $scope.disableInput = false;
+                            that.data.id = "";
+                            $scope.isNew = 1;
+                            setTimeout(function(){
+                                document.getElementById("txt_company_name").focus();
+                            },100);
+                        }
+                    });
+                }else{
+                    $translate('user.form.orgnr.validation').then(function (text) {
+                        $scope.form.cin.error_detail = text;
+                    });
+                }
+
             };
 
             this.clearCompanyData = function () {
