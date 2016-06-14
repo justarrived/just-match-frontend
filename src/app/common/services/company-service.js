@@ -22,6 +22,8 @@ angular.module('just.service')
                 attributes.language_id = i18nService.getLanguage().$$state.value.id;
                 that.registerModel = attributes;
 
+                attributes.cin = attributes.cin.replace(/-/g, "");
+
                 Resources.companies.create({data: {attributes: attributes}}, function (data) {
                     //flow.next(routes.user.register.url, data);
                     if (fnSuccess) {
