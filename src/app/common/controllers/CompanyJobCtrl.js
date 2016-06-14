@@ -176,9 +176,12 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_manage.resolve(obj));
             };
         }])
-    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'chatService', 'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams',
+    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'chatService', 'ratingService',
+        'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, invoiceService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources) {
+        function (jobService, authService, invoiceService, chatService, ratingService,
+                  flow, routes, userService, companyService, $routeParams,
+                  $scope, $q, $filter, MyDate, $interval, Resources) {
             var that = this;
             this.job_user_id = null;
             this.accepted = false; //owner choosed
@@ -270,12 +273,28 @@ angular.module('just.common')
 
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
-                        Resources.companyImage.get({
-                            company_id: "" + response.data.relationships.company.data.id,
-                            id: company_image_arr[0].id
-                        }, function (resultImage) {
-                            $scope.job.company_image = resultImage.data.attributes["image-url-small"];
-                        });
+                        var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
+                        if (getCompany) {
+                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                            if (found_image) {
+                                if (found_image.length > 0) {
+                                    $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                }
+                            }
+                        } else {
+                            Resources.company.get({
+                                company_id: response.data.relationships.company.data.id,
+                                'include': 'company-images'
+                            }, function (result0) {
+                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found_image) {
+                                    if (found_image.length > 0) {
+                                        $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                                companyService.addList(result0);
+                            });
+                        }
                     }
                 });
 
@@ -448,9 +467,12 @@ angular.module('just.common')
             };
         }
     ])
-    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'commentService', 'justFlowService', 'justRoutes', '$routeParams',
+    .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'companyService',
+        'commentService', 'justFlowService', 'justRoutes', '$routeParams',
         '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService', 'gtService',
-        function (jobService, authService, i18nService, commentService, flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
+        function (jobService, authService, i18nService, companyService,
+                  commentService, flow, routes, $routeParams,
+                  $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -487,12 +509,28 @@ angular.module('just.common')
 
                 var company_image_arr = response.included[0].relationships["company-images"].data;
                 if (company_image_arr.length > 0) {
-                    Resources.companyImage.get({
-                        company_id: "" + response.data.relationships.company.data.id,
-                        id: company_image_arr[0].id
-                    }, function (resultImage) {
-                        $scope.job.company_image = resultImage.data.attributes["image-url-small"];
-                    });
+                    var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
+                    if (getCompany) {
+                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                        if (found_image) {
+                            if (found_image.length > 0) {
+                                $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                            }
+                        }
+                    } else {
+                        Resources.company.get({
+                            company_id: response.data.relationships.company.data.id,
+                            'include': 'company-images'
+                        }, function (result0) {
+                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                            if (found_image) {
+                                if (found_image.length > 0) {
+                                    $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                }
+                            }
+                            companyService.addList(result0);
+                        });
+                    }
                 }
             });
 
@@ -506,25 +544,60 @@ angular.module('just.common')
                             type: "users"
                         }, true);
                         if (found.length > 0) {
-                            $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
-                            $scope.comments[key].attributes["last-name"] = found[0].attributes["last-name"];
+                            if (found[0].relationships.company.data !== null) {
+                                $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
+                                $scope.comments[key].attributes["last-name"] = '';
+
+                                $scope.comments[key].user_image = "assets/images/content/placeholder-logo.png";
+
+                                var getCompany = companyService.getCompanyById(found[0].relationships.company.data.id);
+
+                                if (getCompany) {
+                                    $scope.comments[key].attributes["first-name"] = getCompany.data.attributes.name;
+                                    var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                    if (found_image) {
+                                        if (found_image.length > 0) {
+                                            $scope.comments[key].user_image = found_image[0].attributes["image-url-small"];
+                                        }
+                                    }
+                                } else {
+                                    Resources.company.get({
+                                        company_id: found[0].relationships.company.data.id,
+                                        'include': 'company-images'
+                                    }, function (result0) {
+                                        $scope.comments[key].attributes["first-name"] = result0.data.attributes.name;
+                                        var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                        if (found_image) {
+                                            if (found_image.length > 0) {
+                                                $scope.comments[key].user_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                        companyService.addList(result0);
+                                    });
+                                }
+                            } else {
+                                $scope.comments[key].attributes["first-name"] = found[0].attributes["first-name"];
+                                $scope.comments[key].attributes["last-name"] = found[0].attributes["last-name"];
+
+                                $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
+
+                                if (found[0].relationships["user-images"].data.length > 0) {
+                                    var found_image0 = $filter('filter')(response.included, {
+                                        id: "" + found[0].relationships["user-images"].data[0].id,
+                                        type: "user-images"
+                                    }, true);
+                                    if (found_image0.length > 0) {
+                                        $scope.comments[key].user_image = found_image0[0].attributes["image-url-small"];
+                                    }
+                                }
+                            }
                         }
                         if (authService.userId().id === obj.relationships.owner.data.id) {
                             $scope.comments[key].attributes.isOwner = 1;
                         } else {
                             $scope.comments[key].attributes.isOwner = 0;
                         }
-                        $scope.comments[key].user_image = "assets/images/content/placeholder-profile-image.png";
 
-                        if (found[0].relationships["user-images"].data.length > 0) {
-                            var found_image = $filter('filter')(response.included, {
-                                id: "" + found[0].relationships["user-images"].data[0].id,
-                                type: "user-images"
-                            }, true);
-                            if (found_image.length > 0) {
-                                $scope.comments[key].user_image = found_image[0].attributes["image-url-small"];
-                            }
-                        }
                         if ($scope.comments[key].attributes.body) {
                             gtService.translate($scope.comments[key].attributes.body)
                                 .then(function (translation) {
@@ -557,8 +630,10 @@ angular.module('just.common')
                 });
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
-        function (jobService, flow, routes, authService, userService, $routeParams, $scope, $q, $filter, Resources) {
+    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService',
+        'companyService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
+        function (jobService, flow, routes, authService, userService,
+                  companyService, $routeParams, $scope, $q, $filter, Resources) {
             var that = this;
             this.job_id = $routeParams.id;
 
@@ -623,28 +698,43 @@ angular.module('just.common')
 
                 if (found1.length > 0) {
                     $scope.job = found1[0];
-                    Resources.company.get({
-                        company_id: found1[0].relationships.company.data.id,
-                        'include': 'company-images'
-                    }, function (response) {
-                        $scope.job.company = response.data;
-                        $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+                    $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
-                        if (response.data.relationships["company-images"].data.length > 0) {
-                            var found = $filter('filter')(response.included, {id: "" + response.data.relationships["company-images"].data[0].id}, true);
-                            if (found.length > 0) {
-                                $scope.job.company_image = found[0].attributes["image-url-small"];
+                    var getCompany = companyService.getCompanyById(found1[0].relationships.company.data.id);
+
+                    if (getCompany) {
+                        $scope.job.company = getCompany.data;
+                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                        if(found_image){
+                            if (found_image.length > 0) {
+                                $scope.job.company_image = found_image[0].attributes["image-url-small"];
                             }
-
                         }
-                    });
+                    }else{
+                        Resources.company.get({
+                            company_id: found1[0].relationships.company.data.id,
+                            'include': 'company-images'
+                        }, function (response) {
+                            $scope.job.company = response.data;
+
+                            if (response.data.relationships["company-images"].data.length > 0) {
+                                var found = $filter('filter')(response.included, {id: "" + response.data.relationships["company-images"].data[0].id}, true);
+                                if (found.length > 0) {
+                                    $scope.job.company_image = found[0].attributes["image-url-small"];
+                                }
+                            }
+                            companyService.addList(response);
+                        });
+                    }
                 }
             });
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
-        'ratingService', 'justFlowService', 'justRoutes', 'userService', '$routeParams', '$scope', '$q', '$filter',
+        'ratingService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams', '$scope', '$q', '$filter',
         'MyDate', '$interval', 'Resources', '$http', 'settings', 'gtService',
-        function (jobService, invoiceService, authService, i18nService, chatService, ratingService, flow, routes, userService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, settings, gtService) {
+        function (jobService, invoiceService, authService, i18nService, chatService,
+                  ratingService, flow, routes, userService, companyService, $routeParams, $scope, $q, $filter,
+                  MyDate, $interval, Resources, $http, settings, gtService) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -737,14 +827,28 @@ angular.module('just.common')
                     });
 
                     angular.forEach($scope.userPerformedJobs, function (obj, idx) {
-                        Resources.company.get({
-                            company_id: "" + obj.relationships.company.data.id,
-                            "include": "company-images"
-                        }, function (result) {
-                            if (result.included) {
-                                $scope.userPerformedJobs[idx].company_image = result.included[0].attributes["image-url-small"];
+                        var getCompany = companyService.getCompanyById(obj.relationships.company.data.id);
+                        if (getCompany) {
+                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                            if(found_image){
+                                if (found_image.length > 0) {
+                                    $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
+                                }
                             }
-                        });
+                        } else {
+                            Resources.company.get({
+                                company_id: obj.relationships.company.data.id,
+                                'include': 'company-images'
+                            }, function (result0) {
+                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if(found_image){
+                                    if (found_image.length > 0) {
+                                        $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                                companyService.addList(result0);
+                            });
+                        }
                     });
                 });
             };
@@ -770,12 +874,28 @@ angular.module('just.common')
 
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
-                        Resources.companyImage.get({
-                            company_id: "" + response.data.relationships.company.data.id,
-                            id: company_image_arr[0].id
-                        }, function (resultImage) {
-                            $scope.job.company_image = resultImage.data.attributes["image-url-small"];
-                        });
+                        var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
+                        if (getCompany) {
+                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                            if (found_image) {
+                                if (found_image.length > 0) {
+                                    $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                }
+                            }
+                        } else {
+                            Resources.company.get({
+                                company_id: response.data.relationships.company.data.id,
+                                'include': 'company-images'
+                            }, function (result0) {
+                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found_image) {
+                                    if (found_image.length > 0) {
+                                        $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                                companyService.addList(result0);
+                            });
+                        }
                     }
                 });
 
@@ -1110,7 +1230,7 @@ angular.module('just.common')
                                 if (found_author[0].relationships["user-images"].data.length > 0) {
                                     var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
                                     that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
-                                    if(found_image){
+                                    if (found_image) {
                                         if (found_image.length > 0) {
                                             that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
                                         }

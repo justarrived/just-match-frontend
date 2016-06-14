@@ -15,8 +15,8 @@
  */
 
 angular.module('just.common')
-    .controller('StartCtrl', ['i18nService', 'authService', 'userService', 'jobService', '$scope', '$filter', '$q', 'Resources',
-        function (i18nService, authService, userService, jobService, $scope, $filter, $q, Resources) {
+    .controller('StartCtrl', ['i18nService', 'authService', 'userService', 'companyService', 'jobService', '$scope', '$filter', '$q', 'Resources',
+        function (i18nService, authService, userService, companyService, jobService, $scope, $filter, $q, Resources) {
             var that = this;
 
             $scope.today = new Date();
@@ -42,9 +42,9 @@ angular.module('just.common')
                             type: "hourly-pays"
                         }, true);
                         if (found_hourly_pay.length > 0) {
-                            if($scope.$parent){
+                            if ($scope.$parent) {
                                 that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-with-fees"] : found_hourly_pay[0].attributes.rate);
-                            }else{
+                            } else {
                                 that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes.rate;
                             }
 
@@ -59,13 +59,28 @@ angular.module('just.common')
                         }, true);
                         if (found.length > 0) {
                             if (found[0].relationships["company-images"].data.length > 0) {
-                                Resources.companyImage.get({
-                                    company_id: found[0].id,
-                                    id: found[0].relationships["company-images"].data[0].id
-                                }, function (result) {
-
-                                    that.jobs.data[idx].company_image = result.data.attributes["image-url-small"];
-                                });
+                                var getCompany = companyService.getCompanyById(found[0].id);
+                                if (getCompany) {
+                                    var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                                    if(found_image){
+                                        if (found_image.length > 0) {
+                                            that.jobs.data[idx].company_image = found_image[0].attributes["image-url-small"];
+                                        }
+                                    }
+                                } else {
+                                    Resources.company.get({
+                                        company_id: found[0].id,
+                                        'include': 'company-images'
+                                    }, function (result0) {
+                                        var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                        if(found_image){
+                                            if (found_image.length > 0) {
+                                                that.jobs.data[idx].company_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                        companyService.addList(result0);
+                                    });
+                                }
                             }
                         }
                     });
