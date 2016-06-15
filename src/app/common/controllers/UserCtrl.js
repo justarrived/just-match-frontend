@@ -184,6 +184,7 @@ angular.module('just.common')
             $scope.fileNameChanged = function () {
                 // UPLOAD IMAGE
                 var element = angular.element("#file_upload");
+                that.user_image = "assets/images/ui/loader.gif";
                 if (element[0].files[0]) {
                     var formData = new FormData();
 
