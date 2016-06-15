@@ -168,8 +168,8 @@
             };
         }])
 
-        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService',
-            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
+        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService', '$timeout',
+            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService, $timeout) {
 
                 var that = this;
 
@@ -239,7 +239,8 @@
                             panControl: false,
                             navigationControl: false,
                             scrollwheel: false,
-                            scaleControl: false
+                            scaleControl: false,
+                            maxZoom: 7
                         }
                     };
                 });
@@ -249,6 +250,12 @@
                         $scope.mapObj = inst.map;
                         $scope.uuid = $scope.mapObj.uiGmap_id;
                         var mapInstanceNumber = inst.instance; // Starts at 1.
+                        if ($scope.bounds) {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }
                     });
                 });
 
@@ -261,14 +268,26 @@
                         angular.element(".angular-google-map-container").css("width", window.innerWidth + "px");
                         google.maps.event.trigger($scope.mapObj, 'resize');
                         //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
-                        $scope.mapObj.fitBounds($scope.bounds);
+                        $timeout(function () {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 15){
+                                $scope.mapObj.setZoom(15);
+                            }
+                        }, 100);
+
                     } else {
                         $scope.map_class = "";
                         angular.element(".angular-google-map-container").css("height", $scope.zoomOutHeight);
                         angular.element(".angular-google-map-container").css("width", $scope.zoomOutWidth);
                         google.maps.event.trigger($scope.mapObj, 'resize');
                         //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
-                        $scope.mapObj.fitBounds($scope.bounds);
+                        $timeout(function () {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }, 100);
+
                     }
 
                     if ($scope.zoom_class === 'map-zoom-in') {
@@ -321,28 +340,30 @@
                         angular.forEach(result.data, function (obj, key) {
                             var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
                             if (found.length > 0) {
-                                if (found[0].relationships["company-images"].data.length > 0) {
-                                    var getCompany = companyService.getCompanyById(found[0].id);
-                                    if (getCompany) {
-                                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                                        if (found_image) {
-                                            if (found_image.length > 0) {
-                                                $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
-                                            }
-                                        }
-                                    } else {
-                                        Resources.company.get({
-                                            company_id: found[0].id,
-                                            'include': 'company-images'
-                                        }, function (result0) {
-                                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found[0].relationships) {
+                                    if (found[0].relationships["company-images"].data.length > 0) {
+                                        var getCompany = companyService.getCompanyById(found[0].id);
+                                        if (getCompany) {
+                                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
                                             if (found_image) {
                                                 if (found_image.length > 0) {
                                                     $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
                                                 }
                                             }
-                                            companyService.addList(result0);
-                                        });
+                                        } else {
+                                            Resources.company.get({
+                                                company_id: found[0].id,
+                                                'include': 'company-images'
+                                            }, function (result0) {
+                                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                                if (found_image) {
+                                                    if (found_image.length > 0) {
+                                                        $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                                    }
+                                                }
+                                                companyService.addList(result0);
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -413,13 +434,23 @@
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
                             $scope.bounds.extend(myLatLng);
                         });
-                        $scope.map = {
-                            center: {
-                                latitude: $scope.bounds.getCenter().lat(),
-                                longitude: $scope.bounds.getCenter().lng()
-                            }, zoom: 4
-                        };
-
+                        if ($scope.mapObj) {
+                            $timeout(function () {
+                                $scope.mapObj.fitBounds($scope.bounds);
+                                if($scope.mapObj.getZoom() > 12){
+                                    $scope.mapObj.setZoom(12);
+                                }
+                            }, 100);
+                        } else {
+                            $scope.map = {
+                                center: {
+                                    latitude: $scope.bounds.getCenter().lat(),
+                                    longitude: $scope.bounds.getCenter().lng()
+                                },
+                                zoom: 7,
+                                options: {maxZoom: 7}
+                            };
+                        }
                     });
                 };
 
@@ -437,11 +468,10 @@
                     $scope.getJobsPage('owner,company,hourly-pay');
                 }
 
-
             }])
         .controller('ViewJobCtrl', ['authService', 'userService', 'companyService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
-            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
-            function (authService, userService, companyService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', '$timeout',
+            function (authService, userService, companyService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService, $timeout) {
                 var that = this;
 
                 authService.checkPromoCode();
@@ -478,7 +508,8 @@
                             panControl: false,
                             navigationControl: false,
                             scrollwheel: false,
-                            scaleControl: false
+                            scaleControl: false,
+                            maxZoom: 7
                         }
                     };
                 });
@@ -488,6 +519,12 @@
                         $scope.mapObj = inst.map;
                         $scope.uuid = $scope.mapObj.uiGmap_id;
                         var mapInstanceNumber = inst.instance; // Starts at 1.
+                        if ($scope.bounds) {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }
                     });
                 });
 
@@ -555,7 +592,7 @@
                         $scope.job.owner = result.included[0];
                         $scope.job.company = result.included[1];
                         $scope.job.max_rate = result.included[2].attributes.rate;
-                        if($scope.$parent){
+                        if ($scope.$parent) {
                             $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-with-fees"] : result.included[2].attributes.rate);
                         }
                         $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
@@ -862,7 +899,7 @@
                             angular.forEach(result.included, function (obj2, key2) {
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
                                     $scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
-                                    if($scope.$parent){
+                                    if ($scope.$parent) {
                                         $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
                                     }
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
@@ -876,12 +913,23 @@
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
                             $scope.bounds.extend(myLatLng);
                         });
-                        $scope.map = {
-                            center: {
-                                latitude: $scope.bounds.getCenter().lat(),
-                                longitude: $scope.bounds.getCenter().lng()
-                            }, zoom: 4
-                        };
+                        if ($scope.mapObj) {
+                            $timeout(function () {
+                                $scope.mapObj.fitBounds($scope.bounds);
+                                if($scope.mapObj.getZoom() > 12){
+                                    $scope.mapObj.setZoom(12);
+                                }
+                            }, 100);
+                        } else {
+                            $scope.map = {
+                                center: {
+                                    latitude: $scope.bounds.getCenter().lat(),
+                                    longitude: $scope.bounds.getCenter().lng()
+                                },
+                                zoom: 7,
+                                options: {maxZoom: 7}
+                            };
+                        }
                     });
                 };
 
