@@ -180,7 +180,7 @@
                 $scope.categoryOptions = {
                     async: true,
                     onSelect: function (item) {
-                        consoleconsole.log(item);
+                        console.log(item);
                     }
                 };
 
