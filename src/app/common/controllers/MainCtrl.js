@@ -90,6 +90,20 @@ angular.module('just.common')
             });
         };
     })
+    .directive("slickChangeDirective", function() {
+        return function (scope, element, attrs) {
+            attrs.$observe('value', function(val) {
+                if($(".slick-cloned").length > 0){
+                    $(".slick-cloned").remove();
+                    $("#slick_instructions").slick("unslick");
+                    setTimeout(function(){
+                        $("#slick_instructions").slick();
+                    },100);
+
+                }
+            });
+        };
+    })
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route',
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route) {
             var that = this;

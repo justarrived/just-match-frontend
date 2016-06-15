@@ -82,7 +82,8 @@
     </div>
 </section>
 <section class="section-instructions">
-    <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
+    <input type="hidden" slick-change-directive value="{{'start.steps_section.title' | translate}}"/>
+    <slick id="slick_instructions" class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
            slides-to-show="3" responsive="instructionsResponsive" on-directive-init="onDirectiveInit()">
         <!--TODO: MAKE THIS ONE PERFECT SIMILAR TO OTHERS: SKAPA PROFIL-->
         <div>
