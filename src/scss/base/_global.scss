@@ -180,6 +180,9 @@ a {
 
 .opacityOver {
   background-color: rgba(0, 0, 0, 0.8);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
   opacity: 0 !important;
   -webkit-transition: all 0.3s ease !important;
   -moz-transition: all 0.3s ease !important;
