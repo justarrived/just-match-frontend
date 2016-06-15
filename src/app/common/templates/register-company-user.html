@@ -34,7 +34,8 @@
 
                 <validation2 form="form" field="name" errormsg="company.form.name.validation">
                     <div class="group">
-                        <input type="text" id="txt_company_name" name="name" ng-required="isNew===1" ng-model="ctrl.data.name"
+                        <input type="text" id="txt_company_name" name="name" ng-required="isNew===1"
+                               ng-model="ctrl.data.name"
                                ng-disabled="disableInput"
                                ng-keyup="form.name.error_detail = undefined">
                         <label>{{'company.form.name' | translate}}</label>
@@ -147,20 +148,18 @@
                            onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
-
-
+            </div>
+            <div>
                 <div class="terms">
-                    <p style="margin-bottom:10px;"><input type="checkbox" ng-true-value="1" required name="terms"
-                                                          ng-model="terms"> {{'terms.accept'
-                        | translate}} {{'terms' | translate}} <a
-                                href="assets/terms/160523_2051-2_Terms_and_Conditions_(en).pdf" target="_blank"> PDF
-                            EN</a>, <a href="assets/terms/160520_2051-2_Anvandarvillkor_(sv).pdf" target="_blank"> PDF
+                    <p style="margin-bottom:10px;"><input id="chk_terms" type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> <label for="chk_terms">{{'terms.accept'
+                        | translate}} {{'terms' | translate}}</label>
+                        <a href="assets/terms/160523_2051-2_Terms_and_Conditions_(en).pdf" target="_blank"> PDF EN </a>, <a href="assets/terms/160520_2051-2_Anvandarvillkor_(sv).pdf" target="_blank"> PDF
                             SV</a></p>
                 </div>
 
                 <div class="terms">
-                    <p><input type="checkbox" ng-true-value="1" required name="termsFrilan" ng-model="termsFrilan">
-                        {{"terms.frilans_finans.accept" | translate}} <a href="{{ctrl.termsAgreements}}" target="_blank"
+                    <p><input id="chk_termsFrilan" type="checkbox" ng-true-value="1" required name="termsFrilan" ng-model="termsFrilan">
+                        <label for="chk_termsFrilan">{{"terms.frilans_finans.accept" | translate}}</label> <a href="{{ctrl.termsAgreements}}" target="_blank"
                                                                          ng-show="ctrl.termsAgreements">{{'terms' |
                             translate}}</a></p>
                 </div>
