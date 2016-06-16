@@ -1163,7 +1163,7 @@ angular.module('just.common')
                 }
             });
 
-            i18nService.addLanguageChangeListener(function () {
+            i18nService.addLanguageChangeListenerContinue(function () {
                     that.getChatMessage();
                 }
             );
