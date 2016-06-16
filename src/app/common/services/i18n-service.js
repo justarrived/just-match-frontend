@@ -13,7 +13,7 @@ angular.module('just.service')
         'datastoreService', '$http', function ($translate, tmhDynamicLocale, settings, storage, flow, routes, $q, datastoreService, $http) {
             this.listeners = [];
             var that = this;
-            
+
             this.getDefaultLang = function (langs) {
                 var defLang = langs.filter(function (lang) {
                     return lang['lang-code'] === 'sv';
@@ -32,8 +32,8 @@ angular.module('just.service')
                     }, reject);
             });
 
-            this.reloadLang = function(){
-                if(!this.allLanguages){
+            this.reloadLang = function () {
+                if (!this.allLanguages) {
                     this.allLanguages = $q(function (resolve, reject) {
                         datastoreService.fetch('languages?filter[system_language]=true')
                             .then(function (data) {
@@ -121,6 +121,19 @@ angular.module('just.service')
 
             /**
              * @ngdoc function
+             * @name just.service:i18nService#addBreakPoint
+             * @methodOf just.service.service:i18nService
+             *
+             * @description
+             * Save LanguageListener Standard Point
+             * Call this before try to use addLanguageChangeListener in sub controller
+             */
+            this.addBreakPoint = function(){
+                that.breakPoint = this.listeners.length;
+            };
+
+            /**
+             * @ngdoc function
              * @name just.service:i18nService#addLanguageChangeListener
              * @methodOf just.service.service:i18nService
              *
@@ -132,7 +145,14 @@ angular.module('just.service')
              * @param {function} cb is called when language is changed. The language object will be passed as first argument.
              */
             this.addLanguageChangeListener = function (cb) {
-                this.listeners.push(cb);
+                if(that.breakPoint){
+                    that.listeners = that.listeners.slice(0, that.breakPoint);
+                }
+                that.listeners.push(cb);
+            };
+
+            this.addLanguageChangeListenerContinue = function (cb) {
+                that.listeners.push(cb);
             };
 
             this.notifyChange = function (lang) {

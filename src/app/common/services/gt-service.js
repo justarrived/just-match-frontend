@@ -17,9 +17,11 @@ angular.module('just.service')
             .then(function (lang) {
                 that.setLanguage(lang);
             });
+
         i18nService.addLanguageChangeListener(function (lang) {
             that.setLanguage(lang);
         });
+        i18nService.addBreakPoint();
 
         $http({
             method: 'GET',
