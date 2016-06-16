@@ -76,7 +76,7 @@ angular.module('just.common')
                     var getCompany = companyService.getCompanyById(obj.relationships.company.data.id);
                     if (getCompany) {
                         var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                        if(found_image){
+                        if (found_image) {
                             if (found_image.length > 0) {
                                 $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                             }
@@ -87,7 +87,7 @@ angular.module('just.common')
                             'include': 'company-images'
                         }, function (result0) {
                             var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
-                            if (found_image.length > 0) {
+                            if (found_image) {
                                 if (found_image.length > 0) {
                                     $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                                 }
