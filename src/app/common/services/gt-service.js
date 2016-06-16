@@ -34,7 +34,6 @@ angular.module('just.service')
                 url: url
             }).then(
                 function (response) {
-                    console.log(response.data.data.translations[0].translatedText);
                     return {
                         translatedText: $sanitize(response.data.data.translations[0].translatedText),
                         detectedSourceLanguage: response.data.data.translations[0].detectedSourceLanguage,
