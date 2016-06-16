@@ -15,8 +15,8 @@
  */
 
 angular.module('just.common')
-    .controller('StartCtrl', ['i18nService', 'authService', 'userService', 'companyService', 'jobService', '$scope', '$filter', '$q', 'Resources',
-        function (i18nService, authService, userService, companyService, jobService, $scope, $filter, $q, Resources) {
+    .controller('StartCtrl', ['i18nService', 'authService', 'userService', 'companyService', 'jobService', '$scope', '$filter', '$q', 'Resources', 'gtService',
+        function (i18nService, authService, userService, companyService, jobService, $scope, $filter, $q, Resources, gtService) {
             var that = this;
 
             $scope.today = new Date();
@@ -27,13 +27,40 @@ angular.module('just.common')
 
             authService.checkPromoCode();
 
+            i18nService.addLanguageChangeListener(function () {
+                that.translateText();
+            });
+
+            this.translateText = function(){
+                angular.forEach(that.jobs.data, function (obj, idx) {
+                    that.translateJobDataWord(idx);
+                });
+            };
+
+            this.translateJobDataWord = function(idx){
+                if (that.jobs.data[idx].attributes.name) {
+                    gtService.translate(that.jobs.data[idx].attributes.name)
+                        .then(function (translation) {
+                            that.jobs.data[idx].translation = {};
+                            that.jobs.data[idx].translation.text = translation.translatedText;
+                            that.jobs.data[idx].translation.from = translation.detectedSourceLanguage;
+                            that.jobs.data[idx].translation.from_name = translation.detectedSourceLanguageName;
+                            that.jobs.data[idx].translation.from_direction = translation.detectedSourceLanguageDirection;
+                            that.jobs.data[idx].translation.to = translation.targetLanguage;
+                            that.jobs.data[idx].translation.to_name = translation.targetLanguageName;
+                            that.jobs.data[idx].translation.to_direction = translation.targetLanguageDirection;
+                        });
+                }
+            };
+
             this.getNewJob = function () {
-                this.jobs = jobService.getJobsNoFilled('company,hourly-pay');
-                this.jobs.$promise.then(function (response) {
+                that.jobs = jobService.getJobsNoFilled('company,hourly-pay');
+                that.jobs.$promise.then(function (response) {
                     var deferd = $q.defer();
 
                     angular.forEach(response.data, function (obj, idx) {
                         that.jobs.data[idx].company_image = "assets/images/content/placeholder-logo.png";
+                        that.translateJobDataWord(idx);
                     });
 
                     angular.forEach(response.data, function (obj, idx) {
@@ -62,7 +89,7 @@ angular.module('just.common')
                                 var getCompany = companyService.getCompanyById(found[0].id);
                                 if (getCompany) {
                                     var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                                    if(found_image){
+                                    if (found_image) {
                                         if (found_image.length > 0) {
                                             that.jobs.data[idx].company_image = found_image[0].attributes["image-url-small"];
                                         }
@@ -73,7 +100,7 @@ angular.module('just.common')
                                         'include': 'company-images'
                                     }, function (result0) {
                                         var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
-                                        if(found_image){
+                                        if (found_image) {
                                             if (found_image.length > 0) {
                                                 that.jobs.data[idx].company_image = found_image[0].attributes["image-url-small"];
                                             }

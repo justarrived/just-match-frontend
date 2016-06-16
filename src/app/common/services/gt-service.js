@@ -6,7 +6,7 @@
  * Service to handle translation via google translate api.
  */
 angular.module('just.service')
-    .service('gtService', ['i18nService', '$http', 'settings', '$sanitize', function (i18nService, $http, settings, $sanitize) {
+    .service('gtService', ['i18nService', '$http', 'settings', function (i18nService, $http, settings) {
         var that = this;
 
         i18nService.supportedLanguages()
@@ -42,7 +42,7 @@ angular.module('just.service')
             }).then(
                 function (response) {
                     return {
-                        translatedText: $sanitize(response.data.data.translations[0].translatedText),
+                        translatedText: angular.element('<textarea />').html(response.data.data.translations[0].translatedText).text(),
                         detectedSourceLanguage: response.data.data.translations[0].detectedSourceLanguage,
                         detectedSourceLanguageName: that.getSourceLanguageName(response.data.data.translations[0].detectedSourceLanguage),
                         detectedSourceLanguageDirection: that.getSourceDirection(response.data.data.translations[0].detectedSourceLanguage),
