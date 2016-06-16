@@ -21,6 +21,13 @@ angular.module('just.service')
             that.setLanguage(lang);
         });
 
+        $http({
+            method: 'GET',
+            url: settings.google_translate_api_url.replace('?key=', '/languages?key=') + settings.google_translate_api_key + "&target=en"
+        }).then(function (response) {
+            that.allGoogleLangauges = response.data.data.languages;
+        });
+
         this.setLanguage = function (lang) {
             this.targetLanguage = lang['lang-code'];
             this.targetLanguageName = lang['en-name'];
@@ -47,21 +54,35 @@ angular.module('just.service')
             );
         };
 
-        this.getSourceLanguageName = function(langCode) {
+        this.getSourceLanguageName = function (langCode) {
+            var returnValue = "-";
             var len = that.allLanguages.length;
             var i = 0;
-            for(i; i<len; i++) {
-                if(that.allLanguages[i]['lang-code'] === langCode) {
+            for (i; i < len; i++) {
+                if (that.allLanguages[i]['lang-code'] === langCode) {
                     return that.allLanguages[i]['en-name'];
                 }
             }
-            return "-";
+
+            var keepGoing = true;
+            if (that.allGoogleLangauges) {
+                angular.forEach(that.allGoogleLangauges, function (val, key) {
+                    if (keepGoing) {
+                        if (langCode.localeCompare(val.language) === 0) {
+                            returnValue = val.name;
+                            keepGoing = false;
+                        }
+                    }
+                });
+            }
+
+            return returnValue;
         };
-        this.getSourceDirection = function(langCode) {
+        this.getSourceDirection = function (langCode) {
             var len = that.allLanguages.length;
             var i = 0;
-            for(i; i<len; i++) {
-                if(that.allLanguages[i]['lang-code'] === langCode) {
+            for (i; i < len; i++) {
+                if (that.allLanguages[i]['lang-code'] === langCode) {
                     return that.allLanguages[i].direction;
                 }
             }
@@ -69,12 +90,12 @@ angular.module('just.service')
         };
 
 
-        this.translateCandidate = function(model) {
+        this.translateCandidate = function (model) {
 
             that.translate(model.description)
                 .then(function (translation) {
-                    if(!model.translation) {
-                        model.translation  = {};
+                    if (!model.translation) {
+                        model.translation = {};
                     }
                     model.translation.description = {};
                     model.translation.description.text = translation.translatedText;
@@ -87,8 +108,8 @@ angular.module('just.service')
                 });
             that.translate(model["job-experience"])
                 .then(function (translation) {
-                    if(!model.translation) {
-                        model.translation  = {};
+                    if (!model.translation) {
+                        model.translation = {};
                     }
                     model.translation.job_experience = {};
                     model.translation.job_experience.text = translation.translatedText;
@@ -101,8 +122,8 @@ angular.module('just.service')
                 });
             that.translate(model["competence-text"])
                 .then(function (translation) {
-                    if(!model.translation) {
-                        model.translation  = {};
+                    if (!model.translation) {
+                        model.translation = {};
                     }
                     model.translation.competence_text = {};
                     model.translation.competence_text.text = translation.translatedText;
@@ -115,8 +136,8 @@ angular.module('just.service')
                 });
             that.translate(model["competence-text"])
                 .then(function (translation) {
-                    if(!model.translation) {
-                        model.translation  = {};
+                    if (!model.translation) {
+                        model.translation = {};
                     }
                     model.translation.competence_text = {};
                     model.translation.competence_text.text = translation.translatedText;
