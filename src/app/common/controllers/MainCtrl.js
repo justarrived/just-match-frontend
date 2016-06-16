@@ -111,7 +111,6 @@ angular.module('just.common')
                             }]
                         });
                     }, 100);
-
                 }
             });
         };
