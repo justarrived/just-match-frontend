@@ -82,7 +82,9 @@ angular.module('just.common')
                     angular.forEach(that.updateMessage.data.errors, function (obj, key) {
                         var field_name = "old_password";
                         field_name = field_name.replace(/-/g, "_");
-                        $scope.form_profile[field_name].error_detail = obj.detail;
+						if ($scope.form_profile[field_name]) {
+							$scope.form_profile[field_name].error_detail = obj.detail;
+						}
                     });
                 }else{
                     // Test Login success update user data and set flag to get new auth token
@@ -99,7 +101,9 @@ angular.module('just.common')
                         var pointer_arr = obj.source.pointer.split("/");
                         var field_name = pointer_arr[pointer_arr.length - 1];
                         field_name = field_name.replace(/-/g, "_");
-                        $scope.form_profile[field_name].error_detail = obj.detail;
+						if($scope.form_profile[field_name]){
+							$scope.form_profile[field_name].error_detail = obj.detail;
+						}
                     });
                 } else {
                     if(that.hasChangePassword ===0){

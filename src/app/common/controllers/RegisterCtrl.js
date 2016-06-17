@@ -68,7 +68,9 @@ angular.module('just.common')
                         var pointer_arr = obj.source.pointer.split("/");
                         var field_name = pointer_arr[pointer_arr.length - 1];
                         field_name = field_name.replace(/-/g, "_");
-                        $scope.form[field_name].error_detail = obj.detail;
+                        if($scope.form[field_name]){
+                            $scope.form[field_name].error_detail = obj.detail;
+                        }
                     });
                 }
             };
