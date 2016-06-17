@@ -178,7 +178,7 @@
     "company.form.street": "خیابان",
     "company.form.zip": "کد پستی",
     "company.form.city": "شهر",
-    "company.form.orgnr.validation": "کد شناسایی بنگاه اقتصادی/شرکت خود را به این شکل وارد کنید:  ÅÅMMDDXXXX",
+    "company.form.orgnr.validation": "کد شناسایی بنگاه اقتصادی/شرکت خود را به این شکل وارد کنید:  XXXXXXXXXX",
     "company.form.name.validation": "باید نام خود را بنویسید",
     "company.form.url.validation": "بایستی آدرس کامل اینترنتی شرکت را با پیشوندهای //:http یا  //:https بنویسید  ",
     "company.form.email.validation": "آدرس یک پست الکترونیکی معتبر را وارد نمایید",
