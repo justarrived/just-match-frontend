@@ -8,7 +8,7 @@
     <div class="job-more-table">
         <div>
             <ul class="job-list-wrapper">
-                <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}">
+                <li ng-repeat="job_m in jobs_more.data | filter:{id: '!'+job.id}" go-click="{{routes.job.get.resolve(job_m)}}">
                     <div class="job-image"><a href="#{{routes.job.get.resolve(job_m)}}" back-img="{{job_m.company_image}}"></a></div>
                     <div class="job-desc">
                         <div class="job-desc-inner">
