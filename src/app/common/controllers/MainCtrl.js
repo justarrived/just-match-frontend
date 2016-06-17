@@ -130,6 +130,15 @@ angular.module('just.common')
             });
         };
     })
+    .directive('customOnChange', function() {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var onChangeHandler = scope.$eval(attrs.customOnChange);
+                element.bind('change', onChangeHandler);
+            }
+        };
+    })
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route',
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route) {
             var that = this;

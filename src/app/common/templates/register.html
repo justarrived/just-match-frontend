@@ -97,7 +97,8 @@
                 </validation2>
 
                 <div class="group register-image">
-                    <input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
+                    <!--<input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">-->
+					<input type="file" id="file_upload" name="file" custom-on-change="fileNameChanged" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
             </div>
