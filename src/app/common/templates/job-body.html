@@ -37,7 +37,7 @@
             <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
                 | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}
             </li>
-            <li class="job-report" ng-hide="job.newjobmode"><a href="#">{{"assignment.report" | translate}}</a></li>
+            <li class="job-report" ng-hide="job.newjobmode"><a href="#{{routes.contact.form.url}}">{{"assignment.report" | translate}}</a></li>
         </ul>
     </div>
 </div>
