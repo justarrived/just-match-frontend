@@ -84,8 +84,8 @@
                 </div>
 
                 <div class="group register-image" ng-show="isNew">
-                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput"
-                           onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
+                    <!--<input type="file" id="file_upload" name="file" ng-disabled="disableInput" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">-->
+					<input type="file" id="file_upload" name="file" ng-disabled="disableInput" custom-on-change="fileNameChanged" accept="image/*">
                     <label>{{ 'company.form.logo' | translate }}</label>
                 </div>
 
@@ -144,8 +144,8 @@
                 </validation2>
 
                 <div class="group register-image">
-                    <input type="file" id="file_upload2" name="file"
-                           onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">
+                    <!--<input type="file" id="file_upload2" name="file" onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">-->
+					<input type="file" id="file_upload2" name="file" custom-on-change="fileNameChanged2" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
             </div>
