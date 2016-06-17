@@ -217,14 +217,19 @@ angular.module('just.common')
                     that.language_bundle = [];
                     that.language_ori = [];
 
-                    var found = $filter('filter')(response.included, {
-                        type: "languages"
-                    }, true);
+                    if(response.data.relationships.languages){
+                        angular.forEach(response.data.relationships.languages.data, function (obj_lang, idx_lang) {
+                            var found = $filter('filter')(response.included, {
+                                type: "languages",
+                                id: ""+obj_lang.id
+                            }, true);
 
-                    angular.forEach(found, function (obj, idx) {
-                        that.language_bundle.push(found[idx]);
-                        that.language_ori.push(found[idx]);
-                    });
+                            angular.forEach(found, function (obj, idx) {
+                                that.language_bundle.push(found[idx]);
+                                that.language_ori.push(found[idx]);
+                            });
+                        });
+                    }
 
                     Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
                         angular.forEach(result.data, function (obj, idx) {
@@ -234,11 +239,8 @@ angular.module('just.common')
                                     that.language_ori[idx2].user_language_id = obj.id;
                                 }
                             });
-
-
                         });
                     });
-
                 });
             };
 
