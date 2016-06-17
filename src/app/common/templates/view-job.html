@@ -4,8 +4,8 @@
   <div class="job-body-wrapper">
     <job-body></job-body>
     <job-comment></job-comment>
-    <div class="sticy-button" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1"><a class="button" href="" ng-click="ctrl.accept_job()">{{"assignment.status.apply" | translate}}</a></div>
-    <div class="sticy-button" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0"><a class="button button-disabled" ng-click="">{{"assignment.status.applied" | translate}}</a></div>
+    <div class="sticy-button ng-hide" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1"><a class="button" href="" ng-click="ctrl.accept_job()">{{"assignment.status.apply" | translate}}</a></div>
+    <div class="sticy-button ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0"><a class="button button-disabled" ng-click="">{{"assignment.status.applied" | translate}}</a></div>
     <job-more></job-more>
   </div>
 
