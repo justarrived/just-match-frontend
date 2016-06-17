@@ -279,6 +279,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 
   > li {
     display: table-row;
+    cursor: pointer;
 
     > div {
       display: table-cell;
@@ -656,7 +657,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         background: none;
         font-size: 1.2em;
         white-space: nowrap;
-        &[disabled]{
+        &[disabled] {
           background: none !important;
           color: $midgrey !important;
         }
@@ -798,11 +799,13 @@ job-body, job-comment {
     }
   }
 }
+
 .job-more-wrapper .icon-switch-language {
   float: right;
   color: $white;
   margin-top: -4px;
 }
+
 .job-body-description .icon-switch-language {
   float: right;
   color: $lightBlue;

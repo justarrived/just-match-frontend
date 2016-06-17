@@ -115,6 +115,21 @@ angular.module('just.common')
             });
         };
     })
+    .directive( 'goClick', function ( $location ) {
+        return function ( scope, element, attrs ) {
+            var path;
+
+            attrs.$observe( 'goClick', function (val) {
+                path = val;
+            });
+
+            element.bind( 'click', function () {
+                scope.$apply( function () {
+                    $location.path( path );
+                });
+            });
+        };
+    })
     .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route',
         function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route) {
             var that = this;

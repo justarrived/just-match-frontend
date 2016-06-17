@@ -35,7 +35,7 @@
     </div>
     <div id="job-more-list">
         <ul class="job-list-wrapper">
-            <li ng-repeat="job in jobs.data">
+            <li ng-repeat="job in jobs.data" go-click="{{routes.job.get.resolve(job)}}">
                 <div class="job-image"><a href="#{{routes.job.get.resolve(job)}}" back-img="{{job.company_image}}"></a>
                 </div>
                 <div class="job-desc">
