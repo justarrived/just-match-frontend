@@ -178,7 +178,7 @@
   "company.form.street": "Gata",
   "company.form.zip": "Postnummer",
   "company.form.city": "Stad",
-  "company.form.orgnr.validation": "Ange organisationsnummer i formen ÅÅMMDDXXXX",
+  "company.form.orgnr.validation": "Ange organisationsnummer i formen XXXXXXXXXX",
   "company.form.name.validation": "Du måste ange namn",
   "company.form.url.validation": "Du måste ange en full url inklusive http:// eller https:// för företagets webplats",
   "company.form.email.validation": "Du måste ange en giltig e-post",
