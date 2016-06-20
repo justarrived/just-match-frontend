@@ -281,7 +281,7 @@
     "user.apply.find_more": "Search for more jobs",
     "user.account": "Account details",
     "user.account.description": "Where would you like your wage to be paid when you have completed the job?",
-    "user.account.bank": "Bank name",
+    "user.account.bank": "Clearing number",
     "user.account.cardnr": "Account number",
     "user.account.iban": "IBAN number",
     "user.account.bic": "BIC number",
@@ -335,8 +335,8 @@
     "warning.title": "We're sorry",
     "warning.description": "Unfortunately, your type of profile does not have access to this function.",
     "warning.url.title": "Home",
-    "finance.form.account_clearing_number.validation": "Bank missing",
-    "finance.form.account_number.validation": "Card number missing",
+    "finance.form.account_clearing_number.validation": "Clearing number missing",
+    "finance.form.account_number.validation": "Account number missing",
     "finance.form.iban.validation": "IBAN missing",
     "finance.form.bic.validation": "BIC number missing",
     "cookies.title": "Cookies",
@@ -348,10 +348,10 @@
     "terms": "conditions",
     "terms.accept": "I accept Just Arrived's",
     "terms.title": "title for terms and conditions",
-    "terms.frilans_finans.accept": "I accept Frilans Finans",
+    "terms.frilans_finans.accept": "I accept Frilans Finans terms, conditions and employment contract",
     "terms.description": "terms and conditions text",
     "translation.dynamic.title": "Here you can turn of automatic translations and see the original text for this section of the site",
     "translation.dynamic.off.title": "Automatic translation is turned of. The original text and the language you have selected is the same for this section of the site.",
     "promo.title": "Welcome to Just Arrived!",
-    "promo.description": "At the moment, Just Arrived is only for availible for invited users. If you are interested in using the platform, please sign up on www.justarrived.se for the official launch. "
+    "promo.description": "At the moment, Just Arrived is only availible for invited users. If you are interested in using the platform, please sign up on www.justarrived.se for the official launch in the autumn of 2016. "
 }
