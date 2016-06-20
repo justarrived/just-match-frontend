@@ -644,12 +644,17 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       display: table;
       width: 100%;
 
-      input[type="text"] {
+      input[type="text"], textarea {
         border: 1px solid $midgrey;
         background: $lightGrey;
         border-radius: 25px;
         margin: 0;
       }
+      textarea {
+        height: 40px;
+        min-height: 40px;
+      }
+
       input[type="submit"] {
         color: $blue;
         font-weight: 700;
