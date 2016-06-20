@@ -178,7 +178,7 @@
     "company.form.street": "شارع",
     "company.form.zip": "صندوق بريد",
     "company.form.city": "مدينة",
-    "company.form.orgnr.validation": "اذكر رقم المؤسسة على شكل السنة،الشهر،اليوم، الرقم الرباعي",
+    "company.form.orgnr.validation": "Ange organisationsnummer i formen XXXXXXXXXX",
     "company.form.name.validation": "يجب ذكر الاسم",
     "company.form.url.validation": "يجب ذكر العنوان الالكتروني الكامل لموقع الشركة",
     "company.form.email.validation": "يجب ذكر بريد إلكتروني ساري المفعول",

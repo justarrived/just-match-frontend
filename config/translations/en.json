@@ -178,7 +178,7 @@
     "company.form.street": "street",
     "company.form.zip": "post code",
     "company.form.city": "town or city",
-    "company.form.orgnr.validation": "Enter organisation number as YYMMDDXXXX",
+    "company.form.orgnr.validation": "Ange organisationsnummer i formen XXXXXXXXXX",
     "company.form.name.validation": "You need to enter your name",
     "company.form.url.validation": "You need to enter a complete url for your company's website",
     "company.form.email.validation": "You need to enter a valid email",
