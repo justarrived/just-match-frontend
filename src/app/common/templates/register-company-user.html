@@ -11,11 +11,9 @@
 
             <div class="material-input">
                 <div class="group">
-                    <h1>Ny uppdragsgivare</h1>
-                    <h2>Företags uppgifter</h2>
-                    <p>En hjälptext om vilka typer av användarkonton skulle kunna vara ungefär såhär lång. Har vi mycket
-                        att
-                        orda om kan den krypa ned hit.</p>
+                    <h1>{{'company.form.new_clients' | translate}}</h1>
+                    <h2>{{ 'company.form.company_information' | translate }}</h2>
+                    <p>{{ 'company.form.company_info_description' | translate }}</p>
                 </div>
 
                 <validation2 form="form" field="cin" errormsg="company.form.orgnr.validation">
@@ -91,7 +89,7 @@
 
 
                 <div class="group">
-                    <h2>Inloggningsuppgifter</h2>
+                    <h2>{{ 'company.form.login_information' | translate }}</h2>
                 </div>
 
                 <validation2 form="form" field="ssn" errormsg="user.form.ssn.validation">
