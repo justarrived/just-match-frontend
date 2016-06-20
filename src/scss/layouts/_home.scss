@@ -233,7 +233,7 @@
   display: inline-block;
   position: absolute;
   right: 20px;
-  margin-top: 5px;
+  margin-top: 2px;
   font-size: 0.7em;
   text-transform: uppercase;
   text-decoration: none;
@@ -242,6 +242,7 @@
     text-decoration: none;
     span {
       display: none;
+      vertical-align: middle;
     }
   }
   a:after {
@@ -249,7 +250,7 @@
     content: '\e80a';
     font-size: 1.4em;
     vertical-align: middle;
-    margin-left: 4px;
+    margin-left: 6px;
   }
 }
 
