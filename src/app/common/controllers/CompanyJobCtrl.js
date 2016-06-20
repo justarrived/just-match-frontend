@@ -728,6 +728,10 @@ angular.module('just.common')
                     }
                 }
             });
+
+            that.gotoJobCandidatePage = function(job_id, job_user_id){
+                flow.next(routes.company.job_candidate.resolve(job_id,job_user_id), {currTab:2});
+            };
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams', '$scope', '$q', '$filter',
@@ -787,6 +791,11 @@ angular.module('just.common')
                     that.chatId = flow.next_data;
                     $scope.currTab = 3;
                     flow.next_data = undefined;
+                }else{
+                    if(flow.next_data.currTab){
+                        $scope.currTab = flow.next_data.currTab;
+                        flow.next_data = undefined;
+                    }
                 }
             }
 
