@@ -783,9 +783,11 @@ angular.module('just.common')
             };
 
             if (flow.next_data) {
-                that.chatId = flow.next_data;
-                $scope.currTab = 3;
-                flow.next_data = undefined;
+                if(typeof(flow.next_data) !== 'object'){
+                    that.chatId = flow.next_data;
+                    $scope.currTab = 3;
+                    flow.next_data = undefined;
+                }
             }
 
             this.getUserPerformedJobs = function (user_id) {
@@ -938,13 +940,30 @@ angular.module('just.common')
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
 
-                        var found_user_languages = $filter('filter')(response.included, {
+                        that.candidate_model.languages = [];
+                        if (that.user_apply.relationships.languages) {
+                            angular.forEach(that.user_apply.relationships.languages.data, function (obj_lang, idx_lang) {
+                                var found_lang = $filter('filter')(response.included, {
+                                    type: "languages",
+                                    id: "" + obj_lang.id
+                                }, true);
+
+                                if(found_lang){
+                                    if(found_lang.length>0){
+                                        that.candidate_model.languages.push(found_lang[0]);
+                                    }
+                                }
+                            });
+                        }
+
+
+                        /*var found_user_languages = $filter('filter')(response.included, {
                             type: "languages"
                         }, true);
 
                         if (found_user_languages.length > 0) {
                             that.candidate_model.languages = found_user_languages;
-                        }
+                        }*/
 
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
