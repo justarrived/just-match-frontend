@@ -9,6 +9,18 @@ angular.module('just.common')
             this.user_image = "assets/images/content/placeholder-logo.png";
             this.hasChangePassword=0;
 
+            this.clearErrorDetail = function(){
+                if($scope.form_profile){
+                    angular.forEach($scope.form_profile, function (obj, key) {
+                        if(obj){
+                            if(obj.error_detail){
+                                obj.error_detail = undefined;
+                            }
+                        }
+                    });
+                }
+            };
+
             this.setUserModel = function () {
                 $scope.userModel = userService.userModel();
                 if ($scope.userModel.$promise) {
@@ -17,12 +29,14 @@ angular.module('just.common')
                         that.user_image = result.data.user_image;
                         angular.element(".user-info-image").css("background-image", "url(" + result.data.user_image + ")");
                         that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
+                        that.clearErrorDetail();
                     });
                 } else {
                     angular.copy($scope.userModel.data.attributes, that.model.data.attributes);
                     that.user_image = $scope.userModel.data.user_image;
                     angular.element(".user-info-image").css("background-image", "url(" + $scope.userModel.data.user_image + ")");
                     that.model.data.attributes['language-id'] = '' + that.model.data.attributes['language-id'];
+                    that.clearErrorDetail();
                 }
             };
 
