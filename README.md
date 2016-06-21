@@ -7,6 +7,7 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 * [Deploy](#deploy)
 * [Commands](#commands)
 * [Contributing](#contributing)
+* [Contributors](#contributors)
 * [License](#license)
 
 ## Built with
