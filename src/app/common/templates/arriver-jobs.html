@@ -25,7 +25,7 @@
         <div ng-show="ctrl.arriver_jobs_tab===2">
             <div class="candidate-referencer">
                 <ul>
-                    <li ng-repeat="job in userPerformedJobs">
+                    <li ng-repeat="job in userPerformedJobs" ng-click="ctrl.gotoUserJobPage(job)">
                         <div><span class="user-info-image" back-img="{{job.company_image}}"></span></div>
                         <div>
                             <h4>{{job.attributes.name}}</h4>
