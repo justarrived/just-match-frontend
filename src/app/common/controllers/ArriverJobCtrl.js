@@ -545,7 +545,7 @@ angular.module('just.common')
 
                 if (found_hourly_pay.length > 0) {
                     $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                    $scope.job.max_rate = found_hourly_pay[0].attributes["gross-salary"] * response.data.attributes.hours;
                 }
 
                 var company_image_arr = response.included[0].relationships["company-images"].data;

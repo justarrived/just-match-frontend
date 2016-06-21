@@ -100,7 +100,7 @@
                         <select name="hourly_pay_id" ng-model="ctrl.model.data.attributes['hourly-pay-id']" required>
                             <option value="" hidden/>
                             <option ng-repeat="rate in ctrl.rates.data" value="{{rate.id}}">
-                                {{rate.attributes["rate-with-fees"] | number:0}} {{rate.attributes.currency}}
+                                {{rate.attributes["rate-excluding-vat"] | number:0}} {{rate.attributes.currency}} ({{rate.attributes["gross-salary"]}} {{rate.attributes.currency}})
                             </option>
                         </select>
                         <label class="control-label">{{ 'assignment.form.rate' | translate }}</label>
