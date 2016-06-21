@@ -39,11 +39,17 @@ angular.module('just.common')
                 var windowHeight = window.innerHeight;
                 var docHeight = getDocHeight() - elementHeight - footerHeight;
                 if ((this.pageYOffset + windowHeight - elementHeight) <= docHeight) {
-                    $(element).css({'position': 'fixed', 'bottom': '0', 'left': '0', 'width': '100%'});
+                    $(element).css({'position': 'fixed', 'bottom': '0', 'width': '100%'});
                     $(element).parent().css({'padding-bottom': elementHeight + 'px'});
+                    if(attrs.stickyFooter){
+                        $(element).addClass(attrs.stickyFooter);
+                    }
                 } else {
                     $(element).parent().prop('style', '');
                     $(element).prop('style', '');
+                    if(attrs.stickyFooter){
+                        $(element).removeClass(attrs.stickyFooter);
+                    }
                 }
             });
         };

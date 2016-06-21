@@ -4,13 +4,21 @@
         <h1>{{"assignment.comments.title" | translate}}</h1>
         <div>
             <ul>
-                <li ng-repeat="comment in comments | orderBy:'':true" ng-class="{'right': comment.attributes.isOwner===1}">
+                <li ng-repeat="comment in comments | orderBy:'':true"
+                    ng-class="{'right': comment.attributes.isOwner===1}">
                     <div class="bubble">
-                        <div><span class="messenger">{{comment.attributes["first-name"]}} {{comment.attributes["last-name"]}}</span><span class="datetime">{{comment.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span></div>
-                        <div ng-if="comment.translation.from == comment.translation.to" ng-bind-html="comment.attributes.body" ng-class="comment.translation.from_direction === 'rtl' ? 'rtl' : 'ltr'"></div>
-                        <div ng-class="comment.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'" ng-if="comment.translation.from != comment.translation.to">
+                        <div><span class="messenger">{{comment.attributes["first-name"]}} {{comment.attributes["last-name"]}}</span><span
+                                class="datetime">{{comment.attributes["created-at"] | date:'yyyy-MM-dd HH:mm'}}</span>
+                        </div>
+                        <div ng-if="comment.translation.from == comment.translation.to"
+                             ng-bind-html="comment.attributes.body"
+                             ng-class="comment.translation.from_direction === 'rtl' ? 'rtl' : 'ltr'"></div>
+                        <div ng-class="comment.translation.to_direction === 'rtl' ? 'rtl' : 'ltr'"
+                             ng-if="comment.translation.from != comment.translation.to">
                             {{comment.translation.text}}
-                            <p ng-class="comment.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'"><strong>{{'common.translated.from' | translate}} {{comment.translation.from_name}}</strong><br>
+                            <p ng-class="comment.translation.from_direction === 'rtl' ? 'translate-from rtl' : 'translate-from ltr'">
+                                <strong>{{'common.translated.from' | translate}}
+                                    {{comment.translation.from_name}}</strong><br>
                                 {{comment.attributes.body}}
                             </p>
                         </div>
@@ -18,10 +26,20 @@
                     <div class="profile-image" back-img="{{comment.user_image}}"></div>
                 </li>
             </ul>
-            <form name="form" ng-submit="ctrl.submit()">
-                <div class="form-group">
-                    <input type="text" name="comment_text" required placeholder="{{'assignment.comments.description' | translate}}"
-                           ng-model="ctrl.model.data.attributes['body']"/>
+        </div>
+        <div sticky-footer="horizontalCenter" class="chat-box comment-form-box">
+            <form name="formComment" ng-submit="ctrl.submit()">
+                <div>
+                    <div>
+                        <textarea name="txt_chatbox" id="txt_chatbox" class="expandable-textarea"
+                                  placeholder="{{'assignment.comments.description' | translate}}"
+                                  required
+                                  ng-keydown="ctrl.checkEnter('txt_chatbox',$event);"
+                                  ng-keyup="ctrl.autoExpand('txt_chatbox');"
+                                  ng-model="ctrl.model.data.attributes['body']"/>
+                    </div>
+                    <div><input type="submit" ng-disabled="formComment.$invalid" ng-value="'common.submit' | translate">
+                    </div>
                 </div>
             </form>
         </div>

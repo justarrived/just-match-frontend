@@ -626,8 +626,41 @@ angular.module('just.common')
                     resource_name: "jobs",
                     resource_id: $routeParams.id
                 }, formData, function (response) {
+                    $scope.formComment.txt_chatbox.$setUntouched();
+                    that.autoExpand('txt_chatbox');
                     that.getComments($routeParams.id);
                 });
+            };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.model.data.attributes.body) {
+                        if (that.model.data.attributes.body !== '') {
+                            that.submit();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if(count === 1){
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if(scrollH > objH){
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
             };
         }])
     .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService',

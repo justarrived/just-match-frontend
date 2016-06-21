@@ -432,10 +432,20 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   width: 100%;
   overflow: hidden;
 
-  input[type="text"] {
+  input[type="text"],textarea {
     border-radius: 5px;
     border: 1px solid $midgrey;
     margin-bottom: 35px;
+  }
+  textarea {
+    height: 40px;
+    min-height: 40px;
+    &:focus {
+      outline: none;
+    }
+    &:required{
+      box-shadow:none;
+    }
   }
   .translate span {
     cursor: pointer;
@@ -653,6 +663,12 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       textarea {
         height: 40px;
         min-height: 40px;
+        &:focus {
+          outline: none;
+        }
+        &:required{
+          box-shadow:none;
+        }
       }
 
       input[type="submit"] {
@@ -1480,6 +1496,64 @@ job-body, job-comment {
   }
 }
 
-.chat-box form{
+.chat-box form {
   background-color: $white;
+}
+
+.comment-form-box {
+  background-color: $white;
+  &.horizontalCenter {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  textarea {
+    border: 1px solid $midgrey;
+    background: $lightGrey;
+    border-radius: 5px;
+    margin: 0;
+    &:focus {
+      outline: none;
+    }
+    &:required{
+      box-shadow:none;
+    }
+  }
+  textarea {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  input[type="submit"] {
+    color: $blue;
+    font-weight: 700;
+    border: 0;
+    background: none;
+    font-size: 1.2em;
+    white-space: nowrap;
+    &[disabled] {
+      background: none !important;
+      color: $midgrey !important;
+    }
+  }
+
+  form > div {
+    display: table;
+    vertical-align: middle;
+    padding: 15px 0px;
+    width: 100%;
+  }
+  form > div > div:first-child {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 0;
+  }
+  form > div > div:last-child {
+    width: 82px;
+    text-align: center;
+    text-align: right;
+    padding-left: 0;
+    display: table-cell;
+    vertical-align: middle;
+  }
 }

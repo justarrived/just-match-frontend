@@ -174,9 +174,14 @@
                 <form name="formChat" ng-submit="ctrl.submitChat()">
                     <div>
                         <div>
-                            <textarea name="txt_chatbox" id="txt_chatbox" class="expandable-textarea" ng-keydown="ctrl.checkEnter('txt_chatbox',$event);" ng-keyup="ctrl.autoExpand('txt_chatbox');" required ng-model="ctrl.chatMessageModel.data.attributes.body" />
+                            <textarea name="txt_chatbox" id="txt_chatbox" class="expandable-textarea"
+                                      placeholder="{{'assignment.chat.description' | translate}}"
+                                      required
+                                      ng-keydown="ctrl.checkEnter('txt_chatbox',$event);"
+                                      ng-keyup="ctrl.autoExpand('txt_chatbox');"
+                                      ng-model="ctrl.chatMessageModel.data.attributes.body" />
                         </div>
-                        <div><input type="submit" class="chat-no-hover" value="{{'common.submit' | translate}}"></div>
+                        <div><input type="submit" ng-disabled="formChat.$invalid" class="chat-no-hover" value="{{'common.submit' | translate}}"></div>
                     </div>
                 </form>
             </div>
