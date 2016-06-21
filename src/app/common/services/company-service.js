@@ -30,7 +30,15 @@ angular.module('just.service')
                         fnSuccess();
                     }
                     attributes.company_id = data.data.id;
-                    userService.register(attributes, fn);
+
+                    var tmpAtt = angular.copy(attributes);
+                    tmpAtt.cin = "";
+                    tmpAtt.website = "";
+                    tmpAtt.name = "";
+                    tmpAtt.street = "";
+                    tmpAtt.zip = "";
+                    tmpAtt.city = "";
+                    userService.register(tmpAtt, fn);
 
                 }, function (error) {
                     that.registerMessage = error;
@@ -42,7 +50,14 @@ angular.module('just.service')
             };
 
             this.choose = function (attributes, fn) {
-                userService.register(attributes, fn);
+                var tmpAtt = angular.copy(attributes);
+                tmpAtt.cin = "";
+                tmpAtt.website = "";
+                tmpAtt.name = "";
+                tmpAtt.street = "";
+                tmpAtt.zip = "";
+                tmpAtt.city = "";
+                userService.register(tmpAtt, fn);
             };
 
             this.addList = function (companyData) {
