@@ -42,6 +42,8 @@
     "common.error.404": "Page not found",
     "common.or": "or",
     "common.view_profile": "Preview profile",
+    "common.gross_salary": "gross salary",
+    "common.net_salary": "net salary",
     "menu.language.title": "Select language",
     "menu.language.text_1": "You can go back and change your selected language later if you like.",
     "menu.language.text_2": "Jobs, comments and messages are translated automatically.",

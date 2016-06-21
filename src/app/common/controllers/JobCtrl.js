@@ -151,6 +151,7 @@
                             $scope.job.max_rate = obj.attributes["rate-excluding-vat"];
                             $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                             $scope.job.currency = obj.attributes.currency;
+							$scope.job.netRate = obj.attributes["net-salary"] * $scope.job.attributes.hours;
                         }
                     });
                     deferd.resolve(that.rates);
@@ -392,6 +393,7 @@
 
                                     $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
                                     $scope.jobs.data[key].currency = obj2.attributes.currency;
+									$scope.jobs.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
@@ -597,6 +599,7 @@
                         }
                         $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                         $scope.job.currency = result.included[2].attributes.currency;
+						$scope.job.netRate = result.included[2].attributes["net-salary"] * $scope.job.attributes.hours;
                         var company_image_arr = result.included[1].relationships["company-images"].data;
                         if (company_image_arr.length > 0) {
                             var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
@@ -937,6 +940,7 @@
                                     }
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
                                     $scope.jobs_more.data[key].currency = obj2.attributes.currency;
+									$scope.jobs_more.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
