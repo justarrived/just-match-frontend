@@ -169,10 +169,14 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div sticky-footer class="chat-box">
                 <form name="formChat" ng-submit="ctrl.submitChat()">
                     <div>
-                        <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
-                        <div><input type="submit" value="{{'common.submit' | translate}}"></div>
+                        <div>
+                            <textarea name="txt_chatbox" id="txt_chatbox" class="expandable-textarea" ng-keydown="ctrl.checkEnter('txt_chatbox',$event);" ng-keyup="ctrl.autoExpand('txt_chatbox');" required ng-model="ctrl.chatMessageModel.data.attributes.body" />
+                        </div>
+                        <div><input type="submit" class="chat-no-hover" value="{{'common.submit' | translate}}"></div>
                     </div>
                 </form>
             </div>

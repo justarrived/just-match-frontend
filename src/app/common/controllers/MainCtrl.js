@@ -23,6 +23,31 @@ angular.module('just.common')
             });
         };
     })
+    .directive("stickyFooter", function ($window) {
+        return function (scope, element, attrs) {
+            angular.element($window).bind("scroll", function () {
+                function getDocHeight() {
+                    return Math.max(
+                        document.body.scrollHeight, document.documentElement.scrollHeight,
+                        document.body.offsetHeight, document.documentElement.offsetHeight,
+                        document.body.clientHeight, document.documentElement.clientHeight
+                    );
+                }
+
+                var footerHeight = angular.element("footer").height();
+                var elementHeight = $(element).height();
+                var windowHeight = window.innerHeight;
+                var docHeight = getDocHeight() - elementHeight - footerHeight;
+                if ((this.pageYOffset + windowHeight - elementHeight) <= docHeight) {
+                    $(element).css({'position': 'fixed', 'bottom': '0', 'left': '0', 'width': '100%'});
+                    $(element).parent().css({'padding-bottom': elementHeight + 'px'});
+                } else {
+                    $(element).parent().prop('style', '');
+                    $(element).prop('style', '');
+                }
+            });
+        };
+    })
     .factory('httpPostFactory', function ($http) {
         return function (file, data, callback) {
             $http({
@@ -115,22 +140,22 @@ angular.module('just.common')
             });
         };
     })
-    .directive( 'goClick', function ( $location ) {
-        return function ( scope, element, attrs ) {
+    .directive('goClick', function ($location) {
+        return function (scope, element, attrs) {
             var path;
 
-            attrs.$observe( 'goClick', function (val) {
+            attrs.$observe('goClick', function (val) {
                 path = val;
             });
 
-            element.bind( 'click', function () {
-                scope.$apply( function () {
-                    $location.path( path );
+            element.bind('click', function () {
+                scope.$apply(function () {
+                    $location.path(path);
                 });
             });
         };
     })
-    .directive('customOnChange', function() {
+    .directive('customOnChange', function () {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {

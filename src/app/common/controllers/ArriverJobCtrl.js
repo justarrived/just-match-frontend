@@ -319,6 +319,8 @@ angular.module('just.common')
             };
 
             this.setChatId_get = function (chat_id) {
+                $scope.formChat.txt_chatbox.$setUntouched();
+                that.autoExpand('txt_chatbox');
                 that.chatId = chat_id;
                 that.getChatMessage();
             };
@@ -449,6 +451,38 @@ angular.module('just.common')
                 that.financeModel.data.attributes.bic = "";
                 that.financeModel.data.attributes.iban = "";
             };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.chatMessageModel.data.attributes.body) {
+                        if (that.chatMessageModel.data.attributes.body !== '') {
+                            that.submitChat();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if(count === 1){
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if(scrollH > objH){
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
+            };
+
         }])
     .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'companyService', 'commentService',
         'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
