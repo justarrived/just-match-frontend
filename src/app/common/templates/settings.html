@@ -54,7 +54,7 @@
                                            ng-model="sCtrl.model.data.attributes['first-name']"
                                            ng-class="{'has-error': form_profile.first_name.error_detail!==undefined}"
                                            ng-keyup="form_profile.first_name.error_detail = undefined">
-                                    <label class="error"></label>
+                                    <label class="error">{{form_profile.first_name.error_detail}}</label>
                                     <input type="text" name="last_name"
                                            placeholder="{{'user.form.last_name' | translate}}"
                                            required
@@ -62,7 +62,7 @@
                                            ng-model="sCtrl.model.data.attributes['last-name']"
                                            ng-class="{'has-error': form_profile.last_name.error_detail!==undefined}"
                                            ng-keyup="form_profile.last_name.error_detail = undefined">
-                                    <label class="error"></label>
+                                    <label class="error">{{form_profile.last_name.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -72,7 +72,7 @@
                                             ng-model="sCtrl.model.data.attributes.email"
                                             ng-class="{'has-error': form_profile.email.error_detail!==undefined}"
                                             ng-keyup="form_profile.email.error_detail = undefined">
-                                    <label class="error"></label>
+                                    <label class="error">{{form_profile.email.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -83,7 +83,7 @@
                                             ng-model="sCtrl.model.data.attributes.phone"
                                             ng-class="{'has-error': form_profile.phone.error_detail!==undefined}"
                                             ng-keyup="form_profile.phone.error_detail = undefined"><label
-                                        class="error"></label>
+                                        class="error">{{form_profile.phone.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -96,7 +96,7 @@
                                             ng-class="{'has-error': form_profile.old_password.error_detail!==undefined}"
                                             ng-keyup="form_profile.old_password.error_detail = undefined"
                                             autocomplete="off">
-                                    <label class="error"></label></div>
+                                    <label class="error">{{form_profile.old_password.error_detail}}</label></div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-password"></i></label></div>
@@ -106,7 +106,7 @@
                                             ng-model="sCtrl.model.data.attributes.password"
                                             ng-keyup="form_profile.password.error_detail = undefined"
                                             autocomplete="off">
-                                    <label class="error"></label></div>
+                                    <label class="error">{{form_profile.password.error_detail}}</label></div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-user3"></i></label></div>
