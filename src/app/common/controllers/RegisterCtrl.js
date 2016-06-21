@@ -16,8 +16,8 @@ angular.module('just.common')
             }
         };
     })
-    .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope', 'httpPostFactory', 'settings',
-        function (authService, userService, flow, routes, $scope, httpPostFactory, settings) {
+    .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope', 'httpPostFactory', 'settings', '$translate',
+        function (authService, userService, flow, routes, $scope, httpPostFactory, settings, $translate) {
             var that = this;
             this.uploading = false;
 
@@ -50,7 +50,7 @@ angular.module('just.common')
                         that.data['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
                         that.uploading = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploading = false;
                     });
                 }
@@ -68,10 +68,21 @@ angular.module('just.common')
                         var pointer_arr = obj.source.pointer.split("/");
                         var field_name = pointer_arr[pointer_arr.length - 1];
                         field_name = field_name.replace(/-/g, "_");
-                        if($scope.form[field_name]){
+                        if ($scope.form[field_name]) {
                             $scope.form[field_name].error_detail = obj.detail;
                         }
                     });
+                }
+            };
+
+            this.checkSSN = function () {
+                if (that.data.ssn) {
+                    var tmpSSN = that.data.ssn.replace(/-/g, "");
+                    if (tmpSSN.length !== 10) {
+                        $translate('user.form.ssn.validation').then(function (text) {
+                            $scope.form.ssn.error_detail = text;
+                        });
+                    }
                 }
             };
         }]);

@@ -85,6 +85,8 @@ angular.module('just.service')
                 attributes.language_id = parseInt(i18nService.getLanguage().$$state.value.id);
                 attributes.language_ids = [parseInt(i18nService.getLanguage().$$state.value.id)];
 
+                attributes.ssn = attributes.ssn.replace(/-/g, "");
+
                 that.registerModel = attributes;
 
                 var user = Resources.user.create({data: {attributes: attributes}}, function (responseData) {

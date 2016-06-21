@@ -244,7 +244,7 @@
   "user.form.zip": "Postnummer",
   "user.form.password": "Lösenord",
   "user.form.picture": "Profilbild",
-  "user.form.ssn.validation": "Ange personnummer i formen ÅÅMMDDXXXX",
+  "user.form.ssn.validation": "Ange personnummer i formen XXXXXXXXXX",
   "user.form.orgnr.validation": "Ange organisationsnummer i formen XXXXXXXXXX",
   "user.form.first_name.validation": "Du måste ange förnamn",
   "user.form.last_name.validation": "Du måste ange efternamn",
