@@ -1511,7 +1511,7 @@ job-body, job-comment {
     border: 1px solid $midgrey;
     background: $lightGrey;
     border-radius: 5px;
-    margin: 0;
+    margin: 0 !important;
     &:focus {
       outline: none;
     }
