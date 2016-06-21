@@ -70,9 +70,9 @@ angular.module('just.common')
                         }, true);
                         if (found_hourly_pay.length > 0) {
                             if ($scope.$parent) {
-                                that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-with-fees"] : found_hourly_pay[0].attributes.rate);
+                                that.jobs.data[idx].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? found_hourly_pay[0].attributes["rate-excluding-vat"] : found_hourly_pay[0].attributes["gross-salary"]);
                             } else {
-                                that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes.rate;
+                                that.jobs.data[idx].max_rate = found_hourly_pay[0].attributes["gross-salary"];
                             }
 
                             that.jobs.data[idx].total_rate = that.jobs.data[idx].max_rate * that.jobs.data[idx].attributes.hours;

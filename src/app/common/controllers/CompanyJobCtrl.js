@@ -267,7 +267,7 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                         $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
@@ -503,7 +503,7 @@ angular.module('just.common')
 
                 if (found_hourly_pay.length > 0) {
                     $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                    $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                     $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                 }
 
@@ -912,7 +912,7 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                         $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
