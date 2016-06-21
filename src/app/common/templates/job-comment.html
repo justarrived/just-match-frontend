@@ -23,10 +23,16 @@
         </li>
     </ul>
     <div ng-show="isSignIn">
-        <form name="form" ng-submit="ctrl.submitComment()">
+        <form name="formComment" ng-submit="ctrl.submitComment()">
             <div class="form-group">
-                <input type="text" name="comment_text" required placeholder="{{'assignment.comments.description' | translate}}"
-                       ng-model="ctrl.commentForm.data.attributes['body']"/>
+                <!--<input type="text" name="comment_text" required placeholder="{{'assignment.comments.description' | translate}}"
+                       ng-model="ctrl.commentForm.data.attributes['body']"/>-->
+                <textarea name="comment_text" id="comment_text" class="expandable-textarea"
+                          placeholder="{{'assignment.comments.description' | translate}}"
+                          required
+                          ng-keydown="ctrl.checkEnter('comment_text',$event);"
+                          ng-keyup="ctrl.autoExpand('comment_text');"
+                          ng-model="ctrl.commentForm.data.attributes['body']"/>
             </div>
         </form>
     </div>

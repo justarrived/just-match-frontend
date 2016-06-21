@@ -769,8 +769,41 @@
                         resource_name: "jobs",
                         resource_id: $routeParams.id
                     }, formData, function (response) {
+                        $scope.formComment.comment_text.$setUntouched();
+                        that.autoExpand('comment_text');
                         that.getComments($routeParams.id);
                     });
+                };
+
+                this.checkEnter = function (objId, e) {
+                    if (e.keyCode === 13 && !e.shiftKey) {
+                        e.preventDefault();
+                        if (that.commentForm.data.attributes.body) {
+                            if (that.commentForm.data.attributes.body !== '') {
+                                that.submitComment();
+                            }
+                        }
+                    }
+                };
+
+                this.autoExpand = function (objId) {
+                    var text = $("#" + objId).val();
+                    var lines = text.split(/\r|\r\n|\n/);
+                    var count = lines.length;
+                    var objH = (count + 1) * 20;
+
+                    if (objH <= 40) {
+                        objH = 40;
+                    }
+
+                    $("#" + objId).height(objH - 20);
+
+                    if(count === 1){
+                        var scrollH = document.getElementById(objId).scrollHeight;
+                        if(scrollH > objH){
+                            $("#" + objId).height(scrollH - 20);
+                        }
+                    }
                 };
 
                 $scope.getJobsPage = function (mode) {
