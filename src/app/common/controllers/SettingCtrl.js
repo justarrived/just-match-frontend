@@ -1,21 +1,21 @@
 angular.module('just.common')
-    .controller('SettingCtrl', ['justFlowService', 'justRoutes', 'authService', 'i18nService', 'userService', '$scope', 'Resources', '$filter', 'settings', 'httpPostFactory',
-        function (flow, routes, authService, i18nService, userService, $scope, Resources, $filter, settings, httpPostFactory) {
+    .controller('SettingCtrl', ['justFlowService', 'justRoutes', 'authService', 'i18nService', 'userService', '$scope', 'Resources', '$filter', 'settings', 'httpPostFactory', '$translate',
+        function (flow, routes, authService, i18nService, userService, $scope, Resources, $filter, settings, httpPostFactory, $translate) {
             var that = this;
 
             this.model = {data: {attributes: {}}};
             $scope.userModel = {};
             this.updateMessage = {};
             this.user_image = "assets/images/content/placeholder-logo.png";
-            this.hasChangePassword=0;
+            this.hasChangePassword = 0;
             that.disableSettingForm = true;
 
-            this.clearErrorDetail = function(){
+            this.clearErrorDetail = function () {
                 that.disableSettingForm = true;
-                if($scope.form_profile){
+                if ($scope.form_profile) {
                     angular.forEach($scope.form_profile, function (obj, key) {
-                        if(obj){
-                            if(obj.error_detail){
+                        if (obj) {
+                            if (obj.error_detail) {
                                 obj.error_detail = undefined;
                             }
                         }
@@ -74,7 +74,7 @@ angular.module('just.common')
 
             this.companyProfileUpdate = function () {
                 //Check need to update password
-                that.hasChangePassword=0;
+                that.hasChangePassword = 0;
                 if (that.model.data.attributes.password) {
                     // Test Login with email and old-password
                     authService.checkLogin({
@@ -98,13 +98,13 @@ angular.module('just.common')
                     angular.forEach(that.updateMessage.data.errors, function (obj, key) {
                         var field_name = "old_password";
                         field_name = field_name.replace(/-/g, "_");
-						if ($scope.form_profile[field_name]) {
-							$scope.form_profile[field_name].error_detail = obj.detail;
-						}
+                        if ($scope.form_profile[field_name]) {
+                            $scope.form_profile[field_name].error_detail = obj.detail;
+                        }
                     });
-                }else{
+                } else {
                     // Test Login success update user data and set flag to get new auth token
-                    that.hasChangePassword=1;
+                    that.hasChangePassword = 1;
                     userService.saveUserModel(that.model, that.fn);
                 }
             };
@@ -117,18 +117,18 @@ angular.module('just.common')
                         var pointer_arr = obj.source.pointer.split("/");
                         var field_name = pointer_arr[pointer_arr.length - 1];
                         field_name = field_name.replace(/-/g, "_");
-						if($scope.form_profile[field_name]){
-							$scope.form_profile[field_name].error_detail = obj.detail;
-						}
+                        if ($scope.form_profile[field_name]) {
+                            $scope.form_profile[field_name].error_detail = obj.detail;
+                        }
                     });
                 } else {
-                    if(that.hasChangePassword ===0){
+                    if (that.hasChangePassword === 0) {
                         // not change password
                         that.setUserModel();
                         $scope.$parent.ctrl.saveSettingsSuccess = true;
                         $scope.$parent.ctrl.showSetting = false;
                         $scope.$parent.ctrl.getUser();
-                    }else{
+                    } else {
                         // change password clear old user data and re-login with email and new password
                         that.hasChangePassword = 0;
                         userService.clearUserModel();
@@ -150,7 +150,18 @@ angular.module('just.common')
                 }
             };
 
-            this.enableSettingForm = function(){
+            this.enableSettingForm = function () {
                 that.disableSettingForm = false;
+            };
+
+            this.checkSSN = function () {
+                if (that.model.data.attributes.ssn) {
+                    var tmpSSN = that.model.data.attributes.ssn.replace(/-/g, "");
+                    if (tmpSSN.length !== 10) {
+                        $translate('user.form.ssn.validation').then(function (text) {
+                            $scope.form_profile.ssn.error_detail = text;
+                        });
+                    }
+                }
             };
         }]);
