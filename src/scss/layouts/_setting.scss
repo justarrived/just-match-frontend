@@ -79,7 +79,7 @@
     background: none;
     border: none;
   }
-  input[type="submit"] {
+  input[type="submit"], input[type="button"] {
     @include button-white-border;
     min-width: 220px;
     border: 1px solid $white !important;

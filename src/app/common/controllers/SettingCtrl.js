@@ -8,8 +8,10 @@ angular.module('just.common')
             this.updateMessage = {};
             this.user_image = "assets/images/content/placeholder-logo.png";
             this.hasChangePassword=0;
+            that.disableSettingForm = true;
 
             this.clearErrorDetail = function(){
+                that.disableSettingForm = true;
                 if($scope.form_profile){
                     angular.forEach($scope.form_profile, function (obj, key) {
                         if(obj){
@@ -148,5 +150,7 @@ angular.module('just.common')
                 }
             };
 
-
+            this.enableSettingForm = function(){
+                that.disableSettingForm = false;
+            };
         }]);

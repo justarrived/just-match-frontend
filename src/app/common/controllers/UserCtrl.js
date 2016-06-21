@@ -11,6 +11,9 @@ angular.module('just.common')
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
             this.saveButtonText = "common.save";
+            this.profileHeaderText = "profile";
+            this.disableUserForm = true;
+
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
@@ -26,7 +29,9 @@ angular.module('just.common')
 
             if (flow.next_data) {
                 if (flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register') {
-                    this.saveButtonText = "common.continue";
+                    that.saveButtonText = "common.continue";
+                    that.profileHeaderText = "profile.create.title";
+                    that.disableUserForm = false;
                 }
             }
 
@@ -270,8 +275,8 @@ angular.module('just.common')
 
             this.saveSuccess = function (issucess, result) {
                 /*if (that.user_image) {
-                    userService.setNewUserImage(that.user_image);
-                }*/
+                 userService.setNewUserImage(that.user_image);
+                 }*/
 
                 if (flow.next_data) {
                     if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
@@ -351,6 +356,10 @@ angular.module('just.common')
                 var path = $location.path();
                 flow.redirect(path);
                 that.saveSuccessDefault = 0;
+            };
+
+            this.enableUserForm = function(){
+                that.disableUserForm = false;
             };
         }]);
 
