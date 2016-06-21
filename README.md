@@ -110,6 +110,10 @@ $ tx push -s
 
 The configuration is in [.tx/config](.tx/config).
 
+## Contributors
+
+[Our awesome contributors](https://github.com/justarrived/just-match-frontend/graphs/contributors).
+
 ## License
 
 This project is open source and licensed under the permissive [MIT](LICENSE.txt) license
