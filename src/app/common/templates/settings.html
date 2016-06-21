@@ -40,8 +40,17 @@
                         </div>
                         <div ng-show="ctrl.isCompany===0">
                             <div><label>{{'user.form.ssn' | translate}}:</label></div>
-                            <div><input type="text" name="ssn" ng-model="sCtrl.model.data.attributes.ssn"
-                                        ng-minlength="10" ng-maxlength="10" readonly ng-disabled="sCtrl.disableSettingForm"></div>
+                            <div>
+                                <input type="text" name="ssn" ng-model="sCtrl.model.data.attributes.ssn"
+                                        ng-pattern="/^[\d\-]+$/" ng-minlength="10"
+                                        ng-blur="sCtrl.checkSSN();"
+                                        readonly
+                                        ng-keyup="form_profile.ssn.error_detail = undefined"
+                                        ng-class="{'has-error': form_profile.ssn.error_detail!==undefined}"
+                                        ng-disabled="sCtrl.disableSettingForm">
+                                <label class="error">{{form_profile.ssn.error_detail}}</label>
+                            </div>
+
                         </div>
                         <div class="group">
                             <div>

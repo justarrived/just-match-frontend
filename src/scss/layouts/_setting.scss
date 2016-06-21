@@ -198,6 +198,8 @@
       padding-left: 10px;
       color: $pink;
       display: none;
+      font-size: 12px;
+      white-space: normal;
     }
     .ng-invalid.ng-touched ~ label.error{
       display: block;
@@ -215,7 +217,9 @@
       font-weight: bold;
       color: $pink;
     }
-
+    input[disabled],select[disabled]{
+      color: $grey;
+    }
   }
   :-webkit-autofill,
   :-webkit-autofill:focus {
