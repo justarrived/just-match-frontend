@@ -41,13 +41,13 @@ angular.module('just.common')
                 if ((this.pageYOffset + windowHeight - elementHeight) <= docHeight) {
                     $(element).css({'position': 'fixed', 'bottom': '0', 'width': '100%'});
                     $(element).parent().css({'padding-bottom': elementHeight + 'px'});
-                    if(attrs.stickyFooter){
+                    if (attrs.stickyFooter) {
                         $(element).addClass(attrs.stickyFooter);
                     }
                 } else {
                     $(element).parent().prop('style', '');
                     $(element).prop('style', '');
-                    if(attrs.stickyFooter){
+                    if (attrs.stickyFooter) {
                         $(element).removeClass(attrs.stickyFooter);
                     }
                 }
