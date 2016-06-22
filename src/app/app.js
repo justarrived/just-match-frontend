@@ -96,6 +96,16 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/promo.html',
                 }
+            },
+            chat: {
+                url: '/chat/:chat_id',
+                resolve: function (id) {
+                    return '/chat/' + id;
+                },
+                handler: {
+                    templateUrl: 'common/templates/chat.html',
+                    controller: 'ChatCtrl as ctrl'
+                }
             }
         },
         user: {

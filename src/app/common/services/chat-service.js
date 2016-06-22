@@ -21,8 +21,12 @@ angular.module('just.service')
             return Resources.chats.get();
         };
 
-        this.getChat = function () {
-            return Resources.chat.get({id: that.chatId, 'include': 'user-images'});
+        this.getChat = function (fn) {
+            return Resources.chat.get({id: that.chatId, 'include': 'users,user-images'},function(response){
+                if(fn){
+                    fn(response);
+                }
+            });
         };
 
         this.getChatMessage = function () {
@@ -47,12 +51,12 @@ angular.module('just.service')
             });
         };
 
-        this.setChatId = function (chat_id) {
+        this.setChatId = function (chat_id, fn) {
             if (angular.isObject(chat_id)) {
                 that.chatId = undefined;
             } else {
                 that.chatId = chat_id;
-                that.chatDetail = that.getChat();
+                that.chatDetail = that.getChat(fn);
             }
         };
 

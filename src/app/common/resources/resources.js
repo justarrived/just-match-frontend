@@ -78,6 +78,7 @@ angular.module('just.common')
                 userChat: crud("users/:user_id/chats"),
 
                 languages: crud("languages"),
+                language: crud("languages/:id"),
                 userLanguage: crud("users/:user_id/languages"),
                 userLanguageId: crud("users/:user_id/languages/:user_language_id"),
 
