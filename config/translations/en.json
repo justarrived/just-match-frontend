@@ -128,7 +128,7 @@
     "contact.confirmation.navigate.back": "Back to contact",
     "assignment": "Job",
     "assignment.create.title": "Create New Job",
-    "assignment.create.description": "",
+    "assignment.create.description": "Please fill out the form below as accurately as you can. We recommend that you avoid abreviations and slang as Title and Job description will be translated to the applicants local language through Google Translate",
     "assignment.update.title": "Update job",
     "assignment.form.title": "Title",
     "assignment.form.description": "Job description",
