@@ -1,8 +1,8 @@
 angular.module('just.common')
     .controller('ChatCtrl', ['authService', 'i18nService', 'justFlowService', 'justRoutes', 'userService', 'companyService',
-        'jobService', '$scope', '$q', '$filter', 'Resources', '$routeParams', 'chatService', '$http', 'settings', 'gtService',
+        'jobService', '$scope', '$q', '$filter', 'Resources', '$routeParams', 'chatService', '$http', 'settings', 'gtService', '$window',
         function (authService, i18nService, flow, routes, userService, companyService,
-                  jobService, $scope, $q, $filter, Resources, $routeParams, chatService, $http, settings, gtService) {
+                  jobService, $scope, $q, $filter, Resources, $routeParams, chatService, $http, settings, gtService, $window) {
             var that = this;
 
             this.candidate_model = {};
@@ -36,7 +36,7 @@ angular.module('just.common')
                         that.isCompany = userService.isCompany;
                         if (userService.isCompany === 1) {
                             that.initDataCompany();
-                        }else{
+                        } else {
                             that.initDataArriver();
                         }
                     });
@@ -44,22 +44,22 @@ angular.module('just.common')
                     that.isCompany = userService.isCompany;
                     if (userService.isCompany === 1) {
                         that.initDataCompany();
-                    }else{
+                    } else {
                         that.initDataArriver();
                     }
                 }
             }
 
-            this.setChatHeaderData = function(response){
+            this.setChatHeaderData = function (response) {
                 var keepGoing = true;
                 angular.forEach(response.included, function (obj, key) {
                     if (keepGoing) {
                         if (obj.type.toLowerCase() === 'users') {
                             if (obj.id !== ("" + authService.userId().id)) {
                                 keepGoing = false;
-                                if(userService.isCompany === 1){
+                                if (userService.isCompany === 1) {
                                     that.setUserData(obj);
-                                }else{
+                                } else {
                                     that.setCompanyData(obj);
                                 }
                             }
@@ -69,18 +69,18 @@ angular.module('just.common')
             };
 
             // ARRIVER USER GET DATA
-            this.initDataArriver = function(){
+            this.initDataArriver = function () {
                 $scope.currTab = 3;
                 chatService.setChatId(that.chatId, that.setChatHeaderData);
                 that.getChatMessage();
                 that.disableChat = false;
             };
 
-            this.setCompanyData = function(userObj){
+            this.setCompanyData = function (userObj) {
                 $scope.chatCompany.owner = userObj;
                 $scope.chatCompany.company_image = "assets/images/content/placeholder-logo.png";
 
-                if(userObj.relationships.company.data !== null){
+                if (userObj.relationships.company.data !== null) {
                     var getCompany = companyService.getCompanyById(userObj.relationships.company.data.id);
                     if (getCompany) {
                         console.log("found");
@@ -103,10 +103,10 @@ angular.module('just.common')
                                 console.log("aaa");
                                 if (found_image.length > 0) {
                                     $scope.chatCompany.company_image = found_image[0].attributes["image-url-small"];
-                                }else{
+                                } else {
                                     $scope.chatCompany.company_image = "assets/images/content/placeholder-logo.png";
                                 }
-                            }else{
+                            } else {
                                 $scope.chatCompany.company_image = "assets/images/content/placeholder-logo.png";
                             }
                             companyService.addList(result0);
@@ -386,6 +386,7 @@ angular.module('just.common')
                                     that.chatMessages.data[key].translation.to = translation.targetLanguage;
                                     that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
                                     that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                    angular.element($window).scroll();
                                 });
                         }
                     });

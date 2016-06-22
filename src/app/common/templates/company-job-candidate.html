@@ -5,7 +5,7 @@
             <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>
             <li><a href="" ng-class="{sel:currTab === 2}" ng-click="currTab = 2">{{'common.references' | translate}}</a>
             </li>
-            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3">{{'common.messages' | translate}}</a>
+            <li><a href="" ng-class="{sel:currTab === 3}" ng-click="currTab = 3; ctrl.chatScroll()">{{'common.messages' | translate}}</a>
             </li>
         </ul>
 

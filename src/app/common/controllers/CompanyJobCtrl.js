@@ -469,10 +469,10 @@ angular.module('just.common')
     ])
     .controller('CompanyJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'companyService',
         'commentService', 'justFlowService', 'justRoutes', '$routeParams',
-        '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService', 'gtService',
+        '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'userService', 'gtService', '$window',
         function (jobService, authService, i18nService, companyService,
                   commentService, flow, routes, $routeParams,
-                  $scope, $q, $filter, $http, settings, Resources, userService, gtService) {
+                  $scope, $q, $filter, $http, settings, Resources, userService, gtService, $window) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -609,6 +609,7 @@ angular.module('just.common')
                                     $scope.comments[key].translation.to = translation.targetLanguage;
                                     $scope.comments[key].translation.to_name = translation.targetLanguageName;
                                     $scope.comments[key].translation.to_direction = translation.targetLanguageDirection;
+                                    angular.element($window).scroll();
                                 });
                         }
                     });
@@ -655,9 +656,9 @@ angular.module('just.common')
 
                 $("#" + objId).height(objH - 20);
 
-                if(count === 1){
+                if (count === 1) {
                     var scrollH = document.getElementById(objId).scrollHeight;
-                    if(scrollH > objH){
+                    if (scrollH > objH) {
                         $("#" + objId).height(scrollH - 20);
                     }
                 }
@@ -738,12 +739,12 @@ angular.module('just.common')
                     if (getCompany) {
                         $scope.job.company = getCompany.data;
                         var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                        if(found_image){
+                        if (found_image) {
                             if (found_image.length > 0) {
                                 $scope.job.company_image = found_image[0].attributes["image-url-small"];
                             }
                         }
-                    }else{
+                    } else {
                         Resources.company.get({
                             company_id: found1[0].relationships.company.data.id,
                             'include': 'company-images'
@@ -762,16 +763,16 @@ angular.module('just.common')
                 }
             });
 
-            that.gotoJobCandidatePage = function(job_id, job_user_id){
-                flow.next(routes.company.job_candidate.resolve(job_id,job_user_id), {currTab:2});
+            that.gotoJobCandidatePage = function (job_id, job_user_id) {
+                flow.next(routes.company.job_candidate.resolve(job_id, job_user_id), {currTab: 2});
             };
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams', '$scope', '$q', '$filter',
-        'MyDate', '$interval', 'Resources', '$http', 'settings', 'gtService',
+        'MyDate', '$interval', 'Resources', '$http', 'settings', 'gtService', '$window',
         function (jobService, invoiceService, authService, i18nService, chatService,
                   ratingService, flow, routes, userService, companyService, $routeParams, $scope, $q, $filter,
-                  MyDate, $interval, Resources, $http, settings, gtService) {
+                  MyDate, $interval, Resources, $http, settings, gtService, $window) {
             var that = this;
             this.job_id = $routeParams.job_id;
             this.job_user_id = $routeParams.job_user_id;
@@ -808,7 +809,7 @@ angular.module('just.common')
             };
 
             i18nService.addLanguageChangeListener(function () {
-                    that.translateCandidate(that.candidate_model);
+                that.translateCandidate(that.candidate_model);
             });
             //handle different dynamic translations
             $scope.dt = {
@@ -819,12 +820,12 @@ angular.module('just.common')
             };
 
             if (flow.next_data) {
-                if(typeof(flow.next_data) !== 'object'){
+                if (typeof(flow.next_data) !== 'object') {
                     that.chatId = flow.next_data;
                     $scope.currTab = 3;
                     flow.next_data = undefined;
-                }else{
-                    if(flow.next_data.currTab){
+                } else {
+                    if (flow.next_data.currTab) {
                         $scope.currTab = flow.next_data.currTab;
                         flow.next_data = undefined;
                     }
@@ -873,7 +874,7 @@ angular.module('just.common')
                         var getCompany = companyService.getCompanyById(obj.relationships.company.data.id);
                         if (getCompany) {
                             var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                            if(found_image){
+                            if (found_image) {
                                 if (found_image.length > 0) {
                                     $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                                 }
@@ -884,7 +885,7 @@ angular.module('just.common')
                                 'include': 'company-images'
                             }, function (result0) {
                                 var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
-                                if(found_image){
+                                if (found_image) {
                                     if (found_image.length > 0) {
                                         $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                                     }
@@ -989,8 +990,8 @@ angular.module('just.common')
                                     id: "" + obj_lang.id
                                 }, true);
 
-                                if(found_lang){
-                                    if(found_lang.length>0){
+                                if (found_lang) {
+                                    if (found_lang.length > 0) {
                                         that.candidate_model.languages.push(found_lang[0]);
                                     }
                                 }
@@ -999,12 +1000,12 @@ angular.module('just.common')
 
 
                         /*var found_user_languages = $filter('filter')(response.included, {
-                            type: "languages"
-                        }, true);
+                         type: "languages"
+                         }, true);
 
-                        if (found_user_languages.length > 0) {
-                            that.candidate_model.languages = found_user_languages;
-                        }*/
+                         if (found_user_languages.length > 0) {
+                         that.candidate_model.languages = found_user_languages;
+                         }*/
 
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
@@ -1204,10 +1205,17 @@ angular.module('just.common')
                 $scope.modalPerformShow = true;
                 $scope.isPerformed = true;
             };
+
+            this.chatScroll = function () {
+                setTimeout(function(){
+                    angular.element($window).scroll();
+                },100);
+
+            };
         }])
     .controller('CompanyJobsCandidateChatCtrl', ['authService', 'i18nService', 'chatService', 'justFlowService', 'justRoutes',
-        'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources', '$http', 'settings', 'gtService',
-        function (authService, i18nService, chatService, flow, routes, userService, $routeParams, $scope, $q, $filter, Resources, $http, settings, gtService) {
+        'userService', '$routeParams', '$scope', '$q', '$filter', 'Resources', '$http', 'settings', 'gtService', '$window',
+        function (authService, i18nService, chatService, flow, routes, userService, $routeParams, $scope, $q, $filter, Resources, $http, settings, gtService, $window) {
             var that = this;
 
             this.disableChat = true;
@@ -1268,6 +1276,10 @@ angular.module('just.common')
                 that.getChatMessage();
             };
 
+            this.chatScroll = function () {
+                angular.element($window).scroll();
+            };
+
             this.getChatMessage = function () {
                 var target_lang = i18nService.getLanguage().$$state.value['lang-code'];
                 that.user_id = authService.userId().id;
@@ -1313,11 +1325,13 @@ angular.module('just.common')
                                     that.chatMessages.data[key].translation.to = translation.targetLanguage;
                                     that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
                                     that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                    that.chatScroll();
                                 });
                         }
                     });
                 });
             };
+
 
             this.checkEnter = function (objId, e) {
                 if (e.keyCode === 13 && !e.shiftKey) {
@@ -1342,9 +1356,9 @@ angular.module('just.common')
 
                 $("#" + objId).height(objH - 20);
 
-                if(count === 1){
+                if (count === 1) {
                     var scrollH = document.getElementById(objId).scrollHeight;
-                    if(scrollH > objH){
+                    if (scrollH > objH) {
                         $("#" + objId).height(scrollH - 20);
                     }
                 }

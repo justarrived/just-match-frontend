@@ -106,10 +106,10 @@ angular.module('just.common')
 
     .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'ratingService',
         'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams',
-        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http', 'gtService',
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http', 'gtService', '$window',
         function (jobService, authService, chatService, ratingService,
                   i18nService, financeService, flow, routes, userService, companyService, $routeParams,
-                  $scope, $q, $filter, MyDate, $interval, Resources, $http, gtService) {
+                  $scope, $q, $filter, MyDate, $interval, Resources, $http, gtService, $window) {
             var that = this;
             this.job_user_id = null;
             this.accepted = false; //owner choosed
@@ -379,6 +379,8 @@ angular.module('just.common')
                                         that.chatMessages.data[key].translation.to = translation.targetLanguage;
                                         that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
                                         that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+
+                                        angular.element($window).scroll();
                                     });
                             }
                         });
@@ -496,10 +498,10 @@ angular.module('just.common')
             // USER Submit Rating
             this.submitJobRating = function () {
                 $scope.ratingError = undefined;
-                ratingService.submitRating($routeParams.id, that.ratingModel, function(status, response){
-                    if(status === 0){
+                ratingService.submitRating($routeParams.id, that.ratingModel, function (status, response) {
+                    if (status === 0) {
                         $scope.ratingError = response;
-                    }else{
+                    } else {
                         $scope.userModalPerformShow = 0;
                         that.ratingModel.data.attributes.score = 0;
                         that.ratingClass = 'score0';
@@ -512,9 +514,9 @@ angular.module('just.common')
 
         }])
     .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'companyService', 'commentService',
-        'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
+        'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService', '$window',
         function (jobService, authService, i18nService, userService, companyService, commentService,
-                  flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService) {
+                  flow, routes, $routeParams, $scope, $q, $filter, $http, settings, Resources, gtService, $window) {
             var that = this;
             this.model = commentService.getModel('jobs', $routeParams.id);
             this.message = {};
@@ -650,6 +652,7 @@ angular.module('just.common')
                                     $scope.comments[key].translation.to = translation.targetLanguage;
                                     $scope.comments[key].translation.to_name = translation.targetLanguageName;
                                     $scope.comments[key].translation.to_direction = translation.targetLanguageDirection;
+                                    angular.element($window).scroll();
                                 });
                         }
 
