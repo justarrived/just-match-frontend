@@ -222,7 +222,7 @@
     "user.assignment.confirmation.title": "Send offer to {{candidate_name}}",
     "user.assignment.confirmation.description": "{{candidate_name}} have 18 hours to accept this job offer. If {{candidate_name}} has not accepted the offer in 18 hours, you may choose another candidate.",
     "assignment.is_approved": "Has the job been completed?",
-    "assignment.approve.description": "The designated time for the job has expired. To ensure invoicing can take place, and that wages are paid, you and the job-seeker need to confirm that the job has been completed.",
+    "assignment.approve.description": "To ensure that invoicing can take place and salary can be paid out, you and the job-performer need to confirm that the job has been completed.",
     "assignment.total_cost.title": "Total cost SEK {{total_sum}} excluding VAT.",
     "assignment.total_cost.description": "\"This price includes employer contributions and social costs,\" \"excluding VAT.\"",
     "assignment.recommendation.title": "How do you think {{candidate_name}} carried out the job? Provide a star rating, (1-5), and write a review that will be added to {{candidate_name}} profile.",
