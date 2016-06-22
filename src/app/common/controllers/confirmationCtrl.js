@@ -17,6 +17,7 @@ angular.module('just.common')
             }
 
             this.process = function () {
+                storage.remove("confirmationObject");
                 if(flow.next_data){
                     flow.completed();
                 }else{

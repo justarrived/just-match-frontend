@@ -2,24 +2,25 @@
     <user-job-header></user-job-header>
     <div class="main-title pink" ng-show="ctrl.showStatus">
         <div class="job-owner-header">
-            <div ng-show="!ctrl.accepted && !ctrl.will_perform">
+            <div ng-show="!ctrl.accepted && !ctrl.will_perform && !ctrl.hasInvoice">
                 <!-- Wait owner choose candidate -->
                 <div>
                     <h2>{{ "assignment.status.applied" | translate }}</h2>
                 </div>
             </div>
-            <div ng-show="ctrl.accepted && !ctrl.will_perform">
+            <div ng-show="ctrl.accepted && !ctrl.will_perform && !ctrl.hasInvoice">
                 <!-- Owner choose you -->
                 <div>
                     <h2>{{'assignment.status.offer' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}}
                         {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="terms=0; isWillPerform=false; userModalPerformShow=1;">{{ "assignment.status.reply" | translate
+                    <a class="button" href="" ng-click="terms=0; isWillPerform=false; userModalPerformShow=1;">{{
+                        "assignment.status.reply" | translate
                         }}</a>
                 </div>
             </div>
-            <div ng-show="ctrl.will_perform && !ctrl.performed">
+            <div ng-show="ctrl.will_perform && !ctrl.performed && !ctrl.hasInvoice">
                 <!-- Job finish report your boss -->
                 <div ng-show="!ctrl.canPerformed">
                     <h2>{{'assignment.status.hired' | translate}}</h2>
@@ -35,6 +36,14 @@
                 -->
                 <div ng-show="ctrl.canPerformed">
                     <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
+                </div>
+            </div>
+            <div ng-show="ctrl.hasInvoice">
+                <div><h2>{{'assignment.status.rate' | translate}}</h2></div>
+                <div>
+                    <a class="button" href="" ng-click="userModalPerformShow=4">{{'common.yes' | translate}}</a>
+                    <a class="button dark" href="" ng-show="userModalPerformShow==4" ng-click="userModalPerformShow=0">{{'common.no'
+                        | translate}}</a>
                 </div>
             </div>
         </div>
@@ -61,26 +70,31 @@
                 </h4>
                 <p>{{'assignment.status.offer.approve' | translate}}</p>
                 <div class="terms">
-                    <p><input type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> {{'terms.frilans_finans.accept'
-                        | translate}} <a href="{{ctrl.termsAgreements}}" target="_blank" ng-show="ctrl.termsAgreements">{{'terms'
+                    <p><input id="chk_terms" type="checkbox" ng-true-value="1" required name="terms" ng-model="terms">
+                        <label for="chk_terms">{{'terms.frilans_finans.accept'
+                            | translate}}</label> <a href="{{ctrl.termsAgreements}}" target="_blank"
+                                                     ng-show="ctrl.termsAgreements">{{'terms'
                             | translate}}</a></p>
                 </div>
                 <div>
-                    <button class="button" ng-class="{pink : terms,dark : !terms}" href="" ng-disabled="!terms" ng-click="isWillPerform=true">{{'common.yes'
-                        | translate}}</button>
+                    <button class="button" ng-class="{pink : terms,dark : !terms}" href="" ng-disabled="!terms"
+                            ng-click="isWillPerform=true">{{'common.yes'
+                        | translate}}
+                    </button>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
                 </div>
-                <h3>{{'assignment.status.reply' | translate}}<br>
-                    {{'common.in' | translate}}<br>
-                    {{ctrl.remainHours}} {{'common.hour' | translate}} {{ctrl.remainMinutes}} min</h3>
             </section>
             <section ng-show="isWillPerform">
                 <h3>{{'user.account' | translate}}</h3>
                 <p>{{'user.account.description' | translate}}</p>
                 <p>{{'assignment.enable_bic_iban.description' | translate}}</p>
                 <p>
-                    <button class="button pink nomargin" href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">{{'common.click_here' | translate}}</button>
-                    <button class="button dark nomargin" href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">{{'common.cancel' | translate}}</button>
+                    <button class="button pink nomargin" href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">
+                        {{'common.click_here' | translate}}
+                    </button>
+                    <button class="button dark nomargin" href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">
+                        {{'common.cancel' | translate}}
+                    </button>
                 </p>
                 <div class="material-input">
                     <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
@@ -104,7 +118,8 @@
                             </div>
                         </validation>
 
-                        <validation form="form" field="iban" errormsg="finance.form.iban.validation" ng-show="isShowBIC">
+                        <validation form="form" field="iban" errormsg="finance.form.iban.validation"
+                                    ng-show="isShowBIC">
                             <div class="group">
                                 <input type="text" name="iban"
                                        ng-required="ctrl.financeModel.data.attributes.bic || (!ctrl.financeModel.data.attributes['account-clearing-number'] && !ctrl.financeModel.data.attributes['account-number'])"
@@ -172,13 +187,55 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div sticky-footer class="chat-box">
                 <form name="formChat" ng-submit="ctrl.submitChat()">
                     <div>
-                        <div><input type="text" required ng-model="ctrl.chatMessageModel.data.attributes.body"/></div>
-                        <div><input type="submit" value="{{'common.submit' | translate}}"></div>
+                        <div>
+                            <textarea name="txt_chatbox" id="txt_chatbox" class="expandable-textarea"
+                                      placeholder="{{'assignment.chat.description' | translate}}"
+                                      required
+                                      ng-keydown="ctrl.checkEnter('txt_chatbox',$event);"
+                                      ng-keyup="ctrl.autoExpand('txt_chatbox');"
+                                      ng-model="ctrl.chatMessageModel.data.attributes.body"/>
+                        </div>
+                        <div><input type="submit" ng-disabled="formChat.$invalid" class="chat-no-hover"
+                                    value="{{'common.submit' | translate}}"></div>
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div ng-show="userModalPerformShow==4">
+            <form name="formRate" novalidate ng-submit="ctrl.submitJobRating()">
+                <div>
+                    <span class="rating-job" ng-class="ctrl.ratingClass">
+                        <span ng-repeat="i in [1,2,3,4,5]"
+                              ng-click="ctrl.ratingModel.data.attributes.score=i; ctrl.ratingClass='score'+i;"></span>
+                    </span>
+                    <validation form="formRate" field="score" errormsg="">
+                        <div class="group">
+                            <input name="score" type="hidden" required ng-model="ctrl.ratingModel.data.attributes.score"
+                                   required>
+                        </div>
+                    </validation>
+                </div>
+                <div>
+                    <div class="material-input">
+                        <validation form="formRate" field="comment" errormsg="">
+                            <div class="group">
+                                <input name="comment" type="text" required
+                                       ng-model="ctrl.ratingModel.data.attributes.body">
+                                <label>{{'assignment.recommendation.description' | translate}}</label>
+                            </div>
+                        </validation>
+                    </div>
+                    <p class="rating-error">{{ratingError.data.errors[0].detail}}</p>
+                    <button class="button submit pink" type="submit" ng-disabled="formRate.$invalid">{{'common.submit' |
+                        translate}}
+                    </button>
+                </div>
+            </form>
         </div>
 
     </div>

@@ -23,8 +23,8 @@
                         <div ng-show="ctrl.isCompany===1">
                             <div>
                                 <div class="upload-photo">
-                                    <input type="file" id="file_upload" name="file"
-                                           onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>
+                                    <!--<input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>-->
+									<input type="file" id="file_upload" ng-disabled="sCtrl.disableSettingForm" name="file" custom-on-change="fileNameChanged" accept="image/*">
                                     <input type="text" name="user_image_one_time_token"
                                            ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
                                     <div class="user-info-image" back-img="{{sCtrl.user_image}}"></div>
@@ -36,12 +36,21 @@
                         </div>
                         <div ng-show="ctrl.isCompany===1">
                             <div><label>{{'user.form.orgnr' | translate}}:</label></div>
-                            <div><input type="text" value="{{userModel.data.company.cin}}" readonly></div>
+                            <div><input type="text" value="{{userModel.data.company.cin}}" readonly ng-disabled="sCtrl.disableSettingForm"></div>
                         </div>
                         <div ng-show="ctrl.isCompany===0">
                             <div><label>{{'user.form.ssn' | translate}}:</label></div>
-                            <div><input type="text" name="ssn" ng-model="sCtrl.model.data.attributes.ssn"
-                                        ng-minlength="10" ng-maxlength="10"></div>
+                            <div>
+                                <input type="text" name="ssn" ng-model="sCtrl.model.data.attributes.ssn"
+                                        ng-pattern="/^[\d\-]+$/" ng-minlength="10"
+                                        ng-blur="sCtrl.checkSSN();"
+                                        readonly
+                                        ng-keyup="form_profile.ssn.error_detail = undefined"
+                                        ng-class="{'has-error': form_profile.ssn.error_detail!==undefined}"
+                                        ng-disabled="sCtrl.disableSettingForm">
+                                <label class="error">{{form_profile.ssn.error_detail}}</label>
+                            </div>
+
                         </div>
                         <div class="group">
                             <div>
@@ -53,16 +62,16 @@
                                            ng-minlength="2"
                                            ng-model="sCtrl.model.data.attributes['first-name']"
                                            ng-class="{'has-error': form_profile.first_name.error_detail!==undefined}"
-                                           ng-keyup="form_profile.first_name.error_detail = undefined">
-                                    <label class="error"></label>
+                                           ng-keyup="form_profile.first_name.error_detail = undefined" ng-disabled="sCtrl.disableSettingForm">
+                                    <label class="error">{{form_profile.first_name.error_detail}}</label>
                                     <input type="text" name="last_name"
                                            placeholder="{{'user.form.last_name' | translate}}"
                                            required
                                            ng-minlength="2"
                                            ng-model="sCtrl.model.data.attributes['last-name']"
                                            ng-class="{'has-error': form_profile.last_name.error_detail!==undefined}"
-                                           ng-keyup="form_profile.last_name.error_detail = undefined">
-                                    <label class="error"></label>
+                                           ng-keyup="form_profile.last_name.error_detail = undefined" ng-disabled="sCtrl.disableSettingForm">
+                                    <label class="error">{{form_profile.last_name.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -71,8 +80,8 @@
                                             required
                                             ng-model="sCtrl.model.data.attributes.email"
                                             ng-class="{'has-error': form_profile.email.error_detail!==undefined}"
-                                            ng-keyup="form_profile.email.error_detail = undefined">
-                                    <label class="error"></label>
+                                            ng-keyup="form_profile.email.error_detail = undefined" ng-disabled="sCtrl.disableSettingForm">
+                                    <label class="error">{{form_profile.email.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -82,8 +91,8 @@
                                             ng-minlength="9"
                                             ng-model="sCtrl.model.data.attributes.phone"
                                             ng-class="{'has-error': form_profile.phone.error_detail!==undefined}"
-                                            ng-keyup="form_profile.phone.error_detail = undefined"><label
-                                        class="error"></label>
+                                            ng-keyup="form_profile.phone.error_detail = undefined" ng-disabled="sCtrl.disableSettingForm"><label
+                                        class="error">{{form_profile.phone.error_detail}}</label>
                                 </div>
                             </div>
                             <div>
@@ -95,8 +104,8 @@
                                             ng-model="sCtrl.model.data.attributes.old_password"
                                             ng-class="{'has-error': form_profile.old_password.error_detail!==undefined}"
                                             ng-keyup="form_profile.old_password.error_detail = undefined"
-                                            autocomplete="off">
-                                    <label class="error"></label></div>
+                                            autocomplete="off" ng-disabled="sCtrl.disableSettingForm">
+                                    <label class="error">{{form_profile.old_password.error_detail}}</label></div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-password"></i></label></div>
@@ -105,13 +114,13 @@
                                             ng-minlength="6"
                                             ng-model="sCtrl.model.data.attributes.password"
                                             ng-keyup="form_profile.password.error_detail = undefined"
-                                            autocomplete="off">
-                                    <label class="error"></label></div>
+                                            autocomplete="off" ng-disabled="sCtrl.disableSettingForm">
+                                    <label class="error">{{form_profile.password.error_detail}}</label></div>
                             </div>
                             <div>
                                 <div><label><i class="demo-icon icon-ic-user3"></i></label></div>
                                 <div>
-                                    <select name="language_id" ng-model="sCtrl.model.data.attributes['language-id']">
+                                    <select name="language_id" ng-model="sCtrl.model.data.attributes['language-id']" ng-disabled="sCtrl.disableSettingForm">
                                         <option value="" hidden/>
                                         <option ng-repeat="lang in sCtrl.languages" value="{{lang.id}}">
                                             {{lang["en-name"]}}
@@ -121,7 +130,8 @@
                             </div>
                         </div>
                         <div>
-                            <input type="submit" ng-value="'common.save' | translate">
+                            <input type="button" class="form-control btn btn-neg ng-hide" href="" ng-show="sCtrl.disableSettingForm" ng-click="sCtrl.enableSettingForm()" value="{{'common.edit' | translate}}" />
+                            <input type="submit" ng-disabled="form_profile.$invalid" ng-show="!sCtrl.disableSettingForm" ng-value="'common.save' | translate">
                         </div>
                     </form>
                 </div>

@@ -267,7 +267,7 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                         $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
@@ -503,7 +503,7 @@ angular.module('just.common')
 
                 if (found_hourly_pay.length > 0) {
                     $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                    $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                     $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                 }
 
@@ -626,8 +626,41 @@ angular.module('just.common')
                     resource_name: "jobs",
                     resource_id: $routeParams.id
                 }, formData, function (response) {
+                    $scope.formComment.txt_chatbox.$setUntouched();
+                    that.autoExpand('txt_chatbox');
                     that.getComments($routeParams.id);
                 });
+            };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.model.data.attributes.body) {
+                        if (that.model.data.attributes.body !== '') {
+                            that.submit();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if(count === 1){
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if(scrollH > objH){
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
             };
         }])
     .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService',
@@ -728,6 +761,10 @@ angular.module('just.common')
                     }
                 }
             });
+
+            that.gotoJobCandidatePage = function(job_id, job_user_id){
+                flow.next(routes.company.job_candidate.resolve(job_id,job_user_id), {currTab:2});
+            };
         }])
     .controller('CompanyJobsCandidateCtrl', ['jobService', 'invoiceService', 'authService', 'i18nService', 'chatService',
         'ratingService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams', '$scope', '$q', '$filter',
@@ -783,9 +820,16 @@ angular.module('just.common')
             };
 
             if (flow.next_data) {
-                that.chatId = flow.next_data;
-                $scope.currTab = 3;
-                flow.next_data = undefined;
+                if(typeof(flow.next_data) !== 'object'){
+                    that.chatId = flow.next_data;
+                    $scope.currTab = 3;
+                    flow.next_data = undefined;
+                }else{
+                    if(flow.next_data.currTab){
+                        $scope.currTab = flow.next_data.currTab;
+                        flow.next_data = undefined;
+                    }
+                }
             }
 
             this.getUserPerformedJobs = function (user_id) {
@@ -868,7 +912,7 @@ angular.module('just.common')
 
                     if (found_hourly_pay.length > 0) {
                         $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.rate = found_hourly_pay[0].attributes["rate-with-fees"];
+                        $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
                         $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
                     }
 
@@ -938,13 +982,30 @@ angular.module('just.common')
                     if (found.length > 0) {
                         that.candidate_model = found[0].attributes;
 
-                        var found_user_languages = $filter('filter')(response.included, {
+                        that.candidate_model.languages = [];
+                        if (that.user_apply.relationships.languages) {
+                            angular.forEach(that.user_apply.relationships.languages.data, function (obj_lang, idx_lang) {
+                                var found_lang = $filter('filter')(response.included, {
+                                    type: "languages",
+                                    id: "" + obj_lang.id
+                                }, true);
+
+                                if(found_lang){
+                                    if(found_lang.length>0){
+                                        that.candidate_model.languages.push(found_lang[0]);
+                                    }
+                                }
+                            });
+                        }
+
+
+                        /*var found_user_languages = $filter('filter')(response.included, {
                             type: "languages"
                         }, true);
 
                         if (found_user_languages.length > 0) {
                             that.candidate_model.languages = found_user_languages;
-                        }
+                        }*/
 
                         that.ratingModel.data.attributes["user-id"] = parseInt(found[0].id);
                         that.getUserPerformedJobs(parseInt(found[0].id));
@@ -1163,7 +1224,7 @@ angular.module('just.common')
                 }
             });
 
-            i18nService.addLanguageChangeListener(function () {
+            i18nService.addLanguageChangeListenerContinue(function () {
                     that.getChatMessage();
                 }
             );
@@ -1202,6 +1263,8 @@ angular.module('just.common')
             };
 
             this.setChatId_get = function (chat_id) {
+                $scope.formChat.txt_chatbox.$setUntouched();
+                that.autoExpand('txt_chatbox');
                 that.chatId = chat_id;
                 that.getChatMessage();
             };
@@ -1255,5 +1318,36 @@ angular.module('just.common')
                         }
                     });
                 });
+            };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.chatMessageModel.data.attributes.body) {
+                        if (that.chatMessageModel.data.attributes.body !== '') {
+                            that.submitChat();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if(count === 1){
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if(scrollH > objH){
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
             };
         }]);

@@ -6,7 +6,10 @@
     font-size: 3em;
     font-weight: 700;
     letter-spacing: 0.02em;
-
+    &.net-salary{
+      font-size: 1.25em;
+      display: block;
+    }
   }
 
   em {
@@ -279,6 +282,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
 
   > li {
     display: table-row;
+    cursor: pointer;
 
     > div {
       display: table-cell;
@@ -431,10 +435,20 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   width: 100%;
   overflow: hidden;
 
-  input[type="text"] {
+  input[type="text"],textarea {
     border-radius: 5px;
     border: 1px solid $midgrey;
     margin-bottom: 35px;
+  }
+  textarea {
+    height: 40px;
+    min-height: 40px;
+    &:focus {
+      outline: none;
+    }
+    &:required{
+      box-shadow:none;
+    }
   }
   .translate span {
     cursor: pointer;
@@ -643,12 +657,23 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       display: table;
       width: 100%;
 
-      input[type="text"] {
+      input[type="text"], textarea {
         border: 1px solid $midgrey;
         background: $lightGrey;
         border-radius: 25px;
         margin: 0;
       }
+      textarea {
+        height: 40px;
+        min-height: 40px;
+        &:focus {
+          outline: none;
+        }
+        &:required{
+          box-shadow:none;
+        }
+      }
+
       input[type="submit"] {
         color: $blue;
         font-weight: 700;
@@ -656,7 +681,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         background: none;
         font-size: 1.2em;
         white-space: nowrap;
-        &[disabled]{
+        &[disabled] {
           background: none !important;
           color: $midgrey !important;
         }
@@ -783,7 +808,7 @@ job-body, job-comment {
     border: 0;
     margin: 5px 0 8px 0;
     padding: 0;
-    text-transform: capitalize;
+    text-transform: none;
   }
 
   #map_canvas {
@@ -798,11 +823,13 @@ job-body, job-comment {
     }
   }
 }
+
 .job-more-wrapper .icon-switch-language {
   float: right;
   color: $white;
   margin-top: -4px;
 }
+
 .job-body-description .icon-switch-language {
   float: right;
   color: $lightBlue;
@@ -970,6 +997,9 @@ job-body, job-comment {
       line-height: 33px;
       margin: 8px;
       max-width: none;
+      &.dark{
+        background-color: $darkGrey;
+      }
     }
   }
 
@@ -1469,5 +1499,147 @@ job-body, job-comment {
   .user-info-image {
     @include circle(35px);
     margin-top: 5px;
+  }
+}
+
+.rating-job {
+  font-size: 35px;
+  > span {
+    cursor: pointer;
+  }
+  > span::before {
+    content: '\2606'; //2605
+  }
+  &.score1 {
+    > span:nth-child(1)::before {
+      content: '\2605';
+      color: $pink;
+    }
+  }
+  &.score2 {
+    > span:nth-child(1)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(2)::before {
+      content: '\2605';
+      color: $pink;
+    }
+  }
+  &.score3 {
+    > span:nth-child(1)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(2)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(3)::before {
+      content: '\2605';
+      color: $pink;
+    }
+  }
+  &.score4 {
+    > span:nth-child(1)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(2)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(3)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(4)::before {
+      content: '\2605';
+      color: $pink;
+    }
+  }
+  &.score5 {
+    > span:nth-child(1)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(2)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(3)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(4)::before {
+      content: '\2605';
+      color: $pink;
+    }
+    > span:nth-child(5)::before {
+      content: '\2605';
+      color: $pink;
+    }
+  }
+}
+
+.chat-box form {
+  background-color: $white;
+}
+
+.comment-form-box {
+  background-color: $white;
+  &.horizontalCenter {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  textarea {
+    border: 1px solid $midgrey;
+    background: $lightGrey;
+    border-radius: 5px;
+    margin: 0 !important;
+    &:focus {
+      outline: none;
+    }
+    &:required{
+      box-shadow:none;
+    }
+  }
+  textarea {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  input[type="submit"] {
+    color: $blue;
+    font-weight: 700;
+    border: 0;
+    background: none;
+    font-size: 1.2em;
+    white-space: nowrap;
+    &[disabled] {
+      background: none !important;
+      color: $midgrey !important;
+    }
+  }
+
+  form > div {
+    display: table;
+    vertical-align: middle;
+    padding: 15px 0px;
+    width: 100%;
+  }
+  form > div > div:first-child {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 0;
+  }
+  form > div > div:last-child {
+    width: 82px;
+    text-align: center;
+    text-align: right;
+    padding-left: 0;
+    display: table-cell;
+    vertical-align: middle;
   }
 }

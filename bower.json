@@ -31,11 +31,12 @@
     "bootstrap": "^3.3.6",
     "underscore": "1.5.2",
     "jsonapi-datastore": "^0.4.0-beta",
-    "angular-slick": "0.2.1",
+    "angular-slick": "master",
     "angular-google-maps": "2.3.2",
     "js-custom-select": "2.0.1",
     "oi.select": "0.2.20",
-    "angular-elastic": "2.5.1"
+    "angular-elastic": "2.5.1",
+    "angular-google-analytics": "1.1.7"
   },
   "resolutions": {
     "angular": "1.5.3"

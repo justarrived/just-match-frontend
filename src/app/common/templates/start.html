@@ -71,8 +71,7 @@
                         <b>{{ job.total_rate | number:0}} {{ job.currency }}</b>
                     </div>
                     <span>
-                        {{ job.attributes.name | limitTo: 35 }} {{ job.attributes.name.length < 80 ? '' :
-                        '...' }}
+                        {{ job.translation.text | limitTo: 35 }} {{ job.translation.text.length < 80 ? '' : '...' }}
                         <!--{{ job.attributes.description | limitTo: 35 }} {{ job.attributes.description.length < 80 ? '' :
                         '...' }}-->
                     </span>
@@ -82,7 +81,8 @@
     </div>
 </section>
 <section class="section-instructions">
-    <slick class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
+    <input type="hidden" slick-change-directive value="{{'start.steps_section.title' | translate}}"/>
+    <slick id="slick_instructions" class="slick-instructions" center-mode="true" dots="true" prev-arrow="false" next-arrow="false"
            slides-to-show="3" responsive="instructionsResponsive" on-directive-init="onDirectiveInit()">
         <!--TODO: MAKE THIS ONE PERFECT SIMILAR TO OTHERS: SKAPA PROFIL-->
         <div>

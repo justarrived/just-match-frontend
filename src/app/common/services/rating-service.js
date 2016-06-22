@@ -20,7 +20,7 @@ angular.module('just.service')
                 }
             }, function (error) {
                 if (fn) {
-                    fn(0);
+                    fn(0,error);
                 }
             });
         };

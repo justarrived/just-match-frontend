@@ -76,7 +76,7 @@ angular.module('just.common')
                     var getCompany = companyService.getCompanyById(obj.relationships.company.data.id);
                     if (getCompany) {
                         var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                        if(found_image){
+                        if (found_image) {
                             if (found_image.length > 0) {
                                 $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                             }
@@ -87,7 +87,7 @@ angular.module('just.common')
                             'include': 'company-images'
                         }, function (result0) {
                             var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
-                            if (found_image.length > 0) {
+                            if (found_image) {
                                 if (found_image.length > 0) {
                                     $scope.userPerformedJobs[idx].company_image = found_image[0].attributes["image-url-small"];
                                 }
@@ -104,9 +104,12 @@ angular.module('just.common')
 
         }])
 
-    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams',
+    .controller('ArriverJobsManageCtrl', ['jobService', 'authService', 'chatService', 'ratingService',
+        'i18nService', 'financeService', 'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams',
         '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', '$http', 'gtService',
-        function (jobService, authService, chatService, i18nService, financeService, flow, routes, userService, companyService, $routeParams, $scope, $q, $filter, MyDate, $interval, Resources, $http, gtService) {
+        function (jobService, authService, chatService, ratingService,
+                  i18nService, financeService, flow, routes, userService, companyService, $routeParams,
+                  $scope, $q, $filter, MyDate, $interval, Resources, $http, gtService) {
             var that = this;
             this.job_user_id = null;
             this.accepted = false; //owner choosed
@@ -128,6 +131,11 @@ angular.module('just.common')
             this.chatModel.data.attributes["user-ids"] = [];
 
             this.chatId = chatService.chatId;
+
+            this.ratingModel = ratingService.ratingModel;
+            this.ratingModel.data.attributes.score = 0;
+            this.ratingModel.data.attributes.body = '';
+
 
             authService.checkPromoCode().then(function (resp) {
                 if (resp !== 0) {
@@ -209,6 +217,7 @@ angular.module('just.common')
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
 
                     $scope.comments_amt = response.data.relationships.comments.data.length;
+                    that.ratingModel.data.attributes["user-id"] = parseInt(response.data.relationships.owner.data.id);
 
                     var company_image_arr = response.included[0].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
@@ -257,12 +266,13 @@ angular.module('just.common')
                             that.calcRemainTime();
                         }
 
-                        if (that.performed) {
-                            if (response.data[0].relationships.invoice.data !== null) {
-                                that.hasInvoice = true;
-                            } else {
-                                that.hasInvoice = false;
-                            }
+                        if (response.data[0].relationships.invoice.data !== null) {
+                            that.hasInvoice = true;
+                            /*Resources.userRating.get({id: authService.userId().id,'filter[job-id]':$routeParams.id},function(ratingResult){
+                             console.log(ratingResult);
+                             });*/
+                        } else {
+                            that.hasInvoice = false;
                         }
                     }
                     //Calculate remain time
@@ -319,6 +329,8 @@ angular.module('just.common')
             };
 
             this.setChatId_get = function (chat_id) {
+                $scope.formChat.txt_chatbox.$setUntouched();
+                that.autoExpand('txt_chatbox');
                 that.chatId = chat_id;
                 that.getChatMessage();
             };
@@ -449,6 +461,55 @@ angular.module('just.common')
                 that.financeModel.data.attributes.bic = "";
                 that.financeModel.data.attributes.iban = "";
             };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.chatMessageModel.data.attributes.body) {
+                        if (that.chatMessageModel.data.attributes.body !== '') {
+                            that.submitChat();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if (count === 1) {
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if (scrollH > objH) {
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
+            };
+
+            // USER Submit Rating
+            this.submitJobRating = function () {
+                $scope.ratingError = undefined;
+                ratingService.submitRating($routeParams.id, that.ratingModel, function(status, response){
+                    if(status === 0){
+                        $scope.ratingError = response;
+                    }else{
+                        $scope.userModalPerformShow = 0;
+                        that.ratingModel.data.attributes.score = 0;
+                        that.ratingClass = 'score0';
+                        that.ratingModel.data.attributes.body = '';
+                    }
+
+                });
+            };
+
+
         }])
     .controller('ArriverJobsCommentsCtrl', ['jobService', 'authService', 'i18nService', 'userService', 'companyService', 'commentService',
         'justFlowService', 'justRoutes', '$routeParams', '$scope', '$q', '$filter', '$http', 'settings', 'Resources', 'gtService',
@@ -484,7 +545,7 @@ angular.module('just.common')
 
                 if (found_hourly_pay.length > 0) {
                     $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.max_rate = found_hourly_pay[0].attributes.rate * response.data.attributes.hours;
+                    $scope.job.max_rate = found_hourly_pay[0].attributes["gross-salary"] * response.data.attributes.hours;
                 }
 
                 var company_image_arr = response.included[0].relationships["company-images"].data;
@@ -607,8 +668,41 @@ angular.module('just.common')
                     resource_name: "jobs",
                     resource_id: $routeParams.id
                 }, formData, function (response) {
+                    $scope.formComment.txt_chatbox.$setUntouched();
+                    that.autoExpand('txt_chatbox');
                     that.getComments($routeParams.id);
                 });
+            };
+
+            this.checkEnter = function (objId, e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    if (that.model.data.attributes.body) {
+                        if (that.model.data.attributes.body !== '') {
+                            that.submit();
+                        }
+                    }
+                }
+            };
+
+            this.autoExpand = function (objId) {
+                var text = $("#" + objId).val();
+                var lines = text.split(/\r|\r\n|\n/);
+                var count = lines.length;
+                var objH = (count + 1) * 20;
+
+                if (objH <= 40) {
+                    objH = 40;
+                }
+
+                $("#" + objId).height(objH - 20);
+
+                if (count === 1) {
+                    var scrollH = document.getElementById(objId).scrollHeight;
+                    if (scrollH > objH) {
+                        $("#" + objId).height(scrollH - 20);
+                    }
+                }
             };
         }]);
 

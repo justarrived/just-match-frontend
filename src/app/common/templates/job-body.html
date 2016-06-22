@@ -3,12 +3,14 @@
         <span>{{ job.totalRate | number:0 }} {{ job.currency }}</span><br>
         <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number:0 }} {{ job.currency
             }}/{{'common.hour' | translate}})</em>
+        <em ng-show="$parent.ctrl.isCompany != 1"> {{ 'common.gross_salary' | translate }}</em>
+        <span class="net-salary" ng-show="$parent.ctrl.isCompany != 1">{{job.netRate}} {{job.currency}} {{ 'common.net_salary' | translate }}</span>
     </div>
     <div>
-        <button ng-click="ctrl.accept_job()" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
+        <button ng-click="ctrl.accept_job()" class="ng-hide" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
             {{"assignment.status.apply" | translate}}
         </button>
-        <button ng-click="" disabled ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" |
+        <button ng-click="" disabled class="ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" |
             translate}}
         </button>
     </div>
@@ -37,7 +39,7 @@
             <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
                 | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}
             </li>
-            <li class="job-report" ng-hide="job.newjobmode"><a href="#">{{"assignment.report" | translate}}</a></li>
+            <li class="job-report" ng-hide="job.newjobmode"><a href="#{{routes.contact.form.url}}">{{"assignment.report" | translate}}</a></li>
         </ul>
     </div>
 </div>

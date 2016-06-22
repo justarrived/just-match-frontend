@@ -5,7 +5,7 @@
         </div>
         <div>
             <h2>{{ ctrl.candidate_model["first-name"] }} {{ ctrl.candidate_model["last-name"] }}</h2>
-            <p><span><span class="rating">&#9733;</span>{{ctrl.user_apply.rating | number:1}}</p>
+            <p><span><span class="rating" ng-show="ctrl.user_apply.rating">&#9733;</span>{{ctrl.user_apply.rating | number:1}}</p>
         </div>
     </div>
 </div>

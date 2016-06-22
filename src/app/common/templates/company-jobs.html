@@ -32,7 +32,7 @@
                     </div>
                     <div>
                         <h3>{{job.attributes["name"]}}</h3>
-                        <p><em>{{job.relationships.comments.data.length}} kommentarer & {{job.relationships["job-users"].data.length}} ansökningar</em></p>
+                        <p><em>{{job.relationships.comments.data.length}} {{'company.assignments.comments' | translate}} & {{job.relationships["job-users"].data.length}} {{'company.assignments.applications' | translate}}</em></p>
                     </div>
                 </li>
             </ul>

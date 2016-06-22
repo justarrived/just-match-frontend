@@ -5,5 +5,6 @@
   "google_translate_api_key": "AIzaSyAayH87DCtigubH3RpB05Z19NaAe4VzEac",
   "debug_enable": false,
   "google_map_api_key": "AIzaSyAQ-Iu3YFs_qXky2rAZNicY5gh6ampBq-M",
-  "promo_code_check": true
+  "promo_code_check": true,
+  "google_analytic_key": "UA-77971132-1"
 }

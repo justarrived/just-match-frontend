@@ -7,6 +7,7 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 * [Deploy](#deploy)
 * [Commands](#commands)
 * [Contributing](#contributing)
+* [Contributors](#contributors)
 * [License](#license)
 
 ## Built with
@@ -16,12 +17,42 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 
 ## Getting Started
 
+:warning: If you are on a Windows machine please see the [Getting Started on Windows](#getting-started-on-windows) section.
+
 ```
 $ git clone git@github.com:justarrived/just-match-frontend.git
 $ cd just-match-frontend
 $ script/setup
 $ script/server
 # You can now open http://localhost:9000
+```
+
+You now have a NodeJS webserver accepting requests at [http://localhost:9000](http://localhost:9000) and a server on /api proxying to api.example.com.
+
+## Getting Started on Windows
+
+```
+$ git clone git@github.com:justarrived/just-match-frontend.git
+```
+
+In order to run the app make sure you have Ruby and SASS installed, if you don't follow step 1 and 2 in this guide: https://www.impressivewebs.com/sass-on-windows/.
+
+Install grunt
+
+```
+sudo npm install -g grunt-cli
+```
+
+Install all dependencies
+
+```
+npm install
+```
+
+Finally start the app
+
+```
+grunt watch
 ```
 
 You now have a NodeJS webserver accepting requests at [http://localhost:9000](http://localhost:9000) and a server on /api proxying to api.example.com.
@@ -78,6 +109,10 @@ $ tx push -s
 ```
 
 The configuration is in [.tx/config](.tx/config).
+
+## Contributors
+
+[Our awesome contributors](https://github.com/justarrived/just-match-frontend/graphs/contributors).
 
 ## License
 

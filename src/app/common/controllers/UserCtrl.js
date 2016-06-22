@@ -11,12 +11,15 @@ angular.module('just.common')
             //this.saveSuccessFromJobApply = 0;
             //this.saveSuccessDefault = 0;
             this.saveButtonText = "common.save";
+            this.profileHeaderText = "profile";
+            this.disableUserForm = true;
+
 
             if (!authService.isAuthenticated()) {
                 flow.redirect(routes.user.select.url, function () {
                     flow.redirect(routes.user.user.url);
                 });
-            }else{
+            } else {
                 userService.checkArriverUser(routes.global.start.url);
             }
 
@@ -24,9 +27,11 @@ angular.module('just.common')
             this.model.data = {};
             this.model.data.attributes = {};
 
-            if(flow.next_data){
-                if(flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register'){
-                    this.saveButtonText = "common.continue";
+            if (flow.next_data) {
+                if (flow.next_data.type === 'apply_job' || flow.next_data.type === 'arriver_user_register') {
+                    that.saveButtonText = "common.continue";
+                    that.profileHeaderText = "profile.create.title";
+                    that.disableUserForm = false;
                 }
             }
 
@@ -43,14 +48,20 @@ angular.module('just.common')
 
                         that.language_bundle = [];
                         that.language_ori = [];
-                        var found = $filter('filter')(response.included, {
-                            type: "languages"
-                        }, true);
 
-                        angular.forEach(found, function (obj, idx) {
-                            that.language_bundle.push(found[idx]);
-                            that.language_ori.push(found[idx]);
-                        });
+                        if (response.data.relationships.languages) {
+                            angular.forEach(response.data.relationships.languages.data, function (obj_lang, idx_lang) {
+                                var found = $filter('filter')(response.included, {
+                                    type: "languages",
+                                    id: "" + obj_lang.id
+                                }, true);
+
+                                angular.forEach(found, function (obj, idx) {
+                                    that.language_bundle.push(found[idx]);
+                                    that.language_ori.push(found[idx]);
+                                });
+                            });
+                        }
 
                         Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
                             angular.forEach(result.data, function (obj, idx) {
@@ -64,12 +75,12 @@ angular.module('just.common')
                         });
 
                         /*var found_img = $filter('filter')(response.included, {
-                            type: 'user-images'
-                        }, true);
-                        if (found_img.length > 0) {
-                            that.user_image = found_img[0].attributes["image-url-small"];
-                        }*/
-                        if(response.data.user_image){
+                         type: 'user-images'
+                         }, true);
+                         if (found_img.length > 0) {
+                         that.user_image = found_img[0].attributes["image-url-small"];
+                         }*/
+                        if (response.data.user_image) {
                             that.user_image = response.data.user_image;
                         }
 
@@ -184,6 +195,7 @@ angular.module('just.common')
             $scope.fileNameChanged = function () {
                 // UPLOAD IMAGE
                 var element = angular.element("#file_upload");
+                that.user_image = "assets/images/ui/loader.gif";
                 if (element[0].files[0]) {
                     var formData = new FormData();
 
@@ -195,7 +207,7 @@ angular.module('just.common')
                         that.model.data.attributes['user-image-one-time-token'] = callback.data.attributes["one-time-token"];
                         that.user_image = callback.data.attributes["image-url-small"];
                         that.uploading = false;
-                    },function(err){
+                    }, function (err) {
                         that.uploading = false;
                     });
                 }
@@ -210,14 +222,19 @@ angular.module('just.common')
                     that.language_bundle = [];
                     that.language_ori = [];
 
-                    var found = $filter('filter')(response.included, {
-                        type: "languages"
-                    }, true);
+                    if (response.data.relationships.languages) {
+                        angular.forEach(response.data.relationships.languages.data, function (obj_lang, idx_lang) {
+                            var found = $filter('filter')(response.included, {
+                                type: "languages",
+                                id: "" + obj_lang.id
+                            }, true);
 
-                    angular.forEach(found, function (obj, idx) {
-                        that.language_bundle.push(found[idx]);
-                        that.language_ori.push(found[idx]);
-                    });
+                            angular.forEach(found, function (obj, idx) {
+                                that.language_bundle.push(found[idx]);
+                                that.language_ori.push(found[idx]);
+                            });
+                        });
+                    }
 
                     Resources.userLanguage.get({user_id: that.model.data.id}, function (result) {
                         angular.forEach(result.data, function (obj, idx) {
@@ -227,11 +244,8 @@ angular.module('just.common')
                                     that.language_ori[idx2].user_language_id = obj.id;
                                 }
                             });
-
-
                         });
                     });
-
                 });
             };
 
@@ -254,65 +268,56 @@ angular.module('just.common')
                 //update_data.data.attributes["language-id"] = that.model.data.attributes["language-id"];
 
                 // UPDATE USER PROFILE
-                Resources.user.save({id: that.model.data.id}, update_data, function (response) {
-                    /*
-                     if (flow.next_data) {
-                     var job_id = flow.next_data.job_id;
-                     if (flow.next_data.type === 'apply_job') {
-                     jobService.acceptJob(job_id, that.showAppliedJob);
-                     } else if (flow.next_data.type === 'arriver_user_register') {
-                     that.saveSuccessFromRegister = 1;
-                     }
-                     } else {
-                     that.saveSuccessDefault = 1;
-                     }*/
-                    if(that.user_image){
-                        userService.setNewUserImage(that.user_image);
-                    }
 
-                    if (flow.next_data) {
-                        if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
-                            //from menu
+                userService.saveUserModel(update_data, that.saveSuccess);
+
+            };
+
+            this.saveSuccess = function (issucess, result) {
+                /*if (that.user_image) {
+                 userService.setNewUserImage(that.user_image);
+                 }*/
+
+                if (flow.next_data) {
+                    if (flow.next_data.from_route && (flow.next_data.from_route === routes.global.start.url)) {
+                        //from menu
+                        flow.push(function () {
+                            flow.completed(routes.global.start.url);
+                        });
+                        flow.next(routes.global.confirmation.url, {
+                            title: 'common.updated',
+                            description: 'profile.updated',
+                            submit: 'common.back',
+                            url: routes.global.start.url,
+                            showViewProfileButton: true
+                        });
+                    } else if (flow.next_data) {
+                        //from apply job, register
+                        var job_id = flow.next_data.job_id;
+                        if (flow.next_data.type === 'apply_job') {
+                            jobService.acceptJob(job_id, that.showAppliedJob);
+                        } else if (flow.next_data.type === 'arriver_user_register') {
+                            //that.saveSuccessFromRegister = 1;
+
                             flow.push(function () {
-                                flow.completed(routes.global.start.url);
+                                flow.completed(routes.job.list.url);
                             });
                             flow.next(routes.global.confirmation.url, {
-                                title: 'common.updated',
-                                description: 'profile.updated',
-                                submit: 'common.back',
-								url: routes.global.start.url
+                                title: 'profile.create.confirmation.title',
+                                //description: 'profile.create.confirmation.description',
+                                submit: 'common.find_assignment',
+                                showViewProfileButton: true,
+                                url: routes.job.list.url
                             });
-                        } else if (flow.next_data) {
-                            //from apply job, register
-                            var job_id = flow.next_data.job_id;
-                            if (flow.next_data.type === 'apply_job') {
-                                jobService.acceptJob(job_id, that.showAppliedJob);
-                            } else if (flow.next_data.type === 'arriver_user_register') {
-                                //that.saveSuccessFromRegister = 1;
-
-                                flow.push(function () {
-                                    flow.completed(routes.job.list.url);
-                                });
-                                flow.next(routes.global.confirmation.url, {
-                                    title: 'profile.create.confirmation.title',
-                                    //description: 'profile.create.confirmation.description',
-                                    submit: 'common.find_assignment',
-                                    showViewProfileButton: true,
-									url: routes.job.list.url
-                                });
-                            }else{
-                                that.defaultConfirm();
-                            }
-                        }else{
+                        } else {
                             that.defaultConfirm();
                         }
                     } else {
                         that.defaultConfirm();
                     }
-                    /* else {
-                     that.saveSuccessDefault = 1;
-                     }*/
-                });
+                } else {
+                    that.defaultConfirm();
+                }
             };
 
             this.showAppliedJob = function () {
@@ -325,7 +330,7 @@ angular.module('just.common')
                     title: 'assignment.status.applied',
                     description: 'assignment.status.applied.description',
                     submit: 'user.apply.find_more',
-					url: routes.job.list.url
+                    url: routes.job.list.url
                 });
             };
 
@@ -333,7 +338,7 @@ angular.module('just.common')
                 flow.redirect(routes.job.list.url);
             };
 
-            this.defaultConfirm = function(){
+            this.defaultConfirm = function () {
                 userService.clearUserModel();
                 flow.push(function () {
                     flow.completed(routes.user.user.url);
@@ -342,7 +347,7 @@ angular.module('just.common')
                     title: 'common.updated',
                     description: 'profile.updated',
                     submit: 'common.back',
-					url: routes.user.user.url
+                    url: routes.user.user.url
                 });
             };
 
@@ -351,6 +356,10 @@ angular.module('just.common')
                 var path = $location.path();
                 flow.redirect(path);
                 that.saveSuccessDefault = 0;
+            };
+
+            this.enableUserForm = function(){
+                that.disableUserForm = false;
             };
         }]);
 

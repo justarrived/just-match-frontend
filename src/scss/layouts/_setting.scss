@@ -79,7 +79,7 @@
     background: none;
     border: none;
   }
-  input[type="submit"] {
+  input[type="submit"], input[type="button"] {
     @include button-white-border;
     min-width: 220px;
     border: 1px solid $white !important;
@@ -191,30 +191,35 @@
   }
   .form-profile {
     label.error {
-      position: absolute;
+      /*position: absolute;
       right: 0;
       top: -2px;
+      display: none;*/
+      padding-left: 10px;
+      color: $pink;
       display: none;
+      font-size: 12px;
+      white-space: normal;
     }
     .ng-invalid.ng-touched ~ label.error{
       display: block;
     }
     .ng-invalid.ng-touched ~ label.error:after {
-      content: '\2717';
-      font-size: 26px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: normal;
       color: $pink;
     }
     .has-error ~ label.error{
       display: block;
     }
     .has-error ~ label.error:after {
-      content: '\2717';
-      font-size: 26px;
+      font-size: 18px;
       font-weight: bold;
       color: $pink;
     }
-
+    input[disabled],select[disabled]{
+      color: $grey;
+    }
   }
   :-webkit-autofill,
   :-webkit-autofill:focus {

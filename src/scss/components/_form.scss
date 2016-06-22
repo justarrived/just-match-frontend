@@ -714,3 +714,11 @@ textarea {
   bottom: 0;
 
 }
+.expandable-textarea{
+  overflow-y: hidden;
+  resize: none;
+}
+
+.rating-error{
+  color: $pink;
+}

@@ -85,6 +85,8 @@ angular.module('just.service')
                 attributes.language_id = parseInt(i18nService.getLanguage().$$state.value.id);
                 attributes.language_ids = [parseInt(i18nService.getLanguage().$$state.value.id)];
 
+                attributes.ssn = attributes.ssn.replace(/-/g, "");
+
                 that.registerModel = attributes;
 
                 var user = Resources.user.create({data: {attributes: attributes}}, function (responseData) {
@@ -133,6 +135,10 @@ angular.module('just.service')
                         id: authService.userId().id,
                         "include": "company,language,languages,user-images"
                     }, function (res) {
+                        var deferd = $q.defer();
+
+                        that.user = res;
+
                         if (that.user.data.relationships.company.data !== null) {
                             var found = $filter('filter')(that.user.included, {
                                 id: "" + that.user.data.relationships.company.data.id,
@@ -175,9 +181,13 @@ angular.module('just.service')
                                 that.user.data.user_image = found_img[0].attributes["image-url-small"];
                             }
                         }
+                        that.setNewUserImage(that.user.data.user_image);
                         if(fn){
                             fn();
                         }
+
+                        deferd.resolve(that.user);
+                        return deferd.promise;
                     });
                 }
             };
@@ -288,10 +298,11 @@ angular.module('just.service')
             this.userMessage = {};
 
             this.setNewUserImage = function(url){
-                if(that.user){
+                /*if(that.user){
                     that.user.data.user_image = url;
-                    $rootScope.$broadcast('onSigninSetmenu');
-                }
+
+                }*/
+                $rootScope.$broadcast('onSigninSetmenu');
             };
 
             this.addList = function (userData) {

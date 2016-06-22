@@ -148,9 +148,10 @@
                     that.rates = response.data;
                     angular.forEach(that.rates, function (obj, key) {
                         if (obj.id === $scope.job.attributes["hourly-pay-id"]) {
-                            $scope.job.max_rate = obj.attributes["rate-with-fees"];
+                            $scope.job.max_rate = obj.attributes["rate-excluding-vat"];
                             $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                             $scope.job.currency = obj.attributes.currency;
+							$scope.job.netRate = obj.attributes["net-salary"] * $scope.job.attributes.hours;
                         }
                     });
                     deferd.resolve(that.rates);
@@ -168,8 +169,8 @@
             };
         }])
 
-        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService',
-            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService) {
+        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService', '$timeout',
+            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService, $timeout) {
 
                 var that = this;
 
@@ -239,7 +240,8 @@
                             panControl: false,
                             navigationControl: false,
                             scrollwheel: false,
-                            scaleControl: false
+                            scaleControl: false,
+                            maxZoom: 7
                         }
                     };
                 });
@@ -249,6 +251,12 @@
                         $scope.mapObj = inst.map;
                         $scope.uuid = $scope.mapObj.uiGmap_id;
                         var mapInstanceNumber = inst.instance; // Starts at 1.
+                        if ($scope.bounds) {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }
                     });
                 });
 
@@ -261,14 +269,26 @@
                         angular.element(".angular-google-map-container").css("width", window.innerWidth + "px");
                         google.maps.event.trigger($scope.mapObj, 'resize');
                         //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
-                        $scope.mapObj.fitBounds($scope.bounds);
+                        $timeout(function () {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 15){
+                                $scope.mapObj.setZoom(15);
+                            }
+                        }, 100);
+
                     } else {
                         $scope.map_class = "";
                         angular.element(".angular-google-map-container").css("height", $scope.zoomOutHeight);
                         angular.element(".angular-google-map-container").css("width", $scope.zoomOutWidth);
                         google.maps.event.trigger($scope.mapObj, 'resize');
                         //$scope.mapObj.setCenter(new google.maps.LatLng($scope.bounds.getCenter().lat(), $scope.bounds.getCenter().lng()));
-                        $scope.mapObj.fitBounds($scope.bounds);
+                        $timeout(function () {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }, 100);
+
                     }
 
                     if ($scope.zoom_class === 'map-zoom-in') {
@@ -321,28 +341,30 @@
                         angular.forEach(result.data, function (obj, key) {
                             var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
                             if (found.length > 0) {
-                                if (found[0].relationships["company-images"].data.length > 0) {
-                                    var getCompany = companyService.getCompanyById(found[0].id);
-                                    if (getCompany) {
-                                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                                        if (found_image) {
-                                            if (found_image.length > 0) {
-                                                $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
-                                            }
-                                        }
-                                    } else {
-                                        Resources.company.get({
-                                            company_id: found[0].id,
-                                            'include': 'company-images'
-                                        }, function (result0) {
-                                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found[0].relationships) {
+                                    if (found[0].relationships["company-images"].data.length > 0) {
+                                        var getCompany = companyService.getCompanyById(found[0].id);
+                                        if (getCompany) {
+                                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
                                             if (found_image) {
                                                 if (found_image.length > 0) {
                                                     $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
                                                 }
                                             }
-                                            companyService.addList(result0);
-                                        });
+                                        } else {
+                                            Resources.company.get({
+                                                company_id: found[0].id,
+                                                'include': 'company-images'
+                                            }, function (result0) {
+                                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                                if (found_image) {
+                                                    if (found_image.length > 0) {
+                                                        $scope.jobs.data[key].company_image = found_image[0].attributes["image-url-small"];
+                                                    }
+                                                }
+                                                companyService.addList(result0);
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -367,10 +389,11 @@
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
                                     //$scope.jobs.data[key].max_rate = obj2.attributes.rate;
 
-                                    $scope.jobs.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
+                                    $scope.jobs.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-excluding-vat"] : obj2.attributes["gross-salary"]);
 
                                     $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
                                     $scope.jobs.data[key].currency = obj2.attributes.currency;
+									$scope.jobs.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
@@ -413,13 +436,23 @@
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
                             $scope.bounds.extend(myLatLng);
                         });
-                        $scope.map = {
-                            center: {
-                                latitude: $scope.bounds.getCenter().lat(),
-                                longitude: $scope.bounds.getCenter().lng()
-                            }, zoom: 4
-                        };
-
+                        if ($scope.mapObj) {
+                            $timeout(function () {
+                                $scope.mapObj.fitBounds($scope.bounds);
+                                if($scope.mapObj.getZoom() > 12){
+                                    $scope.mapObj.setZoom(12);
+                                }
+                            }, 100);
+                        } else {
+                            $scope.map = {
+                                center: {
+                                    latitude: $scope.bounds.getCenter().lat(),
+                                    longitude: $scope.bounds.getCenter().lng()
+                                },
+                                zoom: 7,
+                                options: {maxZoom: 7}
+                            };
+                        }
                     });
                 };
 
@@ -437,11 +470,10 @@
                     $scope.getJobsPage('owner,company,hourly-pay');
                 }
 
-
             }])
         .controller('ViewJobCtrl', ['authService', 'userService', 'companyService', 'i18nService', 'commentService', 'jobService', '$scope', '$routeParams', 'settings',
-            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService',
-            function (authService, userService, companyService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService) {
+            'justFlowService', 'justRoutes', 'Resources', '$q', '$filter', '$location', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', '$timeout',
+            function (authService, userService, companyService, i18nService, commentService, jobService, $scope, $routeParams, settings, flow, routes, Resources, $q, $filter, $location, uiGmapGoogleMapApi, uiGmapIsReady, gtService, $timeout) {
                 var that = this;
 
                 authService.checkPromoCode();
@@ -478,7 +510,8 @@
                             panControl: false,
                             navigationControl: false,
                             scrollwheel: false,
-                            scaleControl: false
+                            scaleControl: false,
+                            maxZoom: 7
                         }
                     };
                 });
@@ -488,6 +521,12 @@
                         $scope.mapObj = inst.map;
                         $scope.uuid = $scope.mapObj.uiGmap_id;
                         var mapInstanceNumber = inst.instance; // Starts at 1.
+                        if ($scope.bounds) {
+                            $scope.mapObj.fitBounds($scope.bounds);
+                            if($scope.mapObj.getZoom() > 12){
+                                $scope.mapObj.setZoom(12);
+                            }
+                        }
                     });
                 });
 
@@ -554,12 +593,13 @@
                         $scope.job = result.data;
                         $scope.job.owner = result.included[0];
                         $scope.job.company = result.included[1];
-                        $scope.job.max_rate = result.included[2].attributes.rate;
-                        if($scope.$parent){
-                            $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-with-fees"] : result.included[2].attributes.rate);
+                        $scope.job.max_rate = result.included[2].attributes["gross-salary"];
+                        if ($scope.$parent) {
+                            $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-excluding-vat"] : result.included[2].attributes["gross-salary"]);
                         }
                         $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                         $scope.job.currency = result.included[2].attributes.currency;
+						$scope.job.netRate = result.included[2].attributes["net-salary"] * $scope.job.attributes.hours;
                         var company_image_arr = result.included[1].relationships["company-images"].data;
                         if (company_image_arr.length > 0) {
                             var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
@@ -732,8 +772,41 @@
                         resource_name: "jobs",
                         resource_id: $routeParams.id
                     }, formData, function (response) {
+                        $scope.formComment.comment_text.$setUntouched();
+                        that.autoExpand('comment_text');
                         that.getComments($routeParams.id);
                     });
+                };
+
+                this.checkEnter = function (objId, e) {
+                    if (e.keyCode === 13 && !e.shiftKey) {
+                        e.preventDefault();
+                        if (that.commentForm.data.attributes.body) {
+                            if (that.commentForm.data.attributes.body !== '') {
+                                that.submitComment();
+                            }
+                        }
+                    }
+                };
+
+                this.autoExpand = function (objId) {
+                    var text = $("#" + objId).val();
+                    var lines = text.split(/\r|\r\n|\n/);
+                    var count = lines.length;
+                    var objH = (count + 1) * 20;
+
+                    if (objH <= 40) {
+                        objH = 40;
+                    }
+
+                    $("#" + objId).height(objH - 20);
+
+                    if(count === 1){
+                        var scrollH = document.getElementById(objId).scrollHeight;
+                        if(scrollH > objH){
+                            $("#" + objId).height(scrollH - 20);
+                        }
+                    }
                 };
 
                 $scope.getJobsPage = function (mode) {
@@ -861,12 +934,13 @@
 
                             angular.forEach(result.included, function (obj2, key2) {
                                 if (obj2.type === 'hourly-pays' && obj2.id === obj.relationships["hourly-pay"].data.id) {
-                                    $scope.jobs_more.data[key].max_rate = obj2.attributes.rate;
-                                    if($scope.$parent){
-                                        $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-with-fees"] : obj2.attributes.rate);
+                                    $scope.jobs_more.data[key].max_rate = obj2.attributes["gross-salary"];
+                                    if ($scope.$parent) {
+                                        $scope.jobs_more.data[key].max_rate = (($scope.$parent.ctrl.isCompany === 1) ? obj2.attributes["rate-excluding-vat"] : obj2.attributes["gross-salary"]);
                                     }
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
                                     $scope.jobs_more.data[key].currency = obj2.attributes.currency;
+									$scope.jobs_more.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
@@ -876,12 +950,23 @@
                             var myLatLng = new google.maps.LatLng($scope.markers[key].coords.latitude, $scope.markers[key].coords.longitude);
                             $scope.bounds.extend(myLatLng);
                         });
-                        $scope.map = {
-                            center: {
-                                latitude: $scope.bounds.getCenter().lat(),
-                                longitude: $scope.bounds.getCenter().lng()
-                            }, zoom: 4
-                        };
+                        if ($scope.mapObj) {
+                            $timeout(function () {
+                                $scope.mapObj.fitBounds($scope.bounds);
+                                if($scope.mapObj.getZoom() > 12){
+                                    $scope.mapObj.setZoom(12);
+                                }
+                            }, 100);
+                        } else {
+                            $scope.map = {
+                                center: {
+                                    latitude: $scope.bounds.getCenter().lat(),
+                                    longitude: $scope.bounds.getCenter().lng()
+                                },
+                                zoom: 7,
+                                options: {maxZoom: 7}
+                            };
+                        }
                     });
                 };
 

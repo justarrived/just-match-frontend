@@ -11,11 +11,9 @@
 
             <div class="material-input">
                 <div class="group">
-                    <h1>Ny uppdragsgivare</h1>
-                    <h2>Företags uppgifter</h2>
-                    <p>En hjälptext om vilka typer av användarkonton skulle kunna vara ungefär såhär lång. Har vi mycket
-                        att
-                        orda om kan den krypa ned hit.</p>
+                    <h1>{{'company.form.new_clients' | translate}}</h1>
+                    <h2>{{ 'company.form.company_information' | translate }}</h2>
+                    <p>{{ 'company.form.company_info_description' | translate }}</p>
                 </div>
 
                 <validation2 form="form" field="cin" errormsg="company.form.orgnr.validation">
@@ -23,7 +21,7 @@
                     <div class="group">
                         <input type="text" name="cin" ng-pattern="/^[\d\-]+$/" ng-minlength="10"
                                ng-model="ctrl.data.cin"
-                               ng-keyup="ctrl.cinKeyup();" ng-disabled="isNew === 1">
+                               ng-keyup="ctrl.cinKeyup();" ng-blur="ctrl.getCompanyByCin();" ng-disabled="isNew === 1">
                         <label>{{'company.form.orgnr' | translate}}</label>
                     </div>
                 </validation2>
@@ -34,7 +32,8 @@
 
                 <validation2 form="form" field="name" errormsg="company.form.name.validation">
                     <div class="group">
-                        <input type="text" id="txt_company_name" name="name" ng-required="isNew===1" ng-model="ctrl.data.name"
+                        <input type="text" id="txt_company_name" name="name" ng-required="isNew===1"
+                               ng-model="ctrl.data.name"
                                ng-disabled="disableInput"
                                ng-keyup="form.name.error_detail = undefined">
                         <label>{{'company.form.name' | translate}}</label>
@@ -83,14 +82,14 @@
                 </div>
 
                 <div class="group register-image" ng-show="isNew">
-                    <input type="file" id="file_upload" name="file" ng-disabled="disableInput"
-                           onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">
+                    <!--<input type="file" id="file_upload" name="file" ng-disabled="disableInput" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">-->
+					<input type="file" id="file_upload" name="file" ng-disabled="disableInput" custom-on-change="fileNameChanged" accept="image/*">
                     <label>{{ 'company.form.logo' | translate }}</label>
                 </div>
 
 
                 <div class="group">
-                    <h2>Inloggningsuppgifter</h2>
+                    <h2>{{ 'company.form.login_information' | translate }}</h2>
                 </div>
 
                 <validation2 form="form" field="ssn" errormsg="user.form.ssn.validation">
@@ -142,25 +141,31 @@
                     </div>
                 </validation2>
 
+                <validation2 form="form" field="passwordCompare" errormsg="user.form.passwordCompare.validation">
+                    <div class="group">
+                        <input name="passwordCompare" type="password" required password-match="ctrl.data.password" ng-model="ctrl.data.passwordCompare"
+                               ng-keyup="form.passwordCompare.error_detail = undefined">
+                        <label>{{ 'user.form.password' | translate }}</label>
+                    </div>
+                </validation2>
+
                 <div class="group register-image">
-                    <input type="file" id="file_upload2" name="file"
-                           onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">
+                    <!--<input type="file" id="file_upload2" name="file" onchange="angular.element(this).scope().fileNameChanged2()" accept="image/*">-->
+					<input type="file" id="file_upload2" name="file" custom-on-change="fileNameChanged2" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
-
-
+            </div>
+            <div>
                 <div class="terms">
-                    <p style="margin-bottom:10px;"><input type="checkbox" ng-true-value="1" required name="terms"
-                                                          ng-model="terms"> {{'terms.accept'
-                        | translate}} {{'terms' | translate}} <a
-                                href="assets/terms/160523_2051-2_Terms_and_Conditions_(en).pdf" target="_blank"> PDF
-                            EN</a>, <a href="assets/terms/160520_2051-2_Anvandarvillkor_(sv).pdf" target="_blank"> PDF
+                    <p style="margin-bottom:10px;"><input id="chk_terms" type="checkbox" ng-true-value="1" required name="terms" ng-model="terms"> <label for="chk_terms">{{'terms.accept'
+                        | translate}} {{'terms' | translate}}</label>
+                        <a href="assets/terms/160523_2051-2_Terms_and_Conditions_(en).pdf" target="_blank"> PDF EN </a>, <a href="assets/terms/160520_2051-2_Anvandarvillkor_(sv).pdf" target="_blank"> PDF
                             SV</a></p>
                 </div>
 
                 <div class="terms">
-                    <p><input type="checkbox" ng-true-value="1" required name="termsFrilan" ng-model="termsFrilan">
-                        {{"terms.frilans_finans.accept" | translate}} <a href="{{ctrl.termsAgreements}}" target="_blank"
+                    <p><input id="chk_termsFrilan" type="checkbox" ng-true-value="1" required name="termsFrilan" ng-model="termsFrilan">
+                        <label for="chk_termsFrilan">{{"terms.frilans_finans.accept" | translate}}</label> <a href="{{ctrl.termsAgreements}}" target="_blank"
                                                                          ng-show="ctrl.termsAgreements">{{'terms' |
                             translate}}</a></p>
                 </div>
