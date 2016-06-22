@@ -6,7 +6,7 @@
     font-size: 3em;
     font-weight: 700;
     letter-spacing: 0.02em;
-    &.net-salary{
+    &.net-salary {
       font-size: 1.25em;
       display: block;
     }
@@ -435,7 +435,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
   width: 100%;
   overflow: hidden;
 
-  input[type="text"],textarea {
+  input[type="text"], textarea {
     border-radius: 5px;
     border: 1px solid $midgrey;
     margin-bottom: 35px;
@@ -446,8 +446,8 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
     &:focus {
       outline: none;
     }
-    &:required{
-      box-shadow:none;
+    &:required {
+      box-shadow: none;
     }
   }
   .translate span {
@@ -669,8 +669,8 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
         &:focus {
           outline: none;
         }
-        &:required{
-          box-shadow:none;
+        &:required {
+          box-shadow: none;
         }
       }
 
@@ -997,7 +997,7 @@ job-body, job-comment {
       line-height: 33px;
       margin: 8px;
       max-width: none;
-      &.dark{
+      &.dark {
         background-color: $darkGrey;
       }
     }
@@ -1601,8 +1601,8 @@ job-body, job-comment {
     &:focus {
       outline: none;
     }
-    &:required{
-      box-shadow:none;
+    &:required {
+      box-shadow: none;
     }
   }
   textarea {
@@ -1642,4 +1642,10 @@ job-body, job-comment {
     display: table-cell;
     vertical-align: middle;
   }
+}
+
+.candidate-chat h3.big-size {
+  font-size: 1.4em;
+  font-weight: 600;
+  line-height: 1.4em;
 }

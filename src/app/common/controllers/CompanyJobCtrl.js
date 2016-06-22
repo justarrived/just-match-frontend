@@ -809,8 +809,7 @@ angular.module('just.common')
 
             i18nService.addLanguageChangeListener(function () {
                     that.translateCandidate(that.candidate_model);
-                }
-            );
+            });
             //handle different dynamic translations
             $scope.dt = {
                 candidate_item: true
