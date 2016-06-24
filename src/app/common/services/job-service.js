@@ -20,7 +20,7 @@ angular.module('just.service')
             };
             this.jobMessage = {};
 
-            this.clearJobModel = function(){
+            this.clearJobModel = function () {
                 that.jobModel = {
                     data: {
                         attributes: {"language-id": "", "max_rate": "80"}
@@ -41,7 +41,7 @@ angular.module('just.service')
                 return Resources.jobs.get({'include': include});
             };
             this.getJobsNoFilled = function (include) {
-                return Resources.jobs.get({'include': include,'filter[filled]':'false'});
+                return Resources.jobs.get({'include': include, 'filter[filled]': 'false'});
             };
             this.getJobsPage = function (paramObj) {
                 return Resources.jobs.get(paramObj);
@@ -74,7 +74,7 @@ angular.module('just.service')
                         title: 'assignment.created.title',
                         description: 'assignment.created.description',
                         submit: 'assignment.created.continue',
-						url: routes.company.jobs.url
+                        url: routes.company.jobs.url
                     });
 
                 }, function (error) {
@@ -107,7 +107,7 @@ angular.module('just.service')
                             title: 'user.apply.confirmation',
                             description: 'user.apply.confirmation.text.',
                             submit: 'user.apply.find_more',
-							url: routes.job.list.url
+                            url: routes.job.list.url
                         });
 
                     }).error(function (data, status) {
@@ -170,7 +170,7 @@ angular.module('just.service')
                 }, function (response) {
                     that.jobMessage = response;
                     if (fn) {
-                        fn(0);
+                        fn(0, response);
                     }
                 });
             };
