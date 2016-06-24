@@ -1,3 +1,7 @@
+.wrapper {
+  padding-bottom: 83px;
+}
+
 .hero__slider {
   height: 400px;
 }
@@ -23,21 +27,36 @@
     }
   }
 }
-.wrapper footer > div {
+
+.footer {
+  margin: -83px auto 0;
+  height: auto;
+
   > div {
-    display: table;
-    width: 100%;
-    > p {
-      display: table-cell;
+    height: auto;
+    padding: 30px;
+
+    &:before {
+      content: none;
     }
-    > p:nth-child(2) {
-      text-align: center;
-    }
-    > p:last-child {
-      text-align: right;
+
+    > div {
+      display: table;
+      width: 100%;
+
+      > p {
+        display: table-cell;
+      }
+      > p:nth-child(2) {
+        text-align: center;
+      }
+      > p:last-child {
+        text-align: right;
+      }
     }
   }
 }
+
 .user-job-status {
   > div {
     display: table;
@@ -63,4 +82,8 @@
   > div:last-child {
     text-align: right;
   }
+}
+
+.section-instructions .slick-slide h3 {
+  width: 98%;
 }

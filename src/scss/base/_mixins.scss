@@ -185,9 +185,10 @@
   right: 0px;
   bottom: 0px;
   top: 0px;
-  margin: 0;
+  margin: auto;
   background: $darkBlue;
   overflow-y: auto;
+  max-width: 1024px;
   color: $white;
   z-index: 999;
   opacity: 0;

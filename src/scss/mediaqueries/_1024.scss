@@ -136,6 +136,8 @@ button.map-zoom-in {
     width: 375px;
     background: rgba(34, 37, 49, 0.95);
     float: right;
+    position: relative;
+    z-index: 5;
   }
 }
 .job-owner-header {
