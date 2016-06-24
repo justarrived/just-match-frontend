@@ -12,6 +12,7 @@ angular.module('just.common')
             this.message = userService.signinMessage;
 
             this.process = function () {
+                that.message = {};
                 userService.signin(that.data);
             };
 
