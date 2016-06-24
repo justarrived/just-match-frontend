@@ -67,7 +67,7 @@
     "login.form.email_or_phone": "Email or Phone number",
     "login.form.password": "Password",
     "login.form.username.validation": "Username missing",
-    "login.form.email_or_phone.validation": "Email or Phone number",
+    "login.form.email_or_phone.validation": "Email or Phone number missing",
     "login.form.password.validation": "Password missing",
     "login.forgot_password": "Forgotten your password?",
     "login.forgot_password.error": "Unfortunately, your password could not be updated. Click here to try again",
