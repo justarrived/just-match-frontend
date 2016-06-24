@@ -193,6 +193,7 @@ angular.module('just.service')
             };
 
             this.clearUserModel = function () {
+                that.signinModel = {};
                 that.user = undefined;
                 storage.set("company_id", null);
             };
