@@ -45,8 +45,11 @@ angular.module('just.common')
                                  $scope.company_name_hiring = result.included[0].attributes.name;
                                  });*/
                             }
-                            if (found[0].attributes["will-perform"]) {
+                            if (found[0].attributes["will-perform"] && !found[0].attributes.performed) {
                                 obj.attributes.text_status = "assignment.status.you_hired";
+                            }
+                            if (found[0].attributes.performed) {
+                                obj.attributes.text_status = "assignment.status.performed";
                             }
 
                             $scope.jobs.push(obj);
@@ -54,7 +57,6 @@ angular.module('just.common')
                             $scope.userPerformedJobs.push(obj);
                         }
                     }
-
                 });
 
                 if ($scope.userPerformedJobs) {
@@ -506,8 +508,19 @@ angular.module('just.common')
                         that.ratingModel.data.attributes.score = 0;
                         that.ratingClass = 'score0';
                         that.ratingModel.data.attributes.body = '';
+                        that.fn(1);
                     }
 
+                });
+            };
+
+            this.submitJobRatingPerformed = function () {
+                jobService.userPerformedJob($routeParams.id, that.job_user_id, function(status, response){
+                    if (status === 0) {
+                        $scope.ratingError = response;
+                    }else{
+                        that.submitJobRating();
+                    }
                 });
             };
 

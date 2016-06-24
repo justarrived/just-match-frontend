@@ -20,7 +20,7 @@
                         }}</a>
                 </div>
             </div>
-            <div ng-show="ctrl.will_perform && !ctrl.performed && !ctrl.hasInvoice">
+            <div ng-show="ctrl.will_perform && !ctrl.performed && !ctrl.hasInvoice && userModalPerformShow!=4">
                 <!-- Job finish report your boss -->
                 <div ng-show="!ctrl.canPerformed">
                     <h2>{{'assignment.status.hired' | translate}}</h2>
@@ -35,17 +35,25 @@
                 </div>
                 -->
                 <div ng-show="ctrl.canPerformed">
-                    <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.yes' | translate}}</a>
+                    <a class="button" href="" ng-click="userModalPerformShow=4">{{'common.yes' | translate}}</a>
                 </div>
             </div>
-            <div ng-show="ctrl.hasInvoice">
+            <div ng-show="userModalPerformShow==4">
+                <div>
+                    <h2>{{'assignment.status.salary_will_be_paid' | translate}}</h2>
+                </div>
+                <div>
+                    <a class="button" href="" ng-click="userModalPerformShow=2">{{'common.cancel' | translate}}</a>
+                </div>
+            </div>
+            <!--<div ng-show="ctrl.hasInvoice">
                 <div><h2>{{'assignment.status.rate' | translate}}</h2></div>
                 <div>
                     <a class="button" href="" ng-click="userModalPerformShow=4">{{'common.yes' | translate}}</a>
                     <a class="button dark" href="" ng-show="userModalPerformShow==4" ng-click="userModalPerformShow=0">{{'common.no'
                         | translate}}</a>
                 </div>
-            </div>
+            </div>-->
         </div>
 
     </div>
@@ -152,10 +160,13 @@
                     {{company_name}} {{'user.assignment.company_approved' | translate}}
                 </h4>
                 <p>{{'assignment.status.approve_for_payment' | translate}}</p>
-
-                <div>
+                <!--<div>
                     <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
                     <a class="button pink" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
+                </div>-->
+                <div>
+                    <a class="button dark" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
+                    <a class="button pink" href="" ng-click="userModalPerformShow=4;">{{'common.yes' | translate}}</a>
                 </div>
             </section>
         </div>
@@ -207,7 +218,9 @@
         </div>
 
         <div ng-show="userModalPerformShow==4">
-            <form name="formRate" novalidate ng-submit="ctrl.submitJobRating()">
+            <form name="formRate" novalidate ng-submit="ctrl.submitJobRatingPerformed()">
+                <h3>{{ 'common.thanks' | translate }}</h3>
+                <p>{{ 'user.assignment.rating.submit.description' | translate }}</p>
                 <div>
                     <span class="rating-job" ng-class="ctrl.ratingClass">
                         <span ng-repeat="i in [1,2,3,4,5]"
