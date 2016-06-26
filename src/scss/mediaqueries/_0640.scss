@@ -1,7 +1,3 @@
-.wrapper {
-  padding-bottom: 83px;
-}
-
 .hero__slider {
   height: 400px;
 }
@@ -27,36 +23,21 @@
     }
   }
 }
-
-.footer {
-  margin: -83px auto 0;
-  height: auto;
-
+.wrapper footer > div {
   > div {
-    height: auto;
-    padding: 30px;
-
-    &:before {
-      content: none;
+    display: table;
+    width: 100%;
+    > p {
+      display: table-cell;
     }
-
-    > div {
-      display: table;
-      width: 100%;
-
-      > p {
-        display: table-cell;
-      }
-      > p:nth-child(2) {
-        text-align: center;
-      }
-      > p:last-child {
-        text-align: right;
-      }
+    > p:nth-child(2) {
+      text-align: center;
+    }
+    > p:last-child {
+      text-align: right;
     }
   }
 }
-
 .user-job-status {
   > div {
     display: table;

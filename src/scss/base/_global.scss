@@ -61,54 +61,44 @@ a {
 }
 
 .wrapper {
-  min-height: 100%;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 1024px;
+  height: 100%;
   margin: 0 auto;
-  max-width: 1024px;
   background: $white;
-  padding: 0 0 129px;
 
+  header {
+    display: table-row;
+  }
   > .container-fluid {
+    display: table-row;
     padding: 0;
-  }
-}
-
-.footer {
-  max-width: 1024px;
-  height: 129px;
-  margin: -129px 0 0;
-  background: $lightBlue;
-  color: $white;
-
-  p {
-    margin: 0;
-  }
-
-  > div {
-    padding: 0 30px;
-    font-size: 1.2em;
     height: 100%;
+  }
+  footer {
+    display: table-row;
 
-    &:before {
-      content: '';
-      display: inline-block;
-      vertical-align: middle;
-      height: 100%;
+    p {
+      margin: 0;
     }
-
     > div {
-      display: inline-block;
-      vertical-align: middle;
-      width: 98%;
-    }
+      display: table-cell;
+      background: $lightBlue;
+      color: $white;
+      padding: 30px;
+      font-size: 1.2em;
 
-    span {
-      white-space: nowrap;
+      span {
+        white-space: nowrap;
+      }
+    }
+    a {
+      color: $white;
     }
   }
 
-  a {
-    color: $white;
-  }
 }
 
 .main-title {
