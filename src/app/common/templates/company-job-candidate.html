@@ -133,7 +133,9 @@
     <div class="modal-assign-job" ng-show="modalShow">
         <div>
             <div>
-                <a href="" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></a>
+                <div class="modal-close-wrapper">
+                    <button type="button" class="close-x" ng-click="modalShow = false"><i class="demo-icon icon-ic-close"></i></button>
+                </div>
                 <h3 translate="company.assignments.candidates.send_request"></h3>
                 <h3>{{ctrl.candidate_model["first-name"]}} {{ctrl.candidate_model["last-name"]}}</h3>
                 <p translate="user.assignment.confirmation.description"

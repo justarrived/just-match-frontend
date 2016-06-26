@@ -1324,12 +1324,9 @@ job-body, job-comment {
   > div > div .button.dark {
     border: 1px solid $white;
   }
-  .icon-ic-close {
-    color: $white;
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    font-size: 1.6em;
+
+  .close-x {
+    @include close-popup;
   }
 }
 

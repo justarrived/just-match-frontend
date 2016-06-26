@@ -172,6 +172,16 @@ a {
   z-index: 0;
 }
 
+.modal-close-wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  z-index: 10;
+}
+
 .error404 {
   padding: 35px;
   p {

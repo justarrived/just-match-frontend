@@ -10,15 +10,13 @@
             <div>
                 <img src="https://img.youtube.com/vi/ScMzIvxBSi4/default.jpg" alt>
                 <h2 class="section-title section-title--white">
-                    {{'start.hero_section.slide_1' | translate}}<br><i ng-click="showvdo=1"
-                                                                       class="demo-icon icon-ic-arrow-right2"></i>
+                    {{'start.hero_section.slide_1' | translate}}<br><i ng-click="showvdo=1" class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
             <div>
                 <img ng-hide="showvdo2" src="https://img.youtube.com/vi/y2Ky3Wo37AY/default.jpg" alt>
                 <h2 class="section-title section-title--white">
-                    {{'start.hero_section.slide_2' | translate}}<br><i ng-click="showvdo=2"
-                                                                       class="demo-icon icon-ic-arrow-right2"></i>
+                    {{'start.hero_section.slide_2' | translate}}<br><i ng-click="showvdo=2" class="demo-icon icon-ic-arrow-right2"></i>
                 </h2>
             </div>
         </slick>
@@ -29,7 +27,7 @@
             <iframe ng-show="showvdo==2"
                     src="https://www.youtube-nocookie.com/embed/y2Ky3Wo37AY?enablejsapi=1&rel=0&controls=0&showinfo=0"
                     frameborder="0" allowfullscreen></iframe>
-            <div class="close-x" ng-click="showvdo=false"><i class="demo-icon icon-ic-close"></i></div>
+            <button type="button" class="close-x" ng-click="showvdo=false"><i class="demo-icon icon-ic-close"></i></button>
         </div>
     </div>
     <a href="#{{routes.job.create.url}}">
