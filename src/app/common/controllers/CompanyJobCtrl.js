@@ -176,12 +176,12 @@ angular.module('just.common')
                 flow.redirect(routes.company.job_manage.resolve(obj));
             };
         }])
-    .controller('CompanyJobsManageCtrl', ['jobService', 'authService', 'invoiceService', 'chatService', 'ratingService',
+    .controller('CompanyJobsManageCtrl', ['i18nService', 'jobService', 'authService', 'invoiceService', 'chatService', 'ratingService',
         'justFlowService', 'justRoutes', 'userService', 'companyService', '$routeParams',
-        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources',
-        function (jobService, authService, invoiceService, chatService, ratingService,
+        '$scope', '$q', '$filter', 'MyDate', '$interval', 'Resources', 'gtService',
+        function (i18nService, jobService, authService, invoiceService, chatService, ratingService,
                   flow, routes, userService, companyService, $routeParams,
-                  $scope, $q, $filter, MyDate, $interval, Resources) {
+                  $scope, $q, $filter, MyDate, $interval, Resources, gtService) {
             var that = this;
             this.job_user_id = null;
             this.accepted = false; //owner choosed
@@ -206,6 +206,19 @@ angular.module('just.common')
                     return;
                 }
             });
+
+            i18nService.addLanguageChangeListener(function () {
+                that.getJobData();
+            });
+
+            //handle different dynamic translations
+            $scope.dt = {
+                job_item: true,
+                joblist_item: true
+            };
+            this.toggleDT = function (textId) {
+                $scope.dt[textId] = !$scope.dt[textId];
+            };
 
 
             this.model = userService.userModel();
@@ -251,29 +264,25 @@ angular.module('just.common')
 
             this.getJobData = function () {
 
-                $scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
-                $scope.jobb.$promise.then(function (response) {
-                    $scope.job = response.data;
-                    $scope.job.company = response.included[0];
-                    that.canPerformed = that.checkJobDate(response.data.attributes["job-date"]);
+                Resources.job.get({
+                    id: $routeParams.id,
+                    "include": "owner,company,hourly-pay,job-users"
+                }, function (result) {
+                    $scope.isCompany = 1;
+                    $scope.job = result.data;
+                    $scope.job.owner = result.included[0];
+                    $scope.job.company = result.included[1];
+                    $scope.job.max_rate = result.included[2].attributes["rate-excluding-vat"];
+                    /*if ($scope.$parent) {
+                     $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-excluding-vat"] : result.included[2].attributes["gross-salary"]);
+                     }*/
+                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                    $scope.job.currency = result.included[2].attributes.currency;
+                    $scope.job.netRate = result.included[2].attributes["net-salary"] * $scope.job.attributes.hours;
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
-
-                    $scope.comments_amt = response.data.relationships.comments.data.length;
-
-                    var found_hourly_pay = $filter('filter')(response.included, {
-                        id: "" + response.data.relationships["hourly-pay"].data.id,
-                        type: "hourly-pays"
-                    }, true);
-
-                    if (found_hourly_pay.length > 0) {
-                        $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                        $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
-                        $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
-                    }
-
-                    var company_image_arr = response.included[0].relationships["company-images"].data;
+                    var company_image_arr = result.included[1].relationships["company-images"].data;
                     if (company_image_arr.length > 0) {
-                        var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
+                        var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
                         if (getCompany) {
                             var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
                             if (found_image) {
@@ -283,7 +292,7 @@ angular.module('just.common')
                             }
                         } else {
                             Resources.company.get({
-                                company_id: response.data.relationships.company.data.id,
+                                company_id: result.data.relationships.company.data.id,
                                 'include': 'company-images'
                             }, function (result0) {
                                 var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
@@ -295,6 +304,37 @@ angular.module('just.common')
                                 companyService.addList(result0);
                             });
                         }
+                    }
+
+                    if (result.data.attributes.name) {
+                        gtService.translate(result.data.attributes.name)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.name_translation) {
+                                    $scope.job.attributes.name_translation = {};
+                                }
+                                $scope.job.attributes.name_translation.text = translation.translatedText;
+                                $scope.job.attributes.name_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.name_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.name_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.name_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.name_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.name_translation.to_direction = translation.targetLanguageDirection;
+                            });
+                    }
+                    if (result.data.attributes.description) {
+                        gtService.translate(result.data.attributes.description)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.description_translation) {
+                                    $scope.job.attributes.description_translation = {};
+                                }
+                                $scope.job.attributes.description_translation.text = translation.translatedText;
+                                $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.description_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
+                            });
                     }
                 });
 
@@ -486,53 +526,140 @@ angular.module('just.common')
             });
 
             i18nService.addLanguageChangeListener(function () {
-                    that.getComments($routeParams.id);
-                }
-            );
+                that.getComments($routeParams.id);
+                that.getJobData();
+            });
 
-            $scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
-            $scope.jobb.$promise.then(function (response) {
-                $scope.job = response.data;
-                $scope.job.company = response.included[0];
-                $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+            //handle different dynamic translations
+            $scope.dt = {
+                job_item: true,
+                joblist_item: true
+            };
+            this.toggleDT = function (textId) {
+                $scope.dt[textId] = !$scope.dt[textId];
+            };
 
-                var found_hourly_pay = $filter('filter')(response.included, {
-                    id: "" + response.data.relationships["hourly-pay"].data.id,
-                    type: "hourly-pays"
-                }, true);
-
-                if (found_hourly_pay.length > 0) {
-                    $scope.job.hourly_pay = found_hourly_pay[0].attributes;
-                    $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
-                    $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
-                }
-
-                var company_image_arr = response.included[0].relationships["company-images"].data;
-                if (company_image_arr.length > 0) {
-                    var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
-                    if (getCompany) {
-                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                        if (found_image) {
-                            if (found_image.length > 0) {
-                                $scope.job.company_image = found_image[0].attributes["image-url-small"];
-                            }
-                        }
-                    } else {
-                        Resources.company.get({
-                            company_id: response.data.relationships.company.data.id,
-                            'include': 'company-images'
-                        }, function (result0) {
-                            var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+            this.getJobData = function () {
+                Resources.job.get({
+                    id: $routeParams.id,
+                    "include": "owner,company,hourly-pay,job-users"
+                }, function (result) {
+                    $scope.isCompany = 1;
+                    $scope.job = result.data;
+                    $scope.job.owner = result.included[0];
+                    $scope.job.company = result.included[1];
+                    $scope.job.max_rate = result.included[2].attributes["rate-excluding-vat"];
+                    /*if ($scope.$parent) {
+                     $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-excluding-vat"] : result.included[2].attributes["gross-salary"]);
+                     }*/
+                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                    $scope.job.currency = result.included[2].attributes.currency;
+                    $scope.job.netRate = result.included[2].attributes["net-salary"] * $scope.job.attributes.hours;
+                    $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+                    var company_image_arr = result.included[1].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
+                        if (getCompany) {
+                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
                             if (found_image) {
                                 if (found_image.length > 0) {
                                     $scope.job.company_image = found_image[0].attributes["image-url-small"];
                                 }
                             }
-                            companyService.addList(result0);
-                        });
+                        } else {
+                            Resources.company.get({
+                                company_id: result.data.relationships.company.data.id,
+                                'include': 'company-images'
+                            }, function (result0) {
+                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found_image) {
+                                    if (found_image.length > 0) {
+                                        $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                                companyService.addList(result0);
+                            });
+                        }
                     }
-                }
-            });
+
+                    if (result.data.attributes.name) {
+                        gtService.translate(result.data.attributes.name)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.name_translation) {
+                                    $scope.job.attributes.name_translation = {};
+                                }
+                                $scope.job.attributes.name_translation.text = translation.translatedText;
+                                $scope.job.attributes.name_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.name_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.name_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.name_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.name_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.name_translation.to_direction = translation.targetLanguageDirection;
+                            });
+                    }
+                    if (result.data.attributes.description) {
+                        gtService.translate(result.data.attributes.description)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.description_translation) {
+                                    $scope.job.attributes.description_translation = {};
+                                }
+                                $scope.job.attributes.description_translation.text = translation.translatedText;
+                                $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.description_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
+                            });
+                    }
+                });
+            };
+
+            this.getJobData();
+
+            /*$scope.jobb = jobService.getJob($routeParams.id, 'company,hourly-pay');
+             $scope.jobb.$promise.then(function (response) {
+             $scope.job = response.data;
+             $scope.job.company = response.included[0];
+             $scope.job.company_image = "assets/images/content/placeholder-logo.png";
+
+             var found_hourly_pay = $filter('filter')(response.included, {
+             id: "" + response.data.relationships["hourly-pay"].data.id,
+             type: "hourly-pays"
+             }, true);
+
+             if (found_hourly_pay.length > 0) {
+             $scope.job.hourly_pay = found_hourly_pay[0].attributes;
+             $scope.job.rate = found_hourly_pay[0].attributes["rate-excluding-vat"];
+             $scope.job.max_rate = $scope.job.rate * response.data.attributes.hours;
+             }
+
+             var company_image_arr = response.included[0].relationships["company-images"].data;
+             if (company_image_arr.length > 0) {
+             var getCompany = companyService.getCompanyById(response.data.relationships.company.data.id);
+             if (getCompany) {
+             var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+             if (found_image) {
+             if (found_image.length > 0) {
+             $scope.job.company_image = found_image[0].attributes["image-url-small"];
+             }
+             }
+             } else {
+             Resources.company.get({
+             company_id: response.data.relationships.company.data.id,
+             'include': 'company-images'
+             }, function (result0) {
+             var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+             if (found_image) {
+             if (found_image.length > 0) {
+             $scope.job.company_image = found_image[0].attributes["image-url-small"];
+             }
+             }
+             companyService.addList(result0);
+             });
+             }
+             }
+             });*/
 
             this.getComments = function (job_id) {
                 $scope.commentss = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
@@ -664,10 +791,10 @@ angular.module('just.common')
                 }
             };
         }])
-    .controller('CompanyJobsCandidatesCtrl', ['jobService', 'justFlowService', 'justRoutes', 'authService', 'userService',
-        'companyService', '$routeParams', '$scope', '$q', '$filter', 'Resources',
-        function (jobService, flow, routes, authService, userService,
-                  companyService, $routeParams, $scope, $q, $filter, Resources) {
+    .controller('CompanyJobsCandidatesCtrl', ['i18nService', 'jobService', 'justFlowService', 'justRoutes', 'authService', 'userService',
+        'companyService', '$routeParams', '$scope', '$q', '$filter', 'Resources', 'gtService',
+        function (i18nService, jobService, flow, routes, authService, userService,
+                  companyService, $routeParams, $scope, $q, $filter, Resources, gtService) {
             var that = this;
             this.job_id = $routeParams.id;
 
@@ -678,6 +805,19 @@ angular.module('just.common')
                     return;
                 }
             });
+
+            i18nService.addLanguageChangeListener(function () {
+                that.getJobData();
+            });
+
+            //handle different dynamic translations
+            $scope.dt = {
+                job_item: true,
+                joblist_item: true
+            };
+            this.toggleDT = function (textId) {
+                $scope.dt[textId] = !$scope.dt[textId];
+            };
 
             $scope.candidates = [];
 
@@ -730,38 +870,85 @@ angular.module('just.common')
                     type: "jobs"
                 }, true);
 
-                if (found1.length > 0) {
-                    $scope.job = found1[0];
+            });
+
+            this.getJobData = function(){
+                Resources.job.get({
+                    id: $routeParams.id,
+                    "include": "owner,company,hourly-pay,job-users"
+                }, function (result) {
+                    $scope.isCompany = 1;
+                    $scope.job = result.data;
+                    $scope.job.owner = result.included[0];
+                    $scope.job.company = result.included[1];
+                    $scope.job.max_rate = result.included[2].attributes["rate-excluding-vat"];
+                    /*if ($scope.$parent) {
+                     $scope.job.max_rate = (($scope.$parent.ctrl.isCompany === 1) ? result.included[2].attributes["rate-excluding-vat"] : result.included[2].attributes["gross-salary"]);
+                     }*/
+                    $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
+                    $scope.job.currency = result.included[2].attributes.currency;
+                    $scope.job.netRate = result.included[2].attributes["net-salary"] * $scope.job.attributes.hours;
                     $scope.job.company_image = "assets/images/content/placeholder-logo.png";
-
-                    var getCompany = companyService.getCompanyById(found1[0].relationships.company.data.id);
-
-                    if (getCompany) {
-                        $scope.job.company = getCompany.data;
-                        var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
-                        if (found_image) {
-                            if (found_image.length > 0) {
-                                $scope.job.company_image = found_image[0].attributes["image-url-small"];
-                            }
-                        }
-                    } else {
-                        Resources.company.get({
-                            company_id: found1[0].relationships.company.data.id,
-                            'include': 'company-images'
-                        }, function (response) {
-                            $scope.job.company = response.data;
-
-                            if (response.data.relationships["company-images"].data.length > 0) {
-                                var found = $filter('filter')(response.included, {id: "" + response.data.relationships["company-images"].data[0].id}, true);
-                                if (found.length > 0) {
-                                    $scope.job.company_image = found[0].attributes["image-url-small"];
+                    var company_image_arr = result.included[1].relationships["company-images"].data;
+                    if (company_image_arr.length > 0) {
+                        var getCompany = companyService.getCompanyById(result.data.relationships.company.data.id);
+                        if (getCompany) {
+                            var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
+                            if (found_image) {
+                                if (found_image.length > 0) {
+                                    $scope.job.company_image = found_image[0].attributes["image-url-small"];
                                 }
                             }
-                            companyService.addList(response);
-                        });
+                        } else {
+                            Resources.company.get({
+                                company_id: result.data.relationships.company.data.id,
+                                'include': 'company-images'
+                            }, function (result0) {
+                                var found_image = $filter('filter')(result0.included, {type: 'company-images'}, true);
+                                if (found_image) {
+                                    if (found_image.length > 0) {
+                                        $scope.job.company_image = found_image[0].attributes["image-url-small"];
+                                    }
+                                }
+                                companyService.addList(result0);
+                            });
+                        }
                     }
-                }
-            });
+
+                    if (result.data.attributes.name) {
+                        gtService.translate(result.data.attributes.name)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.name_translation) {
+                                    $scope.job.attributes.name_translation = {};
+                                }
+                                $scope.job.attributes.name_translation.text = translation.translatedText;
+                                $scope.job.attributes.name_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.name_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.name_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.name_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.name_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.name_translation.to_direction = translation.targetLanguageDirection;
+                            });
+                    }
+                    if (result.data.attributes.description) {
+                        gtService.translate(result.data.attributes.description)
+                            .then(function (translation) {
+                                if (!$scope.job.attributes.description_translation) {
+                                    $scope.job.attributes.description_translation = {};
+                                }
+                                $scope.job.attributes.description_translation.text = translation.translatedText;
+                                $scope.job.attributes.description_translation.from = translation.detectedSourceLanguage;
+                                $scope.job.attributes.description_translation.from_name = translation.detectedSourceLanguageName;
+                                $scope.job.attributes.description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                $scope.job.attributes.description_translation.to = translation.targetLanguage;
+                                $scope.job.attributes.description_translation.to_name = translation.targetLanguageName;
+                                $scope.job.attributes.description_translation.to_direction = translation.targetLanguageDirection;
+                            });
+                    }
+                });
+            };
+
+            this.getJobData();
 
             that.gotoJobCandidatePage = function (job_id, job_user_id) {
                 flow.next(routes.company.job_candidate.resolve(job_id, job_user_id), {currTab: 2});
@@ -1207,9 +1394,9 @@ angular.module('just.common')
             };
 
             this.chatScroll = function () {
-                setTimeout(function(){
+                setTimeout(function () {
                     angular.element($window).scroll();
-                },100);
+                }, 100);
 
             };
         }])

@@ -1,6 +1,6 @@
 <section>
     <user-arriver-chat-header ng-show="ctrl.isCompany === 0"></user-arriver-chat-header>
-    <user-header ng-show="ctrl.isCompany === 1"></user-header>
+    <user-company-chat-header ng-show="ctrl.isCompany === 1"></user-company-chat-header>
     <div class="user-job-candidate-topmenu" ng-show="ctrl.isCompany == 1">
         <ul>
             <li><a href="" ng-class="{sel:currTab === 1}" ng-click="currTab = 1">{{'profile' | translate}}</a></li>

@@ -16,9 +16,57 @@
                 <li>{{ job.attributes.street }}</li>
             </ul>
             <ul>
+                <!--
                 <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
                 <li>{{ job.company.attributes.website }}</li>
+                -->
+                <li><h2 class="total-rate">{{ job.totalRate | number:0 }} {{ job.currency }}</h2></li>
+                <li class="job-more-detail-click-here"><span ng-hide="show_job_more_detail===1">{{'job.more_detail.text' | translate}} <a href="" ng-click="show_job_more_detail=1">{{'common.click_here' | translate}}</a></span></li>
+
             </ul>
         </div>
     </div>
 </div>
+<div class="job-body-wrapper for-job-header ng-hide" ng-show="show_job_more_detail===1">
+    <a class="close-btn" href="" ng-click="show_job_more_detail=0">X</a>
+    <div class="job-body-description">
+        <h3>{{"assignment.assignments.title" | translate}}
+            <a href="" ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to"
+               ng-click="ctrl.toggleDT('job_item')" title="{{'translation.dynamic.title' | translate}}"><i
+                    ng-class="dt.job_item ? 'demo-icon icon-switch-language on' : 'demo-icon icon-switch-language off'"></i></a>
+            <i ng-if="job.attributes.description_translation.from == job.attributes.description_translation.to"
+               class="demo-icon icon-switch-language off" title="{{'translation.dynamic.off.title' | translate}}"></i>
+        </h3>
+        <div>
+            <ul ng-if="job.attributes.description_translation.from == job.attributes.description_translation.to">
+                <li class="job-description">{{ job.attributes.description }}</li>
+                <li class="nopadding">
+                    <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number:0 }} {{ job.currency
+                        }}/{{'common.hour' | translate}})</em>
+                    <em ng-show="isCompany != 1"> {{ 'common.gross_salary' | translate }}</em><br/>
+                    <span class="net-salary" ng-show="isCompany != 1">{{job.netRate}} {{job.currency}} {{ 'common.net_salary' | translate }}</span>
+                </li>
+            </ul>
+            <ul ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to">
+                <li class="job-description translated" ng-show="dt.job_item">{{ job.attributes.description_translation.text
+                    }}
+                </li>
+                <li class="job-description" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
+                <li class="nopadding">
+                    <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number:0 }} {{ job.currency
+                        }}/{{'common.hour' | translate}})</em>
+                    <em ng-show="isCompany != 1"> {{ 'common.gross_salary' | translate }}</em><br/>
+                    <span class="net-salary" ng-show="isCompany != 1">{{job.netRate}} {{job.currency}} {{ 'common.net_salary' | translate }}</span>
+                </li>
+            </ul>
+            <ul>
+                <li class="job-location">{{ job.attributes["street"] }} {{ job.attributes["zip"] }}</li>
+                <li class="job-date"><span>{{ job.attributes["job-date"] | date: 'dd' }}</span>{{ job.attributes["job-date"]
+                    | date: 'yyyy-MM-dd' }} - {{ job.attributes["job-end-date"] | date: 'yyyy-MM-dd' }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
