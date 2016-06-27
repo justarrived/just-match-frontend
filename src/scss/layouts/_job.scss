@@ -1649,3 +1649,37 @@ job-body, job-comment {
   font-weight: 600;
   line-height: 1.4em;
 }
+
+h2.total-rate {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+}
+
+li.job-more-detail-click-here {
+  padding-top: 10px;
+  display: inline-block;
+  min-height: 30px;
+  a {
+    color: $white;
+    text-decoration: underline;
+  }
+}
+
+.job-body-wrapper.for-job-header {
+  background-color: $white;
+  position: relative;
+  a.close-btn {
+    color: $grey;
+    text-decoration: none;
+    position: absolute;
+    right: 22px;
+    top: 5px;
+    -webkit-transform: scale(1, 0.8);
+    -o-transform: scale(1, 0.8);
+    -moz-transform: scale(1, 0.8);
+    -ms-transform: scale(1, 0.8);
+    transform: scale(1, 0.8);
+    font-size: 1.7em;
+  }
+}
