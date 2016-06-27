@@ -4,7 +4,7 @@ html, body {
 }
 
 body {
-  overflow-y: scroll;
+  background: $lightGrey;
 }
 
 html, div {
@@ -64,7 +64,10 @@ a {
   display: table;
   table-layout: fixed;
   width: 100%;
+  max-width: 1024px;
   height: 100%;
+  margin: 0 auto;
+  background: $white;
 
   header {
     display: table-row;
@@ -152,10 +155,21 @@ a {
   display: none;
   position: fixed;
   left: 0;
-  right: 375px;
+  right: 0;
   bottom: 0;
   top: 0;
   cursor: pointer;
+  z-index: 0;
+}
+
+.modal-close-wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  z-index: 10;
 }
 
 .error404 {

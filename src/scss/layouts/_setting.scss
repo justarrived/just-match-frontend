@@ -5,12 +5,13 @@
   .close-x {
     @include close-popup;
   }
+  
   h2 {
     font-weight: 400;
     font-size: 1.5em;
     min-width: 130px;
   }
-  > div {
+  > .modal-inner {
     text-align: center;
     width: 100%;
     height: 100%;

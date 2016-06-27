@@ -1,7 +1,9 @@
 <section class="row lang-page" ng-controller="LanguageCtrl as ctrl" ng-show="routes.global.isSelectLanguageOpen">
-    <button class="close-x" ng-click="ctrl.hideLanguageCtrl()" style="z-index:2;"><i class="demo-icon icon-ic-close"></i></button>
+    <div class="modal-close-wrapper">
+        <button type="button" class="close-x" ng-click="ctrl.hideLanguageCtrl()" style="z-index:2;"><i class="demo-icon icon-ic-close"></i></button>
+    </div>
     <span class="close-bar" ng-click="ctrl.hideLanguageCtrl()"></span>
-    <div class="lang-wrapper">
+    <div class="modal-inner">
         <div>
             <div class="just-arrived-logo"></div>
             <h2 class="text-center">{{ 'menu.language.title' | translate }}</h2>
