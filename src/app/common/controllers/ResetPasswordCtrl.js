@@ -11,8 +11,6 @@ angular
         this.model = {data: {attributes: {"one-time-token": $routeParams.token, "password": undefined}}};
         this.message = "";
 
-        authService.checkPromoCode();
-
         if (authService.isAuthenticated()) {
             flow.replace(routes.global.start.url);
         }
