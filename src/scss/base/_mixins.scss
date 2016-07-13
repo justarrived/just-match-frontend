@@ -104,7 +104,7 @@
   line-height: 43px;
   font-size: 1.3em;
   color: $white;
-  background: $pink;
+  background: $cerice;
   padding: 0 20px;
   width: auto;
   margin-top: 20px;
@@ -115,7 +115,7 @@
 
   &:hover,
   &:focus {
-    background: $pinkHover;
+    background: $cericeHover;
   }
 }
 @mixin button-dark {

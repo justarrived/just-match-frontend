@@ -762,7 +762,7 @@ job-body, job-comment {
 
   .button, .button-disabled {
     text-align: center;
-    background: $pink;
+    background: $cerice;
     color: $white;
     font-weight: 400;
     font-size: 1.3em;
@@ -774,7 +774,7 @@ job-body, job-comment {
 
     &:hover,
     &:focus {
-      background: $pinkHover;
+      background: $btnBgColorPositiveHover;
     }
   }
   .button-disabled {
@@ -1402,7 +1402,7 @@ job-body, job-comment {
 }
 
 .user-job-status {
-  background: $pink;
+  background: $cerice;
   padding: 15px;
   color: $white;
   text-align: center;
