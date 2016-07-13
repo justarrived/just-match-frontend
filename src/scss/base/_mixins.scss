@@ -168,6 +168,12 @@
   border-radius: 20px;
   white-space: nowrap;
   display: inline-block;
+
+  &:hover,
+  &:focus {
+    background: $transparentHover;
+    opacity: .95;
+  }
 }
 @mixin header-light {
   width: 100%;
