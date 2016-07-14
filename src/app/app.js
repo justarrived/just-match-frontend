@@ -106,6 +106,12 @@ angular.module('just', [
                     templateUrl: 'common/templates/chat.html',
                     controller: 'ChatCtrl as ctrl'
                 }
+            },
+            cookies: {
+                url: '/cookies_about',
+                handler: {
+                    templateUrl: 'common/templates/cookies_about.html'
+                }
             }
         },
         user: {

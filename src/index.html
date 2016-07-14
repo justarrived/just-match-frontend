@@ -42,6 +42,10 @@
 
 <body ng-controller="MainCtrl as ctrl" scroll>
 <div class="wrapper">
+    <div class="cookie-message">
+        <p class="text">{{'cookies.description' | translate}} <a class="read-more" href="#{{routes.global.cookies.url}}">{{'cookies.read_more' | translate}}</a></p>
+        <button type="button" class="btn">{{'cookies.accept' | translate}}</button>
+    </div>
     <header>
         <div class="top-bar">
             <div class="back-button" ng-hide="ctrl.isStartPage"><a href="" ng-click="ctrl.historyBack()"><i class="demo-icon icon-ic-arrow-left"></i></a></div>
