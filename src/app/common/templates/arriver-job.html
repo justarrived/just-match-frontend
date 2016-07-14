@@ -95,15 +95,11 @@
             <section ng-show="isWillPerform">
                 <h3>{{'user.account' | translate}}</h3>
                 <p>{{'user.account.description' | translate}}</p>
-                <p>{{'assignment.enable_bic_iban.description' | translate}}</p>
-                <p>
-                    <button class="button pink nomargin" href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">
-                        {{'common.click_here' | translate}}
-                    </button>
-                    <button class="button dark nomargin" href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">
-                        {{'common.cancel' | translate}}
-                    </button>
+                <p><a href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">{{'assignment.enable_bic_iban.description' | translate}}</a>
+                    <a href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">{{'common.cancel' | translate}}</a>
                 </p>
+
+
                 <div class="material-input">
                     <form name="form" novalidate ng-submit="ctrl.createBankAccount()">
                         <validation form="form" field="account_clearing_number"
