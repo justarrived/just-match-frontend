@@ -1,0 +1,31 @@
+.cookie-message {
+	text-align: center;
+	background: $blue;
+	color: $white;
+	padding: 20px 32px;
+
+	.cookie-message-inner {
+		max-width: 784px;
+		margin: 0 auto;
+	}
+
+	.text {
+		margin: auto;
+	}
+
+	.read-more {
+		display: block;
+		margin: 15px 0;
+		color: inherit;
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.button {
+		@include button-white-border();
+		margin: 0;
+	}
+}
