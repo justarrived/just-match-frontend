@@ -36,7 +36,8 @@
     "js-custom-select": "2.0.1",
     "oi.select": "0.2.20",
     "angular-elastic": "2.5.1",
-    "angular-google-analytics": "1.1.7"
+    "angular-google-analytics": "1.1.7",
+    "angular-cookies": "^1.5.7"
   },
   "resolutions": {
     "angular": "1.5.3"

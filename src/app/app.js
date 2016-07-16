@@ -23,7 +23,8 @@ angular.module('just', [
     'AxelSoft',
     'oi.select',
     'monospaced.elastic',
-    'angular-google-analytics'
+    'angular-google-analytics',
+    'ngCookies'
 ])
     .constant('justRoutes', {
         global: {
@@ -105,6 +106,12 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/chat.html',
                     controller: 'ChatCtrl as ctrl'
+                }
+            },
+            cookies: {
+                url: '/cookies_about',
+                handler: {
+                    templateUrl: 'common/templates/cookies_about.html'
                 }
             }
         },
