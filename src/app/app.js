@@ -23,7 +23,8 @@ angular.module('just', [
     'AxelSoft',
     'oi.select',
     'monospaced.elastic',
-    'angular-google-analytics'
+    'angular-google-analytics',
+    'ngCookies'
 ])
     .constant('justRoutes', {
         global: {
