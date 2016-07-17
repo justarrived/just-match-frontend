@@ -1165,7 +1165,7 @@ job-body, job-comment {
       p {
         margin: 15px 0;
       }
-      .button.pink {
+      .button.primary {
         @include button-pink;
         max-width: 115px;
         margin: 35px 5px 0;
@@ -1292,7 +1292,7 @@ job-body, job-comment {
     padding: 0 5px;
     margin: 25px auto;
   }
-  .button.pink {
+  .button.primary {
     @include button-pink;
     min-width: 115px;
     margin: 15px 5px;

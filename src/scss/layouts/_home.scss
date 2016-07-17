@@ -474,12 +474,7 @@
         clear: both;
       }
     }
-    > .pink {
-      background: $cerice !important;
-    }
-    > .blue {
-      background: $blue !important;
-    }
+
     > div:last-child {
       background: $lightBlue;
       color: $white;
@@ -488,6 +483,14 @@
       margin-bottom: 5px;
       min-height: 300px;
       position: relative;
+
+      &.primary {
+        background: $cerice;
+      }
+
+      &.blue {
+        background: $blue;
+      }
     }
 
     a {
