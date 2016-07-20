@@ -302,7 +302,7 @@
     "user.assignment.rejected.reason": "دلیل",
     "user.assignment.rejected.confirmation": "ستاسې له پیغام څخه مننه!",
     "user.assignment.rejected.confirmation.description": "موږ به ستاسې ستونزې لپاره حل ولټوو او هرڅومره ژر چې ممکن وي بیرته به تاسې ته راوګرځو. ستاسې له نظرونو څخه مننه، موږ کولی شو د Just Arrived څخه یو غوره خدمت جوړ کړو.",
-    "user.assignment.rating.submit.description": "How do you think carried out the job? Provide a star rating (1-5), and write a review that will be added to profile.",
+    "user.assignment.rating.submit.description": "Provide a star rating (1-5), and write a review that will be added to profile.",
     "assignment.status.application_count": "ګومارنه (شمیر) غوښتنلیکونه لري",
     "assignment.status.select_applicant": "نوی نوماند انتخاب کړئ",
     "assignment.status.user_application": "(قراردادیانو) د ګومارنې لپاره غوښتنه کړې ده",
