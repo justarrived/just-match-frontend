@@ -173,8 +173,7 @@
     "assignment.enable_bic_iban.description": "Har du inte ett Svenskt bankkonto? Klicka här för att ange BIC eller IBAN",
     "company": "شركة",
     "company.create.title": "إنشاء حساب",
-    "company.create.description": "أهلا بكم، للحصول على موظفين بطريقة إيجابية وعادلة، نحن نحتاج إلى رقم مؤسستك.
-للحصول على عمل أنت تحتاج إلى رقم الهوية الشخصي أو رقم التنسيق الخاص بالهجرة. ",
+    "company.create.description": "أهلا بكم، للحصول على موظفين بطريقة إيجابية وعادلة، نحن نحتاج إلى رقم مؤسستك. للحصول على عمل أنت تحتاج إلى رقم الهوية الشخصي أو رقم التنسيق الخاص بالهجرة.",
     "company.form.orgnr": "رقم المؤسسة",
     "company.form.name": "اسم الشركة",
     "company.form.url": "رابط لموقع الشركة",
