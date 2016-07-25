@@ -31,7 +31,6 @@ module.exports = {
 
   vendor_files: {
     js: [
-      'bower_components/underscore/underscore.js',
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
