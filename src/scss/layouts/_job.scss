@@ -998,7 +998,7 @@ job-body, job-comment {
       line-height: 33px;
       margin: 8px;
       max-width: none;
-      &.dark {
+      &.secondary {
         background-color: $darkGrey;
       }
     }
@@ -1173,7 +1173,7 @@ job-body, job-comment {
           opacity: $btnOpacityDisabled;
         }
       }
-      .button.dark {
+      .button.secondary {
         @include button-dark;
         max-width: 115px;
         margin: 35px 5px 0;
@@ -1300,7 +1300,7 @@ job-body, job-comment {
       opacity: $btnOpacityDisabled;
     }
   }
-  .button.dark {
+  .button.secondary {
     @include button-dark;
     min-width: 115px;
     margin: 15px 5px;
@@ -1322,7 +1322,7 @@ job-body, job-comment {
 .modal-assign-job {
   background: $lightBlue;
   color: $white;
-  > div > div .button.dark {
+  > div > div .button.secondary {
     border: 1px solid $white;
   }
 
