@@ -10,7 +10,7 @@ angular.module('just.truncate', [])
             }
 
             truncatedString = string.substr(0, length);
-            console.log([' ', '.', ',', '!', '?'].indexOf(truncatedString.substr(truncatedString.length - 1)));
+
             // Don't end on puncuation or whitespace
             if([' ', '.', ',', '!', '?'].indexOf(truncatedString.substr(truncatedString.length - 1)) > -1) {
                 truncatedString.substr(0, truncatedString.length - 1);
