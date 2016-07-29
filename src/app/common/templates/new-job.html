@@ -30,6 +30,15 @@
             </div>
 
             <div class="material-input">
+                <validation2 form="form" field="short_description" errormsg="assignment.form.short_description.validation">
+                    <div class="group">
+                        <textarea name="short_description" ng-maxlength="150" msd-elastic
+                                  ng-model="ctrl.model.data.attributes.short_description"
+                                  ng-keyup="form.short_description.error_detail = undefined"></textarea>
+                        <label>{{'assignment.form.short_description' | translate}}</label>
+                    </div>
+                </validation2>
+
                 <validation2 form="form" field="description" errormsg="assignment.form.description.validation">
                     <div class="group">
                         <textarea name="description" required ng-minlength="10" msd-elastic

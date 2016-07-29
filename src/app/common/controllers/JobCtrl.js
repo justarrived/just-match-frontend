@@ -169,8 +169,8 @@
             };
         }])
 
-        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService', '$timeout',
-            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService, $timeout) {
+        .controller('ListJobCtrl', ['jobService', 'authService', 'userService', 'companyService', '$scope', 'settings', 'Resources', '$q', '$filter', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'gtService', 'i18nService', '$timeout', 'truncateFilter',
+            function (jobService, authService, userService, companyService, $scope, settings, Resources, $q, $filter, uiGmapGoogleMapApi, uiGmapIsReady, gtService, i18nService, $timeout, truncateFilter) {
 
                 var that = this;
 
@@ -393,7 +393,7 @@
 
                                     $scope.jobs.data[key].totalRate = value.hours * $scope.jobs.data[key].max_rate;
                                     $scope.jobs.data[key].currency = obj2.attributes.currency;
-									$scope.jobs.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
+                                    $scope.jobs.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
@@ -414,7 +414,30 @@
                                         $scope.jobs.data[idx].name_translation.to_direction = translation.targetLanguageDirection;
                                     });
                             }
-                            if (obj.attributes.description) {
+
+                            if (obj.attributes['short-description']) {
+
+                                $scope.jobs.data[idx].summary = obj.attributes['short-description'];
+                                
+                                gtService.translate(obj.attributes['short-description'])
+                                    .then(function (translation) {
+                                        if (!$scope.jobs.data[idx].short_description_translation) {
+                                            $scope.jobs.data[idx].short_description_translation = {};
+                                        }
+                                        $scope.jobs.data[idx].short_description_translation.text = translation.translatedText;
+                                        $scope.jobs.data[idx].short_description_translation.from = translation.detectedSourceLanguage;
+                                        $scope.jobs.data[idx].short_description_translation.from_name = translation.detectedSourceLanguageName;
+                                        $scope.jobs.data[idx].short_description_translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        $scope.jobs.data[idx].short_description_translation.to = translation.targetLanguage;
+                                        $scope.jobs.data[idx].short_description_translation.to_name = translation.targetLanguageName;
+                                        $scope.jobs.data[idx].short_description_translation.to_direction = translation.targetLanguageDirection;
+
+                                        $scope.jobs.data[idx].summary_translation = $scope.jobs.data[idx].short_description_translation;
+                                    });
+                            } else if (obj.attributes.description) {
+
+                                $scope.jobs.data[idx].summary = truncateFilter(obj.attributes.description, 150);
+
                                 gtService.translate(obj.attributes.description)
                                     .then(function (translation) {
                                         if (!$scope.jobs.data[idx].description_translation) {
@@ -427,6 +450,10 @@
                                         $scope.jobs.data[idx].description_translation.to = translation.targetLanguage;
                                         $scope.jobs.data[idx].description_translation.to_name = translation.targetLanguageName;
                                         $scope.jobs.data[idx].description_translation.to_direction = translation.targetLanguageDirection;
+
+                                        $scope.jobs.data[idx].summary_translation = $scope.jobs.data[idx].description_translation;
+                                        
+                                        $scope.jobs.data[idx].summary_translation.text = truncateFilter($scope.jobs.data[idx].description_translation.text, 150);
                                     });
                             }
                         });
