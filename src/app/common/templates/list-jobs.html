@@ -24,7 +24,7 @@
                 <ui-gmap-window>
                     <div class="map-infobox">
                         <h2><a href="#{{routes.job.get.resolve(m.job)}}">{{m.job.attributes.name}}</a></h2>
-                        <p>{{m.job.attributes['short-description']}}</p>
+                        <p>{{m.job.summary}}</p>
                         <p>{{m.job.totalRate}} {{m.job.currency}}</p>
                         <a href="#{{routes.job.get.resolve(m.job)}}" translate="common.click_here"></a>
                     </div>
