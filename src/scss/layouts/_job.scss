@@ -330,6 +330,7 @@ a[href^="http://maps.google.com/maps"], a[href^="https://maps.google.com/maps"],
       p {
         font-size: 0.95em;
         line-height: 1.3em;
+        word-wrap: break-word;
       }
 
       .location {

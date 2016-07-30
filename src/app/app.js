@@ -24,7 +24,8 @@ angular.module('just', [
     'oi.select',
     'monospaced.elastic',
     'angular-google-analytics',
-    'ngCookies'
+    'ngCookies',
+    'just.truncate'
 ])
     .constant('justRoutes', {
         global: {

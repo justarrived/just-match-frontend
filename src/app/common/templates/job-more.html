@@ -18,13 +18,13 @@
                                 </h3>
                                 <h3 ng-if="job_m.name_translation" ng-show="!dt.joblist_item"><a
                                         href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a></h3>
-                                <p ng-if="job_m.description_translation" ng-show="dt.joblist_item" class="translated">
-                                    {{job_m.description_translation.text}}</p>
-                                <p ng-if="job_m.description_translation" ng-show="!dt.joblist_item">
-                                    {{job_m.attributes.description}}</p>
+                                <p ng-if="job_m.summary_translation" ng-show="dt.joblist_item" class="translated">
+                                    {{job_m.summary_translation.text}}</p>
+                                <p ng-if="job_m.summary_translation" ng-show="!dt.joblist_item">
+                                    {{job_m.summary}}</p>
                                 <h3 ng-if="!job_m.name_translation"><a href="#{{routes.job.get.resolve(job_m)}}">{{job_m.attributes.name}}</a>
                                 </h3>
-                                <p ng-if="!job_m.description_translation">{{job_m.attributes.description}}</p>
+                                <p ng-if="!job_m.summary_translation">{{job_m.summary}}</p>
                                 <div class="location"><span>{{job_m.attributes.street}} {{job_m.attributes.zip}}</span>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                         <ui-gmap-window>
                             <div class="map-infobox">
                                 <h2><a href="#{{routes.job.get.resolve(m.job)}}">{{m.job.attributes.name}}</a></h2>
-                                <p>{{m.job.attributes.description}}</p>
+                                <p>{{m.job.summary}}</p>
                                 <p>{{m.job.totalRate}} {{m.job.currency}}</p>
                                 <a href="#{{routes.job.get.resolve(m.job)}}">{{ "common.click_here" | translate }}</a>
                             </div>
