@@ -143,7 +143,7 @@
     "assignment.form.rate": "Wage",
     "assignment.form.zip": "Post code",
     "assignment.form.title.validation": "Title missing",
-    "assignment.form.short_description.validation": "Job summary is to long",
+    "assignment.form.short_description.validation": "Job summary is too long",
     "assignment.form.description.validation": "Job description missing",
     "assignment.form.address.validation": "Address of where the job is to be done missing",
     "assignment.form.category.validation": "Category missing",
