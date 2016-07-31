@@ -4,5 +4,10 @@ IFS=$'\n\t'
 
 cd "$(dirname "$0")/.."
 
-echo -e '\n== Starting server =='
+script/bootstrap
+
+# Set server port
+export JAF_SERVER_PORT=${1:-9000}
+
+echo -e "\n== Starting server on port $JAF_SERVER_PORT =="
 grunt watch
