@@ -5,14 +5,14 @@
 .modal-performed-job,
 .modal-assign-job {
   > div > div {
-    .button.primary, .button.dark {
+    .button.primary, .button.secondary {
       max-width: 135px;
     }
   }
 }
 
 .user-modal-perform-show {
-  .button.primary, .button.dark {
+  .button.primary, .button.secondary {
     max-width: 135px;
   }
 }

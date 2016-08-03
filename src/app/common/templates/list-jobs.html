@@ -24,7 +24,7 @@
                 <ui-gmap-window>
                     <div class="map-infobox">
                         <h2><a href="#{{routes.job.get.resolve(m.job)}}">{{m.job.attributes.name}}</a></h2>
-                        <p>{{m.job.attributes.description}}</p>
+                        <p>{{m.job.summary}}</p>
                         <p>{{m.job.totalRate}} {{m.job.currency}}</p>
                         <a href="#{{routes.job.get.resolve(m.job)}}" translate="common.click_here"></a>
                     </div>
@@ -45,13 +45,14 @@
                                     href="#{{routes.job.get.resolve(job)}}">{{job.name_translation.text}}</a></h3>
                             <h3 ng-if="job.name_translation" ng-show="!dt.joblist_item"><a
                                     href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a></h3>
-                            <p ng-if="job.description_translation" ng-show="dt.joblist_item" class="translated">
-                                {{job.description_translation.text}}</p>
-                            <p ng-if="job.description_translation" ng-show="!dt.joblist_item">
-                                {{job.attributes.description}}</p>
+                            <p ng-if="job.summary_translation" ng-show="dt.joblist_item" class="translated">
+                                {{job.summary_translation.text}}</p>
+                            <p ng-if="job.summary_translation" ng-show="!dt.joblist_item">
+                                {{job.summary}}</p>
+                            
                             <h3 ng-if="!job.name_translation"><a href="#{{routes.job.get.resolve(job)}}">{{job.attributes.name}}</a>
                             </h3>
-                            <p ng-if="!job.description_translation">{{job.attributes.description}}</p>
+                            <p ng-if="!job.summary_translation">{{job.summary}}</p>
                             <div class="location"><span>{{job.attributes.street}} {{job.attributes.zip}}</span></div>
                         </div>
                         <div class="job-rate">

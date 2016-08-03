@@ -24,7 +24,8 @@ angular.module('just', [
     'oi.select',
     'monospaced.elastic',
     'angular-google-analytics',
-    'ngCookies'
+    'ngCookies',
+    'just.truncate'
 ])
     .constant('justRoutes', {
         global: {
@@ -177,8 +178,8 @@ angular.module('just', [
             },
             update: {
                 url: '/jobs/:id',
-                resolve: function (obj) {
-                    return '/jobs/' + obj.id;
+                resolve: function (job) {
+                    return '/jobs/' + job.id;
                 },
                 handler: {
                     templateUrl: 'common/templates/create-job.html',
@@ -187,8 +188,8 @@ angular.module('just', [
             },
             get: {
                 url: '/jobs/:id',
-                resolve: function (obj) {
-                    return '/jobs/' + obj.id;
+                resolve: function (job) {
+                    return '/jobs/' + job.id;
                 },
                 handler: {
                     templateUrl: 'common/templates/view-job.html',
@@ -237,8 +238,8 @@ angular.module('just', [
             },
             job_manage: {
                 url: '/arriver/job/:id',
-                resolve: function (obj) {
-                    return '/arriver/job/' + obj.id;
+                resolve: function (job) {
+                    return '/arriver/job/' + job.id;
                 },
                 handler: {
                     templateUrl: 'common/templates/arriver-job.html',
@@ -247,8 +248,8 @@ angular.module('just', [
             },
             job_comments: {
                 url: '/arriver/job/:id/comments',
-                resolve: function (obj) {
-                    return '/arriver/job/' + obj.id + '/comments';
+                resolve: function (job) {
+                    return '/arriver/job/' + job.id + '/comments';
                 },
                 handler: {
                     templateUrl: 'common/templates/arriver-job-comments.html',
@@ -273,8 +274,8 @@ angular.module('just', [
             },
             job_manage: {
                 url: '/company/job/:id',
-                resolve: function (obj) {
-                    return '/company/job/' + obj.id;
+                resolve: function (job) {
+                    return '/company/job/' + job.id;
                 },
                 handler: {
                     templateUrl: 'common/templates/company-job.html',
@@ -283,8 +284,8 @@ angular.module('just', [
             },
             job_comments: {
                 url: '/company/job/:id/comments',
-                resolve: function (obj) {
-                    return '/company/job/' + obj.id + '/comments';
+                resolve: function (job) {
+                    return '/company/job/' + job.id + '/comments';
                 },
                 handler: {
                     templateUrl: 'common/templates/company-job-comments.html',
@@ -293,8 +294,8 @@ angular.module('just', [
             },
             job_candidates: {
                 url: '/company/job/:id/candidates',
-                resolve: function (obj) {
-                    return '/company/job/' + obj.id + '/candidates';
+                resolve: function (job) {
+                    return '/company/job/' + job.id + '/candidates';
                 },
                 handler: {
                     templateUrl: 'common/templates/company-job-candidates.html',
