@@ -693,10 +693,10 @@
                     });
                 };
 
-                $scope.comments = [];
+                $scope.commentss = {};
                 this.getComments = function (job_id) {
-                    $scope.comments = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
-                    $scope.comments.$promise.then(function (response) {
+                    $scope.commentss = commentService.getComments('jobs', job_id, 'owner,owner.user-images');
+                    $scope.commentss.$promise.then(function (response) {
                         var deferd = $q.defer();
                         $scope.comments = [];
                         var curr_user_id = '0';
@@ -783,7 +783,7 @@
 
                             $scope.comments.push(obj);
                         });
-                        deferd.resolve($scope.comments);
+                        deferd.resolve($scope.commentss);
                         return deferd.promise;
                     });
                 };
