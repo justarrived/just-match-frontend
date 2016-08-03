@@ -113,11 +113,11 @@
 }
 
 .hero__col--left {
-  background: $pink;
+  background: $cerice;
 }
 
 .hero__col--right {
-  background: $darkBlue;
+  background: $berry;
 }
 
 .section-jobs {
@@ -179,7 +179,7 @@
         text-align: center;
         font-size: 1.4em;
         font-weight: 300;
-        background: $pink;
+        background: $cerice;
         border-radius: 0 0 5px 5px;
       }
     }
@@ -474,12 +474,7 @@
         clear: both;
       }
     }
-    > .pink {
-      background: $pink !important;
-    }
-    > .blue {
-      background: $blue !important;
-    }
+
     > div:last-child {
       background: $lightBlue;
       color: $white;
@@ -488,6 +483,14 @@
       margin-bottom: 5px;
       min-height: 300px;
       position: relative;
+
+      &.primary {
+        background: $cerice;
+      }
+
+      &.blue {
+        background: $blue;
+      }
     }
 
     a {

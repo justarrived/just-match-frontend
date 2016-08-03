@@ -1,6 +1,6 @@
 <section class="user-job-wrapper">
     <user-job-header></user-job-header>
-    <div class="main-title pink" ng-show="ctrl.showStatus">
+    <div class="main-title primary" ng-show="ctrl.showStatus">
         <div class="job-owner-header">
             <div ng-show="!ctrl.accepted && !ctrl.will_perform && !ctrl.hasInvoice">
                 <!-- Wait owner choose candidate -->
@@ -85,7 +85,7 @@
                             | translate}}</a></p>
                 </div>
                 <div>
-                    <button class="button" ng-class="{pink : terms,secondary : !terms}" href="" ng-disabled="!terms"
+                    <button class="button" ng-class="{primary : terms,secondary : !terms}" href="" ng-disabled="!terms"
                             ng-click="isWillPerform=true">{{'common.yes'
                         | translate}}
                     </button>
@@ -95,6 +95,7 @@
             <section ng-show="isWillPerform">
                 <h3>{{'user.account' | translate}}</h3>
                 <p>{{'user.account.description' | translate}}</p>
+
                 <p><a href="" ng-hide="isShowBIC" ng-click="ctrl.showBIC()">{{'assignment.enable_bic_iban.description' | translate}}</a>
                     <a href="" ng-show="isShowBIC" ng-click="ctrl.hideBIC()">{{'common.cancel' | translate}}</a>
                 </p>
@@ -158,11 +159,11 @@
                 <p>{{'assignment.status.approve_for_payment' | translate}}</p>
                 <!--<div>
                     <a class="button secondary" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
-                    <a class="button pink" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
+                    <a class="button primary" href="" ng-click="ctrl.userPerformed()">{{'common.yes' | translate}}</a>
                 </div>-->
                 <div>
                     <a class="button secondary" href="" ng-click="userModalPerformShow=false">{{'common.no' | translate}}</a>
-                    <a class="button pink" href="" ng-click="userModalPerformShow=4;">{{'common.yes' | translate}}</a>
+                    <a class="button primary" href="" ng-click="userModalPerformShow=4;">{{'common.yes' | translate}}</a>
                 </div>
             </section>
         </div>
@@ -240,7 +241,7 @@
                         </validation>
                     </div>
                     <p class="rating-error">{{ratingError.data.errors[0].detail}}</p>
-                    <button class="button submit pink" type="submit" ng-disabled="formRate.$invalid">{{'common.submit' |
+                    <button class="button submit primary" type="submit" ng-disabled="formRate.$invalid">{{'common.submit' |
                         translate}}
                     </button>
                 </div>

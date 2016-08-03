@@ -763,7 +763,7 @@ job-body, job-comment {
 
   .button, .button-disabled {
     text-align: center;
-    background: $pink;
+    background: $cerice;
     color: $white;
     font-weight: 400;
     font-size: 1.3em;
@@ -775,7 +775,7 @@ job-body, job-comment {
 
     &:hover,
     &:focus {
-      background: $pinkHover;
+      background: $btnBgColorPositiveHover;
     }
   }
   .button-disabled {
@@ -1166,7 +1166,7 @@ job-body, job-comment {
       p {
         margin: 15px 0;
       }
-      .button.pink {
+      .button.primary {
         @include button-pink;
         max-width: 115px;
         margin: 35px 5px 0;
@@ -1293,7 +1293,7 @@ job-body, job-comment {
     padding: 0 5px;
     margin: 25px auto;
   }
-  .button.pink {
+  .button.primary {
     @include button-pink;
     min-width: 115px;
     margin: 15px 5px;
@@ -1403,7 +1403,7 @@ job-body, job-comment {
 }
 
 .user-job-status {
-  background: $pink;
+  background: $cerice;
   padding: 15px;
   color: $white;
   text-align: center;
