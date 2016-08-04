@@ -12,8 +12,7 @@
         text-transform: uppercase;
     }
 
-    input[type="submit"] {
-        @include button-pink;
+    .button {
         margin: 15px auto 30px;
         min-width: 200px;
     }

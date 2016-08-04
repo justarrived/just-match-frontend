@@ -31,8 +31,27 @@
   opacity: $btnOpacityDisabled;
 }
 
-.btn-cancel{
-  margin: 15px auto !important;
+.button {
+  @include button-white-border;
+
+  &.primary {
+    @include button-pink;
+  }
+
+  &.secondary {
+    @include button-dark;
+  }
+
+  &.disabled,
+  &[disabled],
+  &:disabled {
+    &,
+    &:hover {
+      background-color: $btnBgColorNegative;
+      color: $btnTxtColorDisabled;
+      opacity: $btnOpacityDisabled;
+    }
+  }
 }
 
 span.stars_i {

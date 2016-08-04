@@ -81,16 +81,15 @@
   }
   input, select {
     background: none;
-    border: none;
+    border-width: 0;
   }
-  input[type="submit"], input[type="button"] {
-    @include button-white-border;
+  
+  .button {
     min-width: 220px;
-    border: 1px solid $white !important;
+    border-width: 1px;
   }
+
   a.button {
-    @include button-white-border;
-    min-width: 220px;
     margin-top: 20px;
   }
   .upload-photo {
