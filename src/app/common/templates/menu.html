@@ -23,11 +23,11 @@
         </div>
         <div>
             <div>
-                <a ng-show="!ctrl.menuShowCreateAccount" class="nav-create-account" href="" ng-click="ctrl.menuShowCreateAccount = !ctrl.menuShowCreateAccount">{{'menu.main.create_account' | translate}}</a>
+                <a ng-show="!ctrl.menuShowCreateAccount" class="nav-create-account button" href="" ng-click="ctrl.menuShowCreateAccount = !ctrl.menuShowCreateAccount">{{'menu.main.create_account' | translate}}</a>
                 <div ng-show="ctrl.menuShowCreateAccount">
                     <h2 class="create-account-header">{{'menu.main.create_account.choose' | translate}}</h2>
-                    <a class="nav-create-account" href="#{{routes.user.register.url}}" ng-click="ctrl.menu(0)">{{'user' | translate}}</a>
-                    <a class="nav-create-account" href="#{{routes.company.register.url}}" ng-click="ctrl.menu(0)">{{'company' | translate}}</a>
+                    <a class="nav-create-account button" href="#{{routes.user.register.url}}" ng-click="ctrl.menu(0)">{{'user' | translate}}</a>
+                    <a class="nav-create-account button" href="#{{routes.company.register.url}}" ng-click="ctrl.menu(0)">{{'company' | translate}}</a>
                 </div>
             </div>
         </div>

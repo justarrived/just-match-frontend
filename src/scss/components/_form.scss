@@ -595,8 +595,7 @@ oi-select .select-search {
     padding: 0 20px;
   }
 
-  a.button {
-    @include button-pink;
+  .button {
     min-width: 220px;
   }
 
@@ -684,8 +683,8 @@ textarea {
   width: 85%;
   margin: 35px auto;
   max-width: 500px;
-  input[type="submit"] {
-    @include button-pink;
+  
+  .button {
     min-width: 200px;
     margin-top: 40px;
   }

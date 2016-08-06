@@ -18,17 +18,8 @@
   > div:last-child {
     display: none;
   }
-  button {
-    @include button-pink;
+  .button {
     padding: 0 40px;
-    width: auto;
-    max-width: none;
-  }
-  button:disabled {
-    background-color: $lightHalfBlue;
-    opacity: 0;
-    -webkit-animation: fadeIn .2s 1s forwards;
-    animation: fadeIn .2s 1s forwards;
   }
 }
 
@@ -748,37 +739,39 @@ job-body, job-comment {
 
 .sticky {
   .sticy-button {
-    .button {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 2;
-    }
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
   }
 }
 
 .sticy-button {
   margin: 0 -25px;
+  text-align: center;
+  background: $cerice;
+  color: $white;
+  font-weight: 400;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  display: block;
+  text-decoration: none;
+  line-height: 1.1em;
+  padding: 18px;
 
-  .button, .button-disabled {
-    text-align: center;
-    background: $cerice;
+  &:hover,
+  &:focus {
+    background: $btnBgColorPositiveHover;
     color: $white;
-    font-weight: 400;
-    font-size: 1.3em;
-    text-transform: uppercase;
-    display: block;
     text-decoration: none;
-    line-height: 1.1em;
-    padding: 18px;
-
-    &:hover,
-    &:focus {
-      background: $btnBgColorPositiveHover;
-    }
   }
-  .button-disabled {
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.disabled {
     background-color: $lightHalfBlue;
     opacity: 0;
     -webkit-animation: fadeIn .2s 1s forwards;
@@ -990,15 +983,15 @@ job-body, job-comment {
       text-transform: none;
       font-weight: 400;
     }
+
     .buttons {
       white-space: nowrap;
     }
+
     .button {
-      @include button-white-border;
-      height: 35px;
-      line-height: 33px;
       margin: 8px;
       max-width: none;
+
       &.secondary {
         background-color: $darkGrey;
       }
@@ -1167,18 +1160,15 @@ job-body, job-comment {
         margin: 15px 0;
       }
       .button.primary {
-        @include button-pink;
         max-width: 115px;
         margin: 35px 5px 0;
-        &:disabled {
-          opacity: $btnOpacityDisabled;
-        }
       }
+
       .button.secondary {
-        @include button-dark;
         max-width: 115px;
         margin: 35px 5px 0;
       }
+
       .button.submit {
         min-width: 200px;
         margin-top: 10px;
@@ -1293,26 +1283,13 @@ job-body, job-comment {
     padding: 0 5px;
     margin: 25px auto;
   }
-  .button.primary {
-    @include button-pink;
-    min-width: 115px;
-    margin: 15px 5px;
-    &:disabled {
-      opacity: $btnOpacityDisabled;
-    }
-  }
-  .button.secondary {
-    @include button-dark;
+  .button {
     min-width: 115px;
     margin: 15px 5px;
   }
   .button.submit {
     min-width: 200px;
     margin-top: 10px;
-  }
-  input[type="submit"] {
-    margin-top: 10px;
-    @include button-pink;
   }
 }
 
@@ -1367,13 +1344,7 @@ job-body, job-comment {
 .user-job-candidate-topmenu {
   background: $lightBlue;
   color: $white;
-  .message-botton {
-    padding-left: 105px;
-    padding-bottom: 20px;
-    a {
-      @include button-white-border-small;
-    }
-  }
+
   a {
     color: $white !important;
     text-decoration: none;
@@ -1411,8 +1382,8 @@ job-body, job-comment {
   > div > div:first-child {
     font-size: 1.2em;
   }
+
   a {
-    @include button-white-border-small;
     margin-top: 15px;
     margin-bottom: 10px;
     min-width: 150px;

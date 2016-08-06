@@ -15,7 +15,7 @@
                         {{ctrl.remainMinutes}}min</h2>
                 </div>
                 <div>
-                    <a class="button" href="" ng-click="terms=0; isWillPerform=false; userModalPerformShow=1;">{{
+                    <a class="button small" href="" ng-click="terms=0; isWillPerform=false; userModalPerformShow=1;">{{
                         "assignment.status.reply" | translate
                         }}</a>
                 </div>
@@ -142,7 +142,7 @@
                             </div>
                         </validation>
 
-                        <input type="submit" ng-disabled="form.$invalid" value="{{'common.save' | translate}}"/>
+                        <button class="button primary" type="submit" ng-disabled="form.$invalid">{{'common.save' | translate}}</button>
 
                     </form>
                 </div>

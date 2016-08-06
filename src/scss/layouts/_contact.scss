@@ -8,13 +8,13 @@
         margin: 20px 15px 20px 0;
     }
 
-    input[type="submit"] {
-        @include button-pink;
+    .button {
         margin: 10px auto 0;
         min-width: 220px;
     }
 }
 
+// This is mostly duplicate code of .complete in _form.scss
 .contact-sent {
     background: $lightBlue;
     color: $white;
@@ -32,11 +32,6 @@
         font-weight: 400;
         text-transform: capitalize;
         margin: 0;
-    }
-
-    a.button {
-        @include button-pink;
-        max-width: 250px;
     }
 
     .icon-ic-envelope {

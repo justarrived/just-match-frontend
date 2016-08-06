@@ -34,6 +34,12 @@
 .button {
   @include button-white-border;
 
+  &.small {
+    @include button-white-border-small;
+    line-height: 24px;
+    height: 35px;
+  }
+
   &.primary {
     @include button-pink;
   }
