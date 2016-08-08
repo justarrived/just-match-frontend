@@ -597,6 +597,7 @@ oi-select .select-search {
 
   .button {
     min-width: 220px;
+    margin: 30px 0;
   }
 
   .icon-ic-envelope {
@@ -618,11 +619,6 @@ oi-select .select-search {
     }
   }
 
-  button {
-    @include button-white-border;
-    min-width: 200px;
-    margin: 30px 0;
-  }
   p {
     font-size: 1.2em;
   }

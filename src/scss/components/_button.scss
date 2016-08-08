@@ -2,50 +2,60 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-.btn-pos, .btn-pos[disabled], .btn-pos.disabled, .btn-neg, .btn-neg[disabled], .btn-neg.disabled {
-  border-radius: $btnBorderRadius;
-}
-
-.btn-pos, .btn-pos[disabled], .btn-pos.disabled {
-  background-color: $btnBgColorPositive;
-  color: $btnTxtColorPositive;
-
-  &:hover,
-  &:focus {
-    background-color: $btnBgColorPositiveHover;
-  }
-}
-
-.btn-neg, .btn-neg[disabled], .btn-neg.disabled {
-  background-color: $btnBgColorNegative;
-  color: $btnTxtColorNegative;
-
-  &:hover,
-  &:focus {
-    background-color: $btnBgColorNegativeHover;
-  }
-}
-
-.btn-pos[disabled], .btn-pos.disabled, .btn-neg[disabled], .btn-neg.disabled {
-  color: $btnTxtColorDisabled;
-  opacity: $btnOpacityDisabled;
-}
-
 .button {
-  @include button-white-border;
+  border: 1px solid $white;
+  color: $white;
+  text-decoration: none;
+  height: 45px;
+  line-height: 43px;
+  text-align: center;
+  border-radius: 23px;
+  background: none;
+  padding: 0 20px;
+  width: auto;
+  margin-top: 15px;
+  font-size: 1.2em;
+  display: inline-block;
+
+  &:hover,
+  &:focus {
+    background: $transparentHover;
+    opacity: .95;
+    color: $white;
+    text-decoration: none;
+  }
 
   &.small {
-    @include button-white-border-small;
+    padding: 5px 20px;
+    font-weight: 400;
+    border-radius: 20px;
+    white-space: nowrap;
     line-height: 24px;
     height: 35px;
   }
 
   &.primary {
-    @include button-pink;
+    font-size: 1.3em;
+    background: $cerice;
+    border: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+      background: $cericeHover;
+    }
   }
 
   &.secondary {
-    @include button-dark;
+    font-size: 1.3em;
+    background: $lightBlue;
+    border: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+      background: $lightBlueHover;
+    }
   }
 
   &.disabled,
