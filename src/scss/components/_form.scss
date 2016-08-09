@@ -38,7 +38,19 @@ label {
 }
 
 .form-error-detail {
-  margin-top: -22px;
+  font-size: 0.9em;
+  text-align: left;
+  line-height: 1.3em;
+
+  &,
+  &.ng-hide + .form-hint {
+    margin-top: -20px;
+  }
+}
+
+.form-hint {
+  margin: 4px 0 0;
+  display: block;
   font-size: 0.9em;
   text-align: left;
   line-height: 1.3em;

@@ -152,6 +152,7 @@
     "assignment.form.hours.validation": "Number of hours missing",
     "assignment.form.rate.validation": "Wage details missing",
     "assignment.form.zip.validation": "You need to enter a post code",
+    "assignment.form.short_description.hint": "Summary to be shown in the job list",
     "assignment.rate.description": "We have three wage levels: Minimum SEK105/hr. excluding VAT, Recommended SEK115/hr. excluding VAT, and Generous SEK125/hr. excluding VAT.",
     "assignment.rate.low": "minimum",
     "assignment.rate.medium": "Recommended",
