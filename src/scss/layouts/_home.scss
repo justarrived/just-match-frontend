@@ -266,8 +266,7 @@
     color: $white;
     padding: 0 10%;
   }
-  a.button {
-    @include button-pink;
+  .button {
     min-width: 200px;
   }
   .select-wrapper {
@@ -493,9 +492,8 @@
       }
     }
 
-    a {
-      @include button-white-border;
-      width: 145px;
+    .button {
+      min-width: 145px;
       position: absolute;
       bottom: 30px;
       left: 50%;

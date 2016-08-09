@@ -73,8 +73,8 @@
                 <p>{{'profile.create.notification' | translate}}</p></p>
             </div>
             <div class="form-group">
-                <button type="button" class="form-control btn btn-neg ng-hide" href="" ng-show="ctrl.disableUserForm" ng-click="ctrl.enableUserForm()">{{'common.edit' | translate}}</button>
-                <button class="form-control btn btn-pos" type="submit" ng-disabled="form.$invalid || ctrl.uploading" ng-show="!ctrl.disableUserForm">{{
+                <button type="button" class="form-control button secondary ng-hide" href="" ng-show="ctrl.disableUserForm" ng-click="ctrl.enableUserForm()">{{'common.edit' | translate}}</button>
+                <button class="form-control button primary" type="submit" ng-disabled="form.$invalid || ctrl.uploading" ng-show="!ctrl.disableUserForm">{{
                     ctrl.saveButtonText | translate }}
                 </button>
             </div>

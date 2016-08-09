@@ -272,6 +272,10 @@ oi-select .select-search {
     min-width: 180px;
     margin: 30px auto 0;
     display: inherit;
+
+    &.cancel{
+      margin: 15px auto;
+    }
   }
 
   .btn-primary,
@@ -560,16 +564,10 @@ oi-select .select-search {
     text-align: center;
     margin: 15px auto 10px;
 
-    button:first-child {
-      @include button-dark;
-    }
-    button:last-child {
-      @include button-pink;
-    }
-    button {
+    .button {
       display: inline-block;
       margin: 0 3px;
-      width: 45% !important;
+      width: 45%;
     }
   }
   h3 {
@@ -597,9 +595,9 @@ oi-select .select-search {
     padding: 0 20px;
   }
 
-  a.button {
-    @include button-pink;
+  .button {
     min-width: 220px;
+    margin: 30px 0;
   }
 
   .icon-ic-envelope {
@@ -621,11 +619,6 @@ oi-select .select-search {
     }
   }
 
-  button {
-    @include button-white-border;
-    min-width: 200px;
-    margin: 30px 0;
-  }
   p {
     font-size: 1.2em;
   }
@@ -686,8 +679,8 @@ textarea {
   width: 85%;
   margin: 35px auto;
   max-width: 500px;
-  input[type="submit"] {
-    @include button-pink;
+  
+  .button {
     min-width: 200px;
     margin-top: 40px;
   }
