@@ -18,6 +18,7 @@ angular
         scope: {
             field: '@',
             errormsg: '@',
+            hint: '@',
             form: '='
         },
         templateUrl: 'common/templates/directives/validation2.html',
