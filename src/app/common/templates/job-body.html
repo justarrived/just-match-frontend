@@ -7,10 +7,10 @@
         <span class="net-salary" ng-show="$parent.ctrl.isCompany != 1">{{job.netRate}} {{job.currency}} {{ 'common.net_salary' | translate }}</span>
     </div>
     <div>
-        <button ng-click="ctrl.accept_job()" class="ng-hide" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
+        <button class="button primary" ng-click="ctrl.accept_job()" class="ng-hide" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
             {{"assignment.status.apply" | translate}}
         </button>
-        <button ng-click="" disabled class="ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" |
+        <button ng-click="" disabled class="button primary ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" |
             translate}}
         </button>
     </div>

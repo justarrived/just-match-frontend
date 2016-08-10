@@ -42,6 +42,14 @@
 
 <body ng-controller="MainCtrl as ctrl" scroll>
 <div class="wrapper">
+    <div class="cookie-message" ng-show="ctrl.checkCookiesConsent()">
+        <div class="cookie-message-inner">
+            <p class="text">{{'cookies.description' | translate}} <a class="read-more" href="#{{routes.global.cookies.url}}">{{'cookies.read_more' | translate}}</a></p>
+            <div class="cookies-button">
+                <button type="button" class="button" ng-click="ctrl.cookiesConsent(true)">{{'cookies.accept' | translate}}</button>
+            </div>
+        </div>
+    </div>
     <header>
         <div class="top-bar">
             <div class="back-button" ng-hide="ctrl.isStartPage"><a href="" ng-click="ctrl.historyBack()"><i class="demo-icon icon-ic-arrow-left"></i></a></div>
@@ -89,7 +97,7 @@
             <p><i class="demo-icon icon-ic-check2"></i></p>
             <h1>{{'common.updated' | translate}}</h1>
             <p>{{'profile.updated' | translate}}</p>
-            <button ng-click="ctrl.saveSettingsSuccess = false;" type="button">{{'common.back' | translate}}</button>
+            <button class="button" ng-click="ctrl.saveSettingsSuccess = false;" type="button">{{'common.back' | translate}}</button>
         </div>
     </div>
 </div>

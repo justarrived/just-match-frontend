@@ -31,7 +31,6 @@ module.exports = {
 
   vendor_files: {
     js: [
-      'bower_components/underscore/underscore.js',
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/jquery-resize/jquery.ba-resize.min.js',
@@ -55,7 +54,8 @@ module.exports = {
       'bower_components/js-custom-select/js/customSelect.js',
       'bower_components/oi.select/dist/select.min.js',
       'bower_components/angular-elastic/elastic.js',
-      'bower_components/angular-google-analytics/dist/angular-google-analytics.js'
+      'bower_components/angular-google-analytics/dist/angular-google-analytics.js',
+      'bower_components/angular-cookies/angular-cookies.js'
     ],
     css: [
       'bower_components/bootstrap/dist/css/bootstrap.min.css',

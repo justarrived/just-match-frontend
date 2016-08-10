@@ -145,8 +145,8 @@ angular.module('just.common')
             }
         };
     })
-    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route',
-        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route) {
+    .controller('MainCtrl', ['authService', '$location', 'justFlowService', 'justRoutes', 'i18nService', '$scope', 'Resources', '$filter', 'userService', '$q', '$route', '$cookies',
+        function (authService, $location, flow, routes, i18nService, $scope, Resources, $filter, userService, $q, $route, $cookies) {
             var that = this;
             this.showSetting = false;
             that.isCompany = -1;
@@ -245,6 +245,26 @@ angular.module('just.common')
 
             this.historyBack = function () {
                 window.history.go(that.backStep);
+            };
+
+            this.checkCookiesConsent = function() {
+                var concent = $cookies.get('cookie_concent');
+
+                return !concent;
+            };
+
+            this.cookiesConsent = function(accept) {
+                var 
+                    expires = new Date(),
+                    time = expires.getTime();
+
+                // Cookie expires after 1 year
+                time += 1000*60*60*24*365;
+                expires.setTime(time);
+
+                $cookies.put('cookie_concent', accept, {
+                    expires: expires
+                });
             };
 
             this.getUser();

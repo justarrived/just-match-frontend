@@ -7,4 +7,5 @@
         <span class="text-danger" ng-show="form[field].$invalid && form[field].$touched">{{errormsg | translate}}</span>
         <span class="text-danger return" ng-show="form[field].error_detail">{{form[field].error_detail}}</span>
     </div>
+    <span class="form-hint" ng-if="hint">{{hint | translate}}</span>
 </div>

@@ -64,3 +64,24 @@
     text-align: right;
   }
 }
+
+.cookie-message {
+  text-align: left;
+
+  .cookie-message-inner {
+    display: flex;
+  }
+
+  .read-more {
+    display: inline;
+    margin: 0;
+  }
+
+  .cookies-button {
+    margin: auto;
+  }
+
+  .button {
+    margin: 0 0 0 20px;
+  }
+}

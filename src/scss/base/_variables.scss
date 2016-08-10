@@ -21,11 +21,13 @@ $lightGrey: #E8EBEE;
 $blue: #0069d2;
 $brightBlue: #00D7FF;
 $darkGrey: #2A303D;
-$pink: #E5007D;
+$pink: #E5007D; //dark hot pink
+$cerice: #c3106c;
+$berry: #971057;
 $spacing: 10px;
 
 // Buttons
-$btnBgColorPositive: #e5007d; //dark hot pink
+$btnBgColorPositive: $cerice;
 $btnTxtColorPositive: #fff;
 $btnBgColorNegative: #383f4e; //charcoal grey
 $btnTxtColorNegative: #fff;
@@ -37,6 +39,7 @@ $btnBorderRadius: 24px;
 $lightBlueHover: darken($lightBlue, 10%);
 $greyHover: darken($grey, 10%);
 $pinkHover: darken($pink, 5%);
+$cericeHover: darken($cerice, 5%);
 
 $btnBgColorPositiveHover: darken($btnBgColorPositive, 5%);
 $btnBgColorNegativeHover: darken($btnBgColorNegative, 5%);

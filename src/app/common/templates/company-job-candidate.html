@@ -17,7 +17,7 @@
                 {{ctrl.candidate_model["first-name"]}} {{'assignment.status.user_application' | translate}}
             </div>
             <div ng-show="!ctrl.accepted && !ctrl.will_perform">
-                <a href="" ng-click="modalShow = true">{{'assignment.status.user_application.approve' | translate}}</a>
+                <a class="button small" href="" ng-click="modalShow = true">{{'assignment.status.user_application.approve' | translate}}</a>
             </div>
 
             <!-- Wait user accepted -->
@@ -37,9 +37,9 @@
                 {{ 'assignment.status.is_successful' | translate}}
             </div>
             <div class="buttons" ng-show="(ctrl.will_perform || ctrl.performed) && ctrl.canPerformed">
-                <a class="button" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' |
+                <a class="button small" href="" style="min-width:80px;" ng-click="ctrl.ownerCancelPerformed()">{{'common.no' |
                     translate}}</a>
-                <a class="button" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes'
+                <a class="button small" href="" style="min-width:80px;" ng-click="modalPerformShow=true; isPerformed=false;">{{'common.yes'
                     | translate}}</a>
             </div>
         </div>
@@ -141,8 +141,8 @@
                 <p translate="user.assignment.confirmation.description"
                    translate-values="{ candidate_name: ctrl.candidate_model['first-name'] }"></p>
                 <p>
-                    <a class="button dark" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
-                    <a class="button pink" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
+                    <a class="button secondary" href="" ng-click="modalShow = false">{{'common.cancel' | translate}}</a>
+                    <a class="button primary" href="" ng-click="ctrl.acceptJob()">{{'common.submit' | translate}}</a>
                 </p>
             </div>
         </div>

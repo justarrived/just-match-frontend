@@ -33,7 +33,9 @@
 }
 .job-desc-inner {
   display: table;
+  table-layout: fixed;
   width: 100%;
+  
   > div {
     display: table-cell;
     vertical-align: middle;

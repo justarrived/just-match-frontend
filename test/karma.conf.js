@@ -4,7 +4,7 @@ module.exports = function(config){
     basePath : '../',
 
     files : [
-      'bower_components/underscore/underscore.js',
+      'bower_components/lodash/dist/lodash.min.js',
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-route/angular-route.js',

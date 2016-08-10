@@ -19,7 +19,7 @@
 
                 <div>
                     <div class="error-message">{{ctrl.message.data.errors[0].detail}}</div>
-                    <input type="submit" ng-disabled="form.$invalid" ng-value="'common.login' | translate"/>
+                    <button type="submit" class="button primary" ng-disabled="form.$invalid">{{'common.login' | translate}}</button>
                 </div>
 
                 <div><a href="#{{routes.global.forgot_password.url}}">{{'login.forgot_password' | translate}}</a></div>

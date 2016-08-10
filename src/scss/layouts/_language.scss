@@ -111,13 +111,14 @@
     &:hover,
     &:focus {
       .lang-icon {
-        background: $pinkHover;
+        border-color: $cericeHover;
+        background: $cericeHover;
       }
     }
 
     .lang-icon {
-      border: 1px solid $pink;
-      background: $pink;
+      border-color: $cerice;
+      background: $cerice;
       color: $white;
     }
   }
