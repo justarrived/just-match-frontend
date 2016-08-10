@@ -121,31 +121,6 @@ angular.module('just.common')
             });
         };
     })
-    .directive("slickChangeDirective", function () {
-        return function (scope, element, attrs) {
-            attrs.$observe('value', function (val) {
-                if ($(".slick-cloned").length > 0) {
-                    $(".slick-cloned").remove();
-                    $("#slick_instructions").slick("unslick");
-                    setTimeout(function () {
-                        $("#slick_instructions").slick({
-                            dots: true,
-                            centerMode: true,
-                            prevArrow: false,
-                            nextArrow: false,
-                            slidesToShow: 3,
-                            responsive: [{
-                                breakpoint: 1024,
-                                settings: {
-                                    slidesToShow: 1
-                                }
-                            }]
-                        });
-                    }, 100);
-                }
-            });
-        };
-    })
     .directive('goClick', function ($location) {
         return function (scope, element, attrs) {
             var path;

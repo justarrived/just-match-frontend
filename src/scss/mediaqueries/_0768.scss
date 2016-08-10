@@ -41,3 +41,29 @@
     vertical-align: middle;
   }
 }
+
+.section-instructions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: stretch;
+
+  .pane {
+    -webkit-box-flex: 1;
+    width: 0% + 100 / 3;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding-bottom: 145px;
+    position: relative;
+  }
+
+  .button {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    right: 20px;
+    margin: auto;
+  }
+}
