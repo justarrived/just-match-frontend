@@ -385,16 +385,13 @@
     text-align: center;
     padding: 85px 20px 60px;
     color: $white;
+    background: $blue;
 
-    &.pink {
-      background: $pink;
+    &.primary {
+      background: $cerice;
     }
 
-    &.blue {
-      background: $blue;
-    }
-
-    &.grey {
+    &.secondary {
       background: $lightBlue;
     }
   }
