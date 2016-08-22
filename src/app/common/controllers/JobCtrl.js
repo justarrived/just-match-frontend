@@ -151,7 +151,7 @@
                             $scope.job.max_rate = obj.attributes["rate-excluding-vat"];
                             $scope.job.totalRate = $scope.job.attributes.hours * $scope.job.max_rate;
                             $scope.job.currency = obj.attributes.currency;
-							$scope.job.netRate = obj.attributes["net-salary"] * $scope.job.attributes.hours;
+                            $scope.job.netRate = obj.attributes["net-salary"] * $scope.job.attributes.hours;
                         }
                     });
                     deferd.resolve(that.rates);
