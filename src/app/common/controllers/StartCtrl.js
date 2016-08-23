@@ -27,9 +27,7 @@ angular.module('just.common')
 
             authService.checkPromoCode();
 
-            i18nService.addLanguageChangeListener(function () {
-                that.translateText();
-            });
+            i18nService.addLanguageChangeListener(that.translateText);
 
             this.translateText = function(){
                 angular.forEach(that.jobs.data, function (obj, idx) {
@@ -115,15 +113,8 @@ angular.module('just.common')
                     return deferd.promise;
                 });
             };
-            if (authService.isAuthenticated()) {
-                if (userService.user.$promise) {
-                    userService.user.$promise.then(function (response) {
-                        that.getNewJob();
-                    });
-                } else {
-                    this.getNewJob();
-                }
-
+            if (authService.isAuthenticated() && userService.user.$promise) {
+                userService.user.$promise.then(that.getNewJob);
             } else {
                 this.getNewJob();
             }
