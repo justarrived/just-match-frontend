@@ -47,7 +47,7 @@
                         <b>{{ job.total_rate | number:0}} {{ job.currency }}</b>
                     </div>
                     <span>
-                        {{ job.translation.text | limitTo: 35 }}{{ job.translation.text.length > 35 ? '...' : '' }}
+                        {{ job.translation.text || job.attributes.name | limitTo: 35 }}{{ job.translation.text.length > 35 || job.attributes.name.length > 35 ? '...' : '' }}
                     </span>
                 </a>
             </div>
