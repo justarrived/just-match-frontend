@@ -340,6 +340,9 @@ angular.module('just', [
                 customSelectDefaults.displayText = selectText;
             });
         }])
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    })
     .config(function ($routeProvider, $locationProvider, justRoutes, settings) {
         angular.forEach(justRoutes, function (comp) {
             angular.forEach(comp, function (route) {

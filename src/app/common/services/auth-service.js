@@ -40,6 +40,7 @@ angular.module('just.service')
 
             this.logout = function () {
                 storage.remove('auth_token');
+                storage.remove('user_id');
                 storage.remove('promocode');
                 delete $http.defaults.headers.common.Authorization;
                 delete $http.defaults.headers.common["X-API-PROMO-CODE"];
