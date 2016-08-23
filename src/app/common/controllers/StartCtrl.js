@@ -115,15 +115,8 @@ angular.module('just.common')
                     return deferd.promise;
                 });
             };
-            if (authService.isAuthenticated()) {
-                if (userService.user.$promise) {
-                    userService.user.$promise.then(function (response) {
-                        that.getNewJob();
-                    });
-                } else {
-                    this.getNewJob();
-                }
-
+            if (authService.isAuthenticated() && userService.user.$promise) {
+                userService.user.$promise.then(that.getNewJob);
             } else {
                 this.getNewJob();
             }
