@@ -27,7 +27,9 @@ angular.module('just.common')
 
             authService.checkPromoCode();
 
-            i18nService.addLanguageChangeListener(that.translateText);
+            i18nService.addLanguageChangeListener(function () {
+                that.translateText();
+            });
 
             this.translateText = function(){
                 angular.forEach(that.jobs.data, function (obj, idx) {
