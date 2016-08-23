@@ -6,13 +6,6 @@
         <div>
             <ul>
                 <li><h1>{{ job.company.attributes.name }}</h1></li>
-                <li ng-if="job.attributes.name_translation.from == job.attributes.name_translation.to">
-                    <h2>{{ job.attributes.name }}</h2>
-                </li>
-                <li ng-if="job.attributes.name_translation.from != job.attributes.name_translation.to">
-                    <h2 class="translated" ng-show="dt.job_item">{{ job.attributes.name_translation.text }}</h2>
-                    <h2 ng-show="!dt.job_item">{{ job.attributes.name }}</h2>
-                </li>
             </ul>
             <ul>
                 <li>{{ job.owner.attributes["first-name"] }} {{ job.owner.attributes["last-name"] }}</li>
