@@ -508,6 +508,7 @@
                 this.canApplyJob = 0;
                 this.commentForm = commentService.getModel('jobs', $routeParams.id);
                 this.changePage = 0;
+                $scope.map = {};
                 $scope.map_class = "";
                 $scope.zoom_class = "map-zoom-in";
 
@@ -938,7 +939,7 @@
                         angular.forEach(result.data, function (obj, key) {
                             var found = $filter('filter')(result.included, {id: "" + obj.relationships.company.data.id}, true);
                             if (found.length > 0) {
-                                if (found[0].relationships["company-images"].data.length > 0) {
+                                if (found[0].relationships && found[0].relationships["company-images"] && found[0].relationships["company-images"].data.length > 0) {
                                     var getCompany = companyService.getCompanyById(found[0].id);
                                     if (getCompany) {
                                         var found_image = $filter('filter')(getCompany.included, {type: 'company-images'}, true);
@@ -994,7 +995,7 @@
                                     }
                                     $scope.jobs_more.data[key].totalRate = value.hours * $scope.jobs_more.data[key].max_rate;
                                     $scope.jobs_more.data[key].currency = obj2.attributes.currency;
-									$scope.jobs_more.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
+                                    $scope.jobs_more.data[key].netRate = obj2.attributes["net-salary"] * value.hours;
                                 }
                             });
                         });
