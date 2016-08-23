@@ -1,5 +1,13 @@
 <div class="job-body-heading">
     <div>
+        <div class="job-title">
+            <div ng-if="!(job.attributes.name_translation.from !== job.attributes.name_translation.to && dt.job_item)">
+                {{ job.attributes.name }}
+            </div>
+            <div ng-if="job.attributes.name_translation.from !== job.attributes.name_translation.to && dt.job_item">
+                {{ job.attributes.name_translation.text }}
+            </div>
+        </div>
         <span>{{ job.totalRate | number:0 }} {{ job.currency }}</span><br>
         <em>{{ job.attributes.hours }} {{"assignment.hours" | translate}} ({{ job.max_rate | number:0 }} {{ job.currency
             }}/{{'common.hour' | translate}})</em>
@@ -7,11 +15,11 @@
         <span class="net-salary" ng-show="$parent.ctrl.isCompany != 1">{{job.netRate}} {{job.currency}} {{ 'common.net_salary' | translate }}</span>
     </div>
     <div>
-        <button class="button primary" ng-click="ctrl.accept_job()" class="ng-hide" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
+        <button class="button primary ng-hide" ng-click="ctrl.accept_job()" ng-show="ctrl.canApplyJob && ctrl.isCompany!==1">
             {{"assignment.status.apply" | translate}}
         </button>
-        <button ng-click="" disabled class="button primary ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">{{"assignment.status.applied" |
-            translate}}
+        <button ng-click="" disabled class="button primary ng-hide" ng-show="!ctrl.canApplyJob && ctrl.isCompany===0">
+            {{"assignment.status.applied" | translate}}
         </button>
     </div>
 </div>
@@ -29,8 +37,8 @@
             <li class="job-description">{{ job.attributes.description }}</li>
         </ul>
         <ul ng-if="job.attributes.description_translation.from != job.attributes.description_translation.to">
-            <li class="job-description translated" ng-show="dt.job_item">{{ job.attributes.description_translation.text
-                }}
+            <li class="job-description" ng-show="dt.job_item">
+                {{ job.attributes.description_translation.text }}
             </li>
             <li class="job-description" ng-show="!dt.job_item">{{ job.attributes.description }}</li>
         </ul>
