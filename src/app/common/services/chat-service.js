@@ -30,12 +30,12 @@ angular.module('just.service')
         };
 
         this.getChatMessage = function () {
-            if (angular.isObject(that.chatId)) {
+            if (!that.chatId || angular.isObject(that.chatId)) {
                 that.chatMessages = {data: []};
                 return that.chatMessages;
-            } else {
-                return Resources.chatMessage.get({id: that.chatId, 'include': 'author'});
             }
+
+            return Resources.chatMessage.get({id: that.chatId, 'include': 'author'});
         };
 
         this.getUserChat = function () {

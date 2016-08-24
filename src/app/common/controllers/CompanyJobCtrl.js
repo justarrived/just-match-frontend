@@ -1473,50 +1473,52 @@ angular.module('just.common')
 
                 that.chatMessages = chatService.getChatMessage();
 
-                that.chatMessages.$promise.then(function (response) {
-                    angular.forEach(response.data, function (obj, key) {
-                        var found_author = $filter('filter')(response.included, {
-                            type: 'users',
-                            id: obj.relationships.author.data.id
-                        }, true);
-                        if (found_author.length > 0) {
-                            if (found_author[0].relationships.company.data) {
-                                // is company
-                                that.chatMessages.data[key].author = {attributes: {}};
-                                that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
-                                that.chatMessages.data[key].author.user_image = $scope.job.company_image;
-                            } else {
-                                that.chatMessages.data[key].author = found_author[0];
-
-                                if (found_author[0].relationships["user-images"].data.length > 0) {
-                                    var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
-                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
-                                    if (found_image) {
-                                        if (found_image.length > 0) {
-                                            that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
-                                        }
-                                    }
+                if (that.chatMessages.$promise) {
+                    that.chatMessages.$promise.then(function (response) {
+                        angular.forEach(response.data, function (obj, key) {
+                            var found_author = $filter('filter')(response.included, {
+                                type: 'users',
+                                id: obj.relationships.author.data.id
+                            }, true);
+                            if (found_author.length > 0) {
+                                if (found_author[0].relationships.company.data) {
+                                    // is company
+                                    that.chatMessages.data[key].author = {attributes: {}};
+                                    that.chatMessages.data[key].author.attributes["first-name"] = $scope.job.company.attributes.name;
+                                    that.chatMessages.data[key].author.user_image = $scope.job.company_image;
                                 } else {
-                                    that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    that.chatMessages.data[key].author = found_author[0];
+
+                                    if (found_author[0].relationships["user-images"].data.length > 0) {
+                                        var found_image = $filter('filter')(chatService.chatDetail.included, {relationships: {user: {data: {id: '' + found_author[0].id}}}}, true);
+                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                        if (found_image) {
+                                            if (found_image.length > 0) {
+                                                that.chatMessages.data[key].author.user_image = found_image[0].attributes["image-url-small"];
+                                            }
+                                        }
+                                    } else {
+                                        that.chatMessages.data[key].author.user_image = "assets/images/content/placeholder-profile-image.png";
+                                    }
                                 }
                             }
-                        }
-                        if (that.chatMessages.data[key].attributes.body) {
-                            gtService.translate(that.chatMessages.data[key].attributes.body)
-                                .then(function (translation) {
-                                    that.chatMessages.data[key].translation = {};
-                                    that.chatMessages.data[key].translation.text = translation.translatedText;
-                                    that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
-                                    that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
-                                    that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
-                                    that.chatMessages.data[key].translation.to = translation.targetLanguage;
-                                    that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
-                                    that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
-                                    that.chatScroll();
-                                });
-                        }
+                            if (that.chatMessages.data[key].attributes.body) {
+                                gtService.translate(that.chatMessages.data[key].attributes.body)
+                                    .then(function (translation) {
+                                        that.chatMessages.data[key].translation = {};
+                                        that.chatMessages.data[key].translation.text = translation.translatedText;
+                                        that.chatMessages.data[key].translation.from = translation.detectedSourceLanguage;
+                                        that.chatMessages.data[key].translation.from_name = translation.detectedSourceLanguageName;
+                                        that.chatMessages.data[key].translation.from_direction = translation.detectedSourceLanguageDirection;
+                                        that.chatMessages.data[key].translation.to = translation.targetLanguage;
+                                        that.chatMessages.data[key].translation.to_name = translation.targetLanguageName;
+                                        that.chatMessages.data[key].translation.to_direction = translation.targetLanguageDirection;
+                                        that.chatScroll();
+                                    });
+                            }
+                        });
                     });
-                });
+                }
             };
 
 
