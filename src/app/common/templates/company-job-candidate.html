@@ -85,7 +85,7 @@
         <div>
             <h3><i class="demo-icon icon-ic-tool"></i>{{"profile.form.skills" | translate}}</h3>
             <div ng-if="ctrl.candidate_model.translation.competence_text.from == ctrl.candidate_model.translation.competence_text.to">
-                <p>{{ctrl.candidate_model['job-experience']}}</p>
+                <p>{{ctrl.candidate_model['competence-text']}}</p>
             </div>
             <div ng-if="ctrl.candidate_model.translation.competence_text.from != ctrl.candidate_model.translation.competence_text.to">
                 <p ng-show="!dt.candidate_item">{{ctrl.candidate_model['competence-text']}}</p>
