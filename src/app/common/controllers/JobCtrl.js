@@ -1040,21 +1040,5 @@
                     this.getJobDetail();
                     $scope.getJobsPage('owner,company,hourly-pay');
                 }
-
-            }])
-        .controller('AcceptedJobCtrl', ['justFlowService', 'justRoutes', function (flow, routes) {
-
-            this.gotoJobDetail = function () {
-                if (flow.next_data) {
-                    flow.redirect(routes.job.get.resolve({id: flow.next_data}));
-                } else {
-                    flow.redirect(routes.job.list.url);
-                }
-            };
-
-            this.gotoJobList = function () {
-                flow.redirect(routes.job.list.url);
-            };
-        }]);
-
+            }]);
 }(window, window.angular, _));

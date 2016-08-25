@@ -42,19 +42,6 @@ angular.module('just', [
                     templateUrl: 'common/templates/terms.html'
                 }
             },
-            select_language: {
-                url: '/select-language',
-                handler: {
-                    templateUrl: 'common/templates/select-language.html',
-                    controller: 'LanguageCtrl as ctrl'
-                }
-            },
-            menu: {
-                url: '/menu',
-                handler: {
-                    templateUrl: 'common/templates/menu.html'
-                }
-            },
             faq: {
                 url: '/faq',
                 handler: {
@@ -96,7 +83,7 @@ angular.module('just', [
             promo: {
                 url: '/promo',
                 handler: {
-                    templateUrl: 'common/templates/promo.html',
+                    templateUrl: 'common/templates/promo.html'
                 }
             },
             chat: {
@@ -202,13 +189,6 @@ angular.module('just', [
                 handler: {
                     templateUrl: 'common/templates/list-jobs.html',
                     controller: 'ListJobCtrl as ctrl'
-                }
-            },
-            accept: {
-                url: '/job/accept',
-                handler: {
-                    templateUrl: 'common/templates/accepted-job.html',
-                    controller: 'AcceptedJobCtrl as ctrl'
                 }
             }
         },

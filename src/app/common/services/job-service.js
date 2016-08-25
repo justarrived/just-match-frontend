@@ -98,8 +98,6 @@ angular.module('just.service')
             this.acceptJob = function (job_id, fn) {
                 if (userService.isCompany === 0) {
                     $http.post(settings.just_match_api + settings.just_match_api_version + "jobs/" + job_id + "/users").success(function (data, status) {
-                        //flow.next(routes.job.accept.url, job_id);
-
                         flow.push(function () {
                             flow.completed(routes.job.list.url);
                         });
