@@ -19,6 +19,7 @@
     "common.new_company": "Create a new company",
     "common.have_account": "آیا در حال حاضر دارای یک حساب کاربری هستید؟",
     "common.login": "وارد سیستم شوید",
+    "common.old_password": "کلمه عبور قدیمی",
     "common.password": "کلمه عبور",
     "common.form.error.message": "شما فراموش کردید یک یا چند خانه را پر کنید",
     "common.close": "ببندید",

@@ -19,6 +19,7 @@
     "common.new_company": "إنشاء شركة جديدة",
     "common.have_account": "عندك حساب في الوقت الحاضر؟",
     "common.login": "أدخل",
+    "common.old_password": "كلمة السر القديمة",
     "common.password": "كلمة السر",
     "common.form.error.message": "نسيت أن تملأ المربعات الفارغة",
     "common.close": "أقفِل",

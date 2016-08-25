@@ -19,6 +19,7 @@
     "common.new_company": "Create a new company",
     "common.have_account": "Do you already have an account?",
     "common.login": "Log in",
+    "common.old_password": "Old password",
     "common.password": "Password",
     "common.form.error.message": "You didn't fill in one or more fields.",
     "common.close": "Close",
