@@ -42,19 +42,6 @@ angular.module('just', [
                     templateUrl: 'common/templates/terms.html'
                 }
             },
-            select_language: {
-                url: '/select-language',
-                handler: {
-                    templateUrl: 'common/templates/select-language.html',
-                    controller: 'LanguageCtrl as ctrl'
-                }
-            },
-            menu: {
-                url: '/menu',
-                handler: {
-                    templateUrl: 'common/templates/menu.html'
-                }
-            },
             faq: {
                 url: '/faq',
                 handler: {
