@@ -203,13 +203,6 @@ angular.module('just', [
                     templateUrl: 'common/templates/list-jobs.html',
                     controller: 'ListJobCtrl as ctrl'
                 }
-            },
-            accept: {
-                url: '/job/accept',
-                handler: {
-                    templateUrl: 'common/templates/accepted-job.html',
-                    controller: 'AcceptedJobCtrl as ctrl'
-                }
             }
         },
         contact: {
