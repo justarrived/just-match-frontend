@@ -29,7 +29,7 @@
                             <div>
                                 <div class="upload-photo">
                                     <!--<input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*"/>-->
-									<input type="file" id="file_upload" ng-disabled="sCtrl.disableSettingForm" name="file" custom-on-change="fileNameChanged" accept="image/*">
+                                    <input type="file" id="file_upload" ng-disabled="sCtrl.disableSettingForm" name="file" custom-on-change="fileNameChanged" accept="image/*">
                                     <input type="text" name="user_image_one_time_token"
                                            ng-model="sCtrl.model.data.attributes['user-image-one-time-token']"/>
                                     <div class="user-info-image" back-img="{{sCtrl.user_image}}"></div>
