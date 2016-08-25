@@ -83,7 +83,7 @@ angular.module('just', [
             promo: {
                 url: '/promo',
                 handler: {
-                    templateUrl: 'common/templates/promo.html',
+                    templateUrl: 'common/templates/promo.html'
                 }
             },
             chat: {
