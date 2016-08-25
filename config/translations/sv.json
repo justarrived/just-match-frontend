@@ -19,6 +19,7 @@
     "common.new_company": "Skapa nytt företag",
     "common.have_account": "Har du redan ett konto?",
     "common.login": "Logga in",
+    "common.old_password": "Gammalt lösenord",
     "common.password": "Lösenord",
     "common.form.error.message": "Du missade att fylla i ett eller flera fält.",
     "common.close": "Stäng",

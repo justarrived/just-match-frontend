@@ -130,7 +130,7 @@ angular.module('just.service')
             };
 
             this.getUserDetail = function (fn) {
-                if (angular.isUndefined(that.user)) {
+                if (angular.isUndefined(that.user) && authService.userId().id) {
                     that.user = Resources.user.get({
                         id: authService.userId().id,
                         "include": "company,language,languages,user-images"

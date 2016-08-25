@@ -105,7 +105,19 @@ angular.module('just.common')
                 } else {
                     // Test Login success update user data and set flag to get new auth token
                     that.hasChangePassword = 1;
-                    userService.saveUserModel(that.model, that.fn);
+
+                    var userChangePasswordData = {
+                        data: {
+                            attributes: {
+                                'old-password': that.model.data.attributes.old_password,
+                                password: that.model.data.attributes.password
+                            }
+                        }
+                    };
+
+                    Resources.userChangePassword.create({}, userChangePasswordData, function () {
+                        userService.saveUserModel(that.model, that.fn);
+                    });
                 }
             };
 
