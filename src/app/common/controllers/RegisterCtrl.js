@@ -20,16 +20,7 @@ angular.module('just.common')
         function (authService, userService, flow, routes, $scope, httpPostFactory, settings, $translate, $q, Resources) {
             var that = this;
             this.uploading = false;
-            this.statuses = [{
-                'en-name': 'Asylum seeker',
-                value: 'asylum_seeker'
-            }, {
-                'en-name': 'Permanent',
-                value: 'permanent'
-            }, {
-                'en-name': 'Residence',
-                value: 'residence'
-            }];
+            this.statuses = [];
             this.atUnds = [{
                 'en-name': 'Yes',
                 value: 'yes'
@@ -128,4 +119,8 @@ angular.module('just.common')
                     }
                 }
             };
+
+            Resources.userStatuses.get().$promise.then(function (response) {
+                that.statuses = response.data;
+            });
         }]);

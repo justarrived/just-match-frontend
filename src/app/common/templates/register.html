@@ -86,7 +86,7 @@
                     <div class="group group-select">
                         <select name="current_status" ng-model="ctrl.data['current-status']" required>
                             <option value="" hidden/>
-                            <option ng-repeat="status in ctrl.statuses" value="{{status.value}}">
+                            <option ng-repeat="status in ctrl.statuses" value="{{status.id}}">
                                 {{status['en-name']}}
                             </option>
                         </select>
