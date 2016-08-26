@@ -87,7 +87,7 @@
                         <select name="current_status" ng-model="ctrl.data['current-status']" required>
                             <option value="" hidden/>
                             <option ng-repeat="status in ctrl.statuses" value="{{status.id}}">
-                                {{status['en-name']}}
+                                {{status.attributes['en-name']}}
                             </option>
                         </select>
                         <label class="control-label">{{ 'user.form.current_status' | translate }}</label>
