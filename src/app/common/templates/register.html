@@ -82,6 +82,18 @@
                     </div>
                 </validation2>
 
+                <div class="job-date">
+                    <validation2 form="form" field="arrived_at" errormsg="user.form.arrived_at.validation">
+                        <div class="group">
+                            <input type="date" id="arrived_at" name="arrived_at" required
+                                   ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
+                                   ng-model="ctrl.data['arrived-at']"
+                                   placeholder="YYYY-MM-DD" ng-keyup="form.arrived_at.error_detail = undefined">
+                            <label>{{'user.form.arrived_at' | translate}}</label>
+                        </div>
+                    </validation2>
+                </div>
+
                 <div class="cate-group">
                     <label>{{'user.form.country_of_origin' | translate}}</label>
                     <div custom-select="country['country-code'] as country['en-name'] for country in searchAsync($searchTerm)"
