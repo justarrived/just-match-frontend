@@ -82,6 +82,16 @@
                     </div>
                 </validation2>
 
+                <div class="cate-group">
+                    <label>{{'user.form.country_of_origin' | translate}}</label>
+                    <div custom-select="country['country-code'] as country['en-name'] for country in searchAsync($searchTerm)"
+                         custom-select-options="countryOptions" ng-model="ctrl.data['country-of-origin']"></div>
+
+                    <validation2 form="form" field="country_of_origin" errormsg="user.form.country_of_origin.validation">
+                        <input type="hidden" name="country_of_origin" required ng-model="ctrl.data['country-of-origin']"/>
+                    </validation2>
+                </div>
+
                 <validation2 form="form" field="password" errormsg="user.form.password.validation">
                     <div class="group">
                         <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password"
@@ -100,7 +110,7 @@
 
                 <div class="group register-image">
                     <!--<input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">-->
-					<input type="file" id="file_upload" name="file" custom-on-change="fileNameChanged" accept="image/*">
+                    <input type="file" id="file_upload" name="file" custom-on-change="fileNameChanged" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
             </div>

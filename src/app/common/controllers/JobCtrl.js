@@ -73,10 +73,7 @@
                 };
 
                 $scope.searchAsync = function (term) {
-                    // No search term: return initial items
-                    if (!term) {
-                        term = '';
-                    }
+                    term = term || '';
 
                     var deferd = $q.defer();
                     $scope.categories = Resources.categories.get({
@@ -186,10 +183,7 @@
                 };
 
                 $scope.searchAsync = function (term) {
-                    // No search term: return initial items
-                    if (!term) {
-                        term = '';
-                    }
+                    term = term || '';
 
                     var deferd = $q.defer();
                     $scope.categories = Resources.categories.get({

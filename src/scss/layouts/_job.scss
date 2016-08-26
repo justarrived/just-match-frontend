@@ -735,12 +735,6 @@ job-body, job-comment {
   margin: 0 auto;
 }
 
-.new-job-form {
-  .cate-group {
-    position: relative;
-  }
-}
-
 .sticky {
   .sticy-button {
     position: fixed;
@@ -838,18 +832,6 @@ job-body, job-comment {
 job-body, job-comment {
   max-width: 800px;
   margin: 0 auto;
-}
-
-.new-job-form {
-  .cate-group {
-    position: relative;
-    .form-group {
-      margin-bottom: 0;
-    }
-    .form-error-detail {
-      margin-bottom: 15px;
-    }
-  }
 }
 
 .user-job-header {

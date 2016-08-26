@@ -98,6 +98,7 @@ angular.module('just.common')
                 contact: crud("contacts"),
 
                 categories: crud("categories"),
+                countries: crud("countries"),
 
                 faqs: crud("faqs?filter[language-id]=:id"),
 
