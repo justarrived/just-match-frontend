@@ -20,6 +20,23 @@ angular.module('just.common')
         function (authService, userService, flow, routes, $scope, httpPostFactory, settings, $translate, $q, Resources) {
             var that = this;
             this.uploading = false;
+            this.statuses = [{
+                'en-name': 'Asylum seeker',
+                value: 'asylum_seeker'
+            }, {
+                'en-name': 'Permanent',
+                value: 'permanent'
+            }, {
+                'en-name': 'Residence',
+                value: 'residence'
+            }];
+            this.atUnds = [{
+                'en-name': 'Yes',
+                value: 'yes'
+            }, {
+                'en-name': 'No',
+                value: 'no'
+            }];
 
             authService.checkPromoCode();
 

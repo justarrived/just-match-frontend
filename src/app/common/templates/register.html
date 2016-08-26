@@ -82,6 +82,30 @@
                     </div>
                 </validation2>
 
+                <validation2 form="form" field="current_status" errormsg="user.form.current_status.validation">
+                    <div class="group group-select">
+                        <select name="current_status" ng-model="ctrl.data['current-status']" required>
+                            <option value="" hidden/>
+                            <option ng-repeat="status in ctrl.statuses" value="{{status.value}}">
+                                {{status['en-name']}}
+                            </option>
+                        </select>
+                        <label class="control-label">{{ 'user.form.current_status' | translate }}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="at_und" errormsg="user.form.at_und.validation">
+                    <div class="group group-select">
+                        <select name="at_und" ng-model="ctrl.data['at-und']" required>
+                            <option value="" hidden/>
+                            <option ng-repeat="atUnd in ctrl.atUnds" value="{{atUnd.value}}">
+                                {{atUnd['en-name']}}
+                            </option>
+                        </select>
+                        <label class="control-label">{{ 'user.form.at_und' | translate }}</label>
+                    </div>
+                </validation2>
+
                 <div class="job-date">
                     <validation2 form="form" field="arrived_at" errormsg="user.form.arrived_at.validation">
                         <div class="group">
