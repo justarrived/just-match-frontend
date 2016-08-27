@@ -66,6 +66,7 @@ angular.module('just.common')
                 userResetPassword: crud("users/reset-password"),
                 userChangePassword: crud("users/change-password"),
 
+                userStatuses: crud("users/statuses"),
                 userNotifications: crud("users/notifications"),
                 userMessages: crud("users/:user_id/messages"),
 
@@ -91,13 +92,13 @@ angular.module('just.common')
                 jobUsers: crud("jobs/:job_id/users"),   //for owner
                 jobUser: crud("jobs/:job_id/users/:id"), //for owner
 
-
                 jobs: crud("jobs"),
                 job: crud("jobs/:id"),
 
                 contact: crud("contacts"),
 
                 categories: crud("categories"),
+                countries: crud("countries"),
 
                 faqs: crud("faqs?filter[language-id]=:id"),
 

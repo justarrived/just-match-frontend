@@ -515,16 +515,25 @@ oi-select .select-search {
 
 }
 
+.register-form,
 .new-job-form {
   select {
     padding: 9px 8px;
   }
 }
-
+.register-form,
 .new-job-form {
+  .cate-group {
+    position: relative;
+    .form-group {
+      margin-bottom: 0;
+    }
+    .form-error-detail {
+      margin-bottom: 15px;
+    }
+  }
   .cate-group,
   .job-date {
-
     label {
       position: absolute;
       z-index: 1;

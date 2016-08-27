@@ -16,10 +16,18 @@ angular.module('just.common')
             }
         };
     })
-    .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope', 'httpPostFactory', 'settings', '$translate',
-        function (authService, userService, flow, routes, $scope, httpPostFactory, settings, $translate) {
+    .controller('RegisterCtrl', ['authService', 'userService', 'justFlowService', 'justRoutes', '$scope', 'httpPostFactory', 'settings', '$translate', '$q', 'Resources',
+        function (authService, userService, flow, routes, $scope, httpPostFactory, settings, $translate, $q, Resources) {
             var that = this;
             this.uploading = false;
+            this.statuses = [];
+            this.atUnds = [{
+                'en-name': 'Yes',
+                value: 'yes'
+            }, {
+                'en-name': 'No',
+                value: 'no'
+            }];
 
             authService.checkPromoCode();
 
@@ -35,6 +43,32 @@ angular.module('just.common')
                     this.data.company_id = flow.next_data.data.id;
                 }
             }
+
+            $scope.countryOptions = {
+                async: true,
+                onSelect: function (item) {
+                    that.data['country-of-origin'] = item['country-code'];
+                }
+            };
+
+            $scope.searchAsync = function (term) {
+                term = term || '';
+
+                var deferd = $q.defer();
+                Resources.countries.get({
+                    'filter[name]': term
+                }).$promise.then(function (response) {
+                    var result = [];
+                    angular.forEach(response.data, function (obj, key) {
+                        result.push({
+                            'country-code': obj.attributes['country-code'],
+                            'en-name': obj.attributes['en-name']
+                        });
+                    });
+                    deferd.resolve(result);
+                });
+                return deferd.promise;
+            };
 
             $scope.fileNameChanged = function () {
                 // UPLOAD IMAGE
@@ -85,4 +119,8 @@ angular.module('just.common')
                     }
                 }
             };
+
+            Resources.userStatuses.get().$promise.then(function (response) {
+                that.statuses = response.data;
+            });
         }]);

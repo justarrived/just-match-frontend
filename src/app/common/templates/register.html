@@ -82,6 +82,52 @@
                     </div>
                 </validation2>
 
+                <validation2 form="form" field="current_status" errormsg="user.form.current_status.validation">
+                    <div class="group group-select">
+                        <select name="current_status" ng-model="ctrl.data['current-status']" required>
+                            <option value="" hidden/>
+                            <option ng-repeat="status in ctrl.statuses" value="{{status.id}}">
+                                {{status.attributes['en-name']}}
+                            </option>
+                        </select>
+                        <label class="control-label">{{ 'user.form.current_status' | translate }}</label>
+                    </div>
+                </validation2>
+
+                <validation2 form="form" field="at_und" errormsg="user.form.at_und.validation">
+                    <div class="group group-select">
+                        <select name="at_und" ng-model="ctrl.data['at-und']" required>
+                            <option value="" hidden/>
+                            <option ng-repeat="atUnd in ctrl.atUnds" value="{{atUnd.value}}">
+                                {{atUnd['en-name']}}
+                            </option>
+                        </select>
+                        <label class="control-label">{{ 'user.form.at_und' | translate }}</label>
+                    </div>
+                </validation2>
+
+                <div class="job-date">
+                    <validation2 form="form" field="arrived_at" errormsg="user.form.arrived_at.validation">
+                        <div class="group">
+                            <input type="date" id="arrived_at" name="arrived_at" required
+                                   ng-pattern='/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'
+                                   ng-model="ctrl.data['arrived-at']"
+                                   placeholder="YYYY-MM-DD" ng-keyup="form.arrived_at.error_detail = undefined">
+                            <label>{{'user.form.arrived_at' | translate}}</label>
+                        </div>
+                    </validation2>
+                </div>
+
+                <div class="cate-group">
+                    <label>{{'user.form.country_of_origin' | translate}}</label>
+                    <div custom-select="country['country-code'] as country['en-name'] for country in searchAsync($searchTerm)"
+                         custom-select-options="countryOptions" ng-model="ctrl.data['country-of-origin']"></div>
+
+                    <validation2 form="form" field="country_of_origin" errormsg="user.form.country_of_origin.validation">
+                        <input type="hidden" name="country_of_origin" required ng-model="ctrl.data['country-of-origin']"/>
+                    </validation2>
+                </div>
+
                 <validation2 form="form" field="password" errormsg="user.form.password.validation">
                     <div class="group">
                         <input name="password" type="password" required ng-minlength="8" ng-model="ctrl.data.password"
@@ -100,7 +146,7 @@
 
                 <div class="group register-image">
                     <!--<input type="file" id="file_upload" name="file" onchange="angular.element(this).scope().fileNameChanged()" accept="image/*">-->
-					<input type="file" id="file_upload" name="file" custom-on-change="fileNameChanged" accept="image/*">
+                    <input type="file" id="file_upload" name="file" custom-on-change="fileNameChanged" accept="image/*">
                     <label>{{ 'user.form.picture' | translate }}</label>
                 </div>
             </div>
