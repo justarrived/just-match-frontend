@@ -919,19 +919,22 @@ job-body, job-comment {
       h3 {
         font-weight: 400;
         font-size: 1em;
+        margin-top: 0;
       }
+
       p {
         font-size: 0.9em;
-        margin: 5px 0;
+        margin: 5px 0 0;
       }
 
       > div {
         display: table-cell;
         padding: 20px 30px;
         border-bottom: 1px solid $lightGrey;
-        vertical-align: top;
+        vertical-align: middle;
         cursor: pointer;
       }
+
       > div:first-child {
         text-align: center;
         text-transform: uppercase;
