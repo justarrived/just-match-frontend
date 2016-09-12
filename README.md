@@ -15,7 +15,7 @@ Welcome to the, official, frontend for the Just Arrived matching service.
 * NodeJS 5
 * Angular 1.4
 
-## Getting Started
+## Getting Started [![Stories in Ready](https://badge.waffle.io/justarrived/just-match-frontend.svg?label=ready&title=Ready+tasks)](http://waffle.io/justarrived/just-match-frontend)
 
 :warning: If you are on a Windows machine please see the [Getting Started on Windows](#getting-started-on-windows) section.
 
