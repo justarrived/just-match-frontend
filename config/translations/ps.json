@@ -233,7 +233,7 @@
     "assignment.recommendation.description": "مآخذ ولیکئ",
     "user": "Användare",
     "user.create.title": "د حساب رامینځته کول",
-    "user.create.description": "Welcome! To use JustArrived it is important that you have; 1) A personal ID number or a co-ordination number, 2) Work permit or AT-UND, 3) Access to a bank account. A co-ordination number is a temporary personal ID number which you can use to identify yourself towards the authorities and companies. It is a ten digit number and it is not the same as the number displayed at the LMA card. To apply for AT-UND please contact Migrationsverket. To obatin a co-ordination number please contact Skatteverket for more information.",
+    "user.create.description": "Welcome! To use Just Arrived it is important that you have; 1) A personal ID number or a co-ordination number, 2) Work permit or AT-UND, 3) Access to a bank account. A co-ordination number is a temporary personal ID number which you can use to identify yourself towards the authorities and companies. It is a ten digit number and it is not the same as the number displayed at the LMA card. To apply for AT-UND please contact Migrationsverket. To obatin a co-ordination number please contact Skatteverket for more information.",
     "user.form.ssn": "Personal ID number",
     "user.form.orgnr": "د سازمان شمیره",
     "user.form.first_name": "نوم",
