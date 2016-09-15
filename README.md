@@ -99,13 +99,13 @@ To push or pull new translations, you need to install the [Transifex client](htt
 __Fetch translations from transifex__
 
 ```
-$ tx pull -a -f
+$ script/pull-translations
 ```
 
 __Push source language file to transifex__
 
 ```
-$ tx push -s
+$ script/push-translations
 ```
 
 The configuration is in [.tx/config](.tx/config).
