@@ -22,7 +22,7 @@
 
             <!-- Wait user accepted -->
             <div class="user-job-status-title" ng-show="ctrl.accepted && !ctrl.will_perform">
-                {{ctrl.candidate_model["first-name"]}} har {{ctrl.remainHours}}{{'common.hour' | translate}}
+                {{ctrl.candidate_model["first-name"]}} {{'common.have' | translate}} {{ctrl.remainHours}}{{'common.hour' | translate}}
                 {{ctrl.remainMinutes}}{{'common.min' | translate}}<br/>
                 {{'assignment.status.user_application.time_remaining' | translate}}
             </div>
