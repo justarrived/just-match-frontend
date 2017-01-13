@@ -53,7 +53,7 @@ angular.module('just.service')
                 return Resources.userOwnedJobs.get({user_id: user_id, 'include': include, 'page[size]': 50});
             };
             this.getJobUsers = function (job_id, include) {
-                return Resources.jobUsers.get({job_id: job_id, 'include': include}, function (response) {
+                return Resources.jobUsers.get({job_id: job_id, 'include': include, 'page[size]': 30}, function (response) {
                     // Success
                 }, function (error) {
                     flow.redirect(routes.company.jobs.url);
